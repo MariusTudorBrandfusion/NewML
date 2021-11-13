@@ -1,0 +1,51 @@
+﻿<link rel="stylesheet" type="text/css" href="/files/templates/datamanagement/forms/prettyinpink.css" /> <!-- MOVE THIS TO THE MASTER TEMPLATE-->
+
+
+@{
+ string strClassName = GetString("Form.Fields.LoopMod2");
+int LatestTipsPageID = 664;
+
+string itemId ="";
+string predictionTitle ="";
+}
+<div class = "center-container">
+<h2>The tip has been edited</h2>
+
+<table id="confirmation" class="alternate main_table" cellspacing="0" cellpadding="0">
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Field value</th>
+		</tr>
+	</thead>
+	<tbody>
+	@foreach(LoopItem item in GetLoop("Form.Fields"))
+     {
+          string strLabel = item.GetString("Field.Label");
+          if(strLabel == "Id")
+          {
+            itemId = item.GetString("Field.Value");
+          }
+      
+          if(strLabel == "Prediction_Title")
+          {
+            predictionTitle = item.GetString("Field.Value");
+          }
+      var fieldValuePrediction = item.GetValue("Field.Value").ToString();
+      if(!string.IsNullOrEmpty(fieldValuePrediction)){
+	<tr class="listitem@strClassName">
+		<th>
+          @strLabel
+		</th>
+		<td>
+			@item.GetValue("Field.Value")
+		</td>
+	</tr>
+	}
+  }
+  
+
+	</tbody>
+</table>
+</div>
+

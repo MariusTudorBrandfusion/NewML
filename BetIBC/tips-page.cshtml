@@ -1,0 +1,164 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+@MasterPageFile("MasterNoEcom.cshtml")
+
+
+<div class="grid tips-list"> 
+@{
+  
+	string predictionTitle = Model.Item.GetString("Prediction_Title"),
+           description = Model.Item.GetString("Description"),
+           prediction = Model.Item.GetString("Prediction"),
+           stake = Model.Item.GetString("Stake"),
+           odds = Model.Item.GetString("Odds"),
+           league = Model.Item.GetString("League"),
+           predictionStatus = Model.Item.GetString("Prediction_Status"),
+  		   tournament = Model.Item.GetString("Tournament"),
+           category = Model.Item.GetString("Category"),
+   		   bookmaker = Model.Item.GetString("Bookmaker"),
+           
+           bookmakerURL = Model.Item.GetString("BookmakerUrl"),
+           resultScreenshot = Model.Item.GetString("Result_Screenshot"),
+           VIPScreenshot = Model.Item.GetString("VIP_IBC_Screenshot"),
+  			won = Model.Item.GetString("Prediction_Status"),
+           finalScore = Model.Item.GetString("Match_Final_Score"),
+           bettingPrediction = Model.Item.GetString("BettingPrediction");          
+  	var selectedTipster = Model.Item.GetString("Tipster");
+   var selctedTipsterLink = @selectedTipster.Contains(" ") ? @selectedTipster.Replace(" ","") : @selectedTipster;
+   var bookmakerName = Model.Item.GetString("Bookmaker_Name");   
+
+  var startGmt =  Model.Item.GetDateTime("Start_GMT");
+    string startGmtItem = startGmt == DateTime.MinValue ? "" : startGmt.ToString("MM/dd/yyyy - hh:mm tt");
+  
+      var dateAdded =  Model.Item.GetDateTime("Date_Added");
+     string dateAddedItem = dateAdded == DateTime.MinValue ? "" : dateAdded.ToString("MM/dd/yyyy - hh:mm tt");
+  	 var lettersColor = predictionStatus =="won" ? "color:#91cc65" : predictionStatus == "lost" ? "color:#e30f0c" : "color:#000";
+  
+}
+    <div class="grid__col-md-12 grid__col-xs-12 tips_cell">
+       <div class="grid__cell">
+          <div class="center-container dw-mod">
+             <div class="grid">        
+            
+             <div class="grid__col-md-12 grid__col-xs-12"><h3 style ='@lettersColor'>@predictionStatus</h3></div>
+              
+            </div>
+         <div></div>
+            @if(!string.IsNullOrEmpty(predictionTitle)) {
+            <div class="grid">
+              <div class="grid__col-md-9 grid__col-xs-12"><h3>@predictionTitle</h3></div>
+            </div>
+            }
+            <div class="grid">
+              	<div class="grid__col-md-3 grid__col-xs-12">
+                  @if(!string.IsNullOrEmpty(prediction)) { 
+                  	<p><strong>@Translate("Prediction", "Prediction"):</strong> @prediction</p>
+                  }
+                  <p>
+                    <strong>@Translate("Tipster", "Tipster"):</strong> <a data-tipster-name = "@selectedTipster" class = "tipster-link-value " href='/Default.aspx?ID=@GetPageIdByNavigationTag(@selctedTipsterLink)'>@selectedTipster <i class = "nationality-flag-single flag-api flag "></i></a>
+                  </p>
+                  @if(!string.IsNullOrEmpty(category)) {
+                  	<p><strong>@Translate("Category", "Category"):</strong> @category</p>
+                  }
+                  @if(!string.IsNullOrEmpty(league)) { 
+                  	<p><strong>@Translate("League", "League"):</strong> @league</p>
+                  }
+                
+                </div>
+                <div class="grid__col-md-3 grid__col-xs-12">
+              
+             
+                  @if(!string.IsNullOrEmpty(tournament)) { 
+                  	<p><strong>@Translate("Tournament", "Tournament"):</strong> @tournament</p>
+                  }
+                  @if(!string.IsNullOrEmpty(bookmaker)) {
+                  	<p><strong>@Translate("Bookmaker", "Bookmaker"):</strong> <a href = "@bookmakerURL"><img src="@bookmaker" alt="" class="bookmaker-logo" /></a></p>
+                  }
+                    @if(!string.IsNullOrEmpty(stake)) { 
+                  	<p><strong>@Translate("Stake", "Stake"):</strong> @stake</p>
+                  }
+                  @if(!string.IsNullOrEmpty(odds)) { 
+                  	<p><strong>@Translate("Odds", "Odds"):</strong> @odds</p>
+                  }
+              @if (!string.IsNullOrEmpty(finalScore))
+              {
+              	if (predictionStatus == "won")
+              {
+              <p><span class="won-tip"><i class="fa fa-long-arrow-up" aria-hidden="true"></i></span>@stake<span class="won-tip"><i class="fa fa-check" aria-hidden="true"></i></span>@finalScore </p>
+              }
+                            	if (predictionStatus == "draw")
+              {
+              <p>@stake <span class="draw-tip"> <i class="fa fa-circle" aria-hidden="true"></i></span>@finalScore </p>
+              }
+                            	if (predictionStatus == "lost")
+              {
+              <p><span class="lost-tip"><i class="fa fa-long-arrow-up" aria-hidden="true"></i> </span>@stake&nbsp;&nbsp;&nbsp;<i class="fa fa-times" aria-hidden="true"></i>@finalScore  </p>
+              }
+             }
+              
+                </div>
+               <div class="grid__col-md-3 grid__col-xs-12">
+                <img class = "bookmaker-logo-col" src = "@bookmaker">
+                </div>
+            @if(VIPScreenshot != ""){
+            <div class="grid__col-md-3 grid__col-xs-12">
+                <a href="@VIPScreenshot" data-lightbox="roadtrip" data-gallery="gallery" class="col-md-4 light-box-after">
+      <img class = "img-fluid rounded bookmaker-logo-col" src = "@VIPScreenshot">
+    </a>        
+                </div>
+         }
+            </div>
+               
+            <div class="grid">
+              	<div class="grid__col-md-12 grid__col-xs-12 col-info-tips-event">
+                  <p>@Translate("Betting prediction", "Betting prediction"): @bettingPrediction</p>
+                   <p>@Translate("Starting Time", "Starting Time"): @startGmtItem</p> 
+                </div>
+                 	<div class="grid__col-md-12 grid__col-xs-12 col-info-tips-event">
+             <img src = "@resultScreenshot">
+                </div>
+            </div>
+            <div class="grid">
+              	<div class="grid__col-md-12 grid__col-xs-12">
+      
+                    @if(!string.IsNullOrEmpty(description)) {
+                      <div class="description">
+                         @if(!string.IsNullOrEmpty(odds)) { 
+                  	       <p><strong>@Translate("The bet was made at", "The bet was made at") <a href = "@bookmakerURL">@bookmakerName</a> @Translate("at the odd:", "at the odd:") @odds</strong></p>
+                  }
+               
+                          @description        
+                   
+                   <p class = "center"><strong>@Translate("Follow this bet and open an account at", "Follow this bet and open an account at") <a href = "@bookmakerURL">@bookmakerName</a> now</strong></p>
+                      </div>
+                    }
+           
+            </div>
+                 </div>
+                     <div class="grid">
+                <div class="grid__col-md-4 grid__col-xs-12">
+                   <p><strong>@Translate("Add Date", "Add Date"):</strong> @dateAddedItem</p>
+               
+                </div>
+                          <div class="grid__col-md-4 grid__col-xs-12">
+                  <div id="dsSocialFontIconsShare">
+                    <p>Share this prediction:</p>
+                    <!--<div class=txt></div>-->
+                    <a class="fb" href="#" title="Facebook" onclick="javascript:window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href), 'facebook-share-dialog', 'width=626,height=436'); return false;"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                    <a class="li" href="#" title="LinkedIn" onclick="window.open('https://www.linkedin.com/cws/share?url='+encodeURIComponent(location.href), 'width=626,height=436'); return false;"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a>
+                    <a class="tw" href="#" title="Twitter" onclick="javascript:(function(){window.twttr=window.twttr||{};var D=550,A=450,C=screen.height,B=screen.width,H=Math.round((B/2)-(D/2)),G=0,F=document,E;if(C&gt;A){G=Math.round((C/2)-(A/2))}window.twttr.shareWin=window.open('http://twitter.com/share','','left='+H+',top='+G+',width='+D+',height='+A+',personalbar=0,toolbar=0,scrollbars=1,resizable=1');E=F.createElement('script');E.src='http://platform.twitter.com/bookmarklets/share.js?v=1';F.getElementsByTagName('head')[0].appendChild(E)}());"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                            </div>
+                             </div>
+                               <div class="grid__col-md-3 grid__col-xs-12 right">
+                  <a href="@bookmakerURL" class="btn btn--primary btn--line-height dw-mod">@Translate("SIGN UP at", "SIGN UP at") @bookmakerName</a>
+                        </div>
+                </div>
+           
+            @* <small class="article__subheader">@Translate("Written by") @item.GetString("Author") @Translate("on") @item.GetDate("Date").ToShortDateString()</small> *@
+                
+            
+         </div>
+       </div>
+        <div class = "tips-separator"></div>
+       </div>
+	
+</div>

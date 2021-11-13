@@ -1,0 +1,50 @@
+﻿[
+
+	@{
+		int loopCount =  GetLoop("QueryResultItem").Count() - 1;
+		var rows = GetLoop("QueryResultItem");
+		int loopCounter = 0;
+	}
+
+	@foreach (var row in rows) {
+
+		var sortOrder= row.GetInteger("PageSort");
+		var PageId = row.GetInteger("PageId");
+		var Url = PageId;
+		var ParentPageId = row.GetInteger("PageParentPageId");
+		var areaID = row.GetInteger("PageAreaIdString");
+		var isPromotion = row.GetBoolean("NewsArticle_Is_Promotion").ToString();
+		var articleTitle = row.GetString("PageMenuText");
+
+
+	
+		
+		if(loopCounter == loopCount){
+
+			<text>
+			   {
+				"sortOrder": "@sortOrder",
+                "ParentPageId": "@ParentPageId",
+              	"areaID": "@areaID",
+              	"isPromotion":"@isPromotion",
+				"Url" : "@Url",
+              	"ArticleTitle": "@articleTitle"
+              	}
+			</text>
+		}else{
+              <text>
+              {
+				"sortOrder": "@sortOrder",
+                "ParentPageId": "@ParentPageId",
+              	"areaID": "@areaID",
+              	"isPromotion":"@isPromotion",
+				"Url" : "@Url",
+              	"ArticleTitle": "@articleTitle"
+              	           
+              	},
+              </text>
+            }
+loopCounter ++;
+}
+
+]

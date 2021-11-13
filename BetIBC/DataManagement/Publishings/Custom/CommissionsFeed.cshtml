@@ -1,0 +1,70 @@
+﻿[
+@{
+    int loopCount =  GetLoop("Rows").Count() - 1;
+    var rows = GetLoop("Rows");
+    int loopCounter = 0;
+    var ViewId = Pageview.CurrentParagraph.ModuleProperties.get_Value("ViewID"); 
+
+    //var rowsCounter = rows.Where(row => row.GetString("AccessUserAddress_Bookmaker") == "Skype Betting");
+    //var rowsCounterToDisplay = rowsCounter.Count() -1 ;
+}
+
+@foreach (var row in rows)
+{
+    var name = row.GetString("CommissionsList_Name");
+    var valueRaw = row.GetString("CommissionsList_Value");
+    var isPercent = row.GetString("CommissionsList_Is_Procent");
+    var rowId = row.GetString("CommissionsListID");
+    var valueForLessThanMinRaw = row.GetString("CommissionsList_Value_for_less_then_min");
+    var valueforLessThanMinIsPercent = row.GetString("CommissionsList_Value_for_less_then_min_i");
+    var value = isPercent == "True" ? valueRaw + "%" : valueRaw;
+    var valueForLessThanMin = valueforLessThanMinIsPercent == "True" ? valueForLessThanMinRaw + "%" : valueForLessThanMinRaw;
+    var bookmaker = row.GetString("CommissionsList_Bookmaker");
+    var notes = row.GetString("CommissionsList_Notes");
+    var currency = row.GetString("CommissionsList_Currency");
+    var rowName = "CommissionsListID";
+    var parameter = "FORM_ROW_ID=" + rowName + "%3d" + rowId + "&VIEW_ID=" + ViewId;
+    var editUrl = "/Default.aspx?ID=" + "118499" + "&" + parameter;
+
+    if(loopCounter == loopCount){
+
+        <text>
+            {
+            "Id" : "@rowId",
+            "Name" : "@name",
+            "Value" :"@valueRaw",
+            "IsPercent" :"@isPercent",
+            "ValueGraphic" : "@value",
+            "ValueMin" : "@valueForLessThanMinRaw", 
+            "ValueMinIsPercent" : "@valueforLessThanMinIsPercent",
+            "ValueMinGraphic" : "@valueForLessThanMin",
+            "Bookmaker" : "@bookmaker",
+            "Currency" : "@currency",
+            "Notes" : "@notes",
+            "EditUrl" : "@editUrl"
+            }
+        </text>
+    }else{
+        <text>
+            {
+            "Id" : "@rowId",
+            "Name" : "@name",
+            "Value" :"@valueRaw",
+            "IsPercent" :"@isPercent",
+            "ValueGraphic" : "@value",
+            "ValueMin" : "@valueForLessThanMinRaw", 
+            "ValueMinIsPercent" : "@valueforLessThanMinIsPercent",
+            "ValueMinGraphic" : "@valueForLessThanMin",
+            "Bookmaker" : "@bookmaker",
+            "Currency" : "@currency",
+            "Notes" : "@notes",
+            "EditUrl" : "@editUrl"
+            },
+        </text>
+    }
+
+    loopCounter ++;
+}
+
+
+]

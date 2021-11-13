@@ -1,0 +1,25 @@
+﻿@{
+  var ViewId = Pageview.CurrentParagraph.ModuleProperties.get_Value("ViewID");
+    var rows = GetLoop("Rows");
+    var counter = 0;
+}
+
+    <ul>
+        <li class="list-title"><strong>Number of closed accounts: </strong> @rows.Count()</li>
+        @foreach (var row in rows)
+        {
+         var rowId = row.GetString("user_closed_accountsID");
+         var rowName = "user_closed_accountsID";
+         var parameter = "FORM_ROW_ID=" + rowName + "%3d" + rowId + "&VIEW_ID=" + ViewId;
+         var editUrl = "/Default.aspx?ID=" + "121416" + "&" + parameter;
+            counter++;
+                <li class="list-title"><strong>Bookmaker</strong> : @row.GetString("user_closed_accounts_Bookmaker")</li>
+                <li><strong>Username</strong> : @row.GetString("user_closed_accounts_Bookmaker_Username")</li>
+                <li><strong>Currency</strong> : @row.GetString("user_closed_accounts_Currency")</li>
+                <li><strong>Opened on</strong> : @row.GetString("user_closed_accounts_Date_of_opening")</li>
+                <li><strong>Closed on</strong> : @row.GetString("user_closed_accounts_Date_of_closing")</li>
+                <li><strong>Reson of closure</strong> : @row.GetString("user_closed_accounts_Reason_for_closing")</li>
+                <li style = "display:block;"><a href="@editUrl">Edit</a></li>
+      
+        }
+    </ul>       

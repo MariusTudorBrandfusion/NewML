@@ -1,0 +1,245 @@
+﻿@{
+
+
+
+var formStart = GetString("Form.Start");
+var formEnd = GetString("Form.End");
+var accountID = GetGlobalValue("Global:Extranet.UserID");
+var formHiddenFileds = GetString("Form.Hidden");
+var now = DateTime.Now.ToString("dd/MM/yyyy, HH:mm");
+var bookmakerValue = GetString("Form.Fields.transfers_Bookmaker.Value");
+var bookmakerReciverValue = GetString("Form.Fields.transfers_Receiver_Bookmaker_New.Value");
+var amount = GetString("Form.Fields.transfers_Amount.Value");
+var clientEmail = GetString("Form.Fields.transfers_Client_Email.Value");
+var clientID = GetString("Form.Fields.transfers_Client_Id.Value");
+var clientUsername = GetString("Form.Fields.transfers_Client_Username.Value");
+var initialBallance = GetString("Form.Fields.transfers_Initial_Balance.Value");
+var initialBallanceReceiver= GetString("Form.Fields.transfers_Receiver_Bookmaker_initial_Ballance.Value");
+var reciverBookmaker = GetString("Form.Fields.transfers_Receiver_Bookmaker_New.Value");
+var dateCreated = GetString("Form.Fields.transfers_Request_Created_on_Date_New.Value");
+var fromUsername = GetString("Form.Fields.transfers_Transfer_from_Username.Value");
+var toUsername = GetString("Form.Fields.transfers_Transfer_to_Username.Value");
+var toCurrency = GetString("Form.Fields.transfers_To_Account_Currency.Value");
+var fromCurrency = GetString("Form.Fields.transfers_Account_Currency.Value");
+var commisonValue = GetString("Form.Fields.transfers_Commision_in_procent.Value");
+var fromAcoountID = GetString("Form.Fields.transfers_Transfer_from_User_ID.Value");
+var toAcoountID = GetString("Form.Fields.transfers_Transfer_to_User_ID.Value");
+var firstTransfer = GetString("Form.Fields.transfers_First_Transfer_New.Value");
+}
+
+
+<div class="container form-content" data-type-accontID = "@accountID">
+	@formStart
+@formHiddenFileds
+<div class = "form-in hidden">
+  <span>@Translate("TransferClientID","Client ID")</span>
+  <input type="text" id="transfers_Client_Id" name="transfers_Client_Id" value='@clientID' />
+</div>
+<div class = "form-in hidden">
+    <span>@Translate("TransferClientEmail","Client Email")</span>
+  <input type="text" id="transfers_Client_Email" name="transfers_Client_Email" value='@clientEmail'>
+</div>
+<div class = "form-in hidden">
+     <span>@Translate("TransferClientUsername","Client Username")</span>
+  <input type="text" id="transfers_Client_Username" name="transfers_Client_Username" value='@clientUsername' />
+</div>
+<div class = "form-in">
+    <span>@Translate("TransferFromBookmaker","From Bookmaker")</span>
+    <input type="text" id="transfers_Bookmaker" class= "readonly" readonly name="transfers_Bookmaker" value='@bookmakerValue' />
+ 
+</div>
+<div class = "form-in">
+   <span>@Translate("TransferFromAccount","From Account")</span>
+         <input type="text" id="transfers_Transfer_from_Username" class= "readonly" readonly name="transfers_Transfer_from_Username" value='@fromUsername' />
+</div>    
+<div class = "form-in">
+    <span>@Translate("TransferToBookmaker","To Bookmaker")</span>
+   <input type="text" id="transfers_Receiver_Bookmaker_New" class= "readonly" readonly name="transfers_Receiver_Bookmaker_New" value='@bookmakerReciverValue' />
+ 
+</div>
+     
+<div class = "form-in">
+  <span>@Translate("TransferToAccount","To Account")</span>
+    <input type="text" id="transfers_Transfer_to_Username" class= "readonly" readonly name="transfers_Transfer_to_Username" value='@toUsername' />
+</div>
+<div class = "form-in">
+  <span>@Translate("TransferFromAccountCurrency","From Account Currency")</span>
+  <input type="text" id="transfers_Account_Currency" class= "readonly" readonly name="transfers_Account_Currency" value="@fromCurrency" />
+</div>
+<div class = "form-in">
+  <span>@Translate("TransferToAccountCurrency","To Account Currency")</span>
+  <input type="text" id="transfers_To_Account_Currency" class= "readonly" readonly name="transfers_To_Account_Currency" value="@toCurrency" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("TransferAgentProfit","Agent Profit")</span>
+  <input type="text" id="transfers_Agent_profit" name="transfers_Agent_profit" value="" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("TransferAmmountAfterComisions","Ammount after comisions")</span>
+  <input type="text" id="transfers_Ammount_to_be_transferd_after_commisions" name="transfers_Ammount_to_be_transferd_after_commisions" value="" />
+</div>
+<div class = "form-in">
+    <span>@Translate("TransferAmmount","Ammount")</span>
+  <input type="text" id="transfers_Amount" class= "readonly" readonly name="transfers_Amount" value="@amount" />
+</div>
+<div class = "form-in">
+  <span>@Translate("TransferSenderBalanceAfterTransfer","Sender Balance after Transfer")</span>
+  <input type="text" id="transfers_Balance_after_Transfer" readonly name="transfers_Balance_after_Transfer" value="" />
+</div>
+<div class = "form-in">
+   <span>@Translate("TransferReceiverBookmakerBallanceAfterTransfer","Receiver Bookmaker Ballance After Transfer")</span>
+  <input type="text" id="transfers_Receiver_Bookmaker_Balance_after_Transfer" readonly name="transfers_Receiver_Bookmaker_Balance_after_Transfer" value="" />
+</div>  
+<div class = "form-in hidden">
+   <span>@Translate("TransferCommisionAmmount","Commision ammount")</span>
+  <input type="text" id="transfers_Commision_ammount" name="transfers_Commision_ammount" value="" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("TransferCommisionInProcent","Commision in Procent")</span>
+  @if(commisonValue != "0"){
+    <input type="text" id="transfers_Commision_in_procent" name="transfers_Commision_in_procent" value="@commisonValue" />
+  }else{
+    <input type="text" id="transfers_Commision_in_procent" name="transfers_Commision_in_procent" value='@Pageview.Area.Item["Default_Transfer_Commission"]' />
+  }
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("TransferCommisionCurrency","Commision Currency")</span>
+  <input type="text" id="transfers_Currency" name="transfers_Currency" value="" />
+</div>
+<div class = "form-in hidden">
+    <span>@Translate("TransferTransferStatus","Transfer Status")</span>
+  <input type="text" id="transfers_Transfer_Status" name="transfers_Transfer_Status" value="Verified" />
+</div>
+@if( bookmakerValue == "Skype Betting"){
+<div class = "form-in">
+   <span>@Translate("TransferSenderInitialBalance","Sender Initial Balance")</span>
+  <input type="text" id="transfers_Initial_Balance" class= "readonly" readonly name="transfers_Initial_Balance" value="@initialBallance" />
+</div>
+}else{
+<div class = "form-in">
+   <span>@Translate("TransferSenderInitialBalance","Sender Initial Balance")</span>
+  <input type="text" id="transfers_Initial_Balance" name="transfers_Initial_Balance" value="" />
+</div>
+}
+@if( bookmakerReciverValue == "Skype Betting"){
+ <div class = "form-in">
+   <span>@Translate("TransferReceiverBookmakerInitialBallance","Receiver Bookmaker Initial Ballance")</span>
+  <input type="text" id="transfers_Receiver_Bookmaker_initial_Ballance" class= "readonly" readonly name="transfers_Receiver_Bookmaker_initial_Ballance" value="@initialBallanceReceiver" />
+</div>
+}else{
+ <div class = "form-in">
+   <span>@Translate("TransferReceiverBookmakerInitialBallance","Receiver Bookmaker Initial Ballance")</span>
+  <input type="text" id="transfers_Receiver_Bookmaker_initial_Ballance" name="transfers_Receiver_Bookmaker_initial_Ballance" value="" />
+</div>
+}
+
+
+<div class = "form-in hidden">
+   <span>@Translate("TransferFirstTransfer","First Transfer")</span>
+  <input type="text" id="transfers_First_Transfer_New" name="transfers_First_Transfer_New" value="@firstTransfer" />
+</div>
+@if( fromCurrency == toCurrency){
+<div class = "form-in">
+     <span>@Translate("TransferOandaExchangeRate","Oanda Exchange Rate")</span>
+  <input type="text" id="transfers_Oanda_Exchange_Rate" class= "readonly" readonly name="transfers_Oanda_Exchange_Rate" value="1" />
+</div>
+}else{
+<div class = "form-in">
+     <span>@Translate("TransferOandaExchangeRate","Oanda Exchange Rate")</span>
+  <input type="text" id="transfers_Oanda_Exchange_Rate" required name="transfers_Oanda_Exchange_Rate" value="" />
+</div>
+}
+<div class = "form-in hidden">
+  <span>@Translate("TransferOperator1Email","Operator 1 Email")</span>
+  	<input type="text" id="transfers_Operator1_Email" name="transfers_Operator1_Email" value="@GetGlobalValue("Global:Extranet.Email")" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("TransferOperator1ID","Operator 1 ID")</span>
+  <input type="text" id="transfers_Operator1_Id" name="transfers_Operator1_Id" value="@GetGlobalValue("Global:Extranet.UserID")" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("TransferOperator1Name","Operator 1 Name")</span>
+  <input type="text" id="transfers_Operator1_Name" name="transfers_Operator1_Name" value="@GetGlobalValue("Global:Extranet.UserName")" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("TransferOperator2Email","Operator 2 Email")</span>
+<input type="text" id="transfers_Operator2_Email" name="transfers_Operator2_Email" value="" />  
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("TransferOperator2ID","Operator 2 ID")</span>
+  <input type="text" id="transfers_Operator2_Id" name="transfers_Operator2_Id" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("TransferOperator2Name","Operator 2 Name")</span>
+  <input type="text" id="transfers_Operator2_Name" name="transfers_Operator2_Name" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("TransferOperator3Email","Operator 3 Email")</span>
+  <input type="text" id="transfers_Operator3_Email" name="transfers_Operator3_Email" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("TransferOperator3ID","Operator 3 ID")</span>
+  <input type="text" id="transfers_Operator3_Id" name="transfers_Operator3_Id" value="" />
+</div>
+<div class = "form-in hidden">
+     <span>@Translate("TransferOperator3Name","Operator 3 Name")</span>
+  	<input type="text" id="transfers_Operator3_Name" name="transfers_Operator3_Name" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("TransferOperator4Email","Operator 4 Email")</span>
+  <input type="text" id="transfers_Operator4_Email" name="transfers_Operator4_Email" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("TransferOperator4ID","Operator 4 ID")</span>
+  <input type="text" id="transfers_Operator4_Id" name="transfers_Operator4_Id" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("TransferOperator4Name","Operator 4 Name")</span>
+  <input type="text" id="transfers_Operator4_Name" name="transfers_Operator4_Name" value="" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("TransferRequestCreatedOnDate","Request Created on Date")</span>
+  <input type="text" id="transfers_Request_Created_on_Date_New" name="transfers_Request_Created_on_Date_New" value="@dateCreated" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("TransferFirstVerificatonDate","First Verificaton Date")</span>
+  <input type="text" id="transfers_First_verification_date" name="transfers_First_verification_date" value="@now" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("TransferSecondVerificatonDate","Second Verificaton Date")</span>
+  <input type="text" id="transfers_Second_verification_Date" name="transfers_Second_verification_Date" value="" />
+</div>
+<div class = "form-in hidden">
+    <span>@Translate("TransferTransactionNumberProvided","Transaction Number provided")</span>
+  	<input type="text" id="transfers_Transaction_Number_provided" name="transfers_Transaction_Number_provided" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("TransferTransactionNumberProvidedByAdmin","Transaction Number provided by admin")</span>
+  <input type="text" id="transfers_Transaction_Number_provided_by_admin" name="transfers_Transaction_Number_provided_by_admin" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("TransferTransactionScreenshotByAdmin","Transaction Screenshot by admin")</span>
+  <input type="file" id="transfers_Transaction_Screenshot_by_admin" name="transfers_Transaction_Screenshot_by_admin" />
+</div>
+<div class = "form-in ">
+   <span>@Translate("TransferSenderInitialBalanceScreenshot","Sender Initial Balance Screenshot") </span>
+  <input type="file" id="transfers_From_Initial_Balance_Screenshot" name="transfers_From_Initial_Balance_Screenshot" />
+</div>
+ <div class = "form-in ">
+   <span>@Translate("TransferReciverInitialBalanceScreenshot","Reciver Initial Balance Screenshot") </span>
+  <input type="file" id="transfers_To_Initial_Balance_Screenshot" name="transfers_To_Initial_Balance_Screenshot" />
+</div>
+<div class = "form-in hidden">
+    <span>@Translate("From User ID","From User ID")</span>
+  	<input type="text" id="transfers_Transfer_from_User_ID" name="transfers_Transfer_from_User_ID" value="@fromAcoountID" />
+</div>
+<div class = "form-in hidden">
+    <span>@Translate("To User ID","To User ID")</span>
+  	<input type="text" id="transfers_Transfer_to_User_ID" name="transfers_Transfer_to_User_ID" value="@toAcoountID" />
+</div>
+
+@GetString("Form.Button.Submit")
+@formEnd
+
+</div>
+  	

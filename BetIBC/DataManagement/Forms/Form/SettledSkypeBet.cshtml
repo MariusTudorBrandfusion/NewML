@@ -1,0 +1,205 @@
+﻿<div class="main_wrapper">
+
+    @GetValue("Form.Start")
+    
+        @GetValue("Form.Hidden")
+      
+              @{
+               var Stake = GetInteger("Form.Fields.skypeBets_BetStake.Systemname");
+               var AdminUserId = GetGlobalValue("Global:Extranet.UserID");
+               var AdminUserName = GetGlobalValue("Global:Extranet.UserName");
+               var betId = GetString("Form.RowID").Replace("skypeBetsID=","");
+               var betIdAsia = GetString("Form.Fields.skypeBets_BetIdInAsia.Value");
+               var soccerFinalTimeHalfTime = GetString("skypeBets_SoccerFinalTimeHalfTime");
+               var userComission = GetString("Form.Fields.skypeBets_SkypeUserComision.Value");
+            }
+    
+      
+            <h2>Settlement</h2>
+                <div class="inputs-hidden">
+                  <p>Time Zone</p>
+                   <input type="hidden" id="skypeBets_TimeZone" name="skypeBets_TimeZone" value='@GetString("Form.Fields.skypeBets_TimeZone.Value")'/>
+                  <input type="hidden" id="skypeBets_SkypeAccountID" name="skypeBets_SkypeAccountID" value='@GetString("Form.Fields.skypeBets_SkypeAccountID.Value")'/>
+                    <p>Third Operator User Name</p> 
+                    <div><input type="text" id="skypeBets_ThirdAdminUsername" name="skypeBets_ThirdAdminUsername" value="@AdminUserName"/></div>
+                    <p>Third Operator User Id</p> 
+                    <div><input type="text" id="skypeBets_thirdAdminUserId" name="skypeBets_thirdAdminUserId" value="@AdminUserId"/></div>
+                    <p>Create Date</p>
+                    <div><input type="text" id="skypeBets_SettlementNewDateTime" name="skypeBets_SettlementNewDateTime" value='@DateTime.Now.ToString("dd/MM/yyyy, HH:mm")' /></div>
+                      <p>Processing status</p>
+                      <div><input type="hidden" id="skypeBets_ProcessingBetStatus" name="skypeBets_ProcessingBetStatus" value="Settled" /></div>
+                      <p>User ID</p>
+                      <input type="hidden" id="skypeBets_SkypeUserID" name="skypeBets_SkypeUserID" value='@GetString("Form.Fields.skypeBets_SkypeUserID.Value")'/>
+                      <p>First UserName</p>
+                      <div><input type="hidden" id="skypeBets_FirstAdminUsername" name="skypeBets_FirstAdminUsername" value='@GetString("Form.Fields.skypeBets_FirstAdminUsername.Value")'/></div>
+                      <p>First Admin UserId</p>
+                      <div><input type="hidden" id="skypeBets_firstadminUserId" name="skypeBets_firstadminUserId" value='@GetString("Form.Fields.skypeBets_firstadminUserId.Value")' /></div>
+                      <p>Add New Bet Date <p>
+                    	<div><input type="hidden" id="skypeBets_AddNewDateTime" name="skypeBets_AddNewDateTime" value='@GetString("Form.Fields.skypeBets_AddNewDateTime.Value")'/></div>
+                       <p>Second UserName</p>
+                      <div><input type="hidden" id="skypeBets_SecondAdminUsername" name="skypeBets_SecondAdminUsername" value='@GetString("Form.Fields.skypeBets_SecondAdminUsername.Value")'/></div>
+                      <p>Second Admin UserId</p>
+                      <div><input type="hidden" id="skypeBets_secondadminUserId" name="skypeBets_secondadminUserId" value='@GetString("Form.Fields.skypeBets_secondadminUserId.Value")' /></div>
+                      <p>Confirmation Bet Date <p>
+                    <div><input type="hidden" id="skypeBets_ConfirmationNewDateTime" name="skypeBets_ConfirmationNewDateTime" value='@GetString("Form.Fields.skypeBets_ConfirmationNewDateTime.Value")'/></div>
+                    <p>Comission Amount</p>
+                  		<input type="hidden" id="skypeBets_ComissionAmount" name="skypeBets_ComissionAmount" value='@GetString("Form.Fields.skypeBets_ComissionAmount.Value")'/>
+                    
+                        <p>Processing status</p>   
+                     <div><input type="hidden" id="skypeBets_ProcessingStatus" name="skypeBets_ProcessingStatus" value="Settled" /></div>
+                     <p> ODD min client requested  </p>
+                    <div>
+                        <input type="hidden" name='skypeBets_MinimumOddRequestedByClient' id='skypeBets_MinimumOddRequestedByClient'  value='@GetString("Form.Fields.skypeBets_MinimumOddRequestedByClient.Value")'>
+                    </div>
+                    <p> ODD we give to client </p>
+                    <div> 
+                        <input type="hidden" id="skypeBets_OddWeGiveToClient" name="skypeBets_OddWeGiveToClient" value='@GetString("Form.Fields.skypeBets_OddWeGiveToClient.Value")'>
+                    </div>
+                    <p> STAKE </p>
+                    <div> 
+                        <input type="hidden" id="skypeBets_BetStake" name="skypeBets_BetStake" value='@GetString("Form.Fields.skypeBets_BetStake.Value")'>
+                    </div>
+                    <p> ODD we bet in Asia </p>
+                    <div> 
+                        <input class="m-bottom" type="hidden" id="skypeBets_OddWeBetInAsia" name="skypeBets_OddWeBetInAsia" value='@GetString("Form.Fields.skypeBets_OddWeBetInAsia.Value")'>
+                    </div>
+                    <p>League</p>
+                    <div> 
+                        <input type="hidden" id="skypeBets_BetLeague" name="skypeBets_BetLeague" value='@GetString("Form.Fields.skypeBets_BetLeague.Value")' >
+                    </div>
+                    <p> PREMATCH or IN RUNNING </p>
+                    <div>
+                        <input  type="hidden" id="skypeBets_BetPrematchOrRunning" name="skypeBets_BetPrematchOrRunning" value='@GetString("Form.Fields.skypeBets_BetPrematchOrRunning.Value")'/>
+    
+                    </div>
+                    <p> FT/HT </p>
+                    <div>
+                        <input type="hidden" id="skypeBets_SoccerFinalTimeHalfTime" name="skypeBets_SoccerFinalTimeHalfTime" value='@GetString("Form.Fields.skypeBets_SoccerFinalTimeHalfTime.Value")'/>
+                    </div>
+                    <p> LINE or HC </p>
+                    <div>
+                        <input type="hidden" id="skypeBets_LineOrHC" name="skypeBets_LineOrHC" value='@GetString("Form.Fields.skypeBets_LineOrHC.Value")' />
+                    </div>
+                    <p> BET on WHICH TEAM </p>
+                    <div> 
+                        <input type="hidden" id="skypeBets_SoccerTeamToBet" name="skypeBets_SoccerTeamToBet" value='@GetString("Form.Fields.skypeBets_SoccerTeamToBet.Value")'/>
+                    </div>
+                    <p> Match </p>
+                    <div><input type="hidden" id="skypeBets_BetMatch" name="skypeBets_BetMatch" value='@GetString("Form.Fields.skypeBets_BetMatch.Value")'/> </div>
+                    <p>SCORE at bet placement</p>
+                    <div><input type="hidden" id="skypeBets_ScoreAtBetPlacement" name="skypeBets_ScoreAtBetPlacement" value='@GetString("Form.Fields.skypeBets_ScoreAtBetPlacement.Value")' />   </div>
+                    <p> BET TYPE </p>
+                    <div> 
+                        <input type="hidden" id="skypeBets_SoccerBetType" name="skypeBets_SoccerBetType" value='@GetString("Form.Fields.skypeBets_SoccerBetType.Value")'>
+                    </div>
+                    <p>IF hc + or -</p>
+                    <div> 
+                        <input type="hidden" id="skypeBets_SoccerHCType" name="skypeBets_SoccerHCType" value='@GetString("Form.Fields.skypeBets_SoccerHCType.Value")'/> 
+                    </div>
+                    <p>Market</p>
+                    <div> 
+                        <input type="hidden" id="skypeBets_Market" name="skypeBets_Market" value='@GetString("Form.Fields.skypeBets_Market.Value")'>
+                    </div>
+                    <h3 class="header--table">NOTES</h3>
+                    <input type="hidden" id="skypeBets_BetNotes" name="skypeBets_BetNotes" value='@GetString("Form.Fields.skypeBets_BetNotes.Value")'/>
+                    <p>ID(asia)</p>
+                    <div><input  type="hidden" id="skypeBets_BetIdInAsia" name="skypeBets_BetIdInAsia"  value='@GetString("Form.Fields.skypeBets_BetIdInAsia.Value")'/></div>
+                    <p>End time</p>
+                    <div><input type="hidden" id="skypeBets_GameEndTime" name="skypeBets_GameEndTime" value='@GetString("Form.Fields.skypeBets_GameEndTime.Value")'/></div>
+                    <p>Game Ends</p>
+                    <div><input type="hidden" id="skypeBets_GameEndsIn" name="skypeBets_GameEndsIn" value='@GetString("Form.Fields.skypeBets_GameEndsIn.Value")'/></div> 
+                        <p> Balance After Settlement </p>
+                     <div><input type="hidden" id="skypeBets_BalanceAfterSettlement" name="skypeBets_BalanceAfterSettlement" value=""/></div> 
+
+                    <p> BALANCE AFTER </p>
+                	<div>
+                  <input type="hidden" id="skypeBets_SkypeClientBalanceAfter" name="skypeBets_SkypeClientBalanceAfter" value='@GetString("Form.Fields.skypeBets_SkypeClientBalanceAfter.Value")'/>
+                      
+                </div>
+                </div>
+          
+          <div class="settlement_wrapper">
+            <div class="form--settlement_wrapper1">
+              <div class="form--settlement_wrapper_item1">
+                <p>BET ID</p>
+              </div>
+              <div class="form--settlement_wrapper_item1">
+                <span>@betId</span>
+              </div>
+            </div>
+          
+            <div class="form--settlement_wrapper2">
+              <div class="form--settlement_wrapper_item2">
+                <p>ID(asia)</p>
+              </div>
+              <div class="form--settlement_wrapper_item2">
+                <div>@betIdAsia</div>
+              </div>
+            </div>
+            
+            
+            <div class="form_item--full">
+              <p>Result</p>
+              <div> 
+                <select size="1" id="skypeBets_BetResult" name="skypeBets_BetResult">
+                    <option selected="selected" value="">Select Result...</option>
+                    <option value="Won">Won</option>
+                    <option value="Half Won">Half Won</option>
+                    <option value="Lost">Lost</option>
+                    <option value="Half Lost">Half Lost</option>
+                    <option value="Draw">Draw</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form--settlement_wrapper3">
+              <div class="form--wrapper_item3-inside">
+                <p> FT</p>
+                <div>
+                  <input type="text" id="skypeBets_ResultAtFT" name="skypeBets_ResultAtFT" value=""/>
+                </div>
+              </div>
+              <div class="form--wrapper_item3-inside"> 
+                <p> HT </p>
+                <div><input type="text" id="skypeBets_ResultAtHT" name="skypeBets_ResultAtHT" value=""/> </div>
+              </div>
+            </div>
+            <h3>Profit/Loss</h3>
+            <p><strong>Member</strong></p>
+            <div class="form--settlement_wrapper4">
+              <div class="form--wrapper_item4-inside">
+                <p>Member Profit/Loss</p>
+                <div><input type="text" id="skypeBets_MemberProfit" name="skypeBets_MemberProfit" value=""/> </div>
+                <p><strong>Agent</strong></p>
+                <p>Agent Profit/Loss</p>
+                <div><input type="text" id="skypeBets_AgentProfit" name="skypeBets_AgentProfit" value=""/> </div>
+                <p>Commision </p>
+                <p>%</p>
+                <div>
+                  <input type="text" id="skypeBets_ComissionToDisplay" name="skypeBets_ComissionToDisplay" value='@GetString("Form.Fields.skypeBets_ComissionToDisplay.Value")'>
+                </div>
+                <p>Assian settlement</p>
+                <div>
+                  <input size="1" id="" name="">
+                </div>
+              </div>
+              <div class="form--wrapper_item4-inside">
+                <!--<p> Bet currency</p>
+                <div><input class="mb-40" type="text" id="" name="" value=""/> </div>
+                <p>Bet currency</p>
+                <div><input class="mb-40" type="text" id="" name="" value=""/> </div> -->
+                <p>Currency</p>
+                <div>
+                  <input readonly type="text" id="skypeBets_BetCurrency" name="skypeBets_BetCurrency" value='@GetString("Form.Fields.skypeBets_BetCurrency.Value")'/>
+                </div>
+                <!--<div><button class="button upload--file" type="submit">Upload a file</button></div>-->
+              </div>
+                
+            </div>
+          </div>
+    
+         <div class="submit--wrapper">@GetValue("Form.Button.Submit")</div>
+          
+          @GetValue("Form.End")
+    
+        </div>

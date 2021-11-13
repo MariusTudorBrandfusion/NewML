@@ -1,0 +1,196 @@
+﻿@*<h2>@GetValue("Form.Name")</h2>*@
+    
+<div class="confirmation-container">
+    <div class="table-wrapper-skype">
+      <h3>REQUESTED BET</h3>
+      <table class="alternate confirmation-table" cellspacing="0" cellpadding="0">
+         @* <thead>
+              <tr>
+                  <th>Field</th>
+                  <th>Field value</th>
+              </tr>
+          </thead> *@
+            <tbody>
+         @* @foreach (LoopItem i in GetLoop("Form.Fields")){*@
+        
+                <tr>
+                    <th>
+                        BET ID
+                    </th>
+                    <td>
+                        @GetValue("Form.RowID") 
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        ODD min client requested
+                    </th>
+                    <td>
+                        @GetValue("Form.Fields.skypeBets_MinimumOddRequestedByClient.Value") 
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        ODD we bet in Asia
+                    </th>
+                    <td>
+                        @GetValue("Form.Fields.skypeBets_OddWeBetInAsia.Value") 
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        ODD we give to client
+                    </th>
+                    <td>
+                        @GetValue("Form.Fields.skypeBets_OddWeGiveToClient.Value") 
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Currency
+                    </th>
+                    <td>
+                        @GetValue("Form.Fields.skypeBets_BetCurrency.Value") 
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        STAKE client
+                    </th>
+                    <td>
+                        @GetValue("Form.Fields.skypeBets_BetStake.Value") 
+                    </td>
+                </tr>
+               @* <tr>
+                    <th>
+                        STAKE final
+                    </th>
+                    <td>
+                        @GetValue("Form.Fields.skypeBets_StakeFinal.Value")
+                    </td>
+                </tr> *@
+                <tr>
+                    <th>
+                        <h4>BET DETAILS</h4>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        League
+                    </th>
+                    <td>
+                       @GetValue("Form.Fields.skypeBets_BetLeague.Value")
+                    </td>
+                </tr>
+                                <tr>
+                    <th>
+                        Match
+                    </th>
+                    <td>
+                        @GetValue("Form.Fields.skypeBets_BetMatch.Value")
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        PREMATCH or IN RUNNING
+                    </th>
+                    <td>
+                        @GetValue("Form.Fields.skypeBets_BetPrematchOrRunning.Value")
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        SCORE
+                    </th>
+                    <td>
+                       @GetValue("Form.Fields.skypeBets_ScoreAtBetPlacement.Value")  
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        FT/HT
+                    </th>
+                    <td>
+                         @GetValue("Form.Fields.skypeBets_SoccerFinalTimeHalfTime.Value")
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        BET TYPE
+                    </th>
+                    <td>
+                      @GetValue("Form.Fields.skypeBets_SoccerBetType.Value")   
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        LINE or HC
+                    </th>
+                    <td>
+                       @GetValue("Form.Fields.skypeBets_LineOrHC.Value")  
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        IF HC + or -
+                    </th>
+                    <td>
+                       @GetValue("Form.Fields.skypeBets_SoccerHCType.Value") 
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        BET on WHICH TEAM
+                    </th>
+                    <td>
+                       @GetValue("Form.Fields.skypeBets_SoccerTeamToBet.Value")  
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Market
+                    </th>
+                    <td>
+                         @GetValue("Form.Fields.skypeBets_Market.Value") 
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        NOTES
+                    </th>
+                    <td>
+                        @GetValue("Form.Fields.skypeBets_BetNotes.Value") 
+                    </td>
+                </tr>
+                <tr>
+                    <th class="color--red">
+                        BALANCE before
+                    </th>
+                    <td>
+                       @GetValue("Form.Fields.skypeBets_SkypeUserBalance.Value")
+                    </td>
+                </tr>
+                <tr>
+                    <th class="color--red">
+                       Available to bet after
+                    </th>
+                    <td>
+                      @GetValue("Form.Fields.skypeBets_SkypeClientBalanceAfter.Value")
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        OPERATORS
+                    </th>
+                    <td>
+                        <span>1.</span>@GetValue("Form.Fields.skypeBets_FirstAdminUsername.Value")<br>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+       <!--<div class="confirmation-buttons">
+         <button class="button" type="button"> Back </button>
+         <button class="button" type="button"> Save </button>
+       </div> -->
+    </div>
+</div>

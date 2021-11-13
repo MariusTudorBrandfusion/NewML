@@ -1,0 +1,190 @@
+// Buttons
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.btn,
+.button {
+  background-color: transparent;
+  border-radius: 0;
+  border: 1px solid @border-color;
+  color: @color-secondary;
+  cursor: pointer;
+  display: inline-block;
+  font-size: inherit;
+  font-weight: 500;
+  letter-spacing: .1rem;
+  line-height: 36px;
+  height: 38px;
+  margin-bottom: 1em;
+  padding: 0 30px;
+  text-align: center;
+  text-decoration: none;
+  transition-duration: 200ms;
+  white-space: nowrap;
+
+  &:focus,
+  &:hover:not(.disabled) {
+    @include hover-style;
+  }
+
+  &:focus{
+    outline: .1rem dotted @gray;
+  }
+
+  &:active{
+    background-color: @color-primary;
+  }
+}
+
+.btn.disabled,
+.button.disabled {
+   cursor: not-allowed;
+   opacity: 0.3;
+}
+
+// Basic Colors
+//
+.btn--primary {
+  color: @white;
+  background-color: @color-primary;
+  border-color: @color-primary;
+
+  &:focus,
+  &:hover {
+    color: @white;
+    background-color: darken(@color-primary, 10%);
+    border-color: @color-primary;
+  }
+}
+
+.btn--secondary {
+  color: @gray-lighter;
+  background-color: @color-secondary;
+  border-color: @color-secondary;
+
+  &:focus,
+  &:hover {
+    color: @gray-lighter;
+    background-color: darken(@color-secondary, 15%);
+    border-color: @color-secondary;
+  }
+}
+
+.btn--primary.btn--line-height, btn--secondary.btn--line-height {
+    line-height: 36px;
+}
+
+
+// Small-Sized 
+.btn--sm {
+  padding: 0 10px;
+  line-height: 28px;
+  height: 28px;
+}
+
+// Special styles
+.btn--lg {
+  font-size: inherit;
+  font-weight: 100;
+  height: 5.8rem;
+  line-height: 5.8rem;
+  vertical-align: middle;
+  padding: 0 4rem;
+}
+
+.btn--condensed {
+  padding: 0 15px;  
+}
+
+.btn--full {
+  width: 100%;
+}
+
+.btn--clean { 
+  color: inherit;
+  border: none;
+  background-color: transparent;
+
+  &:focus,
+  &:hover {
+    color: inherit;
+    background-color: inherit;
+    border-color: none;
+  }
+}
+
+.btn--link {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}
+
+// Raised Style
+.btn--raised {
+  border-width: 0;
+  border-bottom-width: 3px;
+  border-bottom-color: rgba(0,0,0,0.15);
+}
+
+//Tag style
+.btn--tag {
+    padding: 0 5px;
+    display: inline-block;
+    margin-right: @reflex-cell-spacing-sm;
+    font-weight: normal;
+    background-color: @white;
+    border: 1px solid @gray-light;
+}
+
+.btn--tag.checked {
+    background-color: #333;
+    color: #fff;
+}
+
+.btn--tag:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+//Colorbox style
+.btn--colorbox {
+    width: 28px;
+    height: 28px;
+    background-color: @gray;
+    padding: 0;
+}
+
+.btn--colorbox.checked {
+   border: 2px solid @gray-darker;
+}
+
+[type="submit"],
+[type="reset"],
+[type="button"] {
+  @extend .btn;
+}
+
+//Colorbox inside
+.btn__colorbox {
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 3px;
+}
+
+
+// Buttons collection
+.buttons-collection > * {
+    margin-right: @reflex-cell-spacing-md;
+    margin-bottom: 0;
+
+    &:last-child:not(&.buttons-collection--right) {
+        margin-right: 0;
+    }
+}
+
+.buttons-collection--right > * {
+    &:first-child {
+        margin-right: 0;
+    } 
+}

@@ -1,0 +1,21 @@
+﻿@{
+    var storyTitle = GetString("ItemCreator:Item.Prediction_Title.Value");
+    var storyAuthorID = GetString("ItemCreator:Item.Tipster_ID");
+    DateTime storyDate = DateTime.Now;
+    var storyDateFormated = storyDate.ToString("dd / MM / yyyy");
+    var optionsLoop = GetLoop("ItemCreator:Item.Tipster_ID.Options");
+    var storyAuthor = "";
+}
+@foreach(var option in optionsLoop){
+var optionId = option.GetString("ItemCreator:Item.Tipster_ID.Option.Value");
+
+if(optionId == storyAuthorID){
+  storyAuthor = option.GetString("ItemCreator:Item.Tipster_ID.Option.Label");
+}
+}
+<p>Hello!</p>
+<br>
+<p>@storyAuthor submited a new tip - @storyTitle</p>
+  <p>It is ready to be checked and published.</p>
+<br>
+  <p>Have a nice day!</p>

@@ -1,0 +1,129 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using Dynamicweb.Modules.UserManagement;
+
+@using Dynamicweb.Extensibility
+@using Dynamicweb.Content
+@using System
+
+@{
+    string siteurl = GetGlobalValue("Global:Request.Url").ToString();
+    int ImpersonationFeed = GetPageIdByNavigationTag("UsersFeed");
+    Pageview.Meta.Title = Translate("Manage Accounts");
+
+
+}
+
+<div class="grid center-container dw-mod">
+
+ <div class = "navigation-admin-center">
+     <a href = "/">Admin Center</a>
+     <a href = "/">Agents Management</a>
+     <a href = "/english/bookmaker-accounts-management/charges-management">Charges management</a>
+  </div>
+
+<div class="paragraph-container grid__col-x users-table">
+
+    @if (string.IsNullOrWhiteSpace(GetGlobalValue("Global:Extranet.SecondaryUser.UserID")))
+    {
+  
+        <div class="grid__cell">
+            <h2 class="u-pull--left">@Translate("Select the customer you want to manage") @GetGlobalValue("Global:Extranet.SecondaryUser.UserID")</h2>
+            <div class="u-pull--right">
+                <input type="text" placeholder="Search user" name="q" onkeyup="Dynamo.UpdateContent('searchUsersResultsHeader', '/Default.aspx?ID=@ImpersonationFeed&q=' + this.value);">
+            </div>
+        </div>
+
+
+         <div class="grid__cell filter-impersonation">
+        
+            <div class="u-pull--right">
+                <button onclick="Dynamo.UpdateContent('searchUsersResultsHeader', '/Default.aspx?ID=@ImpersonationFeed');" type="button">All</button>
+                <button onclick="Dynamo.UpdateContent('searchUsersResultsHeader', '/Default.aspx?ID=@ImpersonationFeed&Exception=true');" type="button">Exceptii</button>
+                <button onclick="Dynamo.UpdateContent('searchUsersResultsHeader', '/Default.aspx?ID=@ImpersonationFeed&ClosedAccounts=true');" type="button">ClosedAccount</button>
+     
+            </div>
+        </div>
+
+        <div id="searchUsersResultsHeader" class="js-ajax-container" data-preloader="minimal" data-template="SearchUsersResult" data-json-feed="/Default.aspx?ID=@ImpersonationFeed"></div>
+
+        <script id="SearchUsersResult" type="text/x-template" data-test="@ImpersonationFeed">
+  <div></div>
+  <div class = "container">
+            <div id="usersCounter" class="u-margin-bottom u-color-gray">{{totalUsersOnPage}} @Translate("customer(s) found")</div>
+            <div class = "row header-table-row">
+               <div class = "col-3">BET-IBC User</div>
+               <div class = "col-3">Status</div>
+               <div class = "col-3">Email address</div>
+               <div class = "col-3">View full profile</div>
+          </div>
+
+            <div id="Users"  data-template="Users"></div>
+            
+            <div id="Paginations" data-template="Pagination"></div>
+  </div>
+        </script>
+      
+  
+        <script id="Pagination" type="text/x-template">
+            <div class="grid u-margin-top {{hidePagination}}">
+                <div class="grid__cell">
+                    <span class="u-pull--left">
+                        <span>@Translate("Showing page") {{current}} @Translate("of")  {{total}}</span>
+                    </span>
+                    <div class="u-pull--right">
+                        <button class="pager__btn {{prevDisabled}}" onclick="Dynamo.UpdateContent('searchUsersResultsHeader', '{{prevPage}}')" {{prevDisabled}}>
+                            <span><i class="fa fa-angle-left"></i></span> 
+                        </button> 
+                        <ul class="pager" id="Buttons"></ul>
+                        <button class="pager__btn {{nextDisabled}}" onclick="Dynamo.UpdateContent('searchUsersResultsHeader', '{{nextPage}}')" {{nextDisabled}}>
+                            <span><i class="fa fa-angle-right"></i></span>
+                        </button> 
+                    </div>
+                </div>
+            </div>
+        </script>
+     
+        <script id="PaginationEllipsis" type="text/x-template">
+            <li class="pager__btn disabled"><span>â€¦</span></li>
+        </script>
+
+        <script id="PaginationCurrentPage" type="text/x-template">
+            <li class="pager__btn pager__btn--current"><span>{{text}}</span></li>
+        </script>
+
+        <script id="PaginationLink" type="text/x-template">
+            <li class="pager__btn" onclick="Dynamo.UpdateContent('searchUsersResultsHeader', '{{link}}' )"><span>{{text}}</span></li>
+        </script>
+     
+        <script id="Users" type="text/x-template" >
+              {{#Users}}
+             <form method="post" class="grid__col--line-bottom u-no-margin" name="account{{id}}">
+                <input type="hidden" id="DWExtranetSecondaryUserSelector" name="DWExtranetSecondaryUserSelector" value="{{id}}" />
+                <div class="grid__cell">
+                    <div class="row">
+                        <div class = "col-3">{{firstName}}{{lastName}}{{company}}</div>
+                        <div class = "col-3">{{activeClear}}</div>
+                        <div class = "col-3">{{email}}{{customerNumber}}{{address}}{{zip}}</div>
+                        <div class = "col-3"><input type="submit" class="btn btn--secondary dw-mod u-pull--right u-no-margin" tabindex="3" value="@Translate("View Profile")" /></div>
+                    </div>
+                </div>
+                
+            </form>
+          {{/#Users}}
+        </script>
+    }
+    else
+    {
+        string stopImpersonateTranslation = Translate("Stop impersonation", "Stop impersonation");
+        <div class="grid__col-x paragraph-container">
+            <div class="grid__cell">
+                <div class="u-pull--left">@Translate("Stop impersonation if you want to login as another user.", "Stop impersonation if you want to login as another user.")</div>
+                <form method="post" class="u-pull--right u-no-margin">
+                    <input type="submit" class="btn btn--secondary dw-mod u-no-margin" name="DwExtranetRemoveSecondaryUser" value="@stopImpersonateTranslation">
+                </form>
+            </div>
+        </div>
+    }
+
+</div>
+</div>

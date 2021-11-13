@@ -1,0 +1,171 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Web;
+@using Dynamicweb.Extensibility
+@using Dynamicweb.Content
+@using System.Text.RegularExpressions
+
+@{
+    int productCatalog = GetPageIdByNavigationTag("ProductsPage");
+}
+
+@functions {
+    public class PaymentMethod
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string selected { get; set; }
+    }
+
+    public class ShippingMethod
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string selected { get; set; }
+    }
+
+    public class BomItem
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string image { get; set; }
+        public string link { get; set; }
+        public string quantity { get; set; }
+        public string totalprice { get; set; }
+    }
+
+    public class OrderLine
+    {
+        public string template { get; set; }
+        public string id { get; set; }
+        public string productnumber { get; set; }
+        public string name { get; set; }
+        public string variantname { get; set; }
+        public string quantity { get; set; }
+        public string totalprice { get; set; }
+        public string link { get; set; }
+        public string image { get; set; }
+        public string isempty { get; set; }
+        public string orderlineId { get; set; }
+        public string unitname { get; set; }
+        public string unitprice { get; set; }
+        public string hideimage { get; set; }
+        public string hideBomItems { get; set; }
+        public List<BomItem> BomItems { get; set; }
+        public List<ShippingMethod> ShippingMethods { get; set; }
+        public List<PaymentMethod> PaymentMethods { get; set; }
+    }
+
+    public class Root
+    {
+        public string numberofproducts { get; set; }
+        public string paymentmethod { get; set; }
+        public string paymentfee { get; set; }
+        public string shippingmethod { get; set; }
+        public string shippingfee { get; set; }
+        public string totalprice { get; set; }
+        public string totalvat { get; set; }
+        public string isempty { get; set; }
+        public string vouchercode { get; set; }
+        public string giftcardcode { get; set; }
+        public List<OrderLine> OrderLines { get; set; }
+    }
+}
+
+@{
+    string jsonFeed = "";
+
+    List<Root> feedObject = new List<Root>();
+    Root feedRoot = new Root();
+
+    feedRoot.numberofproducts = GetString("Ecom:Order.OrderLines.TotalProductQuantity");
+    feedRoot.paymentmethod = GetString("Ecom:Order.PaymentMethod");
+    feedRoot.paymentfee = GetString("Ecom:Order.PaymentFee.PriceFormatted");
+    feedRoot.shippingmethod = GetString("Ecom:Order.ShippingMethod");
+    feedRoot.shippingfee = GetString("Ecom:Order.ShippingFee.PriceFormatted");
+    feedRoot.totalprice = GetString("Ecom:Order.OrderLines.Total.PriceWithVAT");
+    feedRoot.totalvat = GetString("Ecom:Order.OrderLines.Total.PriceVAT");
+    feedRoot.isempty = !string.IsNullOrEmpty(GetString("Ecom:Order.IsEmpty")) ? "u-visually-hidden" : "";
+
+    feedRoot.vouchercode = GetString("Ecom:Order.Customer.VoucherCode");
+    feedRoot.giftcardcode = GetString("Ecom:Order.GiftCardCode");
+    feedRoot.OrderLines = new List<OrderLine>();
+
+    feedRoot.OrderLines = new List<OrderLine>();
+    foreach (LoopItem orderline in GetLoop("OrderLines"))
+    {
+        OrderLine cartOrderLine = new OrderLine();
+        string productLink = "/" + Regex.Replace(orderline.GetString("Ecom:Product.LinkGroup.Clean"), @"\?ID=\d*\&", "?ID=" + productCatalog + "&");
+
+        cartOrderLine.template = orderline.GetBoolean("Ecom:Order:OrderLine.IsProduct") ? "CartOrderline" : "CartOrderlineDiscount";
+        cartOrderLine.id = orderline.GetString("Ecom:Product.ID");
+        cartOrderLine.productnumber = orderline.GetString("Ecom:Order:OrderLine.ProductNumber");
+        cartOrderLine.name = orderline.GetString("Ecom:Order:OrderLine.ProductName") + GetString("Ecom:Order:OrderLine.ProductVariantText");
+        cartOrderLine.variantname = orderline.GetString("Ecom:Order:OrderLine.ProductVariantText");
+        cartOrderLine.quantity = orderline.GetString("Ecom:Order:OrderLine.Quantity");
+        cartOrderLine.totalprice = orderline.GetString("Ecom:Order:OrderLine.TotalPrice");
+        cartOrderLine.link = productLink;
+        cartOrderLine.image = orderline.GetString("Ecom:Product.ImageSmall.Default.Clean");
+        cartOrderLine.isempty = !string.IsNullOrEmpty(GetString("Ecom:Order.IsEmpty")) ? "u-hidden" : "";
+        cartOrderLine.orderlineId = orderline.GetString("Ecom:Order:OrderLine.Id");
+        cartOrderLine.unitname = orderline.GetString("Ecom:Order:OrderLine.UnitName");
+        cartOrderLine.unitprice = orderline.GetString("Ecom:Order:OrderLine.UnitPrice");
+        cartOrderLine.hideimage = !orderline.GetBoolean("Ecom:Order:OrderLine.IsProduct") ? "u-hidden" : "";
+        cartOrderLine.hideBomItems = orderline.GetLoop("BOMItems").Count > 0 ? "" : "u-hidden";
+        cartOrderLine.BomItems = new List<BomItem>();
+
+        foreach (LoopItem bomitem in orderline.GetLoop("BOMItems"))
+        {
+            BomItem bomItem = new BomItem();
+            string bomItemLink = "/" + Regex.Replace(bomitem.GetString("Ecom:Product.LinkGroup.Clean"), @"\?ID=\d*\&", "?ID=" + productCatalog + "&");
+
+            bomItem.id = bomitem.GetString("Ecom:Order:OrderLine.Id");
+            bomItem.name = bomitem.GetString("Ecom:Order:OrderLine.ProductName");
+            bomItem.image = bomitem.GetString("Ecom:Product.ImageSmall.Default.Clean");
+            bomItem.link = bomItemLink;
+            bomItem.quantity = bomitem.GetString("Ecom:Order:OrderLine.Quantity");
+            bomItem.totalprice = bomitem.GetString("Ecom:Order:OrderLine.TotalPrice");
+            cartOrderLine.BomItems.Add(bomItem);
+        }
+
+        cartOrderLine.ShippingMethods = new List<ShippingMethod>();
+
+        foreach (LoopItem shipping in GetLoop("Shippingmethods"))
+        {
+            ShippingMethod shippingMethod = new ShippingMethod();
+            shippingMethod.id = shipping.GetString("Ecom:Cart.Shippingmethod.ID");
+            shippingMethod.name = shipping.GetString("Ecom:Cart.Shippingmethod.Name");
+            shippingMethod.selected = string.IsNullOrWhiteSpace(shipping.GetString("Ecom:Cart.Shippingmethod.IsSelected")) ? "checked" : "";
+            cartOrderLine.ShippingMethods.Add(shippingMethod);
+        }
+
+        if (cartOrderLine.ShippingMethods.Any() && !cartOrderLine.ShippingMethods.Any(x => x.selected == "checked"))
+        {
+            cartOrderLine.ShippingMethods.FirstOrDefault().selected = "checked";
+        }
+
+
+        cartOrderLine.PaymentMethods = new List<PaymentMethod>();
+
+        foreach (LoopItem payment in GetLoop("Paymethods"))
+        {
+            PaymentMethod paymentMethod = new PaymentMethod();
+            paymentMethod.id = payment.GetString("Ecom:Cart.Paymethod.ID");
+            paymentMethod.name = payment.GetString("Ecom:Cart.Paymethod.Name");
+            paymentMethod.selected = string.IsNullOrWhiteSpace(payment.GetString("Ecom:Cart.Paymethod.IsSelected")) ? "checked" : "";
+            cartOrderLine.PaymentMethods.Add(paymentMethod);
+        }
+
+        if (cartOrderLine.PaymentMethods.Any() && !cartOrderLine.PaymentMethods.Any(x => x.selected == "checked"))
+        {
+            cartOrderLine.PaymentMethods.FirstOrDefault().selected = "checked";
+        }
+
+        feedRoot.OrderLines.Add(cartOrderLine);
+    }
+
+    feedObject.Add(feedRoot);
+    jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+
+}
+
+@jsonFeed

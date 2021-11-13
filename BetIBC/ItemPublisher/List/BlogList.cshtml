@@ -1,0 +1,30 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@foreach (LoopItem item in GetLoop("ItemPublisher:Items.List"))
+{
+
+	string articleTitle = @item.GetString("ItemPublisher:Item.Title"),
+	 	   articleImage = @item.GetString("ItemPublisher:Item.Image"),
+	 	   articleUrl = @item.GetString("ItemPublisher:Item.Url"),
+	 	   articleSummary = @item.GetString("ItemPublisher:Item.Summary");
+	   
+
+    <div class="grid__col-md-4 article-box">
+        @* <small class="article__subheader">@Translate("Written by") @item.GetString("ItemPublisher:Item.Author") @Translate("on") @item.GetDate("ItemPublisher:Item.Date").ToShortDateString()</small> *@
+
+        <a href="@articleUrl">
+            <span class="article__image" style='background: url("/Admin/Public/GetImage.ashx?width=430&amp;height=250&amp;crop=5&amp;Compression=75&amp;image=@articleImage")'>&nbsp;</span>
+          <div class="article_details">
+            <h2 class="article__header">@articleTitle</h2>
+    		<div class="article__summary">@articleSummary</div>
+            <div class = "article-arrow"><i class="fa fa-arrow-right"></i></div>
+          
+        </div>
+         </a>
+     
+    </div>
+}
+<div class = "pagination-news">
+<div id = "news-pagination" data-total-pages-number = '@GetString("ItemPublisher:Items.Paging.TotalPages")' data-total-articles = '@GetString("ItemPublisher:Items.TotalCount")'>
+
+</div>
+</div>

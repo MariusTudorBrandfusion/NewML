@@ -1,0 +1,51 @@
+﻿[
+@{
+    int loopCount =  GetLoop("Rows").Count() - 1;
+    var rows = GetLoop("Rows");
+    int loopCounter = 0;
+}
+
+@foreach (var row in rows) {
+
+    var skypeUserId = row.GetInteger("AccessUserId");
+    var skypeUserUserName = row.GetString("AccessUserUserName");
+    var skypeUserFirstName = row.GetString("AccessUserFirstName");
+    var skypeUserLastName = row.GetString("AccessUserLastName");
+    var canUseMerchant = row.GetString("AccessUser_Can_use_merchant_Account");
+    var express = row.GetString("AccessUser_Express_Subscription");
+    var megaExpress = row.GetString("AccessUser_Mega_Express_Subscription");
+    var fullName = skypeUserFirstName + " " + skypeUserLastName;
+	
+    if(loopCounter == loopCount){
+
+        <text>
+            {
+            "userId": "@skypeUserId",
+            "userName": "@skypeUserUserName",
+            "firstName" : "@skypeUserFirstName",
+            "lastName" : "@skypeUserLastName",
+            "fullName" : "@fullName",
+            "canUseMerchant" : "@canUseMerchant",
+            "express" : "@express",
+            "megaExpress" : "@megaExpress"
+            }
+        </text>
+    }else{
+        <text>
+            {
+            "userId": "@skypeUserId",
+            "userName": "@skypeUserUserName",
+            "name" : "@skypeUserFirstName",
+            "lastName" : "@skypeUserLastName",
+            "fullName" : "@fullName",
+            "canUseMerchant" : "@canUseMerchant",
+            "express" : "@express",
+            "megaExpress" : "@megaExpress"
+           
+            },
+        </text>
+    }
+    loopCounter ++;
+}
+
+]

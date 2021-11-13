@@ -1,0 +1,208 @@
+﻿@{
+	var newBetPage = GetPageIdByNavigationTag("NewSkypeBet");
+	var confirmBetPage = GetPageIdByNavigationTag("ConfirmSkypeBet");
+}
+
+@*if(Pageview.Page.ID == newBetPage){*@
+
+    <div class="main_wrapper">
+        @GetValue("Form.Start")
+            @GetValue("Form.Hidden")
+
+	    @{ 
+
+		   var AdminUserId = GetGlobalValue("Global:Extranet.UserID");
+		   var AdminUserName = GetGlobalValue("Global:Extranet.UserName");
+		}
+ 
+       <!--<p>113 ESTE ID-UL ADRESEI (CONTULUI DE SKYPE)</p>-->
+
+        <div class="form--wrapper1">
+          
+         <div class="loader_wrapper">
+            <div id="iframeloading" style="display: none;">
+              <img src="/Files/Images/BetIBC/Icons/loader3.gif" alt="loading"/>
+			</div>
+          </div>
+          
+          <div class="form--wrapper_item">
+            <p> Client to bet for:</p> 
+            <div>
+              <select id="NewBetCustomerPicker">
+           	
+              </select>
+            </div>
+           <table class="table customerInfoTable">
+            <tr>
+              <th>Name:</th>
+              <td id="Name"></td>
+            </tr>
+            <tr>
+              <th>Commision:</th>
+              <td id="Commision"></td>
+            </tr>
+            <tr>
+              <th>Balance:</th>
+              <td id="Balance"></td>
+            </tr>
+             <tr>
+               <th>Currency:</th>
+               <td id="Currency"></td>
+             </tr>
+            <tr>
+              <th class="color--red">Available to bet:</th>
+              <td class="color--red" id="AvailableToBet"></td>
+            </tr>
+          </table>
+          </div>
+          <div class="form--wrapper_item"> 
+            <p> SkypeBetSport: </p>
+            <div>
+              <select size="1" id="" name="">
+                <option selected="selected" value="">Soccer</option>
+                <option value="">Basketball</option>
+              </select> 
+            </div>
+          </div>
+          <div class="form--wrapper_item-button">
+            <button class="button new--skype" type="submit">New skype bet</button>
+            <button class="button hidden edit--account" type="submit">Edit Account</button>
+            <button class="button account--statement hidden"  type="submit">Account Statement</button>
+          </div>
+        </div>
+      
+    <div class="main_wrapper-inner">    
+          <h2>New Skype bet</h2>
+            <div class="inputs-hidden">
+                <p>First Operator User Name</p> 
+                <div><input type="text" id="skypeBets_FirstAdminUsername" name="skypeBets_FirstAdminUsername" value="@AdminUserName" /></div>
+                <p>First Operator User Id</p> 
+                <div><input type="text" id="skypeBets_firstadminUserId" name="skypeBets_firstadminUserId" value="@AdminUserId" /></div>
+                <p>Create Date</p>
+                <div><input type="text" id="skypeBets_AddNewDateTime" name="skypeBets_AddNewDateTime" value='@DateTime.Now.ToString("dd/MM/yyyy, HH:mm")' /></div>
+              	<p>Processing status</p>
+                <div><input type="hidden" id="skypeBets_ProcessingBetStatus" name="skypeBets_ProcessingBetStatus" value="Unconfirmed" /></div>
+              	 <p> STAKE FINAL </p>
+                <div>
+				  <input type="hidden" id="skypeBets_StakeFinal" name="skypeBets_StakeFinal">
+                 </div>
+                    <p> COMMISSION</p>
+                <div>
+                  	<input type="hidden" id="skypeBets_SkypeUserComision" name="skypeBets_SkypeUserComision">
+                </div>
+                  <p> BALANCE AFTER </p>
+                <div>
+                  <input type="hidden" id="skypeBets_SkypeClientBalanceAfter" name="skypeBets_SkypeClientBalanceAfter"/>
+                </div>
+                  <input type="hidden" id="skypeBets_SkypeUserName" name="skypeBets_SkypeUserName"/>
+                  <input type="hidden" id="skypeBets_SkypeUserBalance" name="skypeBets_SkypeUserBalance"/>
+                  <input type="hidden" id="skypeBets_SkypeUserID" name="skypeBets_SkypeUserID"/>
+                 @* <input type="hidden" id="skypeBets_firstadminUserId" name="skypeBets_firstadminUserId" value="@FirstAdminUserId"/>
+                  <input type="hidden" id="skypeBets_FirstAdminUsername" name="skypeBets_FirstAdminUsername" value="@FirstAdminUserName"/> *@
+                  <input type="hidden" id="skypeBets_SkypeClientBalanceAfter" name="SkypeClientBalanceAfter" value=""/>
+                  <input type="hidden" id="skypeBets_SkypeUserAvailableToBet" name="skypeBets_SkypeUserAvailableToBet" value=""/>
+                  <input type="hidden" id="skypeBets_BetCurrency" name="skypeBets_BetCurrency" value=""/>
+                  <input type="hidden" id="SkypeAccountID" name="SkypeAccountID" value=""/>
+                  <input type="hidden" id="skypeBets_ComissionAmount" name="skypeBets_ComissionAmount" value=""/>
+                  <input type="hidden" id="skypeBets_ComissionToDisplay" name="skypeBets_ComissionToDisplay" value=""/>
+                  <input type="hidden" id="skypeBets_SkypeAccountID" name="skypeBets_SkypeAccountID" value=""/>
+                  
+                  
+            </div>
+
+
+          <div class="form--wrapper_item2" id="validateFieldsSectionOne">
+            <div class="form--wrapper_item2-inside">
+              <p> ODD min client requested  </p>
+              <div>
+                <input type="text" name='skypeBets_MinimumOddRequestedByClient' id='skypeBets_MinimumOddRequestedByClient'  value=""  required>
+              </div>
+              <p> ODD we give to client </p>
+              <div> 
+                <input type="text" id="skypeBets_OddWeGiveToClient" name="skypeBets_OddWeGiveToClient" value=""  required>
+              </div>
+              <p> STAKE </p>
+              <div> 
+                <input type="number" id="skypeBets_BetStake" name="skypeBets_BetStake" value="" required>
+              </div>
+            </div>
+            <div class="form--wrapper_item2-inside">
+              <p> ODD we bet in Asia </p>
+              <div> 
+                <input class="m-bottom" type="text" id="skypeBets_OddWeBetInAsia" name="skypeBets_OddWeBetInAsia" value="" required>
+              </div>
+              <p> Currency  </p>
+              <div> 
+                <input disabled type="text" id="currency" value="" required/>
+              </div>
+            </div>
+        </div>
+      <div class="form--wrapper_item3" id="validateFieldsSectionTwo">
+        <h3 class="header--table"> BET DETAILS </h3>
+        <div class="form--wrapper_item3-inside">
+          <p>League</p>
+          <div> 
+            <input type="text" id="skypeBets_BetLeague" name="skypeBets_BetLeague" value=""  required>
+          </div>
+          <p> PREMATCH or IN RUNNING </p>
+          <div>
+            <select size="1" id="skypeBets_BetPrematchOrRunning" name="skypeBets_BetPrematchOrRunning">
+              <option selected="selected" value="Prematch">Prematch</option>
+              <option value="InRunning">In Running</option>
+            </select>
+          </div>
+          <p> FT/HT </p>
+          <div>
+            <select size="1" id="skypeBets_SoccerFinalTimeHalfTime" name="skypeBets_SoccerFinalTimeHalfTime">
+              <option selected="selected" value="HT">HT</option>
+              <option value="FT">FT</option>
+            </select>
+          </div>
+          <p> LINE or HC </p>
+          <div>
+            <input type="text" id="skypeBets_LineOrHC" name="skypeBets_LineOrHC" value=""  required/>
+          </div>
+          <p> BET on WHICH TEAM </p>
+          <div> 
+            <input type="text" id="skypeBets_SoccerTeamToBet" name="skypeBets_SoccerTeamToBet" value=""  required/>
+          </div>
+        </div>
+        <div class="form--wrapper_item3-inside">
+          <p> Match </p>
+          <div><input type="text" id="skypeBets_BetMatch" name="skypeBets_BetMatch" value=""  required/> </div>
+          <p>SCORE at bet placement</p>
+          <div><input type="text" id="skypeBets_ScoreAtBetPlacement" name="skypeBets_ScoreAtBetPlacement" value=""  required/>   </div>
+          <p> BET TYPE </p>
+          <div> 
+            <input size="1" id="skypeBets_SoccerBetType" name="skypeBets_SoccerBetType" value="" required>
+          </div>
+          <p>IF hc + or -</p>
+          <div> 
+            <select size="1" id="skypeBets_SoccerHCType" name="skypeBets_SoccerHCType">
+              <option selected="selected" value="+">+</option>
+              <option selected="selected" value="-">-</option>
+            </select> 
+          </div>
+          <p>Market</p>
+          <div> 
+            <input size="1" id="skypeBets_Market" name="skypeBets_Market" value="" required>
+          </div>
+        </div>
+          <h3 class="header--table">NOTES</h3>
+        <div class="textarea-wrapper">
+          <textarea placeholder="Additional information" id="skypeBets_BetNotes" name="skypeBets_BetNotes" cols="50" rows="10"></textarea> 
+        </div>
+      </div>
+          
+              
+          @*GetValue("Form.Button.Reset")*@
+      <div class="submit--wrapper">@GetValue("Form.Button.Submit")</div>
+
+          <!--<button class="button-submit">submit</button> -->
+          
+
+    @GetValue("Form.End")
+    </div>
+     <div class="select--client-msg"><h1>Please select a client.</h1></div>
+    </div>
+         

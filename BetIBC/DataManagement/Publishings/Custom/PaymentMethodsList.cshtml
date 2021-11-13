@@ -1,0 +1,51 @@
+﻿@{
+    var ViewId = Pageview.CurrentParagraph.ModuleProperties.get_Value("ViewID");
+    var rows = GetLoop("Rows");
+
+}
+<ul>
+    @foreach (var row in rows)
+    {   
+       var rowId = row.GetString("Admin_Payment_MethodsID");
+        var rowName = "Admin_Payment_MethodsID";
+        var parameter = "FORM_ROW_ID=" + rowName + "%3d" + rowId + "&VIEW_ID=" + ViewId;
+        var editUrl = "/Default.aspx?ID=" + "124038" + "&" + parameter;
+     
+        if (row.GetString("Admin_Payment_Methods_Type") == "Skrill")
+        {
+            <li class="list-title"><strong>@row.GetString("Admin_Payment_Methods_Type")</strong></li>
+            <li><strong>Skrill address: </strong>@row.GetString("Admin_Payment_Methods_Skrill_address")</li>
+        }
+        if (row.GetString("Admin_Payment_Methods_Type") == "Neteller")
+        {
+            <li class="list-title"><strong>@row.GetString("Admin_Payment_Methods_Type")</strong></li>
+            <li><strong>Neteller address: </strong>@row.GetString("Admin_Payment_Methods_Neteller_address")</li>
+        }
+        if (row.GetString("Admin_Payment_Methods_Type") == "Ecopayz")
+        {
+            <li class="list-title"><strong>@row.GetString("Admin_Payment_Methods_Type")</strong></li>
+            <li><strong>Ecopayz account name: </strong>@row.GetString("Admin_Payment_Methods_Ecopayz_account_name")</li>
+            <li><strong>Ecopayz account number: </strong>@row.GetString("Admin_Payment_Methods_Ecopayz_account_number")</li>
+        }
+        if (row.GetString("Admin_Payment_Methods_Type") == "Bank_account")
+        {
+            <li class="list-title"><strong>@row.GetString("Admin_Payment_Methods_Type")</strong></li>
+            <li><strong>Bank Text: </strong>@row.GetString("Admin_Payment_Methods_Bank_text")</li>
+            <li><strong>IBAN: </strong>@row.GetString("Admin_Payment_Methods_IBAN")</li>
+            <li><strong>Bank street: </strong>@row.GetString("Admin_Payment_Methods_Bank_street")</li>
+            <li><strong>Bank city: </strong>@row.GetString("Admin_Payment_Methods_Bank_city")</li>
+            <li><strong>Bank country: </strong>@row.GetString("Admin_Payment_Methods_Bank_country")</li>
+            <li><strong>Bank name: </strong>@row.GetString("Admin_Payment_Methods_Bank_name")</li>
+         
+        }
+        if (row.GetString("Admin_Payment_Methods_Type") == "Crypto")
+        {
+            <li class="list-title"><strong>@row.GetString("Admin_Payment_Methods_Type")</strong></li>
+            <li><strong>Crypto currency: </strong>@row.GetString("Admin_Payment_Methods_Crypto_currency")</li>
+            <li><strong>Crypto wallet ID: </strong>@row.GetString("Admin_Payment_Methods_Crypto_wallet_ID")</li>
+        }
+       
+        <li><a href="@editUrl">Edit</a></li>
+      
+    }
+</ul>       

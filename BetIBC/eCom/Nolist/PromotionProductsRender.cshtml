@@ -1,0 +1,110 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using Dynamicweb.Frontend.Devices
+@using Dynamicweb.Extensibility
+@using Dynamicweb.Content
+@using System
+@using System.Web
+@using System.Text.RegularExpressions
+
+@{
+    int areaId = Int32.Parse(GetGlobalValue("Global:Area.ID"));
+    int productCatalogId = GetPageIdByNavigationTag("FrontpagePromotionFeed");
+
+    string feedFullUrl = "/Default.aspx?ID=" + productCatalogId + "&feedType=productCatalog&PageSize=4";
+}
+
+
+<div class="grid js-ajax-container" id="PromotionProductList" data-template="PromotionProductContainer" data-pre-render-template="ProductPreRenderContainer" data-json-feed="@feedFullUrl" data-no-result-template="NoProductsFound" data-preloader="minimal"></div>
+
+<script id="ProductPreRenderContainer" type="text/x-template">                                                   
+    <div class="grid__col-md-3">
+        <div class="pre-render-element pre-render-element--md"></div>
+    </div>
+    <div class="grid__col-md-3">
+        <div class="pre-render-element pre-render-element--md"></div>
+    </div>
+    <div class="grid__col-md-3">
+        <div class="pre-render-element pre-render-element--md"></div>
+    </div>
+    <div class="grid__col-md-3">
+        <div class="pre-render-element pre-render-element--md"></div>
+    </div>
+</script>
+
+<script id="PromotionProductContainer" type="text/x-template">
+    <div id="ProductsContainer" class="grid product-list" data-template="ProductGridItemContainer" data-preloader="minimal"></div>
+</script>
+
+@* Grid view *@
+
+<script id="ProductGridItemContainer" type="text/x-template">
+    <div id="Product" class="grid__col-lg-3 grid__col-md-3 grid__col-sm-3 grid__col-xs-6" data-template="ProductGridItem" data-preloader="false"></div>
+</script>
+
+<script id="ProductGridItem" type="text/x-template">
+    <div class="grid__cell u-color-light--bg {{noImage}}">
+        <div class="sticker {{onSale}}">@Translate("Sale!")</div>
+        <a href="{{link}}" onclick="Scroll.SavePosition(event)"><img class="grid__cell-img grid__cell-img--centered" src="/Admin/Public/GetImage.ashx?width=300&amp;height=300&amp;crop=5&amp;Compression=75&amp;image={{image}}" alt="{{name}}" /></a>
+    </div>
+
+    <div class="grid__cell card u-color-light--bg">
+        <div class="u-ta-center">
+            <a href="{{link}}" onclick="Scroll.SavePosition(event)" title="{{name}}"><h6 class="u-ta-center u-condensed-text">{{name}}</h6></a>
+            <div class="item-number">{{number}}</div>
+            <div class="before-price {{onSale}}">{{discount}}</div>
+            <div class="price">{{price}}</div>
+        </div>
+    </div>
+
+    <div class="card-footer u-color-light--bg">
+        <div class="u-ta-center">
+            <a href="{{link}}" id="CartButton_{{id}}" class="btn btn--secondary btn--full u-no-margin dw-mod">@Translate("View")</a>
+        </div>
+    </div>
+</script>
+
+@* Units templates *@
+
+<script id="UnitOption" type="text/x-template">
+    <div class="dropdown__item" onclick="Dynamo.UpdateContent('Product{{productId}}', '{{link}}&feedType=productCatalog&UnitID={{value}}')">{{name}}</div>
+</script>
+
+@* Variants templates *@
+
+<script id="VariantGroup" type="text/x-template">
+    <div>
+        <div>{{name}}</div>
+        <div id="VariantOptions" data-template="VariantOption"></div>
+    </div>
+</script>
+    
+<script id="VariantOption" type="text/x-template">
+    <button type="button" id="{{id}}" data-product-id="{{productid}}" onclick="UpdateVariants(this)" class="btn btn--tag {{disabled}} {{selected}}" data-check="{{selected}}" {{disabled}}>{{name}}</button>
+</script>
+
+<script id="VariantCombinations" type="text/x-template"></script>
+
+@* Favorites templates *@
+
+<script id="FavoriteTemplate" type="text/x-template">
+    <div class="u-pull--right u-ta-left">
+        <i class="{{favoriteIcon}} fa-1_5x"></i>
+        <div class="favorites-list">
+            <ul id="FavoriteLists" data-template="FavoriteListItem" class="list list--clean"></ul>
+        </div>
+    </div>
+</script>
+
+<script id="FavoriteListItem" type="text/x-template">
+    <li>
+        <a href="{{link}}" class="list__link"><i class="{{favoriteIcon}}"></i> {{name}}</a>
+    </li>
+</script>
+
+@* No products found *@
+
+<script id="NoProductsFound" type="text/x-template">
+    <div class="grid__col-12">
+        <h2 class="u-ta-center">@Translate("No products found")</h2>
+    </div>
+</script>

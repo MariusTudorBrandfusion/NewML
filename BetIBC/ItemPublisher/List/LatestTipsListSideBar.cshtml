@@ -1,0 +1,83 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Text.RegularExpressions
+@using System
+@{
+ var tipsLoop = GetLoop("ItemPublisher:Items.List");
+    var latestPageId = GetPageIdByNavigationTag("LatestTips").ToString();
+}
+
+<div class = "tips-sidebar-homepage @tipsLoop.Count()"> 
+<h2><a href = "Default.aspx?ID=@latestPageId">@Translate("LatestTips")</a></h2>
+ @foreach (LoopItem tip in GetLoop("ItemPublisher:Items.List")){
+  	var tipsterRaw = tip.GetString("ItemPublisher:Item.Tipster_ID.Value");
+    Dynamicweb.Content.Items.Item tipsterName = Dynamicweb.Content.Items.ItemManager.Storage.GetById("Tipster", tipsterRaw);
+    var tipsterNameClean = tipsterName != null ? tipsterName["Tipster_Name"] : "NOT FOUND";
+    var tipsterImg = tipsterName != null ? tipsterName["Tipster_Image"] : "NOT FOUND";
+    var bettingPrediction = tip.GetString("ItemPublisher:Item.BettingPrediction.Value");
+    var predictionTitle = tip.GetString("ItemPublisher:Item.Prediction_Title.Value");
+    var predictionURL = tip.GetString("ItemPublisher:Item.Field.PageId");
+var tipsterNameNavigationString = tipsterNameClean.ToString();
+    var tipsterNameNavigation = tipsterNameNavigationString.Replace(" ", "");
+    var tipsterURL = GetPageIdByNavigationTag(tipsterNameNavigation).ToString();
+    var predictionContent = tip.GetString("ItemPublisher:Item.Description"); 
+    var predictionContentClean = predictionContent != "" ? Regex.Replace(predictionContent, "<.*?>", String.Empty) : "NOT FOUND";
+  string predictionDateApproved = tip.GetString("ItemPublisher:Item.Approve_Date.Value");
+    string dateAdded = tip.GetString("ItemPublisher:Item.Date_Added.Value");
+    string startGmTip = tip.GetString("ItemPublisher:Item.Start_GMT.Value"); 
+    string pattern = "dd/MM/yyyy H:mm:ss";
+  	DateTime date;
+    DateTime dateApproved;
+
+	try
+  {
+    date = DateTime.ParseExact(startGmTip,pattern,null);
+  	startGmTip = date.ToString("dddd dd MMMM");
+  }
+  catch { startGmTip = DateTime.Now.ToString();
+  date = DateTime.Now;
+  }
+ try
+  {
+    dateApproved = DateTime.ParseExact(predictionDateApproved,pattern,null);
+  	predictionDateApproved = date.ToString("dddd dd MMMM");
+  }
+  catch { predictionDateApproved = DateTime.Now.ToString();
+  dateApproved = DateTime.Now;
+  }
+
+
+
+
+  
+  <div class= "tips-sidebar-section ">
+  <div class = "tips-sidebar-img">
+  <img src = "@tipsterImg">
+  </div>
+    <div class = "tips-sidebar-content">
+      <a href = "Default.aspx?ID=@tipsterURL"><h2>@tipsterNameClean</h2></a>
+        
+        @if((DateTime.Now - dateApproved).Days == 0 && (DateTime.Now - dateApproved).Hours < 1 )
+      {
+      <span class = "tips-sidebar-time">@((DateTime.Now - dateApproved).Minutes) minutes ago</span>
+      }
+      else if((DateTime.Now - dateApproved).Days == 0 && (DateTime.Now - dateApproved).Hours > 1 ){
+      <span class = "tips-sidebar-time">@((DateTime.Now - dateApproved).Hours) hours ago</span>
+      }
+      else {
+        <span class = "tips-sidebar-time">@((DateTime.Now - dateApproved).Days) days ago</span>
+      }
+      <h3>@predictionTitle</h3>
+   
+       @if(predictionContentClean.Length <= 70){
+      <p> @predictionContentClean</p>
+       }else{
+      <p>@predictionContentClean.Substring(0,70)...</p>
+       }
+
+      <span>@startGmTip - @bettingPrediction</span>
+     <a class = "tips-sidebar-link" href = "Default.aspx?ID=@predictionURL"> <span ><i class="fa fa-chevron-right"></i></span></a>
+    </div>
+</div>
+  }
+</div>
+<div class= "more-tips-sidebar"><a href = "Default.aspx?ID=@latestPageId">@Translate("MoreTips") <i class="fa fa-arrow-right"></i></a></div>

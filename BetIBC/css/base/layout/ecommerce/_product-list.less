@@ -1,0 +1,48 @@
+//Product list
+
+.product-list {
+    top: -@reflex-cell-spacing-md;
+}
+
+.product-list__condensed-title {
+    width: ~"calc(100% - 40px)"; 
+}
+
+
+//Facets
+.facets-container-trigger {
+    visibility: hidden;
+    position: absolute;
+}
+
+.facets-container-trigger:checked ~ .facets-container {
+    display: block;
+}
+
+.facets-container-trigger:checked ~ .facet-selector.more {
+    display: none;
+}
+
+.facet-selector.less {
+    display: none;
+}
+
+.facets-container-trigger:checked ~ .facet-selector.less {
+    display: block;
+}
+
+@media (min-width: @reflex-md) {
+    .facet-selector.more {
+        display: none;
+    }
+
+    .facet-selector.less {
+        display: none;
+    }
+}
+
+@media (max-width: @reflex-md) {
+    .facets-container {
+        display: none;
+    }
+}

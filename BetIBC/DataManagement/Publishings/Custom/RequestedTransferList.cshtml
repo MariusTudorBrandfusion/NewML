@@ -1,0 +1,306 @@
+﻿@SnippetStart("BootstrapCss")
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+@SnippetEnd("BootstrapCss")
+
+
+@SnippetStart("BootstrapJs")
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+@SnippetEnd("BootstrapJs") 
+ 
+
+@{
+var ViewId = Pageview.CurrentParagraph.ModuleProperties.get_Value("ViewID"); 
+var rowsRaw = GetLoop("Rows");
+var rows = rowsRaw.Where(row => row.GetValue("transfers_Transfer_Status").ToString() == "Requested");
+}
+
+     
+<div class="form_wrapper" style="width: 100%;">
+            <div class="container">
+              <h1 class="text-center">@Translate("Requested Transfers")</h1>
+                @*<div class="date_wrapper">
+                    <label for="date">Date @ViewId</label>
+                    <input type="date" name="datecalendar-from" id="datecalendar-from">
+                    <label for="date">To</label>
+                    <input type="date" name="datecalendar-to" id="datecalendar-to">
+                    <button class="button" type="">Filter</button>
+                </div>*@
+                      
+                      
+                      
+                <table class="main_table add-new-bet">
+                    <thead>
+                    <tr class="hidden">
+                        @foreach (LoopItem Column in GetLoop("Columns")){
+                            <td>
+                                @Column.GetValue("Column.Name")         
+                            </td>
+                        }
+                    </tr>
+                    <tr>
+                    <th>@Translate("TransferID","Transfer ID")</th>
+                    <th>@Translate("TransferClientID","Client Id")</th>
+                    <th>@Translate("TransferClientEmail", "Client Email")</th>
+                    <th>@Translate("TransferClientUsername", "Client Username")</th>
+                    <th>@Translate("TransferFromBookmaker","From Bookmaker")</th>
+                    <th>@Translate("TransferTransferFrom:","Transfer From:") </th>
+                    <th>@Translate("TransferToBookmaker","To Bookmaker") </th>
+                    <th>@Translate("TransferTransferTo:","Transfer To:") </th>
+                    <th>@Translate("TransferFromAccountCurrency","From Account Currency") </th>
+                    <th>@Translate("TrasferToAccountCurrency","To Account Currency") </th>
+                    <th>@Translate("TrasferAmount","Amount")</th>
+                    <th>@Translate("TrasferRequestDate","Request Date")</th>
+                    <th>@Translate("TrasferConfirm","Confirm")</th>  
+                    </tr>
+                    <tr class="hidden">
+                       <th>@Translate("TransferID","Transfer ID")</th>
+                        <th>Agent Profit</th>
+                        <th>Ammount to be deposited after commisions</th>
+                        <th>Amount</th>
+                        <th>Balance after Transfer</th>
+                        <th>From Bookmaker </th>
+                        <th>To Bookmaker </th>
+                        <th> Client Email </th>
+                        <th> Client Id </th>
+                        <th> Client Username </th>
+                        <th> Commision ammount </th>
+                        <th> Commision in procent </th>
+                        <th> Currency </th>
+                        <th> Transfer Currency </th>
+                        <th> Transfer Status </th>
+                        <th> First operation Date </th>
+                        <th> Fourth operation Date </th>
+                        <th> Initial From Bookmaker Balance </th>
+                        <th> Initial To Bookmaker Balance </th>
+                        <th> Intermediary </th>
+                        <th> IsFirstTransfer </th>
+                        <th> Oanda_Exchange Rate </th>
+                        <th> Operator1 Email </th>
+                        <th> Operator1 Id </th>
+                        <th> Operator1 Name </th>
+                        <th> Operator2 Email </th>
+                        <th> Operator2 Id </th>
+                        <th> Operator2 Name </th>
+                        <th> Operator3 Email </th>
+                        <th> Operator3 Id </th>
+                        <th> Operator3 Name </th>
+                        <th> Operator4 Email </th>
+                        <th> Operator4 Id </th>
+                        <th> Operator4 Name </th>
+                        <th> Payment Method Available Currency </th>
+                        <th> Trasfer TransactionID </th>
+                        <th> Second operation Date </th>
+                        <th> Third operation Date </th>
+                        <th> Transaction Number provided </th>
+                        <th> Transaction Number provided by admin </th>
+                        <th> Transaction Screenshot by admin </th>
+                        
+                        
+                    </tr>
+                    </thead>
+                    <tbody id="all-bets">
+			
+                    @foreach (LoopItem row in rows)
+                    {
+
+                        var rowId = row.GetInteger("transfersID");
+                        var rowName = "transfersID";
+                        var paramerter = "FORM_ROW_ID=" + rowName + "%3d" + rowId + "&VIEW_ID=" + ViewId;
+                        var processingBetStatus = @row.GetValue("transfers_Transfer_Status").ToString();
+        
+                        
+                    <tr>           
+                        <td>
+                            <div class="p-10">
+                                <div>@row.GetValue("transfersID")</div>
+                            </div>
+                        </td>
+                        <td>
+                             <div class="p-10">
+                                <div>@row.GetValue("transfers_Client_Id")</div>
+                             </div>
+                        </td>    
+                        <td>
+                            <div class="p-10">
+                               <div>@row.GetValue("transfers_Client_Email")</div>
+                            </div>
+                        </td>
+                            <td>
+                                <div class="p-10">
+                                    <div>@row.GetValue("transfers_Client_Username")</div>
+                                </div>
+                            </td>
+        
+                            <td>
+                                <div class="p-10">
+                                    <div>@row.GetValue("transfers_Bookmaker")</div>
+                                </div>
+                    </td> 
+                               <td>
+                                <div class="p-10">
+                                    <div>@row.GetValue("transfers_Transfer_from_Username")</div>
+                                </div>
+                    </td> 
+                         <td>
+                                <div class="p-10">
+                                    <div>@row.GetValue("transfers_Receiver_Bookmaker_New")</div>
+                                </div>
+                    </td> 
+                            <td>
+                                <div class="p-10">
+                                    <div>@row.GetValue("transfers_Transfer_to_Username")</div>
+                                </div>
+                    </td> 
+                        <td>
+                    <div class="p-10">
+                                <div>@row.GetValue("transfers_Account_Currency")</div>
+                            </div>
+                        </td>
+                            <td>
+                    <div class="p-10">
+                                <div>@row.GetValue("transfers_To_Account_Currency")</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-10">
+                                <div>@row.GetValue("transfers_Amount")</div>
+                            </div>
+                        </td>
+                       
+                        <td><div class="p-10">
+                            <div>@row.GetValue("transfers_Request_Created_on_Date_New")</div>
+                        </div></td>
+                  
+                      
+                      
+                      
+                        <td><div class="p-10"><a class="table-link" href="/Default.aspx?ID=15973&@(paramerter)">CONFIRMATION</a></div></td>
+                        @*
+                      <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Agent_profit")</div>
+                           </div></td>  
+                        <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Ammount_to_be_deposited_after_commisions")</div>
+                          </div></td>  
+                          
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Balance_after_Transfer")</div>
+                          </div></td>
+                        
+                            
+                           
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Commision_ammount")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Commision_in_procent")</div>
+                          </div></td>
+                            
+                              <td><div class="p-10">
+                                <div></div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Transfer_Status")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_First_operation_Date")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Fourth_operation_Date")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Initial_Balance")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Intermediary")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_IsFirstTransfer")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Oanda_Exchange_Rate")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Operator1_Email")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Operator1_Id")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Operator1_Name")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Operator2_Email")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Operator2_Id")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Operator2_Name")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Operator3_Email")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Operator3_Id")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Operator3_Name")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Operator4_Email")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Operator4_Id")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Operator4_Name")</div>
+                          </div></td>
+                            
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Payment_Method_Available__Currency")</div>
+                          </div></td>
+                            
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Request_Created_on_Date")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Second_operation_Date")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Third_operation_Date")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Transaction_Number_provided")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Transaction_Number_provided_by_admin")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("transfers_Transaction_Screenshot_by_admin")</div>
+                             
+                               
+                            </div></td>
+                           
+                        <td>
+                            <div class="p-10">
+                                <div>1.@row.GetValue("transfers_Operator1_Name")</div>
+                                <div class="date--time"></div>
+                            </div>
+                        </td>
+                        
+                            
+                       
+                         *@
+
+                    </tr>
+                      
+                    
+  
+                    }
+                    </tbody>
+                </table>
+ 
+            </div>
+        </div>
+

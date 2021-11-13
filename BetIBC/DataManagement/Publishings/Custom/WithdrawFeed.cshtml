@@ -1,0 +1,96 @@
+﻿[
+	@{
+   int loopCount =  GetLoop("Rows").Count() - 1;
+		var rows = GetLoop("Rows");
+		int loopCounter = 0;
+//var rowsCounter = rows.Where(row => row.GetString("AccessUserAddress_Bookmaker") == "Skype Betting");
+//var rowsCounterToDisplay = rowsCounter.Count() -1 ;
+	}
+
+	@foreach (var row in rows) {
+var accountCurrency = row.GetValue("withdraw_Account_Currency_New");
+var agentProfit = row.GetValue("withdraw_Agent_profit");
+var withdrewAfterCommision = row.GetValue("withdraw_Ammount_to_be_withdrew_after_commisions");
+var amount = row.GetValue("withdraw_Amount");
+var ballanceAfterWithdraw = row.GetValue("withdraw_Balance_after_Withdraw");
+var bookmaker = row.GetValue("withdraw_Bookmaker");
+var clientEmail = row.GetString("withdraw_Client_Email");
+var clientID = row.GetValue("withdraw_Client_Id");
+var clientUsername = row.GetValue("withdraw_Client_Username");
+var commisionAmount = row.GetValue("withdraw_Commision_ammount");
+var commisionPrecent = row.GetValue("withdraw_Commision_in_procent");
+var withdrawCurrency = row.GetValue("withdraw_Withdraw_Currency");
+var withdrawstatus = row.GetString("withdraw_Withdraw_Status");
+var initialBalance = row.GetValue("withdraw_Initial_Balance");
+var oandaExchangeRate = row.GetValue("withdraw_Oanda_Exchange_Rate");
+var paymentMethod = row.GetString("withdraw_Payment_Method");
+var paymentMethodAvailableCurrency = row.GetString("withdraw_Payment_Method_Available__Currency");
+var transactionId = row.GetValue("withdraw_Payment_Transaction_ID");
+var requestDate = row.GetValue("withdraw_Request_Created_on_Date");
+var transactionNumberProvided = row.GetString("withdraw_Transaction_Number_provided");
+var transactionNumberProvidedByAdmin = row.GetString("withdraw_Transaction_Number_provided_by_admin");
+var transactionScreenshotByAdmin = row.GetString("withdraw_Transaction_Screenshot_by_admin");
+		if(loopCounter == loopCount){
+
+			<text>
+			   {
+      "accountCurrency":"@accountCurrency",
+              "agentProfit": "@agentProfit",
+              "withdrewAfterCommision": "@withdrewAfterCommision",
+              "amount": "@amount",
+              "ballanceAfterWithdraw": "@ballanceAfterWithdraw",
+              "bookmaker": "@bookmaker" ,
+              "clientEmail": "@clientEmail",
+              "clientID": "@clientID",
+              "clientUsername": "@clientUsername",
+              "commisionAmount": "@commisionAmount",
+              "commisionPrecent": "@commisionPrecent",
+              "withdrawCurrency": "@withdrawCurrency",
+              "withdrawstatus": "@withdrawstatus",
+              "initialBalance": "@initialBalance",
+              "oandaExchangeRate": "@oandaExchangeRate",
+              "paymentMethod": "@paymentMethod",
+              "paymentMethodAvailableCurrency": "@paymentMethodAvailableCurrency",
+              "transactionId": "@transactionId",
+              "requestDate": "@requestDate",
+              "transactionNumberProvided": "@transactionNumberProvided",
+              "transactionNumberProvidedByAdmin": "@transactionNumberProvidedByAdmin",
+              "transactionScreenshotByAdmin": "@transactionScreenshotByAdmin"
+              
+              	}
+			</text>
+		}else{
+              <text>
+              {
+	          "accountCurrency":"@accountCurrency",
+              "agentProfit": "@agentProfit",
+              "withdrewAfterCommision": "@withdrewAfterCommision",
+              "amount": "@amount",
+              "ballanceAfterWithdraw": "@ballanceAfterWithdraw",
+              "bookmaker": "@bookmaker" ,
+              "clientEmail": "@clientEmail",
+              "clientID": "@clientID",
+              "clientUsername": "@clientUsername",
+              "commisionAmount": "@commisionAmount",
+              "commisionPrecent": "@commisionPrecent",
+              "withdrawCurrency": "@withdrawCurrency",
+              "withdrawstatus": "@withdrawstatus",
+              "initialBalance": "@initialBalance",
+              "oandaExchangeRate": "@oandaExchangeRate",
+              "paymentMethod": "@paymentMethod",
+              "paymentMethodAvailableCurrency": "@paymentMethodAvailableCurrency",
+              "transactionId": "@transactionId",
+              "requestDate": "@requestDate",
+              "transactionNumberProvided": "@transactionNumberProvided",
+              "transactionNumberProvidedByAdmin": "@transactionNumberProvidedByAdmin",
+              "transactionScreenshotByAdmin": "@transactionScreenshotByAdmin"
+                
+              	},
+              </text>
+            }
+
+loopCounter ++;
+}
+
+
+]

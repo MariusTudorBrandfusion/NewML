@@ -1,0 +1,57 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Web;
+@using System.Collections.Specialized;
+@using System.Text.RegularExpressions;
+@using System.Net;
+@using System;
+@functions{  
+
+   	public class Prediction
+    {
+       public string title {get; set;}
+    }	
+    public class Root
+    {
+	
+      public List<Prediction> Prediction {get; set;}
+       
+    }   
+}
+@{ 
+
+	var results = GetLoop("QueryResultItem");
+   	var counter = 1;
+	
+	
+    List<Root> feedObject = new List<Root>();
+   	Root feedRoot = new Root();
+    feedRoot.Prediction = new List<Prediction>();
+	
+    
+    foreach (LoopItem article in results){
+
+
+        Prediction predictionObject = new Prediction();
+        predictionObject.title ="test";
+        
+	    counter++;
+      
+        feedRoot.Prediction.Add(predictionObject);
+
+    }
+    feedObject.Add(feedRoot);
+
+    string jsonFeed = "";
+
+    if (results.Count == 0)
+    {
+        jsonFeed = "[]";
+    }
+    else
+    {
+        jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+    }
+}
+
+@jsonFeed
+

@@ -1,0 +1,50 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+<div class="grid"> 
+
+@foreach (LoopItem item in GetLoop("ItemPublisher:Items.List"))
+{
+
+	string bookmakerName = @item.GetString("ItemPublisher:Item.Bookmaker_Name"),
+           bookmakerLogo = @item.GetString("ItemPublisher:Item.Bookmaker_Logo"),
+           bookmakerShortDescription = @item.GetString("ItemPublisher:Item.ShortDescription"),
+           bookmakerUrl = @item.GetString("ItemPublisher:Item.Url"),
+           bRegisterPage = @item.GetString("ItemPublisher:Item.Register_Page_Link"),
+           bCasinoReview = @item.GetString("ItemPublisher:Item.Casino_Review_Link"),
+           bLiveCasino = @item.GetString("ItemPublisher:Item.Live_Casino_Review_Link_"),
+           bMaxbetCasino = @item.GetString("ItemPublisher:Item.Maxbet_Casino_Games_Link"),
+           bPokerRoom = @item.GetString("ItemPublisher:Item.Poker_Room_Review_Link");
+           
+
+    <div class="grid__col-md-4 grid__col-xs-12 paragraph-container">
+        <div class="grid__cell bookmaker_box_list">
+            @* <small class="article__subheader">@Translate("Written by") @item.GetString("ItemPublisher:Item.Author") @Translate("on") @item.GetDate("ItemPublisher:Item.Date").ToShortDateString()</small> *@
+           
+            @if(!string.IsNullOrEmpty(bookmakerLogo)) {
+                <div class="image-box"><img src="@bookmakerLogo" /></div>
+            } 
+            <div class="short-description">
+                @bookmakerShortDescription 
+            </div>
+            <div class="btns">
+                @if(!string.IsNullOrEmpty(bRegisterPage)) { <a href="@bRegisterPage" class="btn btn--primary dw-mod">@Translate("Open Account", "Open Account")</a> }
+
+                @if(!string.IsNullOrEmpty(bookmakerUrl)) { <a href="@bookmakerUrl" class="btn btn--secondary">@Translate("Review", "Review")</a> }
+
+
+
+                @if(!string.IsNullOrEmpty(bCasinoReview)) { <a href="@bCasinoReview" class="btn ">@Translate("Casino", "Casino")</a> }
+
+                @if(!string.IsNullOrEmpty(bPokerRoom)) { <a href="@bPokerRoom" class="btn">@Translate("Poker Room", "Poker Room")</a> }
+
+                @if(!string.IsNullOrEmpty(bLiveCasino)) { 
+                    <a href="@bLiveCasino" class="btn live-casino-btn">@Translate("Live casino", "Live casino")</a> 
+                }
+                @if(!string.IsNullOrEmpty(bMaxbetCasino)) { 
+                    <a href="@bMaxbetCasino" class="btn casino-custom-btn">@Translate("Casino Games", "Casino Games")</a> 
+                }
+            </div>
+        </div>
+    </div>
+}
+</div>

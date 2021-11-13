@@ -1,0 +1,115 @@
+﻿[
+	@{
+		var Allrows = GetLoop("Rows");
+		var rows = Allrows.Where(row => row.GetString("AccessUserAddress_Bookmaker") != string.Empty);
+		int loopCounter = 0;
+		var rowsCounterToDisplay = rows.Count() -1;
+	}
+
+	@foreach (var row in rows) {
+
+		var AccountUserId = row.GetInteger("AccessUserAddressUserId");
+		var AccountUserName = row.GetString("AccessUserAddress_Username");
+		var AccountPassword = row.GetString("AccessUserAddress_Password");
+		var AccountStartingBalance = row.GetString("AccessUserAddress_Balance");
+		var AccountCommission = row.GetInteger("AccessUserAddress_Commission");
+		var AccountOpenBets = row.GetString("AccessUserAddress_Open_Bets");
+		var commissionToBeDisplayed = AccountCommission.ToString() + "%";
+		var AccountCurrencyRaw = row.GetString("AccessUserAddress_Currency");
+		var AccountCurrency = AccountCurrencyRaw == "Euro (€)" ? "Euro" : AccountCurrencyRaw;
+		var AccountId = row.GetInteger("AccessUserAddressId");
+		var AccountBookmaker = row.GetString("AccessUserAddress_Bookmaker");
+		var hasUsername = AccountUserName != "" ? "True" : "False";
+		var hasPassword = AccountPassword != "" ? "True" : "False";
+		var isRequest = hasPassword == "False" && hasUsername == "False" ? "True" : "False";
+		var firstDepositDateRaw = row.GetDate("AccessUserAddress_First_Deposit_Date").ToString();
+//am scos N/A de la fistDepositDate
+		var firstDepositDate = firstDepositDateRaw != "01/01/0001 00:00:00" ? firstDepositDateRaw : "N/A";
+		var isVerified = firstDepositDate != "N/A" ? "True" : "Not Verified";
+		var twoFlat = row.GetString("AccessUserAddress_2flat").ToString();
+		var threeExtra = row.GetString("AccessUserAddress_3extra").ToString();
+		var threeFlat = row.GetString("AccessUserAddress_3flat").ToString();
+		var threeInformedAboutMerchant = row.GetString("AccessUserAddress_3informedAboutMerchant").ToString();
+		var fiveDepositedBeforeMerchant = row.GetString("AccessUserAddress_5DepositedbeforeMerchant").ToString();
+		var fiveExtra = row.GetString("AccessUserAddress_5extra").ToString();
+		var fiveFlat = row.GetString("AccessUserAddress_5flat").ToString();
+		var sixFlat = row.GetString("AccessUserAddress_6flat").ToString();
+		var tenExtra = row.GetString("AccessUserAddress_10extra").ToString();
+		var tenFlat = row.GetString("AccessUserAddress_10flat").ToString();
+		var ninetyFiveShare = row.GetString("AccessUserAddress_95share").ToString();
+		var megaSubscription = row.GetString("AccessUserAddress_MegaExpressSubscription").ToString();
+		var moneyToRecover = row.GetString("AccessUserAddress_Money_to_recover").ToString();
+		var isExpress = row.GetString("AccessUserAddress_Express_subscription").ToString();
+        var AccountOpenedDate = row.GetString("AccessUserAddress_Alocated_since");
+		if(loopCounter == rowsCounterToDisplay){
+
+			<text>
+				{
+				"isVerified" : "@isVerified",
+				"FirstDepositDate" : "@firstDepositDate",
+				"isRequest" : "@isRequest",
+				"userId": "@AccountUserId",
+				"AccountUserName": "@AccountUserName",
+				"AccountBookmaker" : "@AccountBookmaker",
+              	"AccountStartingBalance" : "@AccountStartingBalance",
+              	"AccountCommission" : "@AccountCommission",
+              	"AccountOpenBets" : "@AccountOpenBets",
+              	"CommissionToBeDisplayed" : "@commissionToBeDisplayed",
+              	"AccountCurrency" : "@AccountCurrency",
+				"AccountID" : "@AccountId",
+				"twoFlat" : "@twoFlat",
+				"threeExtra" : "@threeExtra",
+				"threeFlat" : "@threeFlat",
+				"threeInformedAboutMerchant" : "@threeInformedAboutMerchant",
+				"fiveDepositedBeforeMerchant" : "@fiveDepositedBeforeMerchant",
+				"fiveExtra" : "@fiveExtra",
+				"fiveFlat" : "@fiveFlat",
+				"sixFlat" : "@sixFlat",
+				"tenExtra" : "@tenExtra",
+				"tenFlat" : "@tenFlat",
+				"ninetyFiveShare" : "@ninetyFiveShare",
+				"megaSubscription" : "@megaSubscription",
+				"moneyToRecover" : "@moneyToRecover",
+				"isExpress" : "@isExpress",
+                "AccountOpenedDate":"@AccountOpenedDate"
+              	}
+			</text>
+		}else{
+              <text>
+              {
+	              "isVerified" : "@isVerified",
+	              "FirstDepositDate" : "@firstDepositDate",
+	              "isRequest" : "@isRequest",
+	              "userId": "@AccountUserId",
+	              "AccountUserName": "@AccountUserName",
+	              "AccountBookmaker" : "@AccountBookmaker",
+	              "AccountStartingBalance" : "@AccountStartingBalance",
+	              "AccountCommission" : "@AccountCommission",
+	              "AccountOpenBets" : "@AccountOpenBets",
+	              "CommissionToBeDisplayed" : "@commissionToBeDisplayed",
+	              "AccountCurrency" : "@AccountCurrency",
+              "AccountID" : "@AccountId",
+              "twoFlat" : "@twoFlat",
+              "threeExtra" : "@threeExtra",
+              "threeFlat" : "@threeFlat",
+              "threeInformedAboutMerchant" : "@threeInformedAboutMerchant",
+              "fiveDepositedBeforeMerchant" : "@fiveDepositedBeforeMerchant",
+              "fiveExtra" : "@fiveExtra",
+              "fiveFlat" : "@fiveFlat",
+              "sixFlat" : "@sixFlat",
+              "tenExtra" : "@tenExtra",
+              "tenFlat" : "@tenFlat",
+              "ninetyFiveShare" : "@ninetyFiveShare",
+              "megaSubscription" : "@megaSubscription",
+              "moneyToRecover" : "@moneyToRecover",
+              "isExpress" : "@isExpress",
+                   "AccountOpenedDate":"@AccountOpenedDate"
+              	},
+              </text>
+            }
+
+loopCounter ++;
+}
+
+
+]

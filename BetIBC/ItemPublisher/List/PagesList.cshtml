@@ -1,0 +1,6 @@
+@GetLoop("Items.List")
+@foreach (var d in GetLoop("Items.Paging.Pages"))
+{
+    <p>GetString(d)</p>;
+}
+@TemplateTags()

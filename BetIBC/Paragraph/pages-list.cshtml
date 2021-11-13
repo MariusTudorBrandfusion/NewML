@@ -1,0 +1,21 @@
+﻿@{
+var loop = GetLoop("Item.Paragraph");
+} 
+
+<div class="center-container container">
+    <h2>@GetString("Item.ParagraphName")</h2>
+    <div class="pages-list-wrapper">
+        <div class="row">
+            @foreach (var element in loop)
+            {
+                var buttonText = element.GetString("Item.Paragraph.LinkText");
+                var buttonLink = element.GetString("Item.Paragraph.Link.Value");
+
+                <div class="col-xs-12 col-md-3">
+                    <a href="@buttonLink">@buttonText</a>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,176 @@
+﻿<div class="main_wrapper">
+
+@GetValue("Form.Start")
+
+	@GetValue("Form.Hidden")
+  
+  		@{
+		   var AdminUserId = GetGlobalValue("Global:Extranet.UserID");
+		   var AdminUserName = GetGlobalValue("Global:Extranet.UserName");
+  		   var betId = @GetString("Form.RowID").Replace("skypeBetsID=","");
+		}
+
+        <h2>Confirmation</h2>
+        <div class="inputs-hidden">
+          	<input type="hidden" id="skypeBets_SkypeAccountID" name="skypeBets_SkypeAccountID" value='@GetString("Form.Fields.skypeBets_SkypeAccountID.Value")'/>
+                    <p>Second Operator User Name</p> 
+                    <div><input type="text" id="skypeBets_SecondAdminUsername" name="skypeBets_SecondAdminUsername" value="@AdminUserName"/></div>
+                    <p>Second Operator User Id</p> 
+                    <div><input type="text" id="skypeBets_secondadminUserId" name="skypeBets_secondadminUserId" value="@AdminUserId"/></div>
+                    <p>Create Date</p>
+                    <div><input type="text" id="skypeBets_ConfirmationNewDateTime" name="skypeBets_ConfirmationNewDateTime" value='@DateTime.Now.ToString("dd/MM/yyyy, HH:mm")'/></div>
+                    <p>Processing status</p>
+                    <div><input type="hidden" id="skypeBets_ProcessingBetStatus" name="skypeBets_ProcessingBetStatus" value="Confirmed" /></div>
+          
+          		<p>First Admin UserName</p>
+          		<div><input type="hidden" id="skypeBets_FirstAdminUsername" name="skypeBets_FirstAdminUsername" value='@GetString("Form.Fields.skypeBets_FirstAdminUsername.Value")'/></div>
+          		<p>First Admin UserId</p>
+          		<div><input type="hidden" id="skypeBets_firstadminUserId" name="skypeBets_firstadminUserId" value='@GetString("Form.Fields.skypeBets_firstadminUserId.Value")' /></div>
+          		<p>Add New Bet Date <p>
+                <div><input type="hidden" id="skypeBets_AddNewDateTime" name="skypeBets_AddNewDateTime" value='@GetString("Form.Fields.skypeBets_AddNewDateTime.Value")'/></div>
+
+                <p> ODD min client requested  </p>
+                <div>
+                    <input type="hidden" name='skypeBets_MinimumOddRequestedByClient' id='skypeBets_MinimumOddRequestedByClient'  value='@GetString("Form.Fields.skypeBets_MinimumOddRequestedByClient.Value")'>
+                </div>
+                <p>User ID</p>
+                <input type="hidden" id="skypeBets_SkypeUserID" name="skypeBets_SkypeUserID" value='@GetString("Form.Fields.skypeBets_SkypeUserID.Value")'/>
+                <p> ODD we give to client </p>
+                <div> 
+                    <input type="hidden" id="skypeBets_OddWeGiveToClient" name="skypeBets_OddWeGiveToClient" value='@GetString("Form.Fields.skypeBets_OddWeGiveToClient.Value")'>
+                </div>
+                <p> STAKE </p>
+                <div> 
+                    <input type="hidden" id="skypeBets_BetStake" name="skypeBets_BetStake" value='@GetString("Form.Fields.skypeBets_BetStake.Value")'>
+                </div>
+                <p> ODD we bet in Asia </p>
+                <div> 
+                    <input class="m-bottom" type="hidden" id="skypeBets_OddWeBetInAsia" name="skypeBets_OddWeBetInAsia" value='@GetString("Form.Fields.skypeBets_OddWeBetInAsia.Value")'>
+                </div>
+                <p> Currency  </p>
+                <div> 
+                    <input type="hidden" id="skypeBets_BetCurrency" name="skypeBets_BetCurrency" value='@GetString("Form.Fields.skypeBets_BetCurrency.Value")'/>
+                </div>
+                <p>League</p>
+                <div> 
+                    <input type="hidden" id="skypeBets_BetLeague" name="skypeBets_BetLeague" value='@GetString("Form.Fields.skypeBets_BetLeague.Value")' >
+                </div>
+                <p> PREMATCH or IN RUNNING </p>
+                <div>
+                    <input type="hidden" id="skypeBets_BetPrematchOrRunning" name="skypeBets_BetPrematchOrRunning" value='@GetString("Form.Fields.skypeBets_BetPrematchOrRunning.Value")'/>
+
+                </div>
+                <p> FT/HT </p>
+                <div>
+                    <input type="hidden" id="skypeBets_SoccerFinalTimeHalfTime" name="skypeBets_SoccerFinalTimeHalfTime" value='@GetString("Form.Fields.skypeBets_SoccerFinalTimeHalfTime.Value")'/>
+                </div>
+                <p> LINE or HC </p>
+                <div>
+                    <input type="hidden" id="skypeBets_LineOrHC" name="skypeBets_LineOrHC" value='@GetString("Form.Fields.skypeBets_LineOrHC.Value")' />
+                </div>
+                <p> BET on WHICH TEAM </p>
+                <div> 
+                    <input type="hidden" id="skypeBets_SoccerTeamToBet" name="skypeBets_SoccerTeamToBet" value='@GetString("Form.Fields.skypeBets_SoccerTeamToBet.Value")'/>
+                </div>
+                <p> Match </p>
+                <div><input type="hidden" id="skypeBets_BetMatch" name="skypeBets_BetMatch" value='@GetString("Form.Fields.skypeBets_BetMatch.Value")'/> </div>
+                <p>SCORE at bet placement</p>
+                <div><input type="hidden" id="skypeBets_ScoreAtBetPlacement" name="skypeBets_ScoreAtBetPlacement" value='@GetString("Form.Fields.skypeBets_ScoreAtBetPlacement.Value")' />   </div>
+                <p> BET TYPE </p>
+                <div> 
+                    <input type="hidden" id="skypeBets_SoccerBetType" name="skypeBets_SoccerBetType" value='@GetString("Form.Fields.skypeBets_SoccerBetType.Value")'>
+                </div>
+                <p>IF hc + or -</p>
+                <div> 
+                    <input type="hidden" id="skypeBets_SoccerHCType" name="skypeBets_SoccerHCType" value='@GetString("Form.Fields.skypeBets_SoccerHCType.Value")'/> 
+                </div>
+                <p>COMMISSION</p>
+                <div>
+                  	<input type="hidden" id="skypeBets_SkypeUserComision" name="skypeBets_SkypeUserComision" value='@GetString("Form.Fields.skypeBets_SkypeUserComision.Value")'/>
+                </div>
+                <p>Market</p>
+                <div> 
+                    <input type="hidden" id="skypeBets_Market" name="skypeBets_Market" value='@GetString("Form.Fields.skypeBets_Market.Value")'>
+                </div>
+                  <p>Comission Amount</p>
+                  <input type="hidden" id="skypeBets_ComissionAmount" name="skypeBets_ComissionAmount" value='@GetString("Form.Fields.skypeBets_ComissionAmount.Value")'/>
+                <h3 class="header--table">NOTES</h3>
+                  <p>Comission to display</p>
+                <input type="hidden" id="skypeBets_ComissionToDisplay" name="skypeBets_ComissionToDisplay" value='@GetString("Form.Fields.skypeBets_ComissionToDisplay.Value")'/>
+                <input type="hidden" id="skypeBets_BetNotes" name="skypeBets_BetNotes" value='@GetString("Form.Fields.skypeBets_BetNotes.Value")'/> 
+                <p> BALANCE AFTER </p>
+                <div>
+                  <input type="hidden" id="skypeBets_SkypeClientBalanceAfter" name="skypeBets_SkypeClientBalanceAfter" value='@GetString("Form.Fields.skypeBets_SkypeClientBalanceAfter.Value")'/>
+              </div>
+              </div>
+
+
+        <div class="confirm_wrapper">
+            <div class="form--confirm-wrapper1">
+            <div class="form-confirm-wrapper_item1">
+              <p>BET ID</p>
+            </div>
+         <div class="form-confirm-wrapper_item1">
+              <span>@betId</span>
+            </div>
+          </div>
+          
+          <div class="form-confirm-wrapper_item2full" style="width:calc(50% - 10px);">
+            <p>ID(asia)</p>
+            <div><input  type="text" id="skypeBets_BetIdInAsia" name="skypeBets_BetIdInAsia"  value=""/></div>
+          </div>
+       
+          <div class="form--confirm-wrapper2">
+            
+            <div class="form--confirm-wrapper_item2">
+              <p style="margin-bottom: 0;">End time</p>
+              <div><input type="datetime-local" id="skypeBets_GameEndTime" name="skypeBets_GameEndTime" value=""/></div>
+            </div>
+            <div class="form--confirm-wrapper_item2">
+              <p>Game Ends</p>
+              <div><input type="text" id="skypeBets_GameEndsIn" name="skypeBets_GameEndsIn" value=""/>
+               <label>Time Zone</label>
+        			<select type="text" class="" name="skypeBets_TimeZone" id="skypeBets_TimeZone" value="">
+                		<option selected="selected">Select</option>
+                  		<option value="GMT -12:00">(GMT -12:00) Eniwetok, Kwajalein</option>
+                        <option value="GMT -11:00">(GMT -11:00) Midway Island, Samoa</option>
+                        <option value="GMT -10:00">(GMT -10:00) Hawaii</option>
+                        <option value="GMT -9:00">(GMT -9:00) Alaska</option>
+                        <option value="GMT -8:00">(GMT -8:00) Pacific Time (US &amp; Canada)</option>
+                        <option value="GMT -7:00">(GMT -7:00) Mountain Time (US &amp; Canada)</option>
+                        <option value="GMT -6:00">(GMT -6:00) Central Time (US &amp; Canada), Mexico City</option>
+                        <option value="GMT -5:00">(GMT -5:00) Eastern Time (US &amp; Canada), Bogota, Lima</option>
+                        <option value="GMT -4:00">(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz</option>
+                        <option value="GMT -3:30">(GMT -3:30) Newfoundland</option>
+                        <option value="GMT -3:00">(GMT -3:00) Brazil, Buenos Aires, Georgetown</option>
+                        <option value="GMT -2:00">(GMT -2:00) Mid-Atlantic</option>
+                        <option value="GMT -1:00">(GMT -1:00 hour) Azores, Cape Verde Islands</option>
+                        <option value="GMT 0.0">(GMT) Western Europe Time, London, Lisbon, Casablanca</option>
+                        <option value="GMT +1:00">(GMT +1:00 hour) Brussels, Copenhagen, Madrid, Paris</option>
+                        <option value="GMT +2:00">(GMT +2:00) Kaliningrad, South Africa</option>
+                        <option value="GMT +3:00">(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg</option>
+                        <option value="GMT +3:30">(GMT +3:30) Tehran</option>
+                        <option value="GMT +4:00">(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi</option>
+                        <option value="GMT +4:30">(GMT +4:30) Kabul</option>
+                        <option value="GMT +5:00">(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
+                        <option value="GMT +5:30">(GMT +5:30) Bombay, Calcutta, Madras, New Delhi</option>
+                        <option value="GMT +5:45">(GMT +5:45) Kathmandu</option>
+                        <option value="GMT +6:00">(GMT +6:00) Almaty, Dhaka, Colombo</option>
+                        <option value="GMT +7:00">(GMT +7:00) Bangkok, Hanoi, Jakarta</option>
+                        <option value="GMT +8:00">(GMT +8:00) Beijing, Perth, Singapore, Hong Kong</option>
+                        <option value="GMT +9:00">(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk</option>
+                        <option value="GMT +9:30">(GMT +9:30) Adelaide, Darwin</option>
+                        <option value="GMT +10:00">(GMT +10:00) Eastern Australia, Guam, Vladivostok</option>
+                        <option value="GMT +11:00">(GMT +11:00) Magadan, Solomon Islands, New Caledonia</option>
+                        <option value="GMT +12:00">(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka</option>
+                  	</select>
+                      </div>
+            </div>
+          </div>   
+      </div>
+      <div class="submit--wrapper">@GetValue("Form.Button.Submit")</div>
+
+      
+@GetValue("Form.End")
+
+</div>

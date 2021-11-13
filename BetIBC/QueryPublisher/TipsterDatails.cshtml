@@ -1,0 +1,104 @@
+﻿@using System.Web
+
+[
+
+	@{
+		int loopCount =  GetLoop("QueryResultItem").Count() - 1;
+		var rows = GetLoop("QueryResultItem");
+		int loopCounter = 0;	
+        int loopConterNumber = GetLoop("DwPaging.LoopAllPages").Count();
+
+	}
+
+	@foreach (var row in rows) {
+
+		var sortOrder= row.GetInteger("PageSort");
+		var PageId = row.GetInteger("PageId");
+		var ParentPageId = row.GetInteger("PageParentPageId");
+		var areaID = row.GetInteger("PageAreaIdString");
+	    var tipsterName = row.GetValue("PageMenuText");
+        var tipsterImage = row.GetValue("Tipster_Tipster_Image");
+        var shortDescriptionRaw = row.GetString("Tipster_ShortDescription");
+        var shortDescription = System.Web.HttpUtility.JavaScriptStringEncode(shortDescriptionRaw);
+		var tipsterBlog = row.GetString("Tipster_Tipster_Blog"); 
+        var nationality = row.GetString("Tipster_Nationality") == "en" ? "gb" : row.GetString("Tipster_Nationality"); 
+		var followOnVIP = row.GetBoolean("Tipster_Follow_PredictionsOn_VIP_IBC");
+   		var periodRaw = row.GetString("Tipster_Period");
+        var tipsterActive = row.GetString("Tipster_Tipster_Status_Active");
+        var tipsterStakeInEuro = row.GetString("Tipster_Stake_In_Eur");
+        var tipsterSignInDate= row.GetDate("PageCreatedDate").ToString("yyyy/MM/dd HH:mm");;
+        var period = 0;
+        switch(periodRaw) {
+        
+         case "one_week"  :
+         period = 7;
+         break; 
+	     
+         case "one_month"  :
+         period = 30;
+         break; 
+         
+         case "three_months"  :
+         period = 90;
+         break; 
+    
+    
+        }
+        var allowedNumber = row.GetInteger("Tipster_AllowedNumberOfPredictions");
+		if(loopCounter == loopCount){
+     
+			<text>
+     
+			   {
+
+                "tipsterActive": "@tipsterActive",
+				"sortOrder": "@sortOrder",
+                "ParentPageId": "@ParentPageId",
+              	"PageId": "@PageId",
+              	"areaID": "@areaID",
+                "tipsterName": "@tipsterName",
+                "tipsterImage": "@tipsterImage",
+                "shortDescription": "@shortDescription",
+              	"tipsterBlog": "@tipsterBlog",
+                "nationality": "@nationality",
+              	"followOnVIP" : "@followOnVIP",
+                "period" : "@period", 
+                "allowedNumber" : "@allowedNumber",
+                "tipsterSignInDate" : "@tipsterSignInDate",
+                "tipsterStakeInEuro" : "@tipsterStakeInEuro",
+                "periodRaw" : "@periodRaw", 
+                "loopConterNumber" : "@loopConterNumber"
+           
+           
+                }
+			</text>
+		}else{
+              <text>
+              {
+	            "tipsterActive": "@tipsterActive",
+                "sortOrder": "@sortOrder",
+                "ParentPageId": "@ParentPageId",
+              	"PageId": "@PageId",
+              	"areaID": "@areaID",
+                "tipsterName": "@tipsterName",
+                "tipsterImage": "@tipsterImage",
+                "shortDescription": "@shortDescription",
+              	"tipsterBlog": "@tipsterBlog",
+                "nationality": "@nationality",
+              	"followOnVIP" : "@followOnVIP",
+                "period" : "@period", 
+                "allowedNumber" : "@allowedNumber",
+                "tipsterSignInDate" : "@tipsterSignInDate",
+                "tipsterStakeInEuro" : "@tipsterStakeInEuro",
+                "periodRaw" : "@periodRaw", 
+                "loopConterNumber" : "@loopConterNumber"
+     
+                
+              	},
+              </text>
+            }
+loopCounter ++;
+}
+]
+
+

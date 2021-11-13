@@ -1,0 +1,43 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+
+@GetValue("Form.FormStart")
+@GetValue("Form.SystemFields")
+
+@foreach (LoopItem field in GetLoop("Fields"))
+{
+    if (field.GetString("Field.Type") == "TextInput")
+    {
+        string required = field.GetBoolean("Field.Required") ? "required" : "";
+
+        <div class="form__field-group">
+            <label for="@field.GetValue("Field.Systemname")">@field.GetValue("Field.Name")</label>
+            <input type="text" name="@field.GetString("Field.Name")" value="@field.GetString("Field.Value")" @required/>
+            @field.GetValue("Field.Description")
+        </div>
+    }
+    else if (field.GetString("Field.Type") == "Textarea")
+    {
+        string required = field.GetBoolean("Field.Required") ? "required" : "";
+
+        <div class="form__field-group">
+            <label for="@field.GetValue("Field.Systemname")">@field.GetValue("Field.Name")</label>
+            <textarea name="@field.GetString("Field.Name")" value="@field.GetString("Field.Value")" @required ></textarea>
+            @field.GetValue("Field.Description")
+        </div>
+    }
+    else if (field.GetString("Field.Type") == "Submit")
+    {
+        @field.GetString("Field.Control").Replace(" id", " class=\"btn btn--primary dw-mod u-pull--right\" onclick=\"Buttons.LockButton(event)\" id")
+    }
+	else
+    {
+        <div class="form__field-group">
+            <label for="@field.GetValue("Field.Systemname")">@field.GetValue("Field.Name")</label>
+            @field.GetString("Field.Control")
+            @field.GetValue("Field.Description")
+        </div>
+    }
+}
+
+@GetValue("Form.FormEnd")

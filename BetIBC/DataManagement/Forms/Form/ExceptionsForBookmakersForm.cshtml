@@ -1,0 +1,71 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using Dynamicweb.Core
+@using System
+@SnippetStart("BootstrapCss")
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+@SnippetEnd("BootstrapCss")
+@Include("/Files/Templates/Designs/BetIBC/DataManagement/Forms/Form/Includes/GeneralDataListFormHelpers.cshtml")
+@{
+    var formStart = GetString("Form.Start");
+    var formEnd = GetString("Form.End");
+    var bookmakerSelect = GetString("Form.Fields.Exceptions_for_bookmakers_Bookmaker_account.Control");
+   var deactivateSelect = GetString("Form.Fields.Exceptions_for_bookmakers_Deactivate_Exception.Control");
+    var formHiddenFileds = GetString("Form.Hidden");
+    var lableName = GetString("Form.Fields.Exceptions_for_bookmakers_Title.Label");
+    var lableValue = GetString("Form.Fields.Exceptions_for_bookmakers_Value.Label");
+    var lableIsProcent = GetString("Form.Fields.Exceptions_for_bookmakers_Is_Procent.Label");
+    var name = GetString("Form.Fields.Exceptions_for_bookmakers_Title.Systemname");
+    var value = GetString("Form.Fields.Exceptions_for_bookmakers_Value.Systemname");
+    var isProcent = GetString("Form.Fields.Exceptions_for_bookmakers_Is_Procent.Systemname");
+    var labelValueForMin = GetString("Form.Fields.Exceptions_for_bookmakers_Value_for_less_then_min.Label");
+    var valueForMin = GetString("Form.Fields.Exceptions_for_bookmakers_Value_for_less_then_min.Systemname");
+    var labelForMinIsProcent = GetString("Form.Fields.Exceptions_for_bookmakers_Value_for_less_then_min_Is_Procent.Label");
+    var valueForMinIsProcent = GetString("Form.Fields.Exceptions_for_bookmakers_Value_for_less_then_min_Is_Procent.Systemname");
+    var labelForNotes = GetString("Form.Fields.Exceptions_for_bookmakers_Notes.Label");
+    var notes = GetString("Form.Fields.Exceptions_for_bookmakers_Notes.Systemname");
+    var formSubmit = GetString("Form.Button.Submit");
+    var activeSelector = GetString("Form.Fields.ExceptionsList_Deactivate_Exception.Control");
+    var applyFor = GetString("Form.Fields.ExceptionsList_Apply_for.Control");
+    var userId = GetString("Form.Fields.Exceptions_for_bookmakers_User_Id.Systemname");
+    var userIdValue = GetGlobalValue("Global:Extranet.UserID");
+}
+
+<div class="container">
+    <div class="exceptions-commissions-form exception-form-wrapper">
+        <h1>Create Bookmaker Exception</h1>
+        @formStart
+        @formHiddenFileds
+        @preBuiltEmlement("Bookmaker", string.Empty, bookmakerSelect)
+        @simpleInputField("text", lableName, name, name, "required", string.Empty)
+        <div class="row">
+            <div class="col-xs-6">
+                @simpleInputField("number",lableValue, value, value, "required", string.Empty)
+                @sinpleCheckboxField(lableIsProcent, isProcent, isProcent, "True", string.Empty)
+            </div>
+            <div class="col-xs-6">
+                @simpleInputField("number",labelValueForMin,valueForMin,valueForMin, "required", string.Empty)
+                @sinpleCheckboxField(labelForMinIsProcent, valueForMinIsProcent,valueForMinIsProcent, "True", string.Empty)
+               
+            </div>
+        </div>
+        @*
+        @preBuiltEmlement("ApplyFor", string.Empty, applyFor)
+        *@
+        @simpleTextAreaField(labelForNotes, notes, notes, "required", string.Empty)
+          <div class="hidden" id="UserIdField">
+              @preBuiltEmlement("Deactivate User", string.Empty, deactivateSelect)
+                </div>
+        @*
+        @activeSelector
+        *@
+        <div class="hidden" id="UserIdField">
+            @simpleInputField("text",string.Empty, userId, userId, "required", userIdValue)
+        </div>
+        @formSubmit
+        @formEnd
+    </div>
+</div>
+

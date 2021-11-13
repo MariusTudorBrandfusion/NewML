@@ -1,0 +1,42 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Web;
+@using System.Collections.Specialized;
+@using System.Text.RegularExpressions;
+@using System.Net;
+@using System;
+
+ 
+@{
+	var results = GetLoop("QueryResultItem");
+
+	
+}
+<div class="container">
+  <h2>@Translate("Now, BET-IBC Tipster Team presents free predictions for the match:")</h2>
+@if (results.Any()) {
+foreach( var result in results){
+var screenshot = result.GetString("Tips_Result_Screenshot");
+
+var prediction = result.GetString("Tips_Description");
+var tipsterRaw = result.GetString("Tips_Tipster_ID");
+	Dynamicweb.Content.Items.Item tipsterName = Dynamicweb.Content.Items.ItemManager.Storage.GetById("Tipster", tipsterRaw);
+    var tipsterNameClean = tipsterName != null ? tipsterName["Tipster_Name"] : "NOT FOUND";
+
+<table>
+<tbody>
+<tr>
+<td class="justify-center"><img  src="@screenshot" width="1200"/></td>
+</tr>
+<tr>
+<td>
+  <b>@tipsterNameClean </b>: @prediction
+<td>
+</tr>
+</tbody>
+</table>
+
+}
+} else{
+  <div class="container"> @Translate("No prediction was posted, please come back later")</div>
+  }
+  </div>

@@ -1,0 +1,124 @@
+﻿@using System.Text.RegularExpressions
+@{
+   DateTime nowDate = DateTime.Now;
+    var formStart = GetString("Form.Start");
+    var formEnd = GetString("Form.End");
+    var formHiddenFileds = GetString("Form.Hidden");
+    var bettingPrediction = GetString("Form.Fields.BettingPrediction.Value");
+    var bookmakerLogo = GetString("Form.Fields.Bookmaker.Value");
+    var bookmakerName = GetString("Form.Fields.Bookmaker_Name.Value");
+    var category = GetString("Form.Fields.Category.Value");
+    var dateAdded = GetString("Form.Fields.Date_Added.Value");
+    var description = GetString("Form.Fields.Description.Value");
+    var predictionID = GetString("Form.Fields.Id.Value");
+    var league = GetString("Form.Fields.League.Value");
+    var odds = GetString("Form.Fields.Odds.Value");
+    var prediction = GetString("Form.Fields.Prediction.Value");
+    var predictionTitle = GetString("Form.Fields.Prediction_Title.Value");
+    var sort = GetString("Form.Fields.Sort.Value");
+    var stake = GetString("Form.Fields.Stake.Value");
+    var startGMT = GetString("Form.Fields.Start_GMT.Value");
+    var tipsterEmail = GetString("Form.Fields.Tipster_Email.Value");
+    var tipsterID = GetString("Form.Fields.Tipster_ID.Value");
+    var turnament = GetString("Form.Fields.Tournament.Value");
+    var userID = GetString("Form.Fields.User_ID.Value");
+    var descriptionClean = Regex.Replace(description, "<.*?>", String.Empty);
+    var followOnVIP = GetString("Form.Fields.FollowOn_VIP.Value");
+    var bookmakerNameClean = bookmakerName.Replace("+", "");
+    var bookmakerURL = GetPageIdByNavigationTag(bookmakerNameClean).ToString();
+    Dynamicweb.Content.Items.Item tipsterName = Dynamicweb.Content.Items.ItemManager.Storage.GetById("Tipster", tipsterID);
+    var tipsterNameClean = tipsterName != null ? tipsterName["Tipster_Name"] : "NOT FOUND";
+
+  byte[] tempBytes;
+  tempBytes = System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(predictionTitle);
+  string asciiStr = System.Text.Encoding.UTF8.GetString(tempBytes);
+
+  
+}
+
+    <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+<div class="main_wrapper" id="approve-new-tip-form" data-attribute-bookmaker-name = "@bookmakerName" data-link = "@predictionTitle.ToLower().Replace(" ", "-")" >
+    <h2>Verify New Prediction</h2>
+    @formStart
+    @formHiddenFileds
+
+    <label>Prediction Title</label>
+    <input type="text" id="Prediction_Title" name="Prediction_Title" value="@predictionTitle" />
+    <label>Tipster Name</label>
+    <input type="text" id="Tipster_Name_Approve" readonly value="@tipsterNameClean" />
+    <label>Tipster Email</label>
+    <input type="text" id="Tipster_Email" readonly name="Tipster_Email" value="@tipsterEmail" />
+    <label>Odds</label>
+    <input type="text" id="Odds" name="Odds" value="@odds" />
+    <label>Stake</label>
+    <input type="text" id="Stake" name="Stake" value="@stake" />
+    <label>League</label>
+    <input type="text" id="League" name="League" value="@league" />
+    <label>Turnament</label>
+    <input type="text" id="Tournament" name="Tournament" value="@turnament" />
+    <label>Description</label>
+    <textarea id="Description" name="Description" id="Description"/>
+@description
+</textarea>
+    <label>Date Added</label>
+    <input type="datetime" id="Date_Added" name="Date_Added" min="1900-01-01" value="@dateAdded" />
+    <label>Start GMT</label>
+    <input type="datetime" id="Start_GMT" name="Start_GMT" min="1900-01-01" value="@startGMT" />
+    <label>Category</label>
+    <input type="text" id="Category" name="Category" value="@category" />
+    <label>Bookmaker Name</label>
+       <select id="Bookmaker_Name" name="Bookmaker_Name" >
+
+    </select>
+  
+    <label>Betting Prediction</label>
+    <input type="text" id="BettingPrediction" name="BettingPrediction" value="@bettingPrediction" />
+
+
+<label>Follow on VIP</label>
+<div style="width:10%; text-align:left;">
+   @if(followOnVIP == "True"){
+<input type="checkbox" checked="checked" id="FollowOn_VIP" name="FollowOn_VIP" value="True" />
+}else{
+   <input type="checkbox" id="FollowOn_VIP" name="FollowOn_VIP"/>
+}
+     <label>Result Screenshot</label>
+    <input type="file" id="Result_Screenshot" name="Result_Screenshot" />
+<label>VIP Screenshot</label>
+ <input type="file" id="VIP_IBC_Screenshot" name="VIP_IBC_Screenshot" />
+</div>
+    <div class = "hidden">
+        <label>Stake In Euro</label>
+    <input type="text" id="Stake_In_Euro_Tips" name="Stake_In_Euro_Tips" value="" />
+
+       <input type="datetime" id="Approve_Date" name="Approve_Date" min="@nowDate" value="@nowDate" />
+        <input type="text" id="Link" name="Link" value="" />
+        <label>Prediction</label>
+        <input type="text" id="Prediction" name="Prediction" value="" />
+  <label>Bookmaker Logo</label>
+
+    <input type="text" id="Bookmaker" name="Bookmaker" value="@bookmakerLogo"/>
+    <label>Bookmaker URL</label>
+    <input type="text" id="BookmakerUrl" name="BookmakerUrl" value="Default.aspx?ID=@bookmakerURL" />
+        <input type="text" id="Tipster_ID" name="Tipster_ID" value="@tipsterID" />
+        <input type="checkbox" id="Mail_Verification" name="Mail_Verification" value=""/>
+        <label>Approve Prediction</label>
+        <input type="checkbox" checked id="Approved" name="Approved" value="True"/>
+        <input type="text" id="Sort" name="Sort" value="@sort"/>
+        <input type="text" id="Id" name="Id" value="@predictionID"/>
+        <input type="text" id="Match_Final_Score" name="Match_Final_Score" value=""/>
+        <input type="text" id="Page_ID_Prediction" name="Page_ID_Prediction" value=""/>
+        <input type="text" id="Prediction_Status" name="Prediction_Status" value=""/>
+
+        <input type="text" id="User_ID" name="User_ID" value="@userID"/>
+
+ 
+</div>
+
+<input value="Approve Tip" type="submit" />
+
+    @formEnd
+</div>
+<script>
+    CKEDITOR.replace( 'Description' );
+</script>

@@ -1,0 +1,147 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@{
+    string pageId = GetGlobalValue("Global:Page.ID");
+}
+
+<div class="paragraph-container__grid--bleed">
+    <div class="grid grid--justify-center">
+        @if (Dynamicweb.Core.Converter.ToBoolean(GetGlobalValue("Global:Extranet.UserName")))
+        {
+        <form class="grid" name="ordersubmit" id="ordersubmit" method="post">
+            <div class="grid__col-md-6">
+                <div class="card-header">
+                    <h3><i class="fa fa-home"></i> @Translate("Delivery information")</h3>
+                </div>
+                <div class="card">
+                    <table class="table--clean">
+                        <tr>
+                            <td>@Translate("Company")</td>
+                            <td><input type="text" name="EcomOrderDeliveryCompany" id="EcomOrderCustomerCompany" value="@GetString("Ecom:Order.Customer.Company")" readonly /></td>
+                        </tr>
+                        <tr>
+                            <td>@Translate("Name")</td>
+                            <td><input type="text" name="EcomOrderDeliveryName" id="EcomOrderCustomerName" value="@GetString("Ecom:Order.Customer.Name")" readonly /></td>
+                        </tr>
+                        <tr>
+                            <td>@Translate("Phone")</td>
+                            <td><input type="text" name="EcomOrderDeliveryPhone" id="EcomOrderCustomerPhone" value="@GetString("Ecom:Order.Customer.Phone")" readonly /></td>
+                        </tr>
+                        <tr>
+                            <td>@Translate("Email")</td>
+                            <td><input type="text" name="EcomOrderDeliveryEmail" id="EcomOrderCustomerEmail" value="@GetString("Ecom:Order.Customer.Email")" readonly /></td>
+                        </tr>
+                        <tr>
+                            <td>@Translate("Address")</td>
+                            <td><input type="text" name="EcomOrderDeliveryAddress" id="EcomOrderCustomerAddress" value="@GetString("Ecom:Order.Customer.Address")" readonly /></td>
+                        </tr>
+                        <tr>
+                            <td>@Translate("Zip code")</td>
+                            <td><input type="text" name="EcomOrderDeliveryZip" id="EcomOrderCustomerZip" value="@GetString("Ecom:Order.Customer.Zip")" readonly /></td>
+                        </tr>
+                        <tr>
+                            <td>@Translate("City")</td>
+                            <td><input type="text" name="EcomOrderDeliveryCity" id="EcomOrderCustomerCity" value="@GetString("Ecom:Order.Customer.City")" readonly /></td>
+                        </tr>
+                        <tr>
+                            <td>@Translate("Country")</td>
+                            <td><input type="text" name="EcomOrderDeliveryCountry" id="EcomOrderCustomerCountry" value="@GetString("Ecom:Order.Customer.Country")" readonly /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                    </table>
+
+                    <button type="button" class="btn btn--secondary btn--full u-no-margin dw-mod">@Translate("Configure your addresses")</button>
+                </div>
+            </div>
+
+            <div class="grid__col-md-6">
+                <div class="grid__cell-footer">
+                    <div class="grid__cell">
+                        <label for="EcomOrderCustomerAccepted">
+                            <input type="checkbox" id="EcomOrderCustomerAccepted" name="EcomOrderCustomerAccepted" value="1" /><span> @Translate("I accept the terms and conditions of this website.")</span>
+                        </label>
+                        <div class="field-error">@GetString("Ecom:Cart.ValidationError.EcomOrderCustomerAccepted.ErrorMessage")</div>
+
+                        <button type="submit" class="btn btn--primary btn--full dw-mod" name="@GetString("CartV2.NextStepButtonName")" id="@GetString("CartV2.NextStepButtonName")">@Translate("Next step")</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        }
+        else
+        {
+        <div class="grid__col-6">
+            <h2>@Translate("Already a customer?")</h2>
+
+            <form method="post" action="/Default.aspx?ID=@pageId">
+                <input type="hidden" name="ID" value="@pageId" />
+                <input type="hidden" name="DWExtranetUsernameRemember" value="True" />
+                <input type="hidden" name="DWExtranetPasswordRemember" value="True" />
+
+                <input type="text" class="u-full-width" id="login-username" name="username" placeholder="@Translate("Username")" />
+
+                <input type="password" class="u-full-width" id="login-password" name="password" placeholder="@Translate("Password")" />
+
+                <label>
+                    <input type="checkbox" id="rememberMe" name="Autologin" checked="checked" value="True">
+                    <span>@Translate("Remember me", "Remember me")</span>
+                </label>
+
+                <button type="submit" class="btn btn--primary btn--full dw-mod" name="LoginAction" value="Login">@Translate("Sign in")</button>
+
+                <a class="btn btn--link" href="/Default.aspx?id=@pageId&LoginAction=Recovery">@Translate("Forgot your password?", "Forgot your password?")</a>
+            </form>
+        </div>
+        <div class="grid__col-6">
+            <h2>@Translate("New customer")</h2>
+
+            <form name="ordersubmit" id="ordersubmit" method="post">
+                <label for="EcomOrderDeliveryCompany">@Translate("Company", "Company")</label>
+                <input type="text" class="u-full-width" name="EcomOrderDeliveryCompany" id="EcomOrderCustomerCompany" value="@GetString("Ecom:Order.Customer.Company")" />
+
+                <label for="EcomOrderCustomerName">@Translate("Name", "Name")</label>
+                <input type="text" class="u-full-width" name="EcomOrderCustomerName" id="EcomOrderCustomerName" value="@GetString("Ecom:Order.Customer.Name")" />
+                <div class="field-error">@GetString("Ecom:Cart.ValidationError.EcomOrderCustomerName.ErrorMessage")</div>
+
+                <label for="EcomOrderCustomerPhone">@Translate("Phone", "Phone")</label>
+                <input type="tel" class="u-full-width" name="EcomOrderCustomerPhone" id="EcomOrderCustomerPhone" value="@GetString("Ecom:Order.Customer.Phone")" />
+
+                <label for="EcomOrderCustomerEmail">@Translate("Email", "Email")</label>
+                <input type="email" class="u-full-width" name="EcomOrderCustomerEmail" id="EcomOrderCustomerEmail" value="@GetString("Ecom:Order.Customer.Email")" />
+                <div class="field-error">@GetString("Ecom:Cart.ValidationError.EcomOrderCustomerEmail.ErrorMessage")</div>
+
+                <label for="EcomOrderCustomerAddress">@Translate("Address", "Address")</label>
+                <input type="text" class="u-full-width" name="EcomOrderCustomerAddress" id="EcomOrderCustomerAddress" value="@GetString("Ecom:Order.Customer.Address")" />
+                <div class="field-error">@GetString("Ecom:Cart.ValidationError.EcomOrderCustomerAddress.ErrorMessage")</div>
+
+                <label for="EcomOrderCustomerZip">@Translate("Zip code", "Zip code")</label>
+                <input type="text" class="u-full-width" name="EcomOrderCustomerZip" id="EcomOrderCustomerZip" value="@GetString("Ecom:Order.Customer.Zip")" />
+                <div class="field-error">@GetString("Ecom:Cart.ValidationError.EcomOrderCustomerZip.ErrorMessage")</div>
+
+                <label for="EcomOrderCustomerCity">@Translate("City", "City")</label>
+                <input type="text" class="u-full-width" name="EcomOrderCustomerCity" id="EcomOrderCustomerCity" value="@GetString("Ecom:Order.Customer.City")" />
+                <div class="field-error">@GetString("Ecom:Cart.ValidationError.EcomOrderCustomerCity.ErrorMessage")</div>
+
+                <label for="EcomOrderCustomerCountry">@Translate("Country", "Country")</label>
+                <select class="u-full-width" name="EcomOrderCustomerCountry" id="EcomOrderCustomerCountry">
+                    @foreach (LoopItem country2 in GetLoop("Countries"))
+                    {
+                        string selected = !string.IsNullOrWhiteSpace(country2.GetString("Ecom:Country.IsCustomerCountryOrDefault")) ? "selected=\"selected\"" : "";
+                        <option value="@country2.GetString("Ecom:Country.Code2")" @selected>@country2.GetString("Ecom:Country.Name")</option>
+                    }
+                </select>
+                <div class="field-error">@GetString("Ecom:Cart.ValidationError.EcomOrderCustomerCountry.ErrorMessage")</div>
+
+                <label for="EcomOrderCustomerAccepted">
+                    <input type="checkbox" id="EcomOrderCustomerAccepted" name="EcomOrderCustomerAccepted" value="1" /><span> @Translate("I accept the terms and conditions of this website.")</span>
+                </label>
+                <div class="field-error">@GetString("Ecom:Cart.ValidationError.EcomOrderCustomerAccepted.ErrorMessage")</div>
+
+                <button type="submit" class="btn btn--primary btn--full dw-mod" name="@GetString("CartV2.NextStepButtonName")" id="@GetString("CartV2.NextStepButtonName")">@Translate("Next step")</button>
+            </form>
+        </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,171 @@
+﻿@SnippetStart("BootstrapCss")
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+@SnippetEnd("BootstrapCss")
+
+
+@SnippetStart("BootstrapJs")
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+@SnippetEnd("BootstrapJs")
+      
+
+
+@*<table border="1" cellpadding="2" cellspacing="2">  
+ 
+    <tr>
+      <td> @GetString("skypeBetsID") </td>
+      <td> @GetString("skypeBets_SoccerFinalTimeHalfTime") </td>
+      <td> @GetString("skypeBets_SoccerTeamToBet") <br> @GetString("skypeBets_BetMatch") <br> @GetString("skypeBets_BetLeague") <br> @GetString("skypeBets_BetPrematchOrRunning") </td>
+      <td> @GetString("skypeBets_MinimumOddRequestedByClient") </td>
+      <td> @GetString("skypeBets_OddWeBetInAsia") </td>
+      <td> @GetString("skypeBets_OddWeGiveToClient") </td>
+      <td> @GetString("skypeBets_BetStake") </td>
+      <td> @GetString("skypeBets_OddWeBetInAsia") </td>
+      <td> @GetString("skypeBets_OddWeBetInAsia") </td>
+    </tr>
+    <tr>
+      <td> @GetString("skypeBetsID") </td>
+      <td> @GetString("skypeBets_SoccerFinalTimeHalfTime") </td>
+      <td> @GetString("skypeBets_SoccerTeamToBet") <br> @GetString("skypeBets_BetMatch") <br> @GetString("skypeBets_BetLeague") <br> @GetString("skypeBets_BetPrematchOrRunning") </td>
+      <td> @GetString("skypeBets_MinimumOddRequestedByClient") </td>
+      <td> @GetString("skypeBets_OddWeBetInAsia") </td>
+      <td>  @GetString("skypeBets_OddWeGiveToClient") </td>
+      <td> @GetString("skypeBets_BetStake") </td>
+      <td> @GetString("skypeBets_OddWeBetInAsia") </td>
+      <td> @GetString("skypeBets_OddWeBetInAsia") </td>
+    </tr>
+    <tr>
+      <td> @GetString("skypeBetsID") </td>
+      <td> @GetString("skypeBets_SoccerFinalTimeHalfTime") </td>
+      <td> @GetString("skypeBets_SoccerTeamToBet") <br> @GetString("skypeBets_BetMatch") <br> @GetString("skypeBets_BetLeague") <br> @GetString("skypeBets_BetPrematchOrRunning") </td>
+      <td> @GetString("skypeBets_MinimumOddRequestedByClient") </td>
+      <td> @GetString("skypeBets_OddWeBetInAsia") </td>
+      <td> @GetString("skypeBets_OddWeGiveToClient") </td>
+      <td> @GetString("skypeBets_BetStake") </td>
+      <td> @GetString("skypeBets_OddWeBetInAsia") </td>
+      <td> @GetString("skypeBets_OddWeBetInAsia") </td>
+    </tr>
+   
+  </table>
+*@  
+        
+@{
+	var ViewId = Pageview.CurrentParagraph.ModuleProperties.get_Value("ViewID"); 
+    var ClientId = GetGlobalValue("Global:Extranet.UserID") != null ? GetGlobalValue("Global:Extranet.UserID").ToString() : "No User.";
+    var secondaryUserRaw = Pageview.User.ID;
+    var secondaryUser = secondaryUserRaw != null ? secondaryUserRaw.ToString() : "No Secondary User.";
+}
+
+       
+
+<div class="form_wrapper" style="width: 100%;">
+            <div class="container">
+                <!--<div class="date_wrapper">
+                    <label for="date">Date</label>
+                    <input type="date" name="datecalendar" id="datecalendar">
+                    <label for="date">To</label>
+                    <input type="date" name="datecalendar" id="datecalendar">
+                    <button class="button" type="">Filter</button>
+                </div> -->   
+                <table class="main_table confirmation-bet">
+                    <thead>
+                    <tr class="hidden">
+                        @foreach (LoopItem Column in GetLoop("Columns")){
+                            <td>
+                                @Column.GetValue("Column.Name")         
+                            </td>
+                        }
+                    </tr>
+                    <tr>
+                        <th> ID</th>
+                        <th>SELECTION </th>
+                        <th> BET DETAILS </th>
+                        <th> ODD<BR> min | bet | give</th>
+                        <th> STAKE <br>bet | give</th>
+                        <th> HC / LINE <br>bet | give</th>
+                        <th> OPERATORS </th>
+                        <th> DETAILS </th>
+                    </tr>
+                    </thead>
+                    <tbody id="all-bets">
+
+                    @foreach (LoopItem row in GetLoop("Rows"))
+                    {
+
+                        var rowId = row.GetInteger("skypeBetsID");
+                        var rowName = "skypeBetsID";
+                        var paramerter = "?FORM_ROW_ID=" + rowName + "%3d" + rowId + "&VIEW_ID=" + ViewId;
+                     	var parameterDetails = "mode=detail&RowId=skypeBetsID%3d" + rowId + "&ViewPID=5146";
+                      	var processingBetStatus = row.GetValue("skypeBets_ProcessingBetStatus").ToString();
+                      	var BetClientId = row.GetValue("skypeBets_SkypeUserID") != null ? row.GetValue("skypeBets_SkypeUserID").ToString() : "";
+                      	var detailsUrl = row.GetValue("DetailUrl");
+                      
+                    
+
+                        if (processingBetStatus == "Confirmed") {
+                      		if ( ClientId == BetClientId || secondaryUser == BetClientId ) {
+                      		
+                   
+
+                        <tr>
+                            <td><div class="p-10">@row.GetValue("skypeBetsID")<i class="fa fa-info-circle" aria-hidden="true" data-placement="bottom" data-toggle="tooltip" title='@row.GetValue("skypeBets_BetNotes")'></i></div></td>
+                            <td>
+                                <div class="p-10">
+                                    <div>@row.GetValue("skypeBets_SoccerFinalTimeHalfTime")</div>
+                                    <div>@row.GetValue("skypeBets_SoccerBetType")</div>
+                                    <div>@row.GetValue("skypeBets_LineOrHC")</div>
+                                    <div>@row.GetValue("skypeBets_SoccerTeamToBet")</div>
+                                    <div>@row.GetValue("skypeBets_SoccerHCType")</div>
+                                    <div>@row.GetValue("skypeBets_Market")</div>
+                                  	 @*<div>@row.GetValue("skypeBets_ProcessingBetStatus")</div>*@
+                                </div>
+                            </td>
+                            <td>
+                                <div class="p-10">
+                                    <div>@row.GetValue("skypeBets_BetLeague")</div>
+                                    <div>@row.GetValue("skypeBets_BetMatch")</div>
+                                    <div>@row.GetValue("skypeBets_BetPrematchOrRunning")</div>
+                                    <div>@row.GetValue("skypeBets_ScoreAtBetPlacement")</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-xs-12 odd_item">
+                                    @row.GetValue("skypeBets_MinimumOddRequestedByClient")
+                                </div>
+                                <div class="col-xs-12 odd_item">
+                                    @row.GetValue("skypeBets_OddWeGiveToClient")
+                                </div>
+                                <div class="col-xs-12 odd_item no--border">
+                                    @row.GetValue("skypeBets_OddWeBetInAsia")
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-xs-12 stake_item lh">
+                                    @row.GetValue("skypeBets_BetStake")
+                                </div>
+                                <div class="col-xs-12 stake_item no--border lh">
+                                    @row.GetValue("skypeBets_BetStake")
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-xs-12 hc_item lh">
+                                    @row.GetValue("skypeBets_LineOrHC")
+                                </div>
+                                <div class="col-xs-12 hc_item no--border lh">
+                                    hc value
+                                </div>
+                            </td>
+                            <td><div class="p-10">
+                                    <div>1.@row.GetValue("skypeBets_FirstAdminUsername")<div class="date--time">@row.GetValue("skypeBets_AddNewDateTime")</div></div>
+                                    <div>2.@row.GetValue("skypeBets_SecondAdminUsername")<div class="date--time">@row.GetValue("skypeBets_ConfirmationNewDateTime")</div></div>
+                                </div>
+                            </td>
+                            <td><div class="p-10"><a class="table-link" href="/english/skype-betting/confirmed-bets?@(parameterDetails)">SEE DETAILS</a></div></td>
+                        </tr>
+                      	}
+                      }
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+

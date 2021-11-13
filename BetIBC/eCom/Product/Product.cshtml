@@ -1,0 +1,760 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using Dynamicweb.Extensibility
+@using Dynamicweb.Content
+@using System
+@using System.IO
+
+@{
+    string productId = GetString("Ecom:Product.ID");
+    string onSale = GetString("Ecom:Product.Discount.Price.PriceWithVATFormatted") == GetString("Ecom:Product.Price.PriceWithVATFormatted") ? "u-hidden" : "";
+    string hideHelpText = "";
+    string feedId = GetPageIdByNavigationTag("ProductsFeed").ToString();
+    string feedUrl = "/Default.aspx?ID=" + feedId + "&feedType=productCatalog";
+    int featuresCount = 0;
+    int thumbsCount = GetLoop("Details").Count;
+
+    foreach (LoopItem customField in GetLoop("CustomFieldValues"))
+    {
+        if (!String.IsNullOrEmpty(customField.GetString("Product.CustomField.Value.Clean"))) {
+            featuresCount++;
+        }
+    }
+
+    foreach (LoopItem customField in GetLoop("ProductCategories"))
+    {
+        foreach (LoopItem field in customField.GetLoop("ProductCategoryFields"))
+        {
+            if (!String.IsNullOrEmpty(field.GetString("Ecom:Product.CategoryField.Value")))
+            {
+                featuresCount++;
+            }
+        }
+    }
+
+    foreach (LoopItem alternativeImage in GetLoop("Ecom:Product.AlternativeImages"))
+    {
+        if (!String.IsNullOrEmpty(alternativeImage.GetString("Ecom:Product.AlternativeImages.Image")))
+        {
+            thumbsCount++;
+        }
+    }
+
+    foreach (LoopItem variantgroup in GetLoop("VariantGroups"))
+    {
+        foreach (LoopItem variantoption in variantgroup.GetLoop("VariantAvailableOptions"))
+        {
+            if (variantoption.GetBoolean("Ecom:VariantOption.Selected"))
+            {
+                hideHelpText = "u-hidden";
+            }
+        }
+    }
+
+    string feedPageUrl = "/Default.aspx?ID=" + GetPageIdByNavigationTag("RelatedProductsFeed");
+    string feedFullUrl = feedPageUrl + "&feedType=productCatalog&PageSize=3&ProdID=" + productId;
+    string productContainerId = "Product" + productId;
+}   
+
+<div class="paragraph-container__grid--bleed">
+    @*Please be aware that the below html must be implemented twice (Static HTML and dynamic Script template) to make it update when shifting units *@ 
+
+    <div class="js-ajax-container" id="@productContainerId" data-template="productUpdateableContentTemplate" data-json-feed="@feedUrl" data-preloader="false" data-init-onload="false">
+        <div class="grid product">
+            @* Image block with optional thumbs *@
+            @if (!String.IsNullOrEmpty(GetString("Ecom:Product.ImageLarge.Default.Clean")))
+            {
+            <div class="grid__col-md-6 grid__col-sm-6">
+                <div class="grid grid--bleed">
+                    @if (thumbsCount > 0)
+                    {
+                    <div class="grid__col-2 u-color-light-gray--bg u-hidden-xxs">
+                        <div class="thumb-list">
+                            <div class="thumb-list__item thumb-list__item--active dw-mod js-thumb-btn" onmouseover="ImageList.LoadImage(this)" data-for="Image_@productId" data-image-path="@GetString("Ecom:Product.ImageLarge.Default.Clean")"><img src="/Admin/Public/GetImage.ashx?width=100&amp;height=100&amp;crop=5&amp;Compression=75&amp;image=@GetString("Ecom:Product.ImageLarge.Default.Clean")"  alt="@GetString("Ecom:Product.Name")"></div>
+
+                            @foreach (LoopItem alternativeImage in GetLoop("Ecom:Product.AlternativeImages"))
+                            {
+                                if (!String.IsNullOrEmpty(alternativeImage.GetString("Ecom:Product.AlternativeImages.Image")))
+                                {
+                                    string image = "/Admin/Public/GetImage.ashx?width=500&amp;height=500&amp;crop=5&amp;Compression=75&amp;image=" + alternativeImage.GetString("Ecom:Product.AlternativeImages.Image");
+                                    string thumb = "/Admin/Public/GetImage.ashx?width=100&amp;height=100&amp;crop=5&amp;Compression=75&amp;image=" + alternativeImage.GetString("Ecom:Product.AlternativeImages.Image");
+
+                                    <div class="thumb-list__item dw-mod js-thumb-btn" onmouseover="ImageList.LoadImage(this)" data-for="Image_@productId" data-image-path="@image"><img src="@thumb" alt="@GetString("Ecom:Product.Name")"></div>
+                                }
+                            }
+
+                            @foreach (LoopItem detail in GetLoop("Details"))
+                            {
+                                string image = "/Admin/Public/GetImage.ashx?width=500&amp;height=500&amp;crop=5&amp;Compression=75&amp;image=" + detail.GetString("Ecom:Product:Detail.Image.Clean");
+                                string thumb = "/Admin/Public/GetImage.ashx?width=100&amp;height=100&amp;crop=5&amp;Compression=75&amp;image=" + detail.GetString("Ecom:Product:Detail.Image.Clean");
+
+                                <div class="thumb-list__item dw-mod js-thumb-btn" onmouseover="ImageList.LoadImage(this)" data-for="Image_@productId" data-image-path="@image"><img src="@thumb" alt="@GetString("Ecom:Product.Name")"></div>
+                            }
+                        </div>
+                    </div>
+                    } 
+                    <div class="grid__col-auto">
+                        @if (GetString("Ecom:Product.Discount.Price.PriceWithVATFormatted") != GetString("Ecom:Product.Price.PriceWithVATFormatted"))
+                        {
+                            <div class="sticker">@Translate("Sale!")</div>
+                        }
+                        <img class="thumb-image-view flex-img" id="Image_@productId" src="/Admin/Public/GetImage.ashx?height=550&amp;crop=5&amp;Compression=75&amp;image=@GetString("Ecom:Product.ImageLarge.Default.Clean")" alt="@GetString("Ecom:Product.Name")" />
+                    </div>
+                </div>
+            </div>
+            }
+
+            @* Primary product informations *@
+            <div class="grid__col-auto">
+                <div class="grid__cell">
+                    <div class="u-pull--left product__title">
+                        <h1 class="u-no-margin">@GetString("Ecom:Product.Name") @GetString("Ecom:Product.SelectedVariantComboName")</h1>
+                        <div class="item-number">@GetString("Ecom:Product.Number")</div>
+                    </div>
+                    <div class="u-pull--right">
+                        @if (Dynamicweb.Core.Converter.ToBoolean(GetGlobalValue("Global:Extranet.UserName")))
+                        {
+                            string favoriteId = "Favorite" + GetString("Ecom:Product.ID");
+                            <div id="@favoriteId" class="favorites favorites--md u-pull--right">
+                                <div>
+                                    @{ string favorite = GetBoolean("Ecom:Product.IsProductInFavoriteList") ? "fa fa-star" : "fa fa-star-o"; }
+                                    <i class="@favorite fa-1_5x"></i>
+                                </div>
+
+                                <div class="favorites-list">
+                                    <ul class="list list--clean">
+                                        @foreach (LoopItem listType in GetLoop("CustomerCenter.ListTypes"))
+                                        {
+                                            foreach (LoopItem list in listType.GetLoop("CustomerCenter.ProductLists"))
+                                            {
+                                            <li>
+                                                @{string favLinkType = list.GetString("Ecom:Product.List.IsProductInThisList") == "True" ? list.GetString("Ecom:Product.RemoveFromThisList") : list.GetString("Ecom:Product.AddToThisListAction");}
+                                                @{string isInListIcon = list.GetString("Ecom:Product.List.IsProductInThisList") == "True" ? "fa fa-star" : "fa fa-star-o";}
+                                                <a href="@favLinkType" class="list__link"><i class="@isInListIcon"></i> @list.GetValue("Ecom:CustomerCenter.List.Name")</a>
+                                            </li>
+                                                        }
+                                                    }
+                                    </ul>
+                                </div>
+                            </div>
+                                                    }
+                    </div>
+
+                    <div>
+                        @* Delivery + stock information *@
+                        @if (!String.IsNullOrEmpty(GetString("Ecom:Product:Stock.Text")) || !String.IsNullOrEmpty(GetString("Ecom:Product:Stock.DeliveryText")))
+                        {
+                            string stockIcon = GetInteger("Ecom:Product.Stock") > 0 ? "stock-icon--in" : "stock-icon--not";
+
+                            <table class="table u-margin-bottom u-margin-top u-full-width">
+                                <tr>
+                                    <td class="u-no-padding">@GetString("Ecom:Product:Stock.Text") <div class="stock-icon @stockIcon"></div></td>
+                                    @if (!String.IsNullOrEmpty(GetString("Ecom:Product:Stock.DeliveryText")))
+                                    {
+                                    <td class="u-no-padding u-ta-right">@Translate("Shipping") @GetString("Ecom:Product:Stock.DeliveryText") @GetString("Ecom:Product:Stock.DeliveryUnit")</td>
+                                    }
+                                </tr>
+                            </table>
+                        }
+
+                        @* Short description *@
+                        @if (!String.IsNullOrEmpty(GetString("Ecom:Product.ShortDescription")))
+                        {
+                            <div class="introduction-text">
+                                @GetString("Ecom:Product.ShortDescription")
+                            </div>
+                        }
+
+                        @* Variants *@
+                        @if (GetLoop("VariantGroups").Count > 0)
+                        {
+                            <div>
+                                <div id="Variants" data-template="VariantGroup" data-product-id="@productId"></div>
+                                <small id="helpText_@productId" class="help-text @hideHelpText">@Translate("Please select variant!")</small>
+                            </div>
+                        }
+
+                        @* BOMProducts *@
+                        @if (GetLoop("BOMProducts").Count > 0)
+                        {
+                            <h2 class="section-title">@Translate("Including products")</h2>
+                            foreach (LoopItem BOMProductItem in GetLoop("BOMProducts"))
+                            {
+                                string link = "/" + BOMProductItem.GetString("Ecom:Product.LinkGroup.Clean") + (!String.IsNullOrEmpty(BOMProductItem.GetString("Ecom:Product.VariantID")) ? "&VariantID=" + BOMProductItem.GetString("Ecom:Product.VariantID") : "");
+                                <div class="grid__col--border grid">
+                                    <div class="grid__cell grid__cell--align-middle-left">
+                                        <a href="@link" class="u-pull--left u-margin-right">
+                                            <img src="/Admin/Public/GetImage.ashx?width=50&image=@BOMProductItem.GetString("Ecom:Product.ImageSmall.Default.Clean")&Compression=99" />
+                                        </a>
+                                        <a href="@link">@BOMProductItem.GetString("Ecom:Product.Name")</a>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+
+                @* Buy block *@
+                <div class="grid__cell-footer">
+                    <div class="grid__cell grid__cell--align-middle-right">
+                    
+                            @{
+                                string currentPrice = GetString("Ecom:Product.Discount.Price.PriceWithVATFormatted") == GetString("Ecom:Product.Price.PriceWithVATFormatted") ? GetString("Ecom:Product.Price.PriceWithVATFormatted") : GetString("Ecom:Product.Discount.Price.PriceWithVATFormatted");
+                            }
+
+                            <div class="u-margin-bottom u-margin-right">
+                                <div class="before-price @onSale u-ta-right">@GetString("Ecom:Product.Price.PriceWithVATFormatted")</div>
+                                <div class="price u-ta-right">@currentPrice</div>
+                            </div>
+                            <div class="buttons-collection buttons-collection--right">
+                                <button type="button" id="CartButton_@GetString("Ecom:Product.ID")" class="btn btn--primary btn--condensed dw-mod u-pull--right" name="submit" onclick="Cart.AddToCart(event, '@GetString("Ecom:Product.ID")', document.getElementById('Quantity_@GetString("Ecom:Product.ID")').value, 'Unit_@GetString("Ecom:Product.ID")', 'Variant_@GetString("Ecom:Product.ID")');"><i class="fa fa-shopping-cart"></i> @Translate("Add to cart")</button>
+                                <input type="number" class="u-w80px u-pull--right" id="Quantity_@GetString("Ecom:Product.ID")" name="Quantity" value="1" min="1">
+                                @if (GetLoop("Units").Count > 0)
+                                {
+                                    string selectedUnit = "";
+                                    foreach (LoopItem unitOption in GetLoop("Units"))
+                                    {
+                                        if (unitOption.GetString("Ecom:VariantOption.Selected") == "SELECTED")
+                                        {
+                                            selectedUnit = unitOption.GetString("Ecom:VariantOption.Name");
+                                        }
+                                    }
+
+                                    string unitId = "";
+
+                                    <input type="checkbox" id="UnitOptions_@GetString("Ecom:Product.ID")" class="dropdown-trigger" />
+                                    <div class="dropdown u-w150px u-w80px--xs">
+                                        <label class="dropdown__header dropdown__btn" for="UnitOptions_@GetString("Ecom:Product.ID")">@selectedUnit</label>
+                                        <div class="dropdown__content">
+                                            @foreach (LoopItem unitOption in GetLoop("Units"))
+                                            {
+                                                <div class="dropdown__item" onclick="Dynamo.UpdateContent('@productContainerId', '@feedUrl&ProductID=@productId&UnitID=@unitOption.GetString("Ecom:VariantOption.ID")')">@unitOption.GetString("Ecom:VariantOption.Name")</div>
+
+                                                if (unitOption.GetString("Ecom:VariantOption.Selected") == "SELECTED")
+                                                {
+                                                    unitId = unitOption.GetString("Ecom:VariantOption.ID");
+                                                }
+                                            }
+                                        </div>
+                                        <label class="dropdown-trigger-off" for="UnitOptions_@GetString("Ecom:Product.ID")"></label>
+                                    </div>
+                                    <input type="hidden" value="@unitId" name="Unit" id="Unit_@GetString("Ecom:Product.ID")" />
+                                    <input type="hidden" value="@GetString("Ecom:Product.VariantID.Extented")" name="Variant" id="Variant_@GetString("Ecom:Product.ID")" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <div class="grid">
+        @* Long description *@
+        @if (!String.IsNullOrEmpty(GetString("Ecom:Product.LongDescription")))
+        {
+        <div class="grid__col-12">
+            <h2 class="section-title">@Translate("Description")</h2>
+
+            @GetString("Ecom:Product.LongDescription")
+        </div>
+        }
+
+        @* Features lists *@
+        @if (featuresCount > 0 && featuresCount < 10)
+        {
+            <div class="grid__col-12 grid__col--bleed-y">
+                <h2 class="section-title">@Translate("Product information")</h2>
+                <div class="grid grid--bleed">
+                    @if (GetLoop("CustomFieldValues").Count > 0)
+                    {
+                    <div class="grid__col-md-5 grid__col-sm-6">
+                        <table class="table table--clean table--compact u-margin-bottom">
+                            @foreach (LoopItem customField in GetLoop("CustomFieldValues"))
+                            {
+                                string fieldValue = customField.GetString("Product.CustomField.Value");
+
+                                if (customField.GetLoop("Product.CustomField.Options").Count > 0)
+                                {
+                                    fieldValue = "";
+                                    int count = 0;
+
+                                    foreach (LoopItem customFieldOptions in customField.GetLoop("Product.CustomField.Options"))
+                                    {
+                                        if (customFieldOptions.GetBoolean("Product.CustomField.Option.IsSelected"))
+                                        {
+                                            if (count != 0)
+                                            {
+                                                fieldValue += ", ";
+                                            }
+
+                                            fieldValue += customFieldOptions.GetString("Product.CustomField.Option.Name");
+                                            count++;
+                                        }
+                                    }
+                                }
+
+                                if (fieldValue == "False")
+                                {
+                                    fieldValue = Translate("No");
+                                }
+
+                                if (fieldValue == "True")
+                                {
+                                    fieldValue = Translate("Yes");
+                                }
+
+                                if (!String.IsNullOrEmpty(customField.GetString("Product.CustomField.Name")) && !String.IsNullOrEmpty(fieldValue))
+                                {
+                                <tr>
+                                    <td width="160">@customField.GetString("Product.CustomField.Name"):</td>
+                                    @if (!String.IsNullOrEmpty(customField.GetString("Document.FullPath")))
+                                    {
+                                        <td class="u-ta-left"><a href="@customField.GetString("Document.FullPath")" download title="@Translate("Download")"><i class="fa fa-arrow-circle-down"></i> @fieldValue</a></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="u-ta-left"><span property="identifier">@fieldValue</span></td>
+                                    }
+                                </tr>
+                                }
+                            }
+                        </table>
+                    </div>
+                    <div class="grid__col-md-5 grid__col-sm-6"></div>
+                    }
+
+                    @if (GetLoop("ProductCategories").Count > 0)
+                    {
+                    <div class="grid__col-md-5 grid__col-sm-6">
+                        <table class="table table--clean table--compact u-margin-bottom">
+                            @foreach (LoopItem categoryGroup in GetLoop("ProductCategories"))
+                            {
+                                int fieldsCount = 0;
+                                foreach (LoopItem categoryField in categoryGroup.GetLoop("ProductCategoryFields"))
+                                {
+                                    if (!String.IsNullOrEmpty(categoryField.GetString("Ecom:Product.CategoryField.Value")))
+                                    {
+                                        fieldsCount++;
+                                    }
+                                }
+
+                                if (fieldsCount > 0)
+                                {
+                                    <tr>
+                                        <td colspan="2" class="u-ta-left u-bold">@categoryGroup.GetString("Ecom:Product.Category.Name")</td>
+                                    </tr>
+
+                                    foreach (LoopItem categoryField in categoryGroup.GetLoop("ProductCategoryFields"))
+                                    {
+                                        string fieldValue = categoryField.GetString("Ecom:Product.CategoryField.Value");
+
+                                        if (fieldValue == "False")
+                                        {
+                                            fieldValue = Translate("No");
+                                        }
+
+                                        if (fieldValue == "True")
+                                        {
+                                            fieldValue = Translate("Yes");
+                                        }
+
+                                        if (!String.IsNullOrEmpty(categoryField.GetString("Ecom:Product.CategoryField.Label")) && !String.IsNullOrEmpty(fieldValue))
+                                        {
+                                        <tr>
+                                            <td width="160">@categoryField.GetString("Ecom:Product.CategoryField.Label"):</td>
+                                            @if (categoryField.GetString("Ecom:Product.CategoryField.TypeID") == "9")
+                                            {
+                                                <td class="u-ta-left"><a href="@fieldValue" download title="@Translate("Download")"><i class="fa fa-arrow-circle-down"></i> @fieldValue</a></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="u-ta-left"><span property="identifier">@fieldValue</span></td>
+                                            }
+                                        </tr>
+                                        }
+                                    }
+                                }
+                            }
+                        </table>
+                    </div>
+                    <div class="grid__col-md-5 grid__col-sm-6"></div>
+                    }
+                </div>
+            </div>
+        }
+
+        @if (featuresCount >= 10)
+        {
+            <div class="grid__col-12 grid__col--bleed-y">
+                <input type="checkbox" id="expandable-text-trigger" class="expandable-text-trigger" />
+                <div class="expandable-text-container">
+                    <div class="expandable-text-container__content">
+                        <h2 class="section-title">@Translate("Product information")</h2>
+                        <div class="grid grid--bleed">
+                            @if (GetLoop("CustomFieldValues").Count > 0)
+                            {
+                            <div class="grid__col-md-5 grid__col-sm-6">
+                                <table class="table table--clean table--compact u-margin-bottom">
+                                    @foreach (LoopItem customField in GetLoop("CustomFieldValues"))
+                                    {
+                                        string fieldValue = customField.GetString("Product.CustomField.Value.Clean");
+
+                                        if (customField.GetLoop("Product.CustomField.Options").Count > 0)
+                                        {
+                                            fieldValue = "";
+                                            int count = 0;
+
+                                            foreach (LoopItem customFieldOptions in customField.GetLoop("Product.CustomField.Options"))
+                                            {
+                                                if (customFieldOptions.GetBoolean("Product.CustomField.Option.IsSelected"))
+                                                {
+                                                    if (count != 0)
+                                                    {
+                                                        fieldValue += ", ";
+                                                    }
+
+                                                    fieldValue += customFieldOptions.GetString("Product.CustomField.Option.Name");
+                                                    count++;
+                                                }
+                                            }
+                                        }
+
+                                        if (fieldValue == "False")
+                                        {
+                                            fieldValue = Translate("No");
+                                        }
+
+                                        if (fieldValue == "True")
+                                        {
+                                            fieldValue = Translate("Yes");
+                                        }
+
+                                        if (!String.IsNullOrEmpty(customField.GetString("Product.CustomField.Name")) && !String.IsNullOrEmpty(fieldValue))
+                                        {
+                                        <tr>
+                                            <td width="160">@customField.GetString("Product.CustomField.Name"):</td>
+                                            @if (!String.IsNullOrEmpty(customField.GetString("Document.FullPath")))
+                                            {
+                                                <td class="u-ta-left"><a href="@customField.GetString("Document.FullPath")" download title="@Translate("Download")"><span property="identifier"><i class="fa fa-arrow-circle-down"></i> @fieldValue</span></a></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="u-ta-left"><span property="identifier">@fieldValue</span></td>
+                                            }
+                                        </tr>
+                                        }
+                                    }
+                                </table>
+                            </div>
+                            <div class="grid__col-md-5 grid__col-sm-6"></div>
+                            }
+
+                            @if (GetLoop("ProductCategories").Count > 0)
+                            {
+                            <div class="grid__col-md-5 grid__col-sm-6">
+                                <table class="table table--clean table--compact u-margin-bottom">
+                                    @foreach (LoopItem categoryGroup in GetLoop("ProductCategories"))
+                                    {
+                                        int fieldsCount = 0;
+                                        foreach (LoopItem categoryField in categoryGroup.GetLoop("ProductCategoryFields"))
+                                        {
+                                            if (!String.IsNullOrEmpty(categoryField.GetString("Ecom:Product.CategoryField.Value")))
+                                            {
+                                                fieldsCount++;
+                                            }
+                                        }
+
+                                        if (fieldsCount > 0)
+                                        {
+                                            <tr>
+                                                <td colspan="2" class="u-ta-left u-bold">@categoryGroup.GetString("Ecom:Product.Category.Name")</td>
+                                            </tr>
+
+                                            foreach (LoopItem categoryField in categoryGroup.GetLoop("ProductCategoryFields"))
+                                            {
+                                                string fieldValue = categoryField.GetString("Ecom:Product.CategoryField.Value");
+
+                                                if (fieldValue == "False")
+                                                {
+                                                    fieldValue = Translate("No");
+                                                }
+
+                                                if (fieldValue == "True")
+                                                {
+                                                    fieldValue = Translate("Yes");
+                                                }
+
+                                                if (!String.IsNullOrEmpty(categoryField.GetString("Ecom:Product.CategoryField.Label")) && !String.IsNullOrEmpty(fieldValue))
+                                                {
+                                                <tr>
+                                                    <td width="160">@categoryField.GetString("Ecom:Product.CategoryField.Label"):</td>
+                                                    @if (categoryField.GetString("Ecom:Product.CategoryField.TypeID") == "9")
+                                                    {
+                                                    <td class="u-ta-left"><a href="@fieldValue" download title="@Translate("Download")"><i class="fa fa-arrow-circle-down"></i> @fieldValue</a></td>
+                                                    }
+                                                    else
+                                                    {
+                                                    <td class="u-ta-left"><span property="identifier">@fieldValue</span></td>
+                                                    }
+                                                </tr>
+                                                }
+                                            }
+                                        }
+                                    }
+                                </table>
+                            </div>
+                            <div class="grid__col-md-5 grid__col-sm-6"></div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="u-ta-center">
+                        <label for="expandable-text-trigger" class="btn btn--secondary expandable-text-container__btn more dw-mod">@Translate("Show more")</label>
+                        <label for="expandable-text-trigger" class="btn btn--secondary expandable-text-container__btn less dw-mod">@Translate("Show less")</label>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @* Related products *@
+        <div class="grid js-ajax-container" id="ProductList" data-template="ProductContainer" data-pre-render-template="ProductPreRenderContainer" data-json-feed="@feedFullUrl" data-preloader="overlay"></div>
+    </div>
+</div>
+
+@* Script templates for the updateable product content *@
+<script id="productUpdateableContentTemplate" type="text/x-template">
+    <div class="grid product">
+        @* Image block with optional thumbs *@
+        <div class="grid__col-md-6 grid__col-sm-6">
+            <div class="grid grid--bleed">
+                <div class="grid__col-2 u-color-light-gray--bg u-hidden-xxs ">
+                    <div class="thumb-list">
+                        <div id="ThumbnailImages" data-template="ThumbnailImageTemplate"></div>
+                    </div>
+                </div>
+
+                <div class="grid__col-auto">
+                    <div class="sticker {{onSale}}">@Translate("Sale!")</div>
+
+                    <div class="grid__cell-img">
+                        <img class="thumb-image-view" id="Image_{{id}}" src="/Admin/Public/GetImage.ashx?height=550&amp;crop=5&amp;Compression=75&amp;image={{image}}" alt="{{name}}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* Primary product informations *@
+        <div class="grid__col-auto">
+            <div class="grid__cell">
+                <div class="u-pull--left product__title">
+                    <h1 class="u-no-margin">{{name}}</h1>
+                    <div class="item-number">{{number}}</div>
+                </div>
+
+                <div class="u-pull--right">
+                    <div id="Favorite" data-template="FavoriteTemplate" class="favorites u-pull--right {{hasVariants}}" {{hasVariants}}></div>    
+                </div>
+
+                <div>
+                    @* Delivery + stock information *@
+                    <table class="table u-margin-bottom u-margin-top u-full-width">
+                        <tr>
+                            <td class="u-no-padding">{{stockText}} <div class="stock-icon {{stockState}}" title="{{stockText}}"></div></td>
+                            <td class="u-no-padding u-ta-right {{hideDelivery}}">{{deliveryText}}</td>
+                        </tr>
+                    </table>
+
+                    @* Short description *@
+                    <div class="introduction-text">
+                        {{description}}
+                    </div>
+
+                    @* Variants *@
+                    <div>
+                        @* Combinations div needed to handle variant options(used in script block with SetVariantOptionStatesForProductList function) and should not be deleted *@
+                        <div id="Combinations" data-template="VariantCombinations" data-product-id="{{id}}" class="js-variants-wrap u-hidden"></div>
+                        <div id="Variants" data-template="VariantGroup" data-product-id="{{id}}"></div>
+                        <h2 class="section-title {{hideBOMProducts}}">@Translate("Including products")</h2>
+                        <div id="BOMProducts" data-template="BOMProductTemplate"></div>
+                        <small id="helpText_{{id}}" class="help-text {{hideViewMore}} {{hideHelpText}}">@Translate("Please select variant!")</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid__cell-footer">
+                <div class="grid__cell grid__cell--align-middle-right">
+                    <div class="u-margin-bottom u-margin-right">
+                        <div class="before-price {{onSale}} u-ta-right">{{discount}}</div>
+                        <div class="price u-ta-right">{{price}}</div>
+                    </div> 
+                    <div class="buttons-collection buttons-collection--right">
+                        <button type="button" id="CartButton_{{id}}" class="btn btn--primary dw-mod u-pull--right" name="submit" onclick="Cart.AddToCart(event, '{{id}}', document.getElementById('Quantity_{{id}}').value, 'Unit_{{id}}', 'Variant_{{id}}');"><i class="fa fa-shopping-cart"></i> @Translate("Add to cart")</button>
+                        <input type="number" class="u-w80px u-pull--right" id="Quantity_{{id}}" name="Quantity" value="1" min="0">
+                            
+                        <input type="checkbox" id="UnitOptions_{{id}}" class="dropdown-trigger" />
+                        <div class="dropdown u-w150px {{hasUnits}}">
+                            <label class="dropdown__header dropdown__btn" for="UnitOptions_{{id}}">{{unitName}}</label>
+                            <div id="unitOptions" data-template="unitOption" class="dropdown__content"></div>
+                            <label class="dropdown-trigger-off" for="UnitOptions_{{id}}"></label>
+                        </div>
+                        <input type="hidden" value="{{unitId}}" name="Unit" id="Unit_{{id}}" />
+                        <input type="hidden" value="{{variantid}}" name="Variant" id="Variant_{{id}}" />
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div> 
+</script>
+
+@* Thumbnail images *@
+<script id="ThumbnailImageTemplate" type="text/x-template">
+    <div class="thumb-list__item dw-mod js-thumb-btn" onmouseover="ImageList.LoadImage(this)" data-for="Image_{{productId}}" data-image-path="/Admin/Public/GetImage.ashx?width=500&amp;height=500&amp;crop=5&amp;Compression=75&amp;image={{image}}"><img src="/Admin/Public/GetImage.ashx?width=100&amp;height=100&amp;crop=5&amp;Compression=75&amp;image={{image}}"></div>
+</script>
+
+
+@* Variants templates *@
+<script id="VariantGroup" type="text/x-template">
+    <div>
+        <div>{{name}}</div>
+        <div id="VariantOptions" data-template="VariantOption"></div>
+    </div>
+</script>
+
+<script id="VariantOption" type="text/x-template">
+    <button type="button" id="{{id}}" data-product-id="@productId" onclick="UpdateVariants(this)" class="btn btn--tag {{disabled}} {{selected}}" data-check="{{selected}}" {{disabled}}>{{name}}</button>
+</script>
+
+@* Favorites templates *@
+<script id="FavoriteTemplate" type="text/x-template">
+    <div class="u-pull--right u-ta-left">
+        <i class="{{favoriteIcon}} fa-1_5x"></i>
+        <div class="favorites-list">
+            <ul id="FavoriteLists" data-template="FavoriteListItem" class="list list--clean"></ul>
+        </div>
+    </div>
+</script>
+
+@* BOMProduct templates *@
+<script id="BOMProductTemplate" type="text/x-template">
+    <div class="grid__col--border grid">
+        <div class="grid__cell grid__cell--align-middle-left">
+            <a href="{{link}}" class="u-pull--left u-margin-right">
+                <img src="/Admin/Public/GetImage.ashx?width=50&image={{image}}&Compression=99" />
+            </a>
+            <a href="{{link}}">{{name}}</a>
+        </div>
+    </div>
+</script>
+
+<script id="FavoriteListItem" type="text/x-template">
+    <li>
+        <a href="{{link}}" class="list__link"><i class="{{favoriteIcon}}"></i> {{name}}</a>
+    </li>
+</script>
+
+<script id="unitOption" type="text/x-template">
+    <div class="dropdown__item" onclick="Dynamo.UpdateContent('@productContainerId', '@feedUrl&ProductID=@productId&UnitID={{value}}')">{{name}}</div>
+</script>
+
+
+@* Script templates for related products *@
+ <script id="ProductPreRenderContainer" type="text/x-template">
+    <div class="grid__col-md-4">
+        <div class="pre-render-element pre-render-element--md"></div>
+    </div>
+    <div class="grid__col-md-4">
+        <div class="pre-render-element pre-render-element--md"></div>
+    </div>
+    <div class="grid__col-md-4">
+        <div class="pre-render-element pre-render-element--md"></div>
+    </div>
+</script>
+
+<script id="ProductContainer" type="text/x-template">
+    <div class="grid__col-12">
+        <h2 class="section-title section-title--condensed">@Translate("What about these products?")</h2>
+    </div>
+
+    <div class="grid__col-1 grid__col--bleed-x">
+        <div class="grid__cell grid__cell--align-middle-right">
+            <button class="btn btn--condensed btn--clean {{prevdisabled}} dw-mod" onclick="Dynamo.UpdateContent('ProductList', '{{prevPage}}')" {{prevdisabled}}><i class="fa fa-chevron-left fa-2x"></i></button>
+        </div>
+    </div>
+    <div class="grid__col-10 grid__col--bleed-x">
+        <div id="ProductsContainer" class="grid product-list" data-template="ProductGridItemContainer"></div>
+    </div>
+    <div class="grid__col-1 grid__col--bleed-x">
+        <div class="grid__cell grid__cell--align-middle-left">
+            <button class="btn btn--condensed btn--clean {{nextdisabled}} dw-mod" onclick="Dynamo.UpdateContent('ProductList', '{{nextPage}}')" {{nextdisabled}}><i class="fa fa-chevron-right fa-2x"></i></button>
+        </div>
+    </div>
+</script>
+                
+<script id="ProductGridItemContainer" type="text/x-template">
+    <div id="Product" class="grid__col-lg-4 grid__col-md-4 grid__col-sm-4 grid__col-xs-6" data-template="ProductGridItem" data-preloader="false"></div>
+</script>
+
+<script id="ProductGridItem" type="text/x-template">
+    <div class="grid__cell grid--border {{noImage}}">
+        <div class="sticker {{onSale}}">@Translate("Sale!")</div>
+        <a href="{{link}}" onclick="Scroll.SavePosition(event)"><img class="grid__cell-img" src="/Admin/Public/GetImage.ashx?width=300&amp;height=300&amp;crop=5&amp;Compression=75&amp;image={{image}}" /></a>
+    </div>
+
+    <div class="grid__cell card">
+        <div class="u-ta-center">
+            <a href="{{link}}" onclick="Scroll.SavePosition(event)" title="{{name}}"><h6 class="u-condensed-text u-max-w200px">{{name}}</h6></a>
+            <div class="item-number">{{number}}</div>
+            <div class="before-price {{onSale}}">{{discount}}</div>
+            <div class="price">{{price}}</div>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <div class="u-ta-center">
+            <a href="{{link}}" id="CartButton_{{id}}" class="btn btn--secondary btn--full u-no-margin dw-mod">@Translate("View")</a>
+        </div>
+    </div>
+</script>
+
+@*Variants data generation*@
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        var variants = [];
+
+        document.getElementById("@productContainerId").addEventListener('contentLoaded', function (e) {
+            if (e.srcElement.classList.contains("js-variants-wrap")) {
+                SetVariantOptionStatesForProductList(e.srcElement);
+            }
+        }, false);
+
+        @foreach (LoopItem variantgroup in GetLoop("VariantGroups"))
+        {
+            <text>var optionsArray = [];</text>            
+
+            foreach (LoopItem variantoption in variantgroup.GetLoop("VariantAvailableOptions"))
+            {
+                string variantSelection = variantoption.GetBoolean("Ecom:VariantOption.Selected") ? "checked" : "";
+
+                <text>
+                var option = new VariantOption("@variantoption.GetValue("Ecom:VariantOption.ID")", "@GetString("Ecom:Product.ID")", "@variantoption.GetString("Ecom:VariantOption.Name")", "@variantSelection", "", "@variantoption.GetString("Ecom:VariantOption.Color")");
+                optionsArray.push(option);
+                </text>
+            }
+
+            <text>
+            var group = new VariantGroup("@GetString("Ecom:Product.ID")_@variantgroup.GetValue("Ecom:VariantGroup.ID")", "@variantgroup.GetValue("Ecom:VariantGroup.Name")", optionsArray);
+            variants.push(group);
+            </text>
+            }
+
+            var combinations = [];
+            @foreach (LoopItem variantcomb in GetLoop("VariantStockCombinations"))
+            {
+                <text>
+                combinations.push(new CombinationItem("@variantcomb.GetValue("Ecom:VariantStockCombination.VariantID")"));
+                </text>
+            }
+
+        SetProductFeedId('@feedId');
+        InitVariants(variants, combinations, "@productId");
+    });
+</script>

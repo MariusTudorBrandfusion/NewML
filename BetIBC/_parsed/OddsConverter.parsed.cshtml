@@ -1,0 +1,122 @@
+﻿            
+<section class="multiple-paragraphs-container grid__col-md-12 grid__col-xs-12 u-no-padding u-brand-color-two--bg odds-convertor-calculator">          
+  <div class="center-container dw-mod">
+    <div class="grid">
+      <div class="grid__col-md-12 grid__col-xs-12 paragraph-container">
+        <div class="grid__cell"> 
+          
+              <h2>@Translate("OddsConverter", "Odds Converter")</h2>
+              <h3><strong>@Translate("Calculate odds formats between the various styles", "Calculate odds formats between the various styles")</strong></h3>
+
+              <div class="odds-convertor-form" style="margin-top: 10px; margin-bottom: 20px;">
+                <div id="first_odds_calculator_block">
+                  <div id="first_odds">
+<p>@Translate("Select the format you wish to convert from", "Select the format you wish to convert from")</p>
+                    <select name="fc_first_format" id="fc_first_format" class="odds_format_select"><option value="eu">Decimal Odds</option><option value="uk">Fractional Odds</option><option value="us">American Odds</option><option value="hk">Hong Kong Odds</option><option value="in">Indo Odds</option><option value="ma">Malay Odds</option></select>
+                    <div>
+                      <img src="https://png.icons8.com/ios/2x/info.png" class="img-responsive">
+                      <!-- <i class="info_btn"></i> -->
+                      <div class="tooltip_example" style=""><div><strong>How to spell Odds Formats correctly:</strong></div><p><strong>Format:</strong><strong style="margin-left: 80px;">Example 1.5</strong></p><p><span>Decimal Odds</span><strong>1.50</strong><strong>1.5</strong><strong>1,50</strong><strong>1,5</strong></p><p><span>Fractional Odds</span><strong>1/2</strong><strong>1:2</strong></p><p><span>American Odds</span><strong>-200</strong></p><p><span>Hong Kong Odds</span><strong>0.50</strong><strong>0.5</strong><strong>0,50</strong><strong>0,5</strong></p><p><span>Indo Odds</span><strong>-2.00</strong><strong>-2,00</strong></p><p><span>Malay Odds</span><strong>0.50</strong><strong>0.5</strong><strong>0,50</strong><strong>0,5</strong></p></div>
+                    </div>
+<p class="screen-responsive-calculator">@Translate("Enter the odds value...", "Enter the odds value...")</p>
+                    <input type="text" name="fc_first_odds" id="fc_first_odds" value="" class="odds_value_input screen-responsive-calculator">
+                    <span class="error" style="display: none;">*Odds Value not correct!</span>
+                  </div>
+                  <div id="between_odds" class="screen-responsive-calculator">
+   <p>@Translate("...press the  button...", "...press the  button...") </p>
+                    <img src="/Files/Templates/Designs/BetIBC/Images/calc_btn.png">
+                  </div>
+                  <div id="second_odds">
+<p>@Translate("Select the format you wish to convert to", "Select the format you wish to convert to")</p>
+                    <select name="fc_second_format" id="fc_second_format" class="odds_format_select"><option value="uk">Fractional Odds</option><option value="us">American Odds</option><option value="hk">Hong Kong Odds</option><option value="in">Indo Odds</option><option value="ma">Malay Odds</option></select>
+             <p class="mobile-responsive-calculator">@Translate("Enter the odds value...", "Enter the odds value...")</p>
+                    <input type="text" name="fc_first_odds" id="fc_first_odds" value="" class="odds_value_input mobile-responsive-calculator">
+                    <span class="error" style="display: none;">*Odds Value not correct!</span>  
+      <div id="between_odds" class="mobile-responsive-calculator">
+    <p>@Translate("...press the  button...", "...press the  button...") </p>
+                    <img src="/Files/Templates/Designs/BetIBC/Images/calc_btn.png">
+                  </div>     
+<div>
+                      <img src="https://png.icons8.com/ios/2x/info.png" class="img-responsive">
+                      <!-- <i class="info_btn"></i> -->
+                      <div class="tooltip_example" style=""><div><strong>How to spell Odds Formats correctly:</strong></div><p><strong>Format:</strong><strong style="margin-left: 80px;">Example 1.5</strong></p><p><span>Decimal Odds</span><strong>1.50</strong><strong>1.5</strong><strong>1,50</strong><strong>1,5</strong></p><p><span>Fractional Odds</span><strong>1/2</strong><strong>1:2</strong></p><p><span>American Odds</span><strong>-200</strong></p><p><span>Hong Kong Odds</span><strong>0.50</strong><strong>0.5</strong><strong>0,50</strong><strong>0,5</strong></p><p><span>Indo Odds</span><strong>-2.00</strong><strong>-2,00</strong></p><p><span>Malay Odds</span><strong>0.50</strong><strong>0.5</strong><strong>0,50</strong><strong>0,5</strong></p></div>
+                    </div>
+<p>@Translate("...and see the new format here", "...and see the new format here")</p>
+                    <input type="text" name="fc_second_odds" id="fc_second_odds" value="" class="odds_value_input" disabled="disabled">			
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+
+          
+
+              <div style="margin-top: 10px;">
+               <h2>@Translate("Payouts Converter", "Payouts Converter")</h2>
+              <h3><strong>@Translate("Enter your stake and see your payout", "Enter your stake and see your payout")</strong></h3>
+                <div id="second_odds_calculator_block">
+<div class="col-5">
+                  <div class="flexed-output">
+                    <div class="combain" id="sc_stake_block">
+                      <label>@Translate("Enter the stake you wish to wager (any currency)", "Enter the stake you wish to wager (any currency)")</label>
+                      <input type="text" name="sc_stake" id="sc_stake" value="" class="odds_value_input_2">
+                      <span class="error2">*Stake Value not correct!</span>
+                    </div>
+                      <div class="combain screen-responsive-calculator" id="sc_odds_block">
+                      <label>@Translate("Enter the odds value...", "Enter the odds value...")</label>
+                      <input type="text" name="sc_odds" id="sc_odds" value="" class="odds_value_input_2">
+                      <span class="error2">*Odds Value not correct!</span>
+                    </div>
+                  </div>
+</div>
+<div class="col-2 screen-responsive-calculator">
+                <p>@Translate("...press the  button...", "...press the  button...") </p>
+                    <div class="calc_img">
+                      <img src="/Files/Templates/Designs/BetIBC/Images/calc_btn.png">
+                    </div>
+              
+</div>
+<div class="col-5">
+  <div class="flexed-output">
+    <div class="combain">
+                      <label>@Translate("Select the odds format", "Select the odds format")</label>
+                      <select name="sc_format" id="sc_format" class="odds_format_select"><option value="eu">Decimal Odds</option><option value="uk">Fractional Odds</option><option value="us">American Odds</option><option value="hk">Hong Kong Odds</option><option value="in">Indo Odds</option><option value="ma">Malay Odds</option></select>
+                    </div>
+     <div class="combain mobile-responsive-calculator" id="sc_odds_block">
+                      <label>@Translate("Enter the odds value...", "Enter the odds value...")</label>
+                      <input type="text" name="sc_odds" id="sc_odds" value="" class="odds_value_input_2">
+                      <span class="error2">*Odds Value not correct!</span>
+                    </div>
+              <div class="col-2 mobile-responsive-calculator">
+                <p>@Translate("...press the  button...", "...press the  button...") </p>
+                    <div class="calc_img">
+                      <img src="/Files/Templates/Designs/BetIBC/Images/calc_btn.png">
+                    </div>
+              
+</div>
+      <div class="combain">
+                      <label>@Translate("...and see what your payout will be  here", "...and see what your payout will be  here")</label>
+                      <input type="text" name="payout" id="payout" value="" class="odds_value_input_2" disabled="disabled">
+                    </div>
+                  </div>
+</div>
+
+                  <div class="flexed-output">
+                    <div class="tooltip_f">
+                      <!-- <i class="info_btn"></i> -->
+                      <img style="width: 30px" src="https://png.icons8.com/ios/2x/info.png" class="img-responsive">
+                      <div class="tooltip_example" style=""><div><strong>How to spell Odds Formats correctly:</strong></div><p><strong>Format:</strong><strong style="margin-left: 80px;">Example 1.5</strong></p><p><span>Decimal Odds</span><strong>1.50</strong><strong>1.5</strong><strong>1,50</strong><strong>1,5</strong></p><p><span>Fractional Odds</span><strong>1/2</strong><strong>1:2</strong></p><p><span>American Odds</span><strong>-200</strong></p><p><span>Hong Kong Odds</span><strong>0.50</strong><strong>0.5</strong><strong>0,50</strong><strong>0,5</strong></p><p><span>Indo Odds</span><strong>-2.00</strong><strong>-2,00</strong></p><p><span>Malay Odds</span><strong>0.50</strong><strong>0.5</strong><strong>0,50</strong><strong>0,5</strong></p></div>
+                    </div>
+                  </div>			
+                </div>
+              </div>
+      
+          </div>
+        </div>
+   	  </div>   
+   </div>
+</section>    
+
+             
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/Files/Templates/Designs/BetIBC/js/OddsConverter.js"></script>

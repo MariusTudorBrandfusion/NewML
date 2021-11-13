@@ -1,0 +1,404 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+
+@MasterPageFile("MasterNoEcom.cshtml")
+
+@{
+    var paymentLogo = ((Dynamicweb.Frontend.FileViewModel)Model.Item.GetValue("Payment_Method_Logo"));
+    string paymentMethodName = Model.Item.GetString("Payment_Method_Name"),
+           paymentMethodDescription = Model.Item.GetString("Payment_Method_Description"),
+           paymentAffiliateLink = Model.Item.GetString("Affiliate_Link"),
+           paymentMethodShortDescription = Model.Item.GetString("Payment_Method_Short_Description"),
+           paymentMethodVideoTutorial = Model.Item.GetString("Payment_Method_Video_Tutorial"),
+           paymentMethodSignUpTutorialDescription = Model.Item.GetString("Payment_Method_Sign_Up_Tutorial_Description"),
+           paymentMethodSignUpTutorial = Model.Item.GetString("Payment_Method_Sign_Up_Tutorial"),
+           paymentMethodLoginTabDescription = Model.Item.GetString("Login_Tab_Description"),
+           paymentMethodLoginAndDepositVideoTutorial = Model.Item.GetString("LoginAnd_Deposit_Video_Tutorial"),
+           paymentMethodLoginTutorialShort = Model.Item.GetString("Login_Tutorial_Short"),
+           paymentMethodLoginAndDepositTutorialFull = Model.Item.GetString("LoginAnd_Deposit_TutorialFull");
+}
+
+@if (Model.PropertyItem.GetBoolean("ShowBreadcrumb")) {
+    <div class="grid__col-12 u-color-gray--bg">
+      <div class="center-container">
+        <div class="u-pull--right">
+            @RenderNavigation(new
+            {
+                id = "breadcrumb",
+                template = "breadcrumb.xslt"
+            })
+        </div>
+        <div class="u-pull--left">
+           <h3 class="page-title">@Model.Name</h3>
+        </div>
+      </div>
+    </div>
+}
+
+<div class="bookmaker payment-methods">
+
+    <!-- Bookmaker Header -->
+    @if(paymentLogo != null) {
+        <div class="payment-header u-color-gray--bg">
+            <div class="payment-logo">
+                <img src="@paymentLogo.Path" />
+            </div>
+        </div>
+    }
+
+    <section class="multiple-paragraphs-container">          
+        <div class="center-container dw-mod">
+            <div class="grid__col-md-12 grid__col-xs-12">
+                <div class="grid__cell">
+                    @* @if (!string.IsNullOrEmpty(paymentMethodName)) { 
+                        <h2>@paymentMethodName</h2>
+                    }  *@
+                    @if (!string.IsNullOrEmpty(paymentMethodDescription)) { 
+                        <div>@paymentMethodDescription</div>
+                    } 
+                    @if (!string.IsNullOrEmpty(paymentAffiliateLink)) { 
+                        <a href="@paymentAffiliateLink" class="btn btn--primary dw-mod u-no-margin">@Translate("Affiliate", "Affiliate")</a>
+                    } 
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @if (!string.IsNullOrEmpty(paymentMethodShortDescription)) { 
+    <section class="u-color-gray--bg">          
+        <div class="center-container dw-mod">
+            <div class="grid__col-md-12 grid__col-xs-12">
+                <div>@paymentMethodShortDescription</div>
+            </div>
+        </div>
+    </section>
+    }
+
+    @if (!string.IsNullOrEmpty(paymentMethodVideoTutorial)) { 
+    <section class="u-brand-color-one--bg">          
+        <div class="center-container dw-mod">
+            <div class="grid__col-md-12 grid__col-xs-12">
+                <div class="payment-tutorial"><iframe width="854" height="600" src="https://www.youtube.com/embed/@(paymentMethodVideoTutorial)" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe></div>
+            </div>
+        </div>
+    </section>
+    } 
+
+    <section class="multiple-paragraphs-container">          
+        <div class="center-container dw-mod">
+            <div class="grid__col-md-12 grid__col-xs-12">
+                @if (!string.IsNullOrEmpty(paymentMethodSignUpTutorialDescription)) { 
+                    <div>@paymentMethodSignUpTutorialDescription</div>
+                } 
+            </div>
+        </div>
+    </section>
+
+    <section class="u-color-gray--bg">          
+        <div class="center-container dw-mod">
+            <div class="grid__col-md-12 grid__col-xs-12">
+                @if (!string.IsNullOrEmpty(paymentMethodSignUpTutorial)) { 
+                    <div>@paymentMethodSignUpTutorial</div>
+                } 
+                @if (!string.IsNullOrEmpty(paymentMethodLoginTabDescription)) { 
+                    <div>@paymentMethodLoginTabDescription</div>
+                } 
+            </div>
+        </div>
+    </section>   
+
+    <section>          
+        <div class="center-container dw-mod">
+            <div class="grid__col-md-12 grid__col-xs-12">
+                @* @if (!string.IsNullOrEmpty(paymentMethodLoginAndDepositVideoTutorial)) { 
+                    <div>@paymentMethodLoginAndDepositVideoTutorial</div>
+                } *@
+                @if (!string.IsNullOrEmpty(paymentMethodLoginTutorialShort)) { 
+                    <div>@paymentMethodLoginTutorialShort</div>
+                } 
+                @if (!string.IsNullOrEmpty(paymentMethodLoginAndDepositTutorialFull)) { 
+                    <div>@paymentMethodLoginAndDepositTutorialFull</div>
+                } 
+            </div>
+        </div>
+    </section> 
+    
+
+    <!-- About the bookmaker -->
+    @* <section class="multiple-paragraphs-container">          
+        <div class="center-container dw-mod">
+            <div class="grid">
+
+                @if (!string.IsNullOrEmpty(bWebsite) || !string.IsNullOrEmpty(bCompanyAndLegalForm) || !string.IsNullOrEmpty(bEstablishedIn) || !string.IsNullOrEmpty(bJurisdiction) || !string.IsNullOrEmpty(bAddress) || !string.IsNullOrEmpty(bEmailSupport) || bSupport || bCasinoAvailable || bPokerAvailable || bLiveChatSupport) { 
+                    <div class="grid__col-md-8 grid__col-xs-12 paragraph-container">
+                        <div class="grid__cell">
+                            <h2>@Translate("Introduction", "Introduction")</h2>
+                            <div class="introduction">@bIntroduction</div>   
+                            <div class="logos">
+                                <img src="@logo" alt="Logo" />
+                                <span>&</span>
+                                <img src="@bLogo.Path" />
+                            </div>
+                            <div class="description">@bDescription</div>
+                        </div>
+                    </div>
+                    <div class="grid__col-md-4 grid__col-xs-12 paragraph-container">
+                        <div class="grid__cell">
+                            <div class="u-brand-color-one--bg about-bookmaker">
+                                @if (!string.IsNullOrEmpty(bWebsite)) { 
+                                    <p><span>@Translate("Website", "Website"):</span> <a href="http://@bWebsite" target="_blank">@bWebsite</a></p> 
+                                }
+                                @if (!string.IsNullOrEmpty(bCompanyAndLegalForm)) { 
+                                    <p><span>@Translate("Company legal form", "Company / legal form"):</span> @bCompanyAndLegalForm</p> 
+                                }
+                                @if (!string.IsNullOrEmpty(bEstablishedIn)) { 
+                                    <p><span>@Translate("Established in", "Established in"):</span> @bEstablishedIn</p> 
+                                }
+                                @if (!string.IsNullOrEmpty(bJurisdiction)) { 
+                                    <p><span>@Translate("Jurisdiction", "Jurisdiction"):</span> @bJurisdiction</p> 
+                                }
+                                @if (!string.IsNullOrEmpty(bAddress)) { 
+                                    <p><span>@Translate("Address", "Address"):</span> @bAddress</p> 
+                                }
+                                @if (!string.IsNullOrEmpty(bEmailSupport)) { 
+                                    <p><span>@Translate("Email support", "E-mail support"):</span> @bEmailSupport</p> 
+                                }
+                                @if (bSupport) { 
+                                    <p><span>@Translate("support", "24h support"):</span> @bSupport</p> 
+                                }
+                                @if (bCasinoAvailable) { 
+                                    <p><span>@Translate("Casino available", "Casino available"):</span> @bCasinoAvailable</p> 
+                                }
+                                @if (bPokerAvailable) { 
+                                    <p><span>@Translate("Poker available", "Poker available"):</span> @bPokerAvailable</p> 
+                                }
+                                @if (bLiveChatSupport) { 
+                                    <p><span>@Translate("Live chat support", "Live chat support"):</span> @bLiveChatSupport</p> 
+                                }
+                                @if (bAgentAccountAvailable) { 
+                                    <p><span>@Translate("Agent Account Available", "Agent Account Available"):</span> @bAgentAccountAvailable</p> 
+                                }
+                                @if (bBettingExchange) { 
+                                    <p><span>@Translate("Betting Exchange", "Betting Exchange"):</span> @bBettingExchange</p> 
+                                }
+                                @if (bCommision) { 
+                                    <p><span>@Translate("Commision", "Commision"):</span> @bCommision</p> 
+                                }
+                            </div>
+                        </div>
+                    </div>
+                } else {
+                    <div class="grid__col-md-12 grid__col-xs-12 paragraph-container">
+                        <div class="grid__cell">
+                            <div class="introduction">@bIntroduction</div>   
+                            <div class="logos"></div>
+                            <div class="description">@bDescription</div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </section> *@
+
+
+    <!-- Betting portofolio -->
+    @* @if (!string.IsNullOrEmpty(bAreaTitle) || !string.IsNullOrEmpty(bBettingPortofolioText) || Model.Item.GetItems("Sports").Any()) {
+    <section class="u-color-gray--bg">          
+        <div class="center-container dw-mod">
+            <div class="grid__col-md-12 grid__col-xs-12">
+                <h3 class="section-title">@bAreaTitle</h3>
+                <div class="sports">
+                    @foreach (var sports in Model.Item.GetItems("Sports")) {
+                        var sportIcon = ((Dynamicweb.Frontend.FileViewModel)sports.GetValue("Icon"));
+                        string sportName = sports.GetString("SportName");
+
+                        if(sportIcon != null) { 
+                            <div class="sport-icon"><img src="@sportIcon.Path" alt="@sportName" title="@sportName" /> <p>@sportName</p> </div>
+                            
+                        }
+                    }
+                </div> 
+                <div class="betting-portofolio-text">
+                    @bBettingPortofolioText
+                </div>
+            </div>
+        </div>
+    </section>
+    } *@
+
+
+    <!-- Types and  features -->
+    @* @if (!string.IsNullOrEmpty(bBettingTypeText) || Model.Item.GetItems("Betting_TypeLists").Any()) {
+    <section class="multiple-paragraphs-container">          
+        <div class="center-container dw-mod">
+            <div class="grid">
+
+                <div class="grid__col-md-8 grid__col-xs-12">
+                    <div class="grid__cell">
+                        <!-- betting types -->
+                        <h3 class="section-title">@Translate("Types of bets","Types of bets")</h3>
+                        <div class="grid">
+                            <div class="grid__col-md-7 grid__col-xs-12">
+                                <div class="types"><ul>
+                                    @foreach (var types in Model.Item.GetItems("Betting_TypeLists")) {
+                                        string bettingType = types.GetString("BettingType");
+                                        <li>@bettingType</li>
+                                    }
+                                </ul></div> 
+                            </div>
+                            <div class="grid__col-md-5 grid__col-xs-12">
+                                <div class="betting-portofolio-text">
+                                    @bBettingTypeText
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid__col-md-4 grid__col-xs-12">
+                    <div class="grid__cell">
+                        <!-- betting types -->
+                        <h3 class="section-title">@Translate("Features","Features")</h3>
+                        <div class="features">
+                            @foreach (var features in Model.Item.GetItems("Bookmaker_Features")) {
+                                var featureIcon = ((Dynamicweb.Frontend.FileViewModel)features.GetValue("FeatureIcon"));
+                                string featureTitle = features.GetString("FeatureTitle");
+                                
+                                <div class="feature-item">
+                                    @if(featureIcon != null) { 
+                                        <div class="feature-icon"><img src="@featureIcon.Path" /></div> 
+                                    }
+                                    <h4>@featureTitle</h4>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    } *@
+
+
+    <!-- Languages -->
+    @* @if (!string.IsNullOrEmpty(bLanguagesAreaText) || Model.Item.GetItems("Bookmaker_Languages").Any()) {
+    <section class="u-color-gray--bg"> 
+        <div class="center-container dw-mod">
+            <div class="grid__col-md-12 grid__col-xs-12">  
+                <h3 class="section-title">@Translate("Languages","Languages")</h3>
+                <div class="grid languages-area">
+                    <div class="grid__col-md-3 grid__col-xs-12">
+                        @bLanguagesAreaText
+                    </div>
+                    <div class="grid__col-md-9 grid__col-xs-12 lang-box">
+                        @foreach (var lang in Model.Item.GetItems("Bookmaker_Languages")) {
+                            var flag = ((Dynamicweb.Frontend.FileViewModel)lang.GetValue("Flag"));
+                            string languageAbreviation = lang.GetString("languageAbreviation");
+                            
+                            <div class="lang-item">
+                                @if(flag != null) { 
+                                    <div class="flag"><img src="@flag.Path" /></div> 
+                                }
+                                <h5>@languageAbreviation</h5>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    } *@
+
+
+    <!-- Customer and Internal links -->
+    @* @if(Model.Item.GetItems("SupportOptionsList").Any()){
+    <section class="multiple-paragraphs-container">          
+        <div class="center-container dw-mod">
+            <div class="grid">
+
+                <div class="grid__col-md-8 grid__col-xs-12">
+                    <div class="grid__cell">
+                        <!-- customer support -->
+                        <h3 class="section-title">@Translate("Customer support","Customer support")</h3>
+                        <div class="grid">
+                            <div class="grid__col-md-7 grid__col-xs-12">
+                                <div class="types">
+                                    @if(Model.Item.GetItems("SupportOptionsList").Any()){
+                                        foreach (var customers in Model.Item.GetItems("SupportOptionsList")) {
+                                            var customerIcon = ((Dynamicweb.Frontend.FileViewModel)customers.GetValue("Icon"));
+                                            string customerTitle = customers.GetString("Support_Type");
+
+                                            <div class="feature-item">
+                                                @if(customerIcon != null) { 
+                                                    <div class="feature-icon"><img src="@customerIcon.Path" /></div> 
+                                                }
+                                                <h4>@customerTitle</h4>
+                                            </div>
+                                        }
+                                    }
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid__col-md-4 grid__col-xs-12">
+                    <div class="grid__cell"> &nbsp;
+                        <!-- internal links -->
+                        <div class="internal-links">
+                            @if(!string.IsNullOrEmpty(bRegisterPageLink)) 
+                                { <a href="@bRegisterPageLink" class="btn btn--primary dw-mod u-no-margin">@Translate("Open Account", "Open Account")</a> 
+                            }
+                            @if(!string.IsNullOrEmpty(bCasinoReviewLink)) { 
+                                <a href="@bCasinoReviewLink" class="btn btn--secondary dw-mod u-no-margin">@Translate("Casino", "Casino")</a> 
+                            }
+                           @if(!string.IsNullOrEmpty(bLiveCasinoReviewLink)) { 
+                                <a href="@bLiveCasinoReviewLink" class="btn">@Translate("Live Casino", "Live Casino")</a> 
+                            }
+                            @if(!string.IsNullOrEmpty(bPokerRoomReviewLink)) { 
+                                <a href="@bPokerRoomReviewLink" class="btn">@Translate("Reviews", "Reviews")</a> 
+                            }
+                        </div> 
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    } *@
+
+
+	@* @if(Model.Item.GetItems("FAQ_List").Any()){
+    <section class="multiple-paragraphs-container">          
+        <div class="center-container dw-mod">
+            <div class="grid">
+
+                <div class="grid__col-md-12 grid__col-xs-12">
+                    <div class="grid__cell">
+                        <!-- customer support -->
+                        <h3 class="section-title">@Translate("Faq","Faq")</h3>
+                        <div id="accordion">
+                          @foreach (var q in Model.Item.GetItems("FAQ_List")) {
+                                string question = q.GetString("Question");
+                                string answer = q.GetString("Answer");
+								
+                                <div class="faq-item">
+                                    <div class="faq__question"><span>Q:</span> @question</div>
+                                    <section class="faq__answer">
+                                        <div class="faq__body">
+                                            @answer
+                                        </div>
+                                    </section>
+                                </div>
+                          }
+
+                      </div>
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+    </section>
+    } *@
+    
+</div>

@@ -1,0 +1,175 @@
+﻿<div class="paragraph-container__grid--bleed">
+    <div class="grid">
+        <div class="grid__col-md-12 grid__col-sm-12 grid__col-xs-12">
+        <h2>
+                @if (!string.IsNullOrWhiteSpace(GetString("UserManagement:User.ManageAddresses.AddAddress")))
+                {
+              		 <i class="fa fa-user"></i> @Translate("Request a new bookmaker account");
+                }
+                @if (!string.IsNullOrWhiteSpace(GetString("UserManagement:User.ManageAddresses.UpdateAddress")))
+                {
+                <i class="fa fa-pencil"></i> @Translate("Edit Account")
+                }
+            </h2>
+
+            @GetString("UserManagement:User.ManageAddresses.FormStart")
+
+           <label>@Translate("Choose the bookmaker"): test</label>
+
+           <div class="grid">
+@*    
+                      @if (!existingBookmakers.Contains("Maxbet", StringComparer.OrdinalIgnoreCase)) {
+                        <label class="grid__col-md-3 grid__col-xs-12 grid__col--bleed-y">
+                          <input id="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker"  type="radio" name="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker" value="Maxbet" data-currency="@Euro, @USD, @MYR, @SGD">
+                           <div class="grid u-color-light-gray--bg grid__col--border">
+                            <div class="grid" style="min-height:100px;padding-top: 23px;">
+                              <img style="width:261px; height:56px;" src="@MaxbetLogo">
+                            </div>
+                          </div> 
+                        </label>
+					}
+*@
+@if (!existingBookmakers.Contains("PS3838", StringComparer.OrdinalIgnoreCase)) {
+                      <label class="grid__col-md-3 grid__col-xs-12 grid__col--bleed-y">
+                        <input id="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker"  type="radio" name="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker" value="PS3838" data-currency="@GBP, @USD, @Euro">
+                         <div class="grid u-color-light-gray--bg grid__col--border">
+                          <div class="grid" style="min-height:100px;padding-top: 30px;">
+                            <img style="width:261px; height:50px;" src="@PinnacleLogo">
+                          </div>
+                          
+                        </div> 
+                      </label>
+}
+@if (!existingBookmakers.Contains("Betfair", StringComparer.OrdinalIgnoreCase)) {
+
+                      <label class="grid__col-md-3 grid__col-xs-12 grid__col--bleed-y">
+                        <input id="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker"  type="radio" name="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker" value="Betfair"  data-currency="@Euro">
+                      <div class="grid u-color-light-gray--bg grid__col--border">
+                          <div class="grid" style="min-height:100px;padding-top: 30px;">
+                            <img style="width:261px; height:41px;" src="@BetfairLogo">
+                          </div>
+                          
+                        </div>
+                        </label>
+}
+@if (!existingBookmakers.Contains("Sbobet", StringComparer.OrdinalIgnoreCase)) {
+                      <label class="grid__col-md-3 grid__col-xs-12 grid__col--bleed-y">
+                        <input id="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker"  type="radio" name="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker" value="Sbobet" data-currency="@Euro">
+                              <div class="grid u-color-light-gray--bg grid__col--border">
+                          <div class="grid" style="min-height:100px; padding-top: 25px;">
+                            <img style="width:261px; height:56px;" src="@SbobetLogo">
+                          </div>
+                         
+                        </div>
+                      </label>
+}
+@if (!existingBookmakers.Contains("VIP", StringComparer.OrdinalIgnoreCase)) {
+
+                      <label class="grid__col-md-3 grid__col-xs-12 grid__col--bleed-y">
+                        <input id="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker"  type="radio" name="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker" value="VIP" data-currency="@Euro, @USD, @GBP">
+                              <div class="grid u-color-light-gray--bg grid__col--border">
+                          <div class="grid" style="min-height:100px; ">
+                            <img style="width:261px; height:121px;" src="@VIPLogo">
+                          </div>
+                         
+                        </div>
+                      </label>
+}
+@if (!existingBookmakers.Contains("Matchbook", StringComparer.OrdinalIgnoreCase)) {
+                      <label class="grid__col-md-3 grid__col-xs-12 grid__col--bleed-y">
+                       <input id="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker"  type="radio" name="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker" value="Matchbook" data-currency="@Euro">
+                          <div class="grid u-color-light-gray--bg grid__col--border">
+                          <div class="grid" style="min-height:100px;padding-top: 38px;">
+                            <img style="width:261px; height:41px;" src="@MatchbookLogo">
+                          </div>
+                          
+                        </div>
+                       </label>
+}
+@if (!existingBookmakers.Contains("Betisn", StringComparer.OrdinalIgnoreCase)) {
+
+                      <label class="grid__col-md-3 grid__col-xs-12 grid__col--bleed-y">
+                        <input id="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker"  type="radio" name="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker" value="Betisn" data-currency="@Euro">
+                          <div class="grid u-color-light-gray--bg grid__col--border">
+                          <div class="grid" style="min-height:100px;    padding-top: 36px;">
+                            <img style="width:261px; height:41px;" src="@BetisnLogo">
+                          </div>
+                          
+                        </div>
+                      </label>
+}
+@*             
+@if (!existingBookmakers.Contains("9Wickets", StringComparer.OrdinalIgnoreCase)) {
+                      <label class="grid__col-md-3 grid__col-xs-12 grid__col--bleed-y">
+                        <input id="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker"  type="radio" name="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker" value="9Wickets"  data-currency="@Euro, @GBP">
+                            <div class="grid u-color-light-gray--bg grid__col--border">
+                          <div class="grid" style="min-height:100px;">
+                            <img style="width:261px; height:100px;" src="@WicketsLogo">
+                          </div>
+                          
+                        </div>
+                       </label>
+}
+@if (!existingBookmakers.Contains("Turf7", StringComparer.OrdinalIgnoreCase)) {
+             			<label class="grid__col-md-3 grid__col-xs-12 grid__col--bleed-y">
+                        <input id="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker"  type="radio" name="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker" value="Turf7" data-currency="@Euro">
+                               <div class="grid u-color-light-gray--bg grid__col--border">
+                          <div class="grid" style="min-height:100px;    padding-top: 18px;">
+                            <img style="width:261px; height:68px;" src="@Turf7Logo">
+                          </div>
+                           </div>
+                        </label>
+}
+*@
+@if (!existingBookmakers.Contains("Skype Betting", StringComparer.OrdinalIgnoreCase)) {
+                      <label class="grid__col-md-3 grid__col-xs-12 grid__col--bleed-y">
+                       <input id="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker"  type="radio" name="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker" value="Skype Betting" data-currency="@Euro, @USD">
+                               <div class="grid u-color-light-gray--bg grid__col--border">
+                          <div class="grid" style="min-height:100px; padding-top: 30px; text-align:center;">
+                            <img style="width:261px; height:41px;" src="@SkypeBettingLogo">
+                            <p style="font-size: 2.5rem;">Skype Betting</p>
+                          </div>
+                          
+                        </div>
+                        </label>
+               }
+             @if (!existingBookmakers.Contains("Orbit Exchange", StringComparer.OrdinalIgnoreCase)) {
+               <p>Test</p>
+               <label class="grid__col-md-3 grid__col-xs-12 grid__col--bleed-y">
+                 <input id="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker"  type="radio" name="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker" value="Skype Betting" data-currency="@Euro">
+                 <div class="grid u-color-light-gray--bg grid__col--border">
+                   <div class="grid" style="min-height:100px; padding-top: 30px; text-align:center;">
+                     <img style="width:261px; height:41px;" src="@OrbitXLogo">
+                     <p style="font-size: 2.5rem;">Orbit Exchange</p>
+                   </div>
+                          
+                 </div>
+               </label>
+             }
+            </div>
+        
+            <div class="form__field-group hidden">
+                    <label for="CustomField.AccessUserAddress_AccessUserAddress_Alocated_since">@Translate("Allocated since"): </label>
+                    <select type="date" class="u-full-width" name="CustomField.AccessUserAddress_AccessUserAddress_Alocated_since" id="CustomField.AccessUserAddress_AccessUserAddress_Alocated_since" value="@localDate" />
+                    <option selected="selected">@localDate</option>
+                  </select>
+                 
+            </div>
+                          
+             <div class="grid">
+                         	 <div class="form__field-group">
+                            	<label for="CustomField.AccessUserAddress_AccessUserAddress_Currency">@Translate("Currency")</label>
+                            	<select type="text" class="u-full-width" name="CustomField.AccessUserAddress_AccessUserAddress_Currency" id="CustomField.AccessUserAddress_AccessUserAddress_Currency" data-unique-id="TargetCurrency" required  >
+                            		<option>@Translate("Please Select a bookmaker first")</option>
+                            		
+                            	</select>
+                            </div> 
+                          </div>
+     
+            <button type="submit" class="btn btn--primary btn--full dw-mod" id="submitter">@Translate("Submit Request")</button>
+
+            @GetString("UserManagement:User.ManageAddresses.FormEnd")
+
+        </div>
+    </div>
+</div>

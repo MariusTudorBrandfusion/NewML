@@ -1,0 +1,246 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.LINQ
+@using System.Globalization
+
+<div class="grid tips-list"> 
+
+@foreach (LoopItem item in GetLoop("ItemPublisher:Items.List"))
+{
+
+
+	string predictionTitle = item.GetString("ItemPublisher:Item.Prediction_Title"),
+           description = item.GetString("ItemPublisher:Item.Description"),
+           prediction = item.GetString("ItemPublisher:Item.Prediction"),
+           stake = item.GetString("ItemPublisher:Item.Stake"),
+           odds = item.GetString("ItemPublisher:Item.Odds").Replace(",", "."),
+           league = item.GetString("ItemPublisher:Item.League"),
+           predictionStatus = item.GetString("ItemPublisher:Item.Prediction_Status"),
+  		   tournament = item.GetString("ItemPublisher:Item.Tournament"),
+           category = item.GetString("ItemPublisher:Item.Category"),
+   		   bookmaker = item.GetString("ItemPublisher:Item.Bookmaker"),
+           bookmakerName = item.GetString("ItemPublisher:Item.Bookmaker_Name.Value"),
+           bookmakerURL = item.GetString("ItemPublisher:Item.BookmakerUrl"),
+           resultScreenshot = item.GetString("ItemPublisher:Item.Result_Screenshot"),
+           VIPScreenshot = item.GetString("ItemPublisher:Item.VIP_IBC_Screenshot"),
+  			won = item.GetString("ItemPublisher:Item.Prediction_Status"),
+           finalScore = item.GetString("ItemPublisher:Item.Match_Final_Score"),
+           bettingPrediction = item.GetString("ItemPublisher:Item.BettingPrediction");    
+
+    var tipsterID = item.GetString("ItemPublisher:Item.Tipster_ID");
+    Dynamicweb.Content.Items.Item tipsterName =  Dynamicweb.Content.Items.ItemManager.Storage.GetById("Tipster", tipsterID);
+    var tipsterNameClean = tipsterName != null ? tipsterName["Tipster_Name"] : "NOT FOUND";
+    var TipsterNavigationTag =  tipsterNameClean.ToString().Replace(" ", "");
+
+    
+	var TipsterPageId = GetPageIdByNavigationTag(TipsterNavigationTag).ToString();
+    var pageID = item.GetString("ItemPublisher:Item.Field.PageId");    
+    DateTime startGmt = item.GetDate("ItemPublisher:Item.Start_GMT");
+    string startGmtItem = startGmt == DateTime.MinValue ? "" : startGmt.ToString("MM/dd/yyyy - hh:mm tt");
+  var stakeRaw = stake.Replace("/10", "");
+    DateTime dateAdded = item.GetDate("ItemPublisher:Item.Date_Added");
+    string dateAddedItem = dateAdded == DateTime.MinValue ? "" : dateAdded.ToString("MM/dd/yyyy - hh:mm tt");
+    float oddsNumber; 
+  bool success = float.TryParse(odds, NumberStyles.Number, CultureInfo.CreateSpecificCulture ("en-US"), out oddsNumber); 
+  float oddsFloat = oddsNumber;
+    int stakeClean;
+    bool successStake = int.TryParse(stakeRaw, NumberStyles.Number, CultureInfo.CreateSpecificCulture ("en-US"), out stakeClean); 
+  
+  	var lettersColor = predictionStatus =="won" ? "color:#91cc65" : predictionStatus == "lost" ? "color:#e30f0c" : predictionStatus =="half-won" ? "color:#91cc65" : predictionStatus == "half-lost" ? "color:#e30f0c" : "color:#000";
+    var stakeToShow = (oddsFloat - 1) * Convert.ToInt32(stakeClean);
+     var stakeHalfWon = ((oddsFloat * Convert.ToInt32(stakeClean)) - Convert.ToInt32(stakeClean)) / 2 ;
+     var stakeHalfLost =  float.Parse(stakeClean) / 2 ;
+
+    <div class="grid__col-md-12 grid__col-xs-12 tips_cell ">
+    
+       <div class="grid__cell">
+          <div class="center-container dw-mod">
+             <div class="grid">        
+            
+              <div class="grid__col-md-12 grid__col-xs-12"><h3 style ='@lettersColor'>@predictionStatus</h3></div>
+              
+            </div>
+         <div></div>
+            @if(!string.IsNullOrEmpty(predictionTitle)) {
+            <div class="grid">
+              <div class="grid__col-md-9 grid__col-xs-12"><h3><a href = "/Default.aspx?ID=@pageID">@predictionTitle</a></h3></div>
+            </div>
+            }
+            <div class="grid">
+              	<div class="grid__col-md-3 grid__col-xs-12">
+                  @if(!string.IsNullOrEmpty(prediction)) { 
+                  	<p><strong>@Translate("Prediction", "Prediction"):</strong> @prediction </p>
+                  }
+                  @if(!string.IsNullOrEmpty(category)) {
+                  <p><strong>@Translate("Tipster", "Tipster"):</strong> <a href = "@TipsterPageId">@tipsterNameClean</a></p>
+                  }
+                  @if(!string.IsNullOrEmpty(category)) {
+                  	<p><strong>@Translate("Category", "Category"):</strong> @category</p>
+                  }
+              @if(league != "N/A" & league != "") { 
+                  	<p><strong>@Translate("League", "League"):</strong> @league</p>
+                  }
+                
+                </div>
+                <div class="grid__col-md-3 grid__col-xs-12">
+              
+             
+                  @if(tournament != "N/A" & tournament != "") { 
+                  	<p><strong>@Translate("Tournament", "Tournament"):</strong> @tournament</p>
+                  }
+                  @if(!string.IsNullOrEmpty(bookmaker)) {
+                  	<p><strong>@Translate("Bookmaker", "Bookmaker"):</strong> <a href = "@bookmakerURL"><img src="@bookmaker" alt="" class="bookmaker-logo" /></a></p>
+                  }
+                    @if(!string.IsNullOrEmpty(stake)) { 
+      <p><strong>@Translate("Stake", "Stake"):</strong> @stake / 10</p>
+                  }
+                  @if(!string.IsNullOrEmpty(odds)) { 
+                  	<p><strong>@Translate("Odds", "Odds"):</strong> @odds</p>
+                  }
+              @if (!string.IsNullOrEmpty(finalScore))
+              {
+              	if (predictionStatus == "won")
+              {
+         
+              try{
+ 
+         <p><span class="won-tip"><i class="fa fa-long-arrow-up" aria-hidden="true"></i></span>@stakeToShow <span class="won-tip"><i class="fa fa-check" aria-hidden="true"></i></span>@finalScore </p>
+         
+         }catch{
+         <p>Stake or odds it's not define properly</p>
+         }
+              }
+                            	if (predictionStatus == "draw")
+              {
+               try{
+       
+       <p><span class="draw-tip"><i class="fa fa-minus" aria-hidden="true"></i></span>0<span class="draw-tip"> <i class="fa fa-circle" aria-hidden="true"></i></span>@finalScore </p>
+         
+         }catch{
+         <p>Stake or odds it's not define properly</p>
+         }
+              
+              }
+                            	if (predictionStatus == "lost")
+              {
+                 try{
+      
+         <p><span class="lost-tip"><i class="fa fa-long-arrow-up" aria-hidden="true"></i> </span>@stake <i class="fa fa-times" aria-hidden="true"></i>@finalScore  </p>
+         
+         }catch{
+         <p>Stake or odds it's not define properly</p>
+         }
+           
+              }
+      if (predictionStatus == "half-lost")
+              {
+                 try{
+   
+         <p><span class="lost-tip"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i> </span>@stakeHalfLost <i class="fa fa-times" aria-hidden="true"></i>@finalScore  </p>
+         
+         }catch{
+         <p>Stake or odds it's not define properly</p>
+         }
+           
+              }
+           if (predictionStatus == "half-won")
+              {
+                 try{
+     
+         <p><span class="won-tip"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i> </span>@stakeHalfWon <span class="won-tip"><i class="fa fa-check" aria-hidden="true"></i></span>@finalScore  </p>
+         
+         }catch{
+         <p>Stake or odds it's not define properly</p>
+         }
+           
+              }
+    if (predictionStatus == "cancelled")
+              {
+      try{
+
+       <p><span class="draw-tip"><i class="fa fa-minus" aria-hidden="true"></i></span>0<span class="draw-tip"> <i class="fa fa-circle" aria-hidden="true"></i></span>@finalScore </p>
+         
+         }catch{
+         <p>Stake or odds it's not define properly</p>
+         }
+           
+              }
+             }
+              
+                </div>
+               <div class="grid__col-md-3 grid__col-xs-12">
+                <img class = "bookmaker-logo-col" src = "@bookmaker">
+                </div>
+            @if(VIPScreenshot != ""){
+            <div class="grid__col-md-3 grid__col-xs-12">
+                <a href="@VIPScreenshot" data-lightbox="roadtrip" data-gallery="gallery" class="col-md-4 light-box-after">
+      <img class = "img-fluid rounded bookmaker-logo-col" src = "@VIPScreenshot">
+    </a>        
+                </div>
+         }
+            </div>
+               
+            <div class="grid">
+              	<div class="grid__col-md-12 grid__col-xs-12 col-info-tips-event">
+                  <p>@Translate("Betting prediction", "Betting prediction"): @bettingPrediction</p>
+                  <p>@Translate("Starting Time", "Starting Time"): @startGmtItem</p>
+                </div>
+                 	<div class="grid__col-md-12 grid__col-xs-12 col-info-tips-event">
+             <img src = "@resultScreenshot">
+                </div>
+            </div>
+            <div class="grid">
+              	<div class="grid__col-md-12 grid__col-xs-12">
+      
+                    @if(!string.IsNullOrEmpty(description)) {
+                      <div class="description">
+                         @if(!string.IsNullOrEmpty(odds)) { 
+                     
+                  	       <p><strong>@Translate("The bet was made via", "The bet was made via") <a href = "@bookmakerURL">@bookmakerName</a> @Translate("at odds:", "at odds:") @odds</strong></p>
+                  }
+               
+                          @description        
+                      @if(bookmakerName != ""){
+                        <p class = "center"><strong>@Translate("Follow this bet and open an accont at", "Follow this bet and open an accont at") <a href = "@bookmakerURL">@bookmakerName</a> @Translate("now", "now")</strong></p>
+                        }else{
+                  <p class = "center"><strong>@Translate("Follow this bet and open an accont at", "Follow this bet and open an accont at") <a href = "">Bookmaker Name</a> @Translate("now", "now")</strong></p>
+                  }
+                   
+                      </div>
+                    }
+           
+            </div>
+                 </div>
+                     <div class="grid">
+                <div class="grid__col-md-4 grid__col-xs-12">
+                  <p><strong>@Translate("Add Date", "Add Date"):</strong> @dateAddedItem</p>
+               
+                </div>
+                          <div class="grid__col-md-4 grid__col-xs-12">
+                  <div id="dsSocialFontIconsShare">
+                    <p>@Translate("Share this prediction", "Share this prediction"):</p>
+                    <!--<div class=txt></div>-->
+                    <a class="fb" href="#" title="Facebook" onclick="javascript:window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href), 'facebook-share-dialog', 'width=626,height=436'); return false;"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                    <a class="li" href="#" title="LinkedIn" onclick="window.open('https://www.linkedin.com/cws/share?url='+encodeURIComponent(location.href), 'width=626,height=436'); return false;"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a>
+                    <a class="tw" href="#" title="Twitter" onclick="javascript:(function(){window.twttr=window.twttr||{};var D=550,A=450,C=screen.height,B=screen.width,H=Math.round((B/2)-(D/2)),G=0,F=document,E;if(C&gt;A){G=Math.round((C/2)-(A/2))}window.twttr.shareWin=window.open('http://twitter.com/share','','left='+H+',top='+G+',width='+D+',height='+A+',personalbar=0,toolbar=0,scrollbars=1,resizable=1');E=F.createElement('script');E.src='http://platform.twitter.com/bookmarklets/share.js?v=1';F.getElementsByTagName('head')[0].appendChild(E)}());"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                            </div>
+                             </div>
+                               <div class="grid__col-md-3 grid__col-xs-12 right">
+                  <a href="@bookmakerURL" class="btn btn--primary btn--line-height dw-mod">@Translate("SIGN UP at", "SIGN UP at")
+                          @if(bookmakerName != ""){
+                                 @bookmakerName;
+                                 }else{
+                                 <span>Bookmaker Name</span>
+                                 }
+                       </a>
+                        </div>
+                </div>
+           
+            @* <small class="article__subheader">@Translate("Written by") @item.GetString("ItemPublisher:Item.Author") @Translate("on") @item.GetDate("ItemPublisher:Item.Date").ToShortDateString()</small> *@
+                
+            
+         </div>
+       </div>
+        <div class = "tips-separator"></div>
+       </div>
+	}
+</div>

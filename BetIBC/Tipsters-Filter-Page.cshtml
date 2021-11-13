@@ -1,0 +1,40 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+@MasterPageFile("MasterNoEcom.cshtml")
+
+<div class = "loading-overlay active">
+</div>
+<div class="grid">
+@Model.Placeholder("dwcontent", "content", "default:true;sort:1")
+</div>
+<div class = "filter-tipsters" data-atribute-inactive = '@Translate("Inactive", "Inactive")'>
+  <div class = "container">
+
+  <span>@Translate("Sort by", "Sort by") : </span>
+   <select id = "filter-tipster-select">
+  <option id = "allTipster">@Translate("All Tipsters", "All Tipsters" )</option>
+  <option id = "newTipster">@Translate("New Tipsters", "New Tipsters" )</option>
+  <option id = "mostPicks">@Translate("Most Picks", "Most Picks")</option>
+  <option id = "mostROI">@Translate("Most ROI", "Most ROI")</option>
+</select>
+</div>
+</div>
+<div id = "tipster-filter-page" data-atribute-translate-button = '@Translate("My picks", "My picks")'  data-atribute-translate-active = '@Translate("Active", "Active")' data-atribute-translate-picks = '@Translate("Picks", "Picks")'  data-translate-avarage-stake = '@Translate("Avarage Stake", "Avarage Stake")' data-translate-all-time-roi = '@Translate("All time ROI", "All time ROI")'>
+<div class = "container">
+  <div class = "row grid justify-content-md-center">
+
+  </div>
+  </div>
+<div class = "container tipster-page-navigation">
+  <ul>
+  
+  </ul>
+</div>
+
+</div>
+<section>
+
+   <div class="dwcontent" id="call-to-action-tipsters" name="Call to action">
+  @Model.Placeholder("dwcontent-call-to-action", "Call to action", "default:true;sort:1")
+  </div>
+
+</section>

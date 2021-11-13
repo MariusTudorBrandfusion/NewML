@@ -1,0 +1,101 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using Dynamicweb.Core
+@using System
+@Include("/Files/Templates/Designs/BetIBC/UserManagement/ViewProfile/Includes/ProfileHelpers.cshtml")
+@{
+string skrillTrue = GetString("UserManagement:User.AccessUser_Payment_Method_Skril");
+string ecopayzTrue = GetString("UserManagement:User.AccessUser_Payment_Method_EcoPayz");
+string netellerTrue = GetString("UserManagement:User.AccessUser_Payment_Method_Neteller");
+string bankTrue = GetString("UserManagement:User.AccessUser_Payment_Method_Bank_Transfer");
+string bitcoinTrue = GetString("UserManagement:User.AccessUser_Payment_Method_Bitcoin");
+string skrillEmailValue = GetString("UserManagement:User.AccessUser_Skrill_email");
+string ecopayzAccountValue = GetString("UserManagement:User.AccessUser_ecoPayz_email");
+string netellerEmailValue = GetString("UserManagement:User.AccessUser_Neteller_email");
+string bankBicValue = GetString("UserManagement:User.AccessUser_Bank_bic");
+string bankSwiftValue = GetString("UserManagement:User.AccessUser_Bank_swift");
+string ibanValue = GetString("UserManagement:User.AccessUser_Iban");
+string bitcoinEmailValue = GetString("UserManagement:User.AccessUser_Cryptocurrency_email");
+string skrillEditTag = GetString("CustomField.AccessUser_AccessUser_Skrill_email");
+string netellerEditTag = GetString("CustomField.AccessUser_AccessUser_Neteller_email");
+string ecopayzEditTag = GetString("CustomField.AccessUser_AccessUser_ecoPayz_email");
+string bitcoinEditTag = GetString("CustomField.AccessUser_AccessUser_Cryptocurrency_email");
+string bicEditTag = GetString("CustomField.AccessUser_AccessUser_Bank_bic");
+string swiftEditTag = GetString("CustomField.AccessUser_AccessUser_Bank_swift");
+string ibanEditTag = GetString("CustomField.AccessUser_AccessUser_Iban");
+
+
+}
+
+<div class="grid__col-8 grid__col--bleed">
+    <div class="grid__cell">
+        <div class="u-pull--left">
+            <h2><i class="fa fa-user"></i> @Translate("Edit user account")</h2>
+        </div>
+        <div class="u-pull--right">
+            <a href="/@GetString("UserManagement:User.ManageAddressesUrl")" class="btn btn--primary dw-mod"><i class="fa fa-address-card-o"></i> @Translate("My accounts")</a>
+        </div>
+    </div>
+
+    @GetString("UserManagement:User.FormStart")
+	@ProfileEditCell("text", "User Bet-ibc", "UserManagement:User.UserName", "UserManagement_Form_UserName")
+    
+	@ProfileEditCell("text", "Account Email", "UserManagement:User.Email", "UserManagement_Form_Email")
+    
+	@ProfileEditCell("text", "Email 2", "UserManagement:User.AccessUser_Email_2", "CustomField.AccessUser_AccessUser_Email_2")
+    
+	@ProfileEditCell("text", "Email 3", "UserManagement:User.AccessUser_Email_3", "CustomField.AccessUser_AccessUser_Email_3")
+    
+	@ProfileEditCell("text", "First Name", "UserManagement:User.FirstName", "UserManagement_Form_FirstName")
+    
+	@ProfileEditCell("text", "Last Name", "UserManagement:User.LastName", "UserManagement_Form_LastName")
+    
+	@ProfileEditCell("text", "Country", "UserManagement:User.Country", "UserManagement_Form_Country")
+    
+	@ProfileEditCell("text", "Time Zone", "UserManagement:User.AccessUser_Time_zone", "CustomField.AccessUser_AccessUser_Time_zone")
+    
+	@ProfileEditCell("text", "Language", "UserManagement:User.AccessUser_Language", "CustomField.AccessUser_AccessUser_Language")
+    
+	@ProfileEditCell("text", "Phone", "UserManagement:User.DefaultAddress.Phone", "UserManagement_Form_Phone")
+    
+	@ProfileEditCell("select", "Skype", "UserManagement:User.CustomField.AccessUser_Uses_Skype.Input", "")
+    
+    @ProfileEditCell("text", "Skype ID", "UserManagement:User.AccessUser_Skype_ID", "CustomField.AccessUser_AccessUser_Skype_ID")
+    
+	 @ProfileEditCell("select", "Windows Live", "UserManagement:User.CustomField.AccessUser_Uses_Windows_Live.Input", "")
+    
+	@ProfileEditCell("text", "WL Username", "UserManagement:User.AccessUser_Windows_Live_Username", "CustomField.AccessUser_AccessUser_Windows_Live_Username")
+    
+	@ProfileEditCell("select", "Yahoo", "UserManagement:User.CustomField.AccessUser_Uses_Yahoo.Input", "")
+    
+	@ProfileEditCell("text", "Yahoo Username", "UserManagement:User.AccessUser_Yahoo_username", "CustomField.AccessUser_AccessUser_Yahoo_username")
+    
+	@ProfileEditCell("select", "Telegram ", "UserManagement:User.CustomField.AccessUser_Uses_Telegram.Input", "")
+    
+	@ProfileEditCell("text", "Telegram phone", "UserManagement:User.AccessUser_Telegram_Phone_Number", "CustomField.AccessUser_AccessUser_Telegram_Phone_Number")
+    
+    @ProfileEditCell("select", "Economic Area ", "UserManagement:User.CustomField.AccessUser_Economic_Area.Input", "")
+
+ @if (GetLoop("DWExtranetSecondaryUsers").Count > 0 || !string.IsNullOrWhiteSpace(GetGlobalValue("Global:Extranet.SecondaryUser.UserID"))){	
+<h2>Payment Details</h2>
+	 <label for="CustomField.AccessUser_Can_use_merchant_Account">@Translate("Can Use Merchant")</label>
+	 @GetString("UserManagement:User.CustomField.AccessUser_Can_use_merchant_Account.Input")	
+
+    
+	 @ProfileEditCell("text", "Fee for deposits", "UserManagement:User.AccessUser_Fee_for_deposits", "CustomField.AccessUser_AccessUser_Fee_for_deposits")
+    
+	 @ProfileEditCell("text", "Fee for withdrawals", "UserManagement:User.AccessUser_Fee_for_withdrawals", "CustomField.AccessUser_AccessUser_Fee_for_withdrawals")
+    
+	 @ProfileEditCell("text", "Fee for IBT", "UserManagement:User.AccessUser_Fee_for_IBT", "CustomField.AccessUser_AccessUser_Fee_for_IBT")
+	 
+	 <label>Mega Express Subscription</label>
+	@GetString("UserManagement:User.CustomField.AccessUser_Mega_Express_Subscription.Input")
+	 <label>Express Subscription</label>
+	 @GetString("UserManagement:User.CustomField.AccessUser_Express_Subscription.Input")
+       }                      
+
+        <button type="submit" class="btn btn--primary btn--full dw-mod" id="submitter">@Translate("Save changes")</button>
+    @GetString("UserManagement:User.FormEnd")
+</div>

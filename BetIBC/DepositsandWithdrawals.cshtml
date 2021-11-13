@@ -1,0 +1,56 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+@MasterPageFile("MasterNoEcom.cshtml")
+@{
+var showBreadCrumb = false;
+var leftMenu = false;
+try
+{
+  showBreadCrumb = Model.PropertyItem.GetBoolean("ShowBreadcrumb");
+  leftMenu = Model.PropertyItem.GetBoolean("LeftMenu");
+}catch(Exception ex)
+{
+
+}
+
+}
+@if (showBreadCrumb) {
+ 
+<div class="u-color-light-gray--bg">
+	<div class="center-container">
+       <div class="grid">
+           <div class="grid__col-md-5 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+              <h3 class="page-title">@Model.Name</h3>
+           </div></div>
+           <div class="grid__col-md-7 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+              <div class="u-pull--right">
+                @RenderNavigation(new
+                {
+                    id = "breadcrumb",
+                    template = "breadcrumb.xslt"
+                })
+               </div>
+           </div></div>
+       </div>
+	</div>
+</div>
+
+}
+<div class="grid">
+@if(leftMenu){
+        <nav class="grid__col-md-3 grid__col-sm-12 grid__col-xs-12">
+           @RenderNavigation(new
+           {
+               id = "leftnav",
+               cssclass = "menu dwnavigation",
+               expandmode = "All",
+               template = "LeftNavigation.xslt"
+           })
+        </nav>
+   }
+    <div class="grid__col-auto grid__col--bleed deposits-and-withdrawals">
+        <div class="grid">
+            @Model.Placeholder("dwcontent", "content", "default:true;sort:1")
+        </div>
+    </div>
+
+</div>   

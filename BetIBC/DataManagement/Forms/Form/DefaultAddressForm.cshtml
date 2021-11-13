@@ -1,0 +1,26 @@
+﻿
+
+  <div class="main_wrapper">
+        @GetValue("Form.Start")
+            @GetValue("Form.Hidden")
+    
+         @foreach(var fields in GetLoop("Form.Fields")) {
+    	
+    }
+    
+<table id="defaultform" class="alternate" cellspacing="0" cellpadding="0">
+	<tbody>
+      <tr class="listitem0">
+    	<td><label for="AccessUserAddress_Balance">AccessUserAddress_Balance</label></td>
+        <td>@GetString("Form.Fields.AccessUserAddress_Balance.Control")</td>
+    	<!-- <td><input type="text" id="AccessUserAddress_Balance" name="AccessUserAddress_Balance" value=""></td> -->
+       </tr>
+    </tbody>
+ </table>
+
+              
+          @*GetValue("Form.Button.Reset")*@
+      <div class="submit--wrapper">@GetValue("Form.Button.Submit")</div>
+
+    @GetValue("Form.End")
+    </div>

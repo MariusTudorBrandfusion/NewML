@@ -1,0 +1,26 @@
+//Breadcrumb
+
+.breadcrumb {
+   margin-bottom: @reflex-cell-spacing-lg;
+}
+
+.breadcrumb__item {
+   color: @gray;
+   display: inline-block;
+   margin-bottom: 0;
+
+   a {
+      color: @gray;
+   }
+}
+
+.breadcrumb__item:not(&:last-child) {
+   font-weight: bold;
+
+   &::after {
+    font-family: "FontAwesome";
+    content: '\f105'; 
+    margin-left: @reflex-cell-spacing-md; 
+    margin-right: @reflex-cell-spacing-md; 
+   }
+}

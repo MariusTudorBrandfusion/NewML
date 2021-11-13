@@ -1,0 +1,85 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using Dynamicweb.Core.Helpers
+@using Dynamicweb.Security.UserManagement
+
+@{
+    User speaker = User.GetUserByID(GetInteger("ItemPublisher:Item.Speaker"));
+}
+
+@{
+    string fullBackgroundImage = "";
+    if (!string.IsNullOrEmpty(GetString("ItemPublisher:Item.Image")))
+    {
+        fullBackgroundImage = "background-image:url(/Admin/Public/GetImage.ashx?width=2500&amp;height=1100&amp;crop=1&amp;Compression=90&amp;image=" + GetString("ItemPublisher:Item.Image") + ");";
+    }
+}
+
+<div class="grid article">
+
+    @* Escape the container and section *@
+</div>
+    </section>
+@* ----------------------------------- *@
+
+<section class="multiple-paragraphs-container u-color-light" style="@fullBackgroundImage">
+    <div class="center-container center-container--with-background-image dw-mod">
+        <div class="grid center-container--with-background-image">
+            <div class="grid__col-md-12 grid__col-xs-12 paragraph-container" style="">
+                <div class="u-ta-center u-middle">
+                    <div>
+                        <h1 class="article__header article__header--giant">@GetString("ItemPublisher:Item.BannerHeading")</h1>
+                        <div class="article__subheader article__subheader--giant">@GetString("ItemPublisher:Item.BannerSubheading")</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* Re-enter the container and section *@
+<section class="content-container center-container dw-mod">
+    <div class="grid">
+        @* ----------------------------------- *@
+
+        <div class="grid__col-12"></div>
+
+        <article class="grid__col-md-9">
+            <h1 class="article__header">@GetString("ItemPublisher:Item.Title")</h1>
+            <div class="article__summary">@GetString("ItemPublisher:Item.Summary")</div>
+            @GetString("ItemPublisher:Item.Text")
+        </article>
+        <div class="grid__col-md-3">
+            <div class="u-portrait--circle">
+                <img src="/Admin/Public/GetImage.ashx?width=150&height=150&crop=0&Compression=90&amp;image=@speaker.Image" class="article__image article__image--ball">
+            </div>
+
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td width="32"><i class="fa fa-user fa-2x u-brand-color-one"></i></td>
+                        <td>
+                            <div class="u-bold">Speaker</div>
+                            <div>@speaker.FirstName @speaker.LastName</div>
+                            <div>@speaker.JobTitle</div>
+                            <div>@speaker.Email</div>
+                            <div>@speaker.Company</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="32"><i class="fa fa-clock-o fa-2x u-brand-color-one"></i></td>
+                        <td>
+                            <div class="u-bold">Time</div>
+                            <div>@GetDate("ItemPublisher:Item.DateAndTime").ToString("MMM dd, HH:mm")</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="32"><i class="fa fa-globe fa-2x u-brand-color-one"></i></td>
+                        <td>
+                            <div class="u-bold">Location</div>
+                            <div>@GetString("ItemPublisher:Item.Location")</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="@GetString("ItemPublisher:Item.SignUpLink")" class="btn btn--primary dw-mod">@Translate("Sign up for the event here")</a>
+        </div>

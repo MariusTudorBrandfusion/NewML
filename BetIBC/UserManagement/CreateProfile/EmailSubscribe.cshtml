@@ -1,0 +1,41 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Web;
+
+@{ 
+    string emailAdress = HttpContext.Current.Request.QueryString.Get("NewsletterEmail");
+
+    if (String.IsNullOrEmpty(emailAdress)) {
+        emailAdress = GetString("UserManagement:User.Email");
+    }
+}
+<div class="container-full">
+<div class="paragraph-container__grid--bleed">
+    <div class="grid grid--justify-center">
+        <div class="grid__col-md-6">
+            <h2>@Translate("Sign up for our newsletter")</h2>
+            @GetValue("UserManagement:User.FormStart")
+                <div class="form__field-group">
+                    <label for="UserManagement_Form_Name">@Translate("Name", "Name")</label>
+                    <input type="text" class="u-full-width" name="UserManagement_Form_Name" id="UserManagement_Form_Name" value="@GetString("UserManagement:User.Name")" required />
+                </div>
+                <div class="field-error">@GetString("UserManagement:User.Name.Input.Error")</div>
+
+                <div class="form__field-group">
+                    <label for="UserManagement_Form_Email">@Translate("Email", "Email")</label>
+                    <input type="text" class="u-full-width" name="UserManagement_Form_Email" id="UserManagement_Form_Email" value="@emailAdress" required />
+                </div>
+                <div class="field-error">@GetString("UserManagement:User.Email.Input.Error")</div>
+
+                <div class="form__field-group">
+                    <input type="checkbox" name="UserManagement_Form_EmailAllowed" id="UserManagement_Form_EmailAllowed" value="True" required />
+                    <label for="UserManagement_Form_EmailAllowed">@Translate("I accept the terms and conditions", "I accept the terms and conditions")</label>
+                </div>
+                <div class="field-error">@GetString("UserManagement:User.Email.Input.Error")</div>
+                 @GetString("UserManagement:User.EmailAllowed.Hidden.Input")
+
+                <input class="btn btn--primary dw-mod" type="submit" id="submitter" value="@Translate("Subscribe", "Subscribe")" onclick="Buttons.LockButton(event)">
+            @GetValue("UserManagement:User.FormEnd")
+        </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,66 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@GetString("UserManagement:User.ManageAddresses.MakeDefault.Javascript")
+@GetString("UserManagement:User.ManageAddresses.DeleteAddress.Javascript")
+@GetString("UserManagement:User.ManageAddresses.AddAddress.Javascript")
+@GetString("UserManagement:User.ManageAddresses.UpdateAddress.Javascript")
+
+<div class="grid__col-12 grid__col--bleed">
+    <div class="grid__cell">
+        <div class="u-pull--left">
+            <h2><i class="fa fa-address-card-o"></i> @Translate("Manage addresses")</h2>
+        </div>
+        <div class="u-pull--right">
+            <button type="button" onclick="addAddress()" class="btn btn--primary dw-mod"><i class="fa fa-plus"></i> @Translate("Add address")</button>
+        </div>
+    </div>
+</div>
+@GetString("UserManagement:User.ManageAddresses.FormStart")
+@foreach (LoopItem address in GetLoop("UserManagement:User.UserAddresses").OrderByDescending(address => address.GetString("UserManagement:User.UserAddress.Default")).ToList())
+{
+    string defaultCssClass = address.GetBoolean("UserManagement:User.UserAddress.Default") ? "u-color-light-gray--bg" : "";
+
+    <div class="grid__col-12 grid__col--border grid__col--bleed-x @defaultCssClass">
+        <div class="grid">
+            <div class="grid__col-md-4 grid__col-xs-12 grid__col--bleed-y">
+                @if (!string.IsNullOrEmpty(@address.GetString("UserManagement:User.UserAddress.Description")))
+                {
+                    <strong><i class="fa fa-map-marker"></i> @address.GetString("UserManagement:User.UserAddress.Description")</strong>
+                    <div>@address.GetString("UserManagement:User.UserAddress.Address")</div>
+                } else {
+                    <strong><i class="fa fa-map-marker"></i> @address.GetString("UserManagement:User.UserAddress.Address")</strong>
+                }
+
+                <div>@address.GetString("UserManagement:User.UserAddress.Zip")</div>
+                <div>
+                    @address.GetString("UserManagement:User.UserAddress.City"), 
+                    @if (!string.IsNullOrEmpty(@address.GetString("UserManagement:User.UserAddress.State"))) {
+                        <text>@address.GetString("UserManagement:User.UserAddress.State"),</text>
+                    } 
+                    @address.GetString("UserManagement:User.UserAddress.Country")
+                </div>
+            </div>
+            <div class="grid__col-md-4 grid__col-xs-12 grid__col--bleed-y">
+                @if (!string.IsNullOrEmpty(@address.GetString("UserManagement:User.UserAddress.Email"))) {
+                    <div><i class="fa fa-envelope"></i> @address.GetString("UserManagement:User.UserAddress.Email")</div>
+                }
+                @if (!string.IsNullOrEmpty(@address.GetString("UserManagement:User.UserAddress.Phone"))) {
+                    <div><i class="fa fa-phone"></i> @address.GetString("UserManagement:User.UserAddress.Phone")</div>
+                }
+            </div>
+            <div class="grid__col-md-4 grid__col-xs-12 grid__col--bleed-y">
+                <div class="grid__cell">
+                    <div class="u-pull--right">
+                        @{
+                            string starIcon = address.GetBoolean("UserManagement:User.UserAddress.Default") ? "fa fa-star" : "fa fa-star-o";
+                        }
+                        <button type="button" class="btn btn--secondary dw-mod btn--condensed" onclick="makeDefaultAddress('@address.GetString("UserManagement:User.UserAddress.ID")');" title="@Translate("Set default")"><i class="@starIcon"></i></button>
+                        <button type="button" class="btn btn--secondary dw-mod btn--condensed" onclick="updateAddress('@address.GetString("UserManagement:User.UserAddress.ID")');" title="@Translate("Edit")"><i class="fa fa-pencil"></i></button>
+                        <button type="button" class="btn btn--secondary dw-mod btn--condensed" onclick="deleteAddress('@address.GetString("UserManagement:User.UserAddress.ID")');" title="@Translate("Delete")"><i class="fa fa-remove"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@GetString("UserManagement:User.ManageAddresses.FormEnd")

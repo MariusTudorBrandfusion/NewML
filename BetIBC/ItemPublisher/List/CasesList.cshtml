@@ -1,0 +1,52 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@{ 
+    string caseListPageId = GetGlobalValue("Global:Page.ID");
+}
+
+<div class="grid__col-12">
+    <div class="grid js-ajax-container" id="CasesContent" data-template="CasesContentTemplate" data-json-feed="/Default.aspx?ID=@caseListPageId" data-preloader="overlay"></div>
+    
+    <script id="CasesContentTemplate" type="text/x-template">
+        <div class="grid__col-12">
+            <div class="collection u-no-margin">
+                <h5>@Translate("Category")</h5>
+                <input type="checkbox" id="CategorySelector" class="dropdown-trigger" />
+                <div class="dropdown u-w180px">
+                    <label class="dropdown__header dropdown__btn" for="CategorySelector">{{selectedSolutionType}}</label>
+                    <div class="dropdown__content" id="SolutionTypes" data-template="SolutionTypesTemplate"></div>
+                    <label class="dropdown-trigger-off" for="CategorySelector"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid" id="Cases" data-template="CasesListTemplate"></div>
+    </script> 
+
+    <script id="CasesListTemplate" type="text/x-template">
+        <div class="grid__col-md-3 grid__col-sm-3 grid__col-xs-12">
+            <div class="u-ta-center paragraph-card">
+                <div class="u-margin-bottom">
+                    <a href="{{link}}">
+                        <img class="grid__cell-img grid__cell-img--centered" src="/Admin/Public/GetImage.ashx?width=992&amp;height=760&amp;crop=5&amp;Compression=75&amp;DoNotUpscale=True&amp;image={{image}}" alt="{{title}}">
+                    </a>
+                </div>
+
+                <a href="{{link}}">
+                    <h2 class="u-no-margin u-margin-bottom">{{title}}</h2>
+                </a>
+
+                <p>{{summary}}</p>
+            </div>
+            <div class="grid__cell-footer grid--justify-center paragraph-card-footer">
+                <div class="u-margin-top u-margin-bottom">
+                    <a href="{{link}}" class="btn btn--secondary btn--line-height dw-mod">@Translate("Read more")</a>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script id="SolutionTypesTemplate" type="text/x-template">
+        <div class="dropdown__item" onclick="Dynamo.UpdateContent('CasesContent', '/Default.aspx?ID=@caseListPageId&SolutionType={{id}}')">{{title}}</div>
+    </script>
+</div>

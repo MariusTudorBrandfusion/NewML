@@ -1,0 +1,46 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+@using Dynamicweb.Extensibility
+@using Dynamicweb.Content
+@using System
+
+@MasterPageFile("MasterNoEcom.cshtml")
+@{
+var homeTeam = Model.Item.GetString("Home_Team");
+var awayTeam = Model.Item.GetString("Away_Team");
+var homeTeamCountryCode = Model.Item.GetString("HomeTeamCountryCode");
+var awayTeamCountryCode = Model.Item.GetString("AwayTeamCountryCode");
+var competitionPhase = Model.Item.GetString("CompetitionPhase");
+var CompetitionGroup = Model.Item.GetString("CompetitionGroup").Contains("Group") ? " > " + Model.Item.GetString("CompetitionGroup") : "";
+var currentPageId = Model.ID;
+var predictionsFeedId = GetPageIdByNavigationTag("EURO2020Prediction");
+var heroImage = Model.Item.GetFile("HeroImage");
+var fullBackgroundImage = heroImage != null ? heroImage.Path : "/Files/Templates/Designs/BetIBC/Images/background_grey.jpg";
+
+}
+<div class="grid">
+     <div class="grid__col-auto grid__col--bleed">        
+      <section style="background-image:url(/Admin/Public/GetImage.ashx?width=2500&amp;crop=0&amp;Compression=90&amp;image=@fullBackgroundImage)" class="columns-section">
+            <div class="container columns">
+                <div class="grid">
+                    <div class = "grid__col-sm-12 text-center">
+                        <h1>
+                            <span class="flag-icon flag-icon-@(homeTeamCountryCode)"></span> @homeTeam - @awayTeam <span class="flag-icon flag-icon-@(awayTeamCountryCode)"></span>
+          	            </h1>
+        	        </div>
+         	    </div>
+ 		        <div class = "grid__col-sm-12 text-center">
+                    <h3>
+                     @competitionPhase @CompetitionGroup 
+                    </h3>
+        	    </div>
+         	</div>
+        </section>
+		<div class="container">
+         	<div class="grid__col-auto grid__col--bleed">
+        		<div class="grid">
+            		@Model.Placeholder("dwcontent", "content", "default:true;sort:1")
+        		</div>
+    		</div>
+		</div>
+    </div>  
+</div>

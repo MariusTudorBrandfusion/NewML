@@ -1,0 +1,81 @@
+//modals
+
+.modal-trigger {
+    display: none !important;
+}
+
+.modal-overlay {
+    display: none;
+    background-color: rgba(0,0,0,0.5);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: @z-index-9;
+    left: 0;
+    top: 0;
+}
+
+.modal {
+    display: none;
+    background-color: #fff;
+    position: fixed;
+    z-index: @z-index-10;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: ~"calc(100% - 5em)";
+}
+
+.modal h2 {
+    margin: 0;
+}
+
+.modal--xs {
+    width: @modal-xs;
+}
+
+.modal--sm {
+    width: @modal-sm;
+}
+
+.modal--md {
+    width: @modal-md;
+}
+
+.modal--lg {
+    width: @modal-lg;
+}
+
+.modal--iframe {
+    height: ~"calc(100% - 130px)";
+    margin-top: 80px;
+}
+
+.modal__header {
+    padding: @reflex-cell-spacing-md;
+    border-bottom: 1px solid @gray-light;
+}
+
+.modal__body {
+    padding: @reflex-cell-spacing-md;
+}
+
+.modal-tools {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: @z-index-10;
+    display: none;
+}
+
+.modal-trigger:checked + .modal-container .modal-overlay {
+    display: block;
+}
+
+.modal-trigger:checked + .modal-container .modal {
+    display: block;
+}
+
+.modal-trigger:checked + .modal-container .modal-tools {
+    display: block;
+}

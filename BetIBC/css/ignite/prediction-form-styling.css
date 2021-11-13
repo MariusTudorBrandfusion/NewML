@@ -1,0 +1,52 @@
+﻿#ItemCreator_EditForm_5091 {
+max-width: 50%;
+ }
+#ItemCreator_EditForm_5091 .item-edit-fields-outer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#ItemCreator_EditForm_5091 label {
+   font-size: 14px;
+   font-weight: normal;
+   line-height: 1.4em;
+   color: #666;
+ }
+#ItemCreator_EditForm_5091 .item-edit-fields-outer input[type="text"],
+#ItemCreator_EditForm_5091 .item-edit-fields-outer select {
+	border: 1px solid #d1d1d1;
+    margin: 0.3em 0 0.8em 0;
+    padding: 0.5em 0.5em;
+    height: auto;
+ 	width: 49%;
+    display: inline-block;
+  	color: #666;
+ }
+.item-field.item-field-rich {
+     width: 100%;
+}
+#cke_Description {
+	width: 100%;
+    border: 1px solid #d1d1d1;
+    margin: 0.3em 0 0.8em 0;
+    padding: 0;
+}
+#ItemCreator_EditForm_5091 .item-edit-submission input[type="submit"] {
+	font-size: 16px;
+    border-radius: 0;
+    border-width: 0;
+    background-color: #0053cc;
+    color: #fff;
+    height: 35px;
+    width: 180px;
+ }
+
+#ItemCreator_EditForm_5091 .item-edit-submission input[type="button"] {
+	font-size: 16px;
+    border-radius: 0;
+    border-width: 0;
+    height: 35px;
+ }
+
+

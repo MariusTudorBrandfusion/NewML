@@ -1,0 +1,43 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@{
+    string partnerListPageId = GetPageIdByNavigationTag("PartnersListFeed").ToString();
+}
+
+<div class="grid__col-12">
+    <div class="grid js-ajax-container" id="PartnersContent" data-template="PartnersContentTemplate" data-json-feed="/Default.aspx?ID=@partnerListPageId" data-preloader="overlay"></div>
+
+    <script id="PartnersContentTemplate" type="text/x-template">
+        <div class="grid__col-12">
+            <div class="collection u-no-margin">
+                <h5>@Translate("Country")</h5>
+                <input type="checkbox" id="CountrySelector" class="dropdown-trigger" />
+                <div class="dropdown u-w180px">
+                    <label class="dropdown__header dropdown__btn" for="CountrySelector">{{selectedCountry}}</label>
+                    <div class="dropdown__content" id="Countries" data-template="CountryTemplate"></div>
+                    <label class="dropdown-trigger-off" for="CountrySelector"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid" id="Partners" data-template="PartnersListTemplate"></div>
+    </script>
+
+    <script id="PartnersListTemplate" type="text/x-template">
+        <div class="grid__col-md-3 grid__col-sm-3 grid__col-xs-12">
+            <div class="u-ta-center">
+                <div class="u-margin-bottom">
+                    <a href="{{link}}">
+                        <div class="responsive-image responsive-image--4-3 u-border">
+                            <img class="grid__cell-img grid__cell-img--centered u-padding" src="/Admin/Public/GetImage.ashx?width=992&amp;height=760&amp;crop=5&amp;Compression=75&amp;DoNotUpscale=1&amp;image={{logo}}" alt="{{title}}">
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script id="CountryTemplate" type="text/x-template">
+        <div class="dropdown__item" onclick="Dynamo.UpdateContent('PartnersContent', '/Default.aspx?ID=@partnerListPageId&PartnerCountry={{id}}')">{{title}}</div>
+    </script>
+</div>

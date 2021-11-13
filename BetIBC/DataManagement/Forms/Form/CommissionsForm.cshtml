@@ -1,0 +1,57 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using Dynamicweb.Core
+@using System
+@SnippetStart("BootstrapCss")
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+@SnippetEnd("BootstrapCss")
+@Include("/Files/Templates/Designs/BetIBC/DataManagement/Forms/Form/Includes/GeneralDataListFormHelpers.cshtml")
+@{
+    var formStart = GetString("Form.Start");
+    var formEnd = GetString("Form.End");
+    var formHiddenFileds = GetString("Form.Hidden");
+    var lableName = GetString("Form.Fields.CommissionsList_Name.Label");
+    var lableValue = GetString("Form.Fields.CommissionsList_Value.Label");
+    var lableIsProcent = GetString("Form.Fields.CommissionsList_Is_Procent.Label");
+    var name = GetString("Form.Fields.CommissionsList_Name.Systemname");
+    var value = GetString("Form.Fields.CommissionsList_Value.Systemname");
+    var isProcent = GetString("Form.Fields.CommissionsList_Is_Procent.Systemname");
+    var valueLessThanMin = GetString("Form.Fields.CommissionsList_Value_for_less_then_min.Systemname");
+    var labelValueLessThanMin = GetString("Form.Fields.CommissionsList_Value_for_less_then_min.Label");
+    var isProcentLessThanMin = GetString("Form.Fields.CommissionsList_Value_for_less_then_min_i.Systemname");
+    var labelIsProcentLessThanMin = GetString("Form.Fields.CommissionsList_Value_for_less_then_min_i.Label");
+    var formSubmit = GetString("Form.Button.Submit");
+    var bookmakerSelector = GetString("Form.Fields.CommissionsList_Bookmaker.Control");
+    var notes = GetString("Form.Fields.CommissionsList_Notes.Systemname");
+    var notesLabel = GetString("Form.Fields.CommissionsList_Notes.Label");
+    var activeSelector = GetString("Form.Fields.CommissionsList_Active.Control");
+    var CurrencySelectLabel = GetString("Form.Fields.CommissionsList_Currency.Label");
+    var CurrencySelect = GetString("Form.Fields.CommissionsList_Currency.Systemname");
+}
+<div class="container">
+    <div class="exceptions-commissions-form exception-form-wrapper create-exceptions-commissions">
+        <h1>Create Comission</h1>
+        @formStart
+        @formHiddenFileds
+        @simpleInputField("text", lableName, name, name, "required", string.Empty)
+        <div class="row">
+            <div class="col-xs-6">
+                @simpleInputField("number",lableValue, value, value, "required", string.Empty)
+                @sinpleCheckboxField(lableIsProcent, isProcent, isProcent, "True", string.Empty)
+            </div>
+            <div class="col-xs-6">
+                @simpleInputField("number",labelValueLessThanMin,valueLessThanMin,valueLessThanMin, "required", string.Empty)
+                @sinpleCheckboxField(labelIsProcentLessThanMin, isProcentLessThanMin,isProcentLessThanMin, "True", string.Empty)
+            </div>
+        </div>
+        <label>Bookmaker</label>
+        @bookmakerSelector
+        @SimpleSelect(CurrencySelectLabel , CurrencySelect, string.Empty, string.Empty)
+        @simpleTextAreaField(notesLabel, notes, notes, string.Empty, string.Empty)
+        @activeSelector
+        @formSubmit
+        @formEnd
+    </div>
+</div>

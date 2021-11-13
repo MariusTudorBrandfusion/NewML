@@ -1,0 +1,55 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+@MasterPageFile("MasterNoEcom.cshtml")
+
+<div class="form_wrapper" style="width: 100%;">
+            @Model.Placeholder("dwcontent", "content", "default:true;sort:1")
+              <h1 class="text-center">@Translate("Requested New Predictions")</h1>
+          
+                <table class="main_table add-new-bet" id="new-tips">
+                      
+                    <thead>
+                      <tr>
+                <th>@Translate("Tip ID","Tip ID")</th>
+                        <th>@Translate("Prediction Title","Prediction Title")</th>
+                        <th>@Translate("Stake", "Stake")</th>
+                        <th>@Translate("Odds", "Odds")</th>
+                        <th>@Translate("Start GMT", "Start GMT") </th>
+                        <th>@Translate("League", "League")</th>
+                        <th>@Translate("Category", "Category")</th>
+                        <th>@Translate("Bookmaker Logo", "Bookmaker Logo")</th>
+                        <th>@Translate("Date Added", "Date Added")</th>
+                        <th>@Translate("Betting Prediction", "BEtting Prediction")</th>
+                        <th>@Translate("Tipster Email", "Tipster Email")</th>
+                        <th>@Translate("Bookmaker Name", "Bookmaker Name")</th>
+                        <th>@Translate("Follow on VIP", "Follow on VIP")</th>
+                        <th>@Translate("User ID", "User ID")</th>
+                        <th>@Translate("Approve", "Approve")</th>
+                   
+                    </tr>
+                    <tr class="hidden">
+                         <th>@Translate("Tip ID","Tip ID")</th>
+                        <th>@Translate("Prediction Title","Prediction Title")</th>
+                        <th>@Translate("Stake", "Stake")</th>
+                        <th>@Translate("Odds", "Odds")</th>
+                        <th>@Translate("Start GMT", "Start GMT") </th>
+                        <th>@Translate("League", "League")</th>
+                        <th>@Translate("Category", "Category")</th>
+                        <th>@Translate("Bookmaker Logo", "Bookmaker Logo")</th>
+                        <th>@Translate("Date Added", "Date Added")</th>
+                        <th>@Translate("Betting Prediction", "BEtting Prediction")</th>
+                        <th>@Translate("Tipster Email", "Tipster Email")</th>
+                        <th>@Translate("Bookmaker Name", "Bookmaker Name")</th>
+                        <th>@Translate("Follow on VIP", "Follow on VIP")</th>
+                        <th>@Translate("User ID", "User ID")</th>
+                        <th>@Translate("Approve", "Approve")</th>
+                        
+                    </tr>
+                    </thead>
+                   <tbody id="all-bets">
+                          <tr>  
+                              </tr>
+                      </tbody>
+                </table>
+     </div>
+ 
+                      

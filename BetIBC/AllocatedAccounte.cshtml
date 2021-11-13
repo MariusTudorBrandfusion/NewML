@@ -1,0 +1,91 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+@MasterPageFile("MasterNoEcom.cshtml")
+
+@if (Model.PropertyItem.GetBoolean("ShowBreadcrumb")) {
+<div class="u-color-light-gray--bg">
+	<div class="center-container">
+       <div class="grid">
+           <div class="grid__col-md-5 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+              <h3 class="page-title">@Model.Name</h3>
+           </div></div>
+           <div class="grid__col-md-7 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+              <div class="u-pull--right">
+                @RenderNavigation(new
+                {
+                    id = "breadcrumb",
+                    template = "breadcrumb.xslt"
+                })
+               </div>
+           </div></div>
+       </div>
+	</div>
+</div>
+}
+
+
+<div class="grid">
+    @if (Model.PropertyItem.GetBoolean("LeftMenu"))
+    {
+        <nav class="grid__col-md-3 grid__col-sm-12 grid__col-xs-12">
+           @RenderNavigation(new
+           {
+               id = "leftnav",
+               cssclass = "menu dwnavigation",
+               expandmode = "All",
+               template = "LeftNavigation.xslt"
+           })
+        </nav>
+    }
+  <div class="center-container" id="AccountContainer" data-pageid="@Model.ID">
+<div class="u-color-light-gray--bg">
+
+   <div class="grid__col-auto grid__col--bleed">
+     
+     	<div class="grid">
+          
+          <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12">
+            <select id="AccountBookmaker">
+              <option value="">All bookmakers</option>
+              <option value="Maxbet">Maxbet</option>
+              <option value="SBOBET">SBOBET</option>
+              <option value="Pinnacle">Pinnacle</option>
+              <option value="VIP">VIP</option>
+              <option value="Turf7">Turf7</option>
+              <option value="Matchbook">Matchbook</option>
+              <option value="BETISN">BETISN</option>
+              <option value="Betfair">Betfair</option>
+              <option value="9Wickets">9Wickets</option>
+            </select>
+          </div>
+           
+          <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12">
+            <input type="text" placeholder="Search" id="AccountSearch">
+          </div>
+            
+          <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12">
+            <button class="btn btn--primary dw-mod" id="AccountFilter" >Filter</button>
+          </div>  
+            
+          <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12">
+            <button class="btn btn--primary dw-mod" id="AccountReset" >Reset</button>
+          </div>   
+            
+        </div>
+     
+        <div class="grid">
+          <div class="grid__col-md-1 grid__col-sm-12 grid__col-xs-12"><strong>Bookmaker</strong></div>
+           <div class="grid__col-md-1 grid__col-sm-12 grid__col-xs-12"><strong>Currency</strong></div>
+           <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12"><strong>Username</strong></div>
+          <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12"><strong>Password</strong></div>
+          <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12"><strong>Security Question</strong></div>
+          <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12"><strong>Answer</strong></div>
+          <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12"><strong>Alocated to:</strong></div>
+        </div>
+   		<div id="AllocatedAccounts">
+          
+         </div>
+    </div>
+    </div>
+  </div>
+</div>   
+@*Model.Placeholder("dwcontent", "content", "default:true;sort:1")*@

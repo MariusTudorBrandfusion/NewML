@@ -1,0 +1,8 @@
+﻿
+@{
+var loop = GetLoop("ItemPublisher:Items.List");
+}
+<h1>@loop.Count()</h1>
+@foreach(var item in loop){
+@item.TemplateTags();
+}

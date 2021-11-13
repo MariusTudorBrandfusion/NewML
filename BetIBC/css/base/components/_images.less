@@ -1,0 +1,47 @@
+//Responsive images
+
+.responsive-image {
+    position: relative;
+
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0; 
+        margin: auto;
+    }
+} 
+
+.responsive-image--1-1 {
+   overflow: hidden; 
+}
+
+.responsive-image--1-1:before {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-top: 100%;
+} 
+
+.responsive-image--16-9 {
+   overflow: hidden; 
+}
+
+.responsive-image--16-9:before {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-top: 56.25%;
+} 
+
+.responsive-image--4-3 {
+   overflow: hidden; 
+} 
+
+.responsive-image--4-3:before {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-top: 75%;
+}   

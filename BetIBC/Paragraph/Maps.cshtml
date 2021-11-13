@@ -1,0 +1,53 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.ParagraphViewModel>
+                                 
+@Include("Layout.cshtml")
+
+<div class="@columnClass() paragraph-container">
+    <h2>@Translate("Find us", "Find us")</h2>
+
+	<div vocab="http://schema.org/" typeof="Place">
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
+		<script type="text/javascript">
+			function initialize() {
+				var myLatlng = new google.maps.LatLng(@Model.Item.GetGeolocation("Location").Latitude.ToString().Replace(",", "."), @Model.Item.GetGeolocation("Location").Longitude.ToString().Replace(",", "."));
+				var mapOptions = {
+					zoom: 10,
+					scrollwheel: false,
+					draggable: false,
+					center: myLatlng,
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				}
+				var map = new google.maps.Map(document.getElementById('mapCanvas'), mapOptions);
+
+				var marker = new google.maps.Marker({
+					position: myLatlng,
+					map: map,
+					animation: google.maps.Animation.DROP,
+					title: '@Translate("Find us", "Find us")'
+				});
+
+				var contentString = '<div class="info-window-content"><h2><span property="name">@System.Web.HttpUtility.JavaScriptStringEncode(Model.Item.GetString("Title"))</span></h2>'+
+									'<p>@Model.Item.GetString("ShortInformation")</p></div>';
+
+				var infowindow = new google.maps.InfoWindow({
+					content: contentString
+				});
+
+				google.maps.event.addListener(marker, 'click', function() {
+					infowindow.open(map,marker);
+				});
+			}
+
+			google.maps.event.addDomListener(window, 'load', initialize);
+
+		</script>
+
+		<div vocab="http://schema.org/">
+			<div id="mapCanvas" style="height: 476px"></div>
+			<div property="geo" typeof="GeoCoordinates">
+				<meta property="latitude" content="@Model.Item.GetGeolocation("Location").Latitude" />
+				<meta property="longitude" content="@Model.Item.GetGeolocation("Location").Longitude" />
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,38 @@
+﻿@{
+  var ViewId = Pageview.CurrentParagraph.ModuleProperties.get_Value("ViewID");
+    var rows = GetLoop("Rows");
+    var counter = 0;
+}
+<ul>
+    <li class="list-title"><strong>Exceptions: </strong> @rows.Count()</li>
+    @foreach (var row in rows)
+    {
+ 
+       var rowId = row.GetString("Exceptions_Form_For_AdminID");
+        var rowName = "Exceptions_Form_For_AdminID";
+        var parameter = "FORM_ROW_ID=" + rowName + "%3d" + rowId + "&VIEW_ID=" + ViewId;
+        var editUrl = "/Default.aspx?ID=" + "125952" + "&" + parameter;
+  
+        <li class="list-title"><strong>Exception Name: @row.GetString("Exceptions_Form_For_Admin_Name")</strong> </li>
+        <li><strong>Value</strong> : @row.GetString("Exceptions_Form_For_Admin_Value")</li>
+        if (row.GetString("Exceptions_Form_For_Admin_Is_Procent") == "True")
+        {
+            <li><strong>Exception is procent</strong> : Yes</li> 
+        }
+        else
+        {
+            <li><strong>Exception is procent</strong> : No</li>   
+        }
+        <li><strong>Value for less then min</strong> : @row.GetString("Exceptions_Form_For_Admin_Value_for_less_then_min")</li>
+        if (row.GetString("Exceptions_Form_For_Admin_Value_for_less_then_min_Is_Procent") == "True")
+        {
+            <li><strong>Exception for less then min is procent</strong> : Yes</li> 
+        }
+        else
+        {
+            <li><strong>Exception for less then min is procent</strong> : No</li>   
+        }
+   <li><a href="@editUrl"> Edit </a></li>
+      
+    }
+</ul>       

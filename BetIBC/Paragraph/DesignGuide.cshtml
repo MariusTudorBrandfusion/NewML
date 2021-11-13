@@ -1,0 +1,170 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@{
+    string downloadUrl = GetGlobalValue("Global:Pageview.Url.Raw") + "&pdf=true";
+
+    string logo = Pageview.Area.Item["LogoImage"].ToString() != null ? Pageview.Area.Item["LogoImage"].ToString() : "/Files/Images/logo-dynamicweb.png";
+    string favicon = Pageview.Area.Item["LogoFavicon"].ToString() != null ? Pageview.Area.Item["LogoFavicon"].ToString() : "/Files/Images/favicon.png";
+
+    string brandColorOne = Pageview.Area.Item["LayoutBrandColorOne"].ToString();
+    string brandColorTwo = Pageview.Area.Item["LayoutBrandColorTwo"].ToString();
+
+    string toolsMenuBg = Pageview.Area.Item["ToolsMenuBackgroundColor"].ToString();
+    string toolsMenuText = Pageview.Area.Item["ToolsMenuFontColor"].ToString();
+
+    string navigationBackgroundColor = Pageview.Area.Item["NavigationBackgroundColor"].ToString();
+    string NavigationActiveFontColor = Pageview.Area.Item["NavigationActiveFontColor"].ToString();
+    string NavigationDropdownBackgroundColor = Pageview.Area.Item["NavigationDropdownBackgroundColor"].ToString();
+    string NavigationDropdownFontColor = Pageview.Area.Item["NavigationDropdownFontColor"].ToString();
+
+    string navigationFont = Pageview.Area.Item["NavigationFont"].ToString();
+}
+
+<div class="grid">
+    <div class="grid__col-md-6">
+        <h1>@Translate("Design guide")</h1>
+        @navigationFont
+    </div>
+    <div class="grid__col-md-6">
+        <div class="grid__cell">
+            <a href="@downloadUrl" class="btn btn--secondary btn--clean btn--condensed u-pull--right dw-mod" download><i class="fa fa-download"></i></a>
+        </div>
+    </div>
+    <div class="grid__col-md-12">
+        <h2 class="section-title">@Translate("Logo")</h2>
+
+        <div class="logo dw-mod">
+            <img src="@logo" />
+        </div>
+    </div>
+    <div class="grid__col-md-12">
+        <h2 class="section-title">@Translate("Colors")</h2>
+
+        <div class="collection">
+            <div class="color-box">
+                <div class="color-box__title">
+                     Brand color one
+                </div>
+                <div class="color-box__container">
+                    <div class="color-box__color" style="background-color: @brandColorOne"></div>
+                    <div class="color-box__value">
+                        @brandColorOne
+                    </div>
+                </div>
+            </div>
+            
+            <div class="color-box">
+                <div class="color-box__title">
+                    Brand color two
+                </div>
+                <div class="color-box__container">
+                    <div class="color-box__color" style="background-color: @brandColorTwo"></div>
+                    <div class="color-box__value">
+                        @brandColorTwo
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="collection-header">Tools menu</div>
+        <div class="collection">
+            <div class="color-box">
+                <div class="color-box__title">
+                    Background
+                </div>
+                <div class="color-box__container">
+                    <div class="color-box__color" style="background-color: @toolsMenuBg"></div>
+                    <div class="color-box__value">
+                        @toolsMenuBg
+                    </div>
+                </div>
+            </div>
+
+            <div class="color-box">
+                <div class="color-box__title">
+                    Font
+                </div>
+                <div class="color-box__container">
+                    <div class="color-box__color" style="background-color: @toolsMenuText"></div>
+                    <div class="color-box__value">
+                        @toolsMenuText
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="collection-header">Navigation</div>
+        <div class="collection">
+            <div class="color-box">
+                <div class="color-box__title">
+                    Background
+                </div>
+                <div class="color-box__container">
+                    <div class="color-box__color" style="background-color: @navigationBackgroundColor"></div>
+                    <div class="color-box__value">
+                        @navigationBackgroundColor
+                    </div>
+                </div>
+            </div>
+
+            <div class="color-box">
+                <div class="color-box__title">
+                    Font active
+                </div>
+                <div class="color-box__container">
+                    <div class="color-box__color" style="background-color: @NavigationActiveFontColor"></div>
+                    <div class="color-box__value">
+                        @NavigationActiveFontColor
+                    </div>
+                </div>
+            </div>
+
+            <div class="color-box">
+                <div class="color-box__title">
+                    Dropdown bg
+                </div>
+                <div class="color-box__container">
+                    <div class="color-box__color" style="background-color: @NavigationDropdownBackgroundColor"></div>
+                    <div class="color-box__value">
+                        @NavigationDropdownBackgroundColor
+                    </div>
+                </div>
+            </div>
+
+            <div class="color-box">
+                <div class="color-box__title">
+                    Dropdown active
+                </div>
+                <div class="color-box__container">
+                    <div class="color-box__color" style="background-color: @NavigationDropdownFontColor"></div>
+                    <div class="color-box__value">
+                        @NavigationDropdownFontColor
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid__col-md-12">
+        <h2 class="section-title">@Translate("Fonts")</h2>
+
+        <div class="collection-header">Navigation</div>
+        <div>
+            <div>Lato</div>
+            <div class="collection u-color-light-gray">
+                <span>16px</span><span>Bold</span>
+            </div>
+            <div>The quick brown fox jumps over the lazy dog</div>
+        </div>
+    </div>
+    <div class="grid__col-md-12">
+        <h2 class="section-title">@Translate("Buttons")</h2>
+
+    </div>
+    <div class="grid__col-md-12">
+        <h2 class="section-title">@Translate("Spacing")</h2>
+
+    </div>
+    <div class="grid__col-md-12">
+        <h2 class="section-title">@Translate("Footer text")</h2>
+
+    </div>
+</div>

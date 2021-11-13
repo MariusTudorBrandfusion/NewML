@@ -1,0 +1,154 @@
+﻿// -----------------------------------------------------------------------------
+// Contains all styles related to the Wbsite settings Navigation section
+// -----------------------------------------------------------------------------
+
+//Main navigation
+.main-navigation.dw-mod {
+   .main-navigation-mixin(); 
+}
+
+.main-navigation-mixin() when not (@navigation-background-color = none) {   
+	background-color: @navigation-background-color;
+}
+
+
+
+//Dropdown 
+.menu--dropdown.dw-mod, .menu--dropleft.dw-mod {
+   .menu--dropdown-mixin(); 
+}
+
+.menu--dropdown-mixin() when not (@navigation-dropdown-background-color = none) {   
+	background-color: @navigation-dropdown-background-color;
+
+    .menu-dropdown__link.dw-mod {
+        color: @navigation-dropdown-font-color;
+        font-size: unit(@navigation-font-size, px);
+    }
+}
+
+.is-dropdown.dw-mod:after {
+    .is-dropdown-mixin();
+}
+
+.is-dropdown-mixin() when not (@navigation-padding = none) {   
+    padding: unit(@navigation-padding, em) @reflex-cell-spacing-md unit(@navigation-padding, em) 0;
+    color: @navigation-font-color; 
+}
+
+//Mega menu
+.mega-menu.dw-mod {
+    .mega-menu-mixin();
+}
+
+.mega-menu-mixin() when not (@navigation-dropdown-background-color = none) {   
+    background-color: @navigation-dropdown-background-color;
+
+    .menu-dropdown__link.dw-mod {
+        color: @navigation-dropdown-font-color;
+        font-size: unit(@navigation-font-size, px);
+    }
+}
+
+.mega-menu__header-container__text.dw-mod {
+    .mega-menu__header-container__text-mixin();
+}
+
+.mega-menu__header-container__text-mixin() when not (@navigation-dropdown-heading-color = none) {   
+    color: @navigation-dropdown-heading-color;
+}
+
+.mega-menu__header-container__text-mixin() when not (@navigation-dropdown-heading-size = none) {   
+    font-size: unit(@navigation-dropdown-heading-size, rem);
+}
+
+
+.is-mega.dw-mod:after {
+    .is-mega-mixin();
+}
+
+.is-mega-mixin() when not (@navigation-padding = none) {   
+    padding: unit(@navigation-padding, em) @reflex-cell-spacing-md unit(@navigation-padding, em) 0;
+    color: @navigation-font-color; 
+}
+
+
+//Menu item specifics
+.menu__link.dw-mod {
+    .menu__link-mixin();
+}
+
+.menu__link-mixin() when not (@navigation-font-family = none) {   
+	font-family: @navigation-font-family;
+}
+
+.menu__link-mixin() when not (@navigation-font-size = none) {   
+	font-size: unit(@navigation-font-size, px);
+}
+
+.menu__link-mixin() when not (@navigation-font-weight = none) {   
+	font-weight: ~'@{navigation-font-weight}';
+}
+
+.menu__link-mixin() when not (@navigation-line-height = none) {   
+	line-height: unit(@navigation-line-height, em);
+}
+
+.menu__link-mixin() when not (@navigation-font-color = none) {   
+	color: @navigation-font-color;
+}
+
+.menu__link-mixin() when not (@navigation-casing = "none") {   
+	text-transform: ~'@{navigation-casing}';
+} 
+
+.menu__link-mixin() when not (@navigation-padding = none) {   
+	padding: unit(@navigation-padding, em) 1em;
+}
+
+.menu__item--active.dw-mod:not(.menu__item--top-level), .menu__item.dw-mod:not(.menu__item--top-level):hover, .menu__item.dw-mod:not(.menu__item--top-level):focus, .menu__item.dw-mod:not(.menu__item--top-level):active {
+    .menu__item--active-mixin();
+} 
+
+.menu__item--active-mixin() when not (@navigation-dropdown-active-color = none) {   
+	background-color: @navigation-dropdown-active-color;
+	color: @navigation-dropdown-active-font-color;
+}
+
+.menu__item--top-level {
+    .menu__item--top-level-mixin();
+} 
+
+.menu__item--top-level-mixin() when not (@navigation-background-color = none) { 
+    border-color: @navigation-background-color;
+}
+
+.menu__item--top-level.menu__item--active.dw-mod, .menu__item--top-level.dw-mod:hover, .menu__item--top-level.dw-mod:focus, .menu__item--top-level.dw-mod:active {
+    .menu__item--top--active-mixin();
+} 
+
+.menu__item--top--active-mixin() when not (@navigation-active-font-color = none) { 
+    border-bottom-color: @navigation-active-font-color;
+    color: @navigation-active-font-color;
+
+    .menu__link {
+        color: @navigation-active-font-color;
+    }
+}                                       
+
+.menu__link--active.dw-mod, .menu__item.dw-mod:hover > .menu__link, .menu__item.dw-mod:focus > .menu__link, .menu__item.dw-mod:active > .menu__link {
+    .menu__link--active-mixin();
+} 
+
+.menu__link--active-mixin() when not (@navigation-active-font-color = none) {   
+	color: @navigation-active-font-color;
+}
+
+.menu-dropdown__link--active.dw-mod, .menu__item.dw-mod:hover > .menu-dropdown__link, .menu__item.dw-mod:focus > .menu-dropdown__link, .menu__item.dw-mod:active > .menu-dropdown__link {
+    .menu-dropdown__link--active-mixin();
+} 
+
+.menu-dropdown__link--active-mixin() when not (@navigation-dropdown-active-font-color = none) {   
+    background-color: @navigation-dropdown-active-color;
+	color: @navigation-dropdown-active-font-color;
+}

@@ -1,0 +1,5 @@
+﻿ @foreach (var result in GetLoop("QueryResultItem"))
+    {
+var userObject = result.GetBoolean("Active").ToString();
+<p>@userObject</p>
+}

@@ -1,0 +1,26 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+<div class="grid"> 
+@foreach (LoopItem item in GetLoop("ItemPublisher:Items.List"))
+{
+
+	string tipsterName = @item.GetString("ItemPublisher:Item.Tipster_Name"),
+           tipsterImage = @item.GetString("ItemPublisher:Item.Tipster_Image"),
+  		   tipsterShortDescription = @item.GetString("ItemPublisher:Item.ShortDescription"),
+  		   tipsterUrl = @item.GetString("ItemPublisher:Item.Url") ;
+  
+	<div class="grid__col-md-3 article-box">
+        <a href="@tipsterUrl">
+            <span class="article__image" style='background: url("/Admin/Public/GetImage.ashx?width=306&amp;height=200&amp;crop=5&amp;Compression=75&amp;image=@tipsterImage") no-repeat center center;'>&nbsp;</span>
+        </a>
+        <div class="article_details">
+            <h2 class="article__header" id = "tipster-name">@tipsterName</h2>
+    		<div class="article__summary">@tipsterShortDescription</div>
+
+            <div class="grid__cell">
+                <a href="@tipsterUrl" class="dw-mod">@Translate("Read more")</a>
+            </div>
+        </div>
+    </div>
+}
+</div>

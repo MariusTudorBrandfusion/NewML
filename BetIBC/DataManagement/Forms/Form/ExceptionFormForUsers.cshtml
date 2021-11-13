@@ -1,0 +1,60 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using Dynamicweb.Core
+@using System
+@SnippetStart("BootstrapCss")
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+@SnippetEnd("BootstrapCss")
+@Include("/Files/Templates/Designs/BetIBC/DataManagement/Forms/Form/Includes/GeneralDataListFormHelpers.cshtml")
+@{
+    var formStart = GetString("Form.Start");
+    var formEnd = GetString("Form.End");
+    var formHiddenFileds = GetString("Form.Hidden");
+    var lableName = GetString("Form.Fields.Exceptions_Form_For_Admin_Name.Label");
+    var deactivateSelect = GetString("Form.Fields.Exceptions_Form_For_Admin_Deactivate.Control");
+    var lableValue = GetString("Form.Fields.Exceptions_Form_For_Admin_Value.Label");
+    var lableIsProcent = GetString("Form.Fields.Exceptions_Form_For_Admin_Is_Procent.Label");
+    var name = GetString("Form.Fields.Exceptions_Form_For_Admin_Name.Systemname");
+    var value = GetString("Form.Fields.Exceptions_Form_For_Admin_Value.Systemname");
+    var isProcent = GetString("Form.Fields.Exceptions_Form_For_Admin_Is_Procent.Systemname");
+    var labelValueForMin = GetString("Form.Fields.Exceptions_Form_For_Admin_Value_for_less_then_min.Label");
+    var valueForMin = GetString("Form.Fields.Exceptions_Form_For_Admin_Value_for_less_then_min.Systemname");
+    var labelForMinIsProcent = GetString("Form.Fields.Exceptions_Form_For_Admin_Value_for_less_then_min_Is_Procent.Label");
+    var valueForMinIsProcent = GetString("Form.Fields.Exceptions_Form_For_Admin_Value_for_less_then_min_Is_Procent.Systemname");
+    var labelForNotes = GetString("Form.Fields.Exceptions_Form_For_Admin_Notes.Label");
+    var notes = GetString("Form.Fields.Exceptions_Form_For_Admin_Notes.Systemname");
+    var userID = GetGlobalValue("Global:Extranet.UserID");
+    var userIDName = GetString("Form.Fields.Exceptions_Form_For_Admin_User_Id.Systemname");
+    var userIDLabel = "User ID";
+    var formSubmit = GetString("Form.Button.Submit");
+
+
+}
+
+<div class="container">
+    <div class="exception-form-for-users @userID"> 
+        @formStart
+        @formHiddenFileds
+        @simpleInputField("text", lableName, name, name, "required", string.Empty)
+        <div class="row">
+            <div class="col-xs-6">
+                @simpleInputField("number",lableValue, value, value, "required", string.Empty)
+                @sinpleCheckboxField(lableIsProcent, isProcent, isProcent, "True", string.Empty)
+            </div>
+            <div class="col-xs-6">
+                @simpleInputField("number",labelValueForMin,valueForMin,valueForMin, "required", string.Empty)
+                @sinpleCheckboxField(labelForMinIsProcent, valueForMinIsProcent,valueForMinIsProcent, "True", string.Empty)
+            </div>
+        </div>
+        @simpleTextAreaField(labelForNotes, notes, notes, "required", string.Empty)
+        <div class="hidden">
+        @simpleInputField("text",userIDLabel,userIDName,userIDName, "required", userID)
+          @preBuiltEmlement("Deactivate User", deactivateSelect, deactivateSelect)
+        </div>
+        @formSubmit
+        @formEnd
+    </div>
+</div>
+

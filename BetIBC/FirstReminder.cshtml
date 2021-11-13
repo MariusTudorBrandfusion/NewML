@@ -1,0 +1,157 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering;
+@using Dynamicweb.Core.Helpers
+@using Dynamicweb.Security.UserManagement
+@using Dynamicweb.Modules.Common
+@using BrandFusion.Dw.BetIbc
+@MasterPageFile("/Files/Templates/PIM/Includes/EmailMaster.cshtml")
+@Include("/Files/Templates/PIM/Includes/EmailHelpers.cshtml")
+
+@* Variables *@
+@{
+    /*Logo*/
+    var betIbcLogoImage = "/Files/Images/BetIBC/logo_betibc.png";
+    var betIbcLogo = "http://bet.dotfusion.ro/Admin/Public/GetImage.ashx?width=250&amp;crop=1&amp;image=/" + betIbcLogoImage;
+    
+    /*Translations and currencies*/
+    var bankTranslation = Translate("BankTransfer");
+    var cryptoTranslate = Translate("Crypto");
+    var usdCurrency = "Dollar";
+    var skrill = "Skrill";
+    var neteller = "Neteller";
+    var ecopayz = "Ecopayz";
+    var euro = "Euro";
+    var sgd = "SGD";
+    var myr = "MYR";
+    var gbp = "GBP";
+    
+    /*Get User ID*/
+    var userIDRaw = System.Web.HttpContext.Current.Request["UserId"];
+    int userID = Int32.Parse(userIDRaw);
+    
+    /*Get Customer Object*/
+    User customer = User.GetUserByID(userID);
+    var customerName = customer.Name;
+    var userCustomFields = customer.CustomFieldValues;
+    var paymentMethodSkrill = userCustomFields.First(f => f.CustomField.SystemName == "AccessUser_Payment_Method_Skrill").Value;
+    var paymentMethodNeteller = userCustomFields.First(f => f.CustomField.SystemName == "AccessUser_Payment_Method_Neteller").Value;
+    var paymentMethodBank = userCustomFields.First(f => f.CustomField.SystemName == "AccessUser_Payment_Method_Bank_Transfer").Value;
+    var paymentMethodEcopayz = userCustomFields.First(f => f.CustomField.SystemName == "AccessUser_Payment_Method_EcoPayz").Value;
+    var paymentMethodCripto = userCustomFields.First(f => f.CustomField.SystemName == "AccessUser_Payment_Method_Bitcoin").Value;
+    
+    /*Get Bookmaker Information*/
+    string addressIDRaw = System.Web.HttpContext.Current.Request["AddressId"];
+    int addressID = Int32.Parse(addressIDRaw);
+    var address = AddressFacade.Get(addressID);
+    var bookmakerName = address.Bookmaker;
+    var currencyList = new string[]{usdCurrency , euro , sgd , myr , gbp};
+    bool currencyIsInList = currencyList.Contains(address.Currency) ? true : false;
+    
+   /*Get Specific text for paymentmethods from Website settings*/
+    var skrillEuroText = (string)Pageview.Area.Item["Skrill_Euro"] != "" ? (string)Pageview.Area.Item["Skrill_Euro"] : "";
+    var skrillUsdText = (string)Pageview.Area.Item["Skrill_USD"] != "" ? (string)Pageview.Area.Item["Skrill_USD"] : "";
+    var skrillGbpText = (string)Pageview.Area.Item["Skrill_GBP"] != "" ? (string)Pageview.Area.Item["Skrill_GBP"]: "";
+    var skrillMyrText = (string)Pageview.Area.Item["Skrill_MYR"] != "" ? (string)Pageview.Area.Item["Skrill_MYR"] : "";
+    var skrillSgdText = (string)Pageview.Area.Item["Skrill_SGD"] != "" ? (string)Pageview.Area.Item["Skrill_SGD"] : "";    
+    var netellerUsdText = (string)Pageview.Area.Item["Neteller_USD"] != "" ? (string)Pageview.Area.Item["Neteller_USD"] : "";
+    var netellerEuroText = (string)Pageview.Area.Item["Neteller_Euro"] != "" ? (string)Pageview.Area.Item["Neteller_Euro"] : "";
+    var ecopayzText = (string)Pageview.Area.Item["Ecopayz"] != "" ? (string)Pageview.Area.Item["Ecopayz"] : "";
+    var bankText = (string)Pageview.Area.Item["Bank_Transfers"] != "" ? (string)Pageview.Area.Item["Bank_Transfers"] : "";
+    var CryptocurrencyText = (string)Pageview.Area.Item["Cryptocurrency"] != "" ? (string)Pageview.Area.Item["Cryptocurrency"] : "";
+    
+    /*Decisions on what to display in email*/
+    
+    /*Payment Method Name*/
+    var paymentMethodFinal = paymentMethodSkrill = true ? skrill : paymentMethodNeteller = true ? neteller : paymentMethodBank = true ? bankTranslation : paymentMethodEcopayz = true ? ecopayz : paymentMethodCripto = true ? cryptoTranslate : "No payment method was selected";
+    
+   /*Decision between 2 different types of text composition */ 
+    var bookmakerCurrency1 = (paymentMethodFinal == skrill && address.Currency == usdCurrency) ? skrillUsdText : (paymentMethodFinal == skrill && address.Currency == euro) ? skrillEuroText : (paymentMethodFinal == skrill && address.Currency == gbp) ? skrillGbpText : (paymentMethodFinal == skrill && address.Currency == myr) ? skrillMyrText : (paymentMethodFinal == skrill && address.Currency == sgd) ? skrillSgdText : (paymentMethodFinal == skrill && currencyIsInList.ToString() == "False") ? skrillEuroText : (paymentMethodFinal == neteller && address.Currency == usdCurrency) ? netellerUsdText : (paymentMethodFinal == neteller && address.Currency == euro) ? netellerEuroText : (paymentMethodFinal == neteller && currencyIsInList.ToString() == "False") ? netellerEuroText : skrillEuroText;
+    var bookmakerCurrency2 = paymentMethodFinal == bankTranslation ? bankText : paymentMethodFinal == cryptoTranslate ? CryptocurrencyText : paymentMethodFinal == ecopayz ? ecopayzText : ecopayzText;
+    
+    /*Actual texts of the email*/
+    var bookmakerCurrency1Text = Translate("SendYourDepositVia" , "Send your deposit via ") + " " + "<strong>" + paymentMethodFinal + "</strong>" + " " + Translate("To" , "to") + " " + "<strong>" + bookmakerCurrency1 + "</strong>";
+    var bookmakerCurrency2Text = bookmakerCurrency2;
+    var paymentText = paymentMethodFinal == skrill || paymentMethodFinal == neteller ? bookmakerCurrency1Text : bookmakerCurrency2Text;
+    var accountText = Translate("YouSignedUpForA") + "<strong>" + " " + bookmakerName +  " " + "</strong>" + Translate("AccountinOrderToGetStarted", "account, in order to get started an initial deposit is required.");
+    var alternativeText = Translate("AsAlternative", "As alternative, we advise you to upgrade to a VIP-IBC account, where you will have not only odds from ") + "<strong>" + " " + bookmakerName + "</strong>" + " " + Translate("ButAlsoTheOdds", "but also the odds from the top Asian bookmakers.");
+}
+
+@*Notification Message *@
+
+<table bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" width="500" id="emailBody">
+    @RenderHeaderSection(betIbcLogo)
+    @RenderMessage(customerName , accountText , paymentText , alternativeText)
+</table>
+
+@*Helpers *@
+
+@helper RenderHeaderSection(string betIbcLogo)
+{
+    
+<div align="center" valign="top">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="color:#333; background: ;" bgcolor="#14304A">
+        <tbody>
+            <tr>
+                <td align="center" valign="top">
+                    <table border="0" cellpadding="0" cellspacing="0" width="500" class="flexibleContainer">
+                        <tbody>
+                            <tr>
+                                <td align="center" valign="top" width="500" class="flexibleContainerCell">
+                                    <table border="0" cellpadding="30" cellspacing="0" width="100%">
+                                        <tbody>
+                                            <tr>
+                                                <td align="center" valign="top" class="textContent">
+                                                    <img src="@betIbcLogo" width="250" class="flexibleImage" style="max-width: 100%;">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+}
+
+@helper RenderMessage( string customerName , string accountText , string paymentText , string alternativeText )
+{
+    <div align="center" valign="top">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="color:#333; background: ;" bgcolor="white">
+            <tbody>
+            <tr>
+                <td align="center" valign="top">
+                    <table border="0" cellpadding="0" cellspacing="0" width="500" class="flexibleContainer">
+                        <tbody>
+                        <tr>
+                            <td align="center" valign="top" width="500" class="flexibleContainerCell">
+                                <table border="0" cellpadding="30" cellspacing="0" width="100%">
+                                    <tbody>
+                                    <tr>
+                                        <td align="left" valign="top" class="textContent">
+                                            <p>@Translate("Dear") @(customerName),</p>
+                                            <p>@accountText</p>
+                                            <p>@paymentText</p>
+                                            <p>@alternativeText</p>
+                                            <p>@Translate("IfYouHaveAnyQuestions" , "If you have any questions, contact us via live chat, Skype: help.bet-ibc or simply reply to this email.")</p>
+                                            <p></p>
+                                            <p>@Translate("BestRegards","Best Regards"),</p>
+                                            <p>BET-IBC</p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>    
+
+}

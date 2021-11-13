@@ -1,0 +1,75 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.ParagraphViewModel>
+
+@Include("ParagraphRender.cshtml")
+
+@{
+    string fontColor = !string.IsNullOrEmpty(Model.Item.GetList("FontColor").SelectedValue) ? "u-" + Model.Item.GetList("FontColor").SelectedValue : "";
+    string backgroundColor = !string.IsNullOrEmpty(Model.Item.GetList("BackgroundColor").SelectedValue) ? "u-" + Model.Item.GetList("BackgroundColor").SelectedValue + "--bg" : "";
+    string paragraphContainerClasses = "";
+    string containerClasses = string.IsNullOrEmpty(Model.Item.GetList("Width").SelectedValue) ? "center-container dw-mod" : "";
+    string gridClasses = "";
+
+    if (Model.Item.GetList("Width").SelectedValue == "center") {
+        containerClasses = fontColor + " " + backgroundColor + " center-container";
+    }
+
+    if (Model.Item.GetList("Width").SelectedValue == "full")
+    {
+        containerClasses = fontColor + " " + backgroundColor;
+    }
+
+    if (Model.Item.GetList("Width").SelectedValue == "combi")
+    {
+        paragraphContainerClasses = @fontColor + " " + @backgroundColor;
+        containerClasses = "center-container";
+    }
+
+    string fullBackgroundImage = "";
+    if (Model.Item.GetFile("BackgroundImage") != null)
+    {
+        containerClasses += " center-container--with-background-image";
+        gridClasses += " center-container--with-background-image";
+        fullBackgroundImage = "style='background-image:url(/Admin/Public/GetImage.ashx?width=2500&amp;height=1100&amp;crop=1&amp;Compression=90&amp;image=" + Model.Item.GetFile("BackgroundImage").Path + ");'";
+    } else if (string.IsNullOrEmpty(Model.Item.GetList("BackgroundColor").SelectedValue)) {
+        backgroundColor = "u-color-light--bg";
+    }
+}
+
+@* Escape the container and section *@
+@* </div>
+</section> *@
+@* ----------------------------------- *@
+
+<section class="multiple-paragraphs-container grid__col-md-12 grid__col-xs-12 u-no-padding @paragraphContainerClasses" @fullBackgroundImage>          
+    <div class="@containerClasses dw-mod">
+        <div class="grid @gridClasses">
+            @foreach (var paragraph in Model.Item.GetItems("Paragraph"))
+                {
+                string columnCssClasses = "grid__col-md-" + paragraph.GetList("Width").SelectedValue + " grid__col-xs-" + paragraph.GetList("WidthMobile").SelectedValue;
+
+                if (paragraph.GetString("WidthMobile") == "hide")
+                {
+                    columnCssClasses = "grid__col-md-" + paragraph.GetList("Width").SelectedValue + " grid__col-xs--hidden";
+                }
+
+                string backgroundImage = "";
+                string imageStyle = paragraph.GetList("ImageStyle").SelectedValue;
+
+                if (imageStyle == "background" && paragraph.GetFile("Image") != null)
+                {
+                    columnCssClasses += " grid__col--bg";
+                    backgroundImage = "style='background-image:url(/Admin/Public/GetImage.ashx?width=1800&amp;height=800&amp;crop=1&amp;Compression=90&amp;image=" + paragraph.GetFile("Image").Path + ");'";
+                }
+
+                <div class="@columnCssClasses paragraph-container" @backgroundImage>
+                    @RenderContent(paragraph)
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+@* Re-enter the container and section *@
+@* <section class="content-container center-container dw-mod">
+<div class="grid"> *@
+@* ----------------------------------- *@

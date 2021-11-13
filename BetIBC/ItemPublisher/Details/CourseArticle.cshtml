@@ -1,0 +1,27 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+<article class="grid__col-md-9">
+    <h1 class="article__header">@GetString("ItemPublisher:Item.Title")</h1>
+
+    <div class="article__summary">@GetString("ItemPublisher:Item.Summary")</div>
+                                                                                                
+    @GetString("ItemPublisher:Item.Text")
+
+    <div class="grid__cell">
+        <button class="btn btn--primary dw-mod u-pull--right">@Translate("Subscribe")</button>
+    </div>
+</article>
+<details class="grid__col-md-3">
+    <img class="article__image grid__cell-img--ball" src="/Admin/Public/GetImage.ashx?width=600&amp;height=600&amp;crop=7&amp;Compression=75&amp;image=@GetString("ItemPublisher:Item.Image")" />
+
+    <div class="article__info-body">@GetString("ItemPublisher:Item.Date")</div>
+
+    <div class="article__info-header">@Translate("Speaker")</div>
+    <div class="article__info-body">@GetString("ItemPublisher:Item.Speaker")</div>
+
+    <div class="article__info-header">@Translate("Duration")</div>
+    <div class="article__info-body">@GetString("ItemPublisher:Item.Duration")</div>
+
+    <div class="article__info-header">@Translate("Price")</div>
+    <div class="article__info-body">@GetString("ItemPublisher:Item.Price")</div>
+</details>

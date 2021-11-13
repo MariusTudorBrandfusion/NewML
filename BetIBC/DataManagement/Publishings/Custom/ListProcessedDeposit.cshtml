@@ -1,0 +1,61 @@
+@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using Dynamicweb.Core
+@using System
+@Include("/Files/Templates/Designs/BetIBC/DataManagement/Publishings/Custom/Includes/DepositListAndDetailsVariables.cshtml")
+@Include("/Files/Templates/Designs/BetIBC/DataManagement/Publishings/Custom/Includes/DepositListAndDetailsHelpers.cshtml")
+ 
+<div class="container">
+    <div class="filter-container" style="display: grid">
+        <div class="grid">
+            <h3>Filters</h3>
+        </div>
+        <label>Email</label>
+        <input class="email-filter" type="text">
+        <label>Express</label>
+        <input class="express-filter" type="checkbox" value="false">
+        <div id="filter-button">
+            @Translate("Filter", "Filter")
+        </div>
+        <div id="reset-filter-button">
+            @Translate("All Deposit", "All Deposit")
+        </div>
+    </div>
+    <table class="main_table">
+        @ListHeader()
+        <tbody>
+            @foreach (LoopItem row in rowsStep3Filtered)
+            {
+                var rowId = row.GetString("deposits_finalID");
+                var detailUrl = "/Default.aspx?ID=" + currentPage + "&deposits_finalID=" + rowId + "&mode=detail&RowId=deposits_finalID%3d" + rowId + "&ViewPID=30810";
+                var rowName = "deposits_finalID";
+                var parameter = "FORM_ROW_ID=" + rowName + "%3d" + rowId + "&VIEW_ID=" + ViewId;
+                var depositID = row.GetString("deposits_finalID").ToString();
+                var currentDepositStatus = row.GetString("deposits_final_Status");
+                var depositRequestDate = row.GetString("deposits_final_Date_of_request");
+                var depositRequestTime = row.GetString("deposits_final_Hour_of_request");
+                var depositRequestAmount = row.GetString("deposits_final_Ammount_to_be_deposited");
+                var depositRequestCurrency = row.GetString("deposits_final_Deposit_currency");
+                var depositUsername = row.GetString("deposits_final_Username");
+                var depositBookmaker = row.GetString("deposits_final_Bookmaker");
+                var depositPaymentMethod = row.GetString("deposits_final_Payment_method");
+                var depositExpress = row.GetString("deposits_final_Express_fee");
+                var editUrl = "/Default.aspx?ID=" + "101694" + "&" + parameter;
+                <tr>
+                    @depositListCell("regular", depositID, "")
+                    @depositListCell("regular", depositExpress, "")
+                    @depositListCell("regular", currentDepositStatus, "")
+                    @depositListCell("timestamp", depositRequestDate, depositRequestTime)
+                    @depositListCell("amount", depositRequestAmount, depositRequestCurrency)
+                    @depositListCell("regular", depositUsername, "")
+                    @depositListCell("regular", depositBookmaker, "")
+                    @depositListCell("regular", depositPaymentMethod, "")
+                    @depositListButton("button", detailUrl, "Details", "")
+                    @depositListButton("button", editUrl, "Process Deposit", "")
+                </tr>
+            }
+      </tbody>
+    </table>
+</div>

@@ -1,0 +1,39 @@
+﻿@{
+string formsPage = GetString("Forms.Page");
+
+
+}
+<table border="1" cellpadding="2" cellspacing="2">
+	<tr>
+		@foreach (LoopItem i in GetLoop("Columns")){
+		<td>
+			@i.GetValue("Column.Name")
+		</td>
+		}
+      <td>&nbsp;</td>
+	</tr>
+	@foreach (LoopItem i in GetLoop("Rows")){
+  		string rowID = "";
+  		var editURL = "";
+		<tr>
+		@foreach (LoopItem i2 in i.GetLoop("Row")){
+          if(i2.GetString("Row.ColumnName") == "TestTableID"){
+          	rowID = i2.GetString("Row.Value");
+          }
+          var detailsUrl = i2.GetValue("Row.DetailUrl");
+          editURL = formsPage + "?FORM_ROW_ID=TestTableID&VIEW_ID=" + rowID;
+          @i2.TemplateTags()
+		<td>
+			<text>
+				<a href="@detailsUrl">@i2.GetValue("Row.Value")</a>	
+			</text>
+			<text>
+				@i2.GetValue("Row.Value")
+			</text>
+		</td>
+		}
+  		<td><a href="@editURL">Edit</a></td>
+		</tr>
+	}
+</table>
+@TemplateTags()

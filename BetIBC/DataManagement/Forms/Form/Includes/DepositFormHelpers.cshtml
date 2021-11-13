@@ -1,0 +1,1757 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using System.Web.Script.Serialization
+@using Dynamicweb.Frontend
+@using Dynamicweb.Forms
+@helper PaymentMethodsList(){
+    <option value="default" selected disabled>@Translate("Select","Select")</option>
+    <option value="Skrill" >Skrill</option>
+    <option value="Neteller">Neteller</option>
+    <option value="ecoPayz">ecoPayz</option>
+    <option value="BankTransfer">@Translate("Bank Transfer", "Bank Transfer")</option>
+    <option value="Cryptocurrency">@Translate("Cryptocurrency", "Cryptocurrency")</option>
+}
+@helper skrillCurrencies ()
+{
+    <option value="default" selected disabled>@Translate("Select","Select")</option>
+    <option value="Euro" >Euro</option>
+    <option value="USD">USD</option>
+    <option value="GBP">GBP</option>
+    <option value="MYR">MYR</option>
+    <option value="SGD">SGD</option>
+}
+@helper netellerCurrencies()
+{
+    <option value="default" selected disabled>@Translate("Select","Select")</option>
+    <option value="Euro" >Euro</option>
+    <option value="USD">USD</option>
+}
+@helper ecopayzCurrencies()
+{
+    <option value="default" selected disabled>@Translate("Select","Select")</option>
+    <option value="Euro" >Euro</option>
+    <option value="USD">USD</option>
+    <option value="GBP">GBP</option>
+    <option value="MYR">MYR</option>
+    <option value="SGD">SGD</option>
+}
+@helper bankCurrencies()
+{
+    <option value="default" selected disabled>@Translate("Select","Select")</option>
+    <option value="Euro">Euro</option>
+    <option value="USD">USD</option>
+    <option value="GBP">GBP</option>
+}
+@helper calculateButton(string buttonID)
+{
+    <a class="btn btn-default" id="@buttonID" href="">Calculate</a>
+}
+@helper CryptoCurrenciesOptionsList()
+{
+  
+    <option value="BTC">Bitcoin</option>
+    <option value="ETH">Ethereum</option>
+    <option value="LTC">Litecoin</option>
+    <option value="XRP">XRP</option>
+    <option value="EOS">EOS</option>
+    <option value="BCH">Bitcoin Cash</option>
+    <option value="PLC">PlatinCoin</option>
+    <option value="BNB">Binance Coin</option>
+    <option value="TRX">TRON</option>
+    <option value="ETC">Ethereum Classic</option>
+    <option value="XTZ">Tezos</option>
+    <option value="NEO">Neo</option>
+    <option value="DASH">Dash</option>
+    <option value="LINK">ChainLink</option>
+    <option value="ATOM">Cosmos</option>
+    <option value="XMR">Monero</option>
+    <option value="BSV">Bitcoin SV</option>
+    <option value="HT">Huobi Token</option>
+    <option value="SEELE">Seele</option>
+    <option value="QTUM">Qtum</option>
+    <option value="MATIC">MATIC Network</option>
+    <option value="ZEC">Zcash</option>
+    <option value="XLM">Stellar Lumens</option>
+    <option value="DOGE">Dogecoin</option>
+    <option value="ABBC">ABBC Coin</option>
+    <option value="WAVES">Waves</option>
+    <option value="NODE">Whole Network</option>
+    <option value="VET">Vechain</option>
+    <option value="ADA">Cardano</option>
+    <option value="BRZ">BRZ Token</option>
+    <option value="BTT">BitTorrent</option>
+    <option value="BAT">Basic Attention Token</option>
+    <option value="FET">Fetch.AI</option>
+    <option value="ONT">Ontology</option>
+    <option value="TOMO">TomoChain</option>
+    <option value="IOST">IOStoken</option>
+    <option value="WIN">WINK</option>
+    <option value="BTG">Bitcoin Gold</option>
+    <option value="LAMB">Lambda</option>
+    <option value="ENJ">Enjin Coin</option>
+    <option value="BEAM">Beam</option>
+    <option value="ALGO">Algorand</option>
+    <option value="RVN">Ravencoin</option>
+    <option value="DATA">Streamr DATAcoin</option>
+    <option value="IOT">IOTA</option>
+    <option value="KAVA">Kava</option>
+    <option value="THETA">Theta</option>
+    <option value="ETP">Metaverse ETP</option>
+    <option value="EKT">EKT</option>
+    <option value="OMG">OmiseGO</option>
+    <option value="ZRX">0xproject</option>
+    <option value="VITE">Vite</option>
+    <option value="ZIL">Zilliqa</option>
+    <option value="RLC">iEx.ec</option>
+    <option value="NULS">Nuls</option>
+    <option value="GRIN">Grin</option>
+    <option value="MTL">Metal</option>
+    <option value="ONE">Harmony</option>
+    <option value="ERD">Elrond</option>
+    <option value="NEXO">Nexo</option>
+    <option value="BF">BitForex Token</option>
+    <option value="GUSD">Gemini dollar</option>
+    <option value="KNC">Kyber Network</option>
+    <option value="VIDY">VidyCoin</option>
+    <option value="CTXC">Cortex</option>
+    <option value="TROY">Troy</option>
+    <option value="XEM">NEM</option>
+    <option value="DAI">Dai</option>
+    <option value="MDA">Moeda Loyalty Points</option>
+    <option value="MCO">Monaco</option>
+    <option value="AION">AION</option>
+    <option value="STEEM">STEEM</option>
+    <option value="ICX">ICON</option>
+    <option value="BTM">Bytom</option>
+    <option value="XVG">VERGE</option>
+    <option value="REP">Augur</option>
+    <option value="ADN">Aidencoin</option>
+    <option value="ENG">Enigma</option>
+    <option value="CELR">Celer</option>
+    <option value="KBC">KaratBank Coin</option>
+    <option value="AMP">Ampleforth</option>
+    <option value="ARN">Aeron</option>
+    <option value="FSN">Fusion</option>
+    <option value="GAP">Gapcoin</option>
+    <option value="YO">Yo Token</option>
+    <option value="FUN">FunFair</option>
+    <option value="BRD">Bread</option>
+    <option value="GO">GoChain</option>
+    <option value="USDS">StableUSD</option>
+    <option value="MITH">Mithril</option>
+    <option value="POWR">PowerLedger</option>
+    <option value="XZC">Zcoin</option>
+    <option value="VIB">Viberate</option>
+    <option value="TNT">Tierion</option>
+    <option value="AE">Aeternity</option>
+    <option value="ARPA">ARPA Chain</option>
+    <option value="FTT">FTX Token</option>
+    <option value="CHZ">Chiliz</option>
+    <option value="NANO">NANO</option>
+    <option value="HPT">Huobi Pool Token</option>
+    <option value="BHD">BitcoinHD</option>
+    <option value="LOOM">Loom Network</option>
+    <option value="EM">Eminer</option>
+    <option value="HYDRO">Hydro</option>
+    <option value="CENNZ">Centrality</option>
+    <option value="FTI">FANSTIME</option>
+    <option value="VIA">Viacoin</option>
+    <option value="ADK">Aidos Kuneen</option>
+    <option value="WTC">Waltonchain</option>
+    <option value="VSYS">V SYSTEMS</option>
+    <option value="STRAT">Stratis</option>
+    <option value="CND">Cindicator</option>
+    <option value="MANA">Decentraland</option>
+    <option value="HC">Hcash</option>
+    <option value="GAS">Gas</option>
+    <option value="UOS">Ultra</option>
+    <option value="MGO">MobileGo</option>
+    <option value="NAS">Nebulas</option>
+    <option value="DOCK">DOCK</option>
+    <option value="ROOBEE">Roobee</option>
+    <option value="WICC">Waykichain</option>
+    <option value="FOR">The Force Protocol</option>
+    <option value="BOS"></option>
+    <option value="COS">Contentos</option>
+    <option value="BIX">BIX Token </option>
+    <option value="OST">Simple Token</option>
+    <option value="BAND">BAND</option>
+    <option value="POLY">POLY</option>
+    <option value="DUSK">Dusk Network</option>
+    <option value="QSP">Quantstamp</option>
+    <option value="NKN">NKN</option>
+    <option value="FTM">Fantom</option>
+    <option value="LXT">LITEX</option>
+    <option value="XSN">StakeNet</option>
+    <option value="KEY">Selfkey</option>
+    <option value="MHC">MoasHoldingsCoin</option>
+    <option value="LEO">Unus Sed LEO</option>
+    <option value="BQX">Ethos</option>
+    <option value="DCR">Decred</option>
+    <option value="HC">HyperCash</option>
+    <option value="UTK">Utrust</option>
+    <option value="STX">Blockstack</option>
+    <option value="BTS">BitShares</option>
+    <option value="EDC">EDC blockchain</option>
+    <option value="AMB">Ambrosus</option>
+    <option value="LSK">Lisk</option>
+    <option value="ZJLT">ZJLT</option>
+    <option value="HOT">Holo</option>
+    <option value="WAN">WanCoin</option>
+    <option value="WDC">Worldcoin</option>
+    <option value="RDN">Raiden Network Token</option>
+    <option value="LET">LinkEye</option>
+    <option value="NEBL">Neblio</option>
+    <option value="ARK">Ark</option>
+    <option value="COCOS">Cocos-BCX</option>
+    <option value="NAV">NavCoin</option>
+    <option value="XMX">XMAX</option>
+    <option value="KMD">Komodo</option>
+    <option value="INS">INS Ecosystem</option>
+    <option value="GNT">Golem</option>
+    <option value="ITC">IoT Chain</option>
+    <option value="LBA">Libra Credit</option>
+    <option value="CVC">Civic</option>
+    <option value="TFUEL">Theta Fuel</option>
+    <option value="DGTX">DigitexFutures</option>
+    <option value="GT">GatechainToken</option>
+    <option value="SNM">SONM</option>
+    <option value="CMT">CyberMiles</option>
+    <option value="NPXS">Pundi X</option>
+    <option value="KAN">KAN</option>
+    <option value="DATX">DATx</option>
+    <option value="EVX">Everex</option>
+    <option value="REN">Republic Protocol</option>
+    <option value="E2C">Energy Coin</option>
+    <option value="WABI">WaBi</option>
+    <option value="HBAR">Hedera Hashgraph</option>
+    <option value="CKB">Nervos (CKB)</option>
+    <option value="MDS">MediShares</option>
+    <option value="BCV">BitCapitalVendor</option>
+    <option value="ACT">Achain</option>
+    <option value="DGD">DigixDAO</option>
+    <option value="NEW">Newton</option>
+    <option value="SKM">Skrumble Network</option>
+    <option value="SNC">SunContract</option>
+    <option value="BCHSV">Bitcoin Cash SV</option>
+    <option value="SC">Siacoin</option>
+    <option value="MX">MX Token</option>
+    <option value="GVT">Genesis Vision Token</option>
+    <option value="VTC">Vertcoin</option>
+    <option value="GRS">Groestlcoin</option>
+    <option value="EGT">Egretia</option>
+    <option value="QKC">QuarkChain</option>
+    <option value="BFT">Bnk To The Future</option>
+    <option value="MAID">MaidSafe</option>
+    <option value="OCEAN">Ocean Protocol</option>
+    <option value="IRIS">IRISnet</option>
+    <option value="AGI">SingularityNET</option>
+    <option value="ONG">OntologyGas</option>
+    <option value="SSP">Smartshare</option>
+    <option value="PIVX">Pivx</option>
+    <option value="PHB">Red Pulse Phoenix Binance</option>
+    <option value="STORM">Storm</option>
+    <option value="VRA">VERAsity</option>
+    <option value="EURS">STASIS EURS Token</option>
+    <option value="CRO">Crypto.com</option>
+    <option value="UIP">UnlimitedIP (UIP)</option>
+    <option value="ZEN">Zencash</option>
+    <option value="ARDR">Ardor</option>
+    <option value="DGB">DigiByte</option>
+    <option value="MDT">MeasurableData</option>
+    <option value="REM">Remme</option>
+    <option value="LEND">EthLend</option>
+    <option value="MT">MyToken</option>
+    <option value="GT">Gatechain</option>
+    <option value="YCC">Yuan Chain</option>
+    <option value="NXS">Nexus</option>
+    <option value="OCN">OCoin</option>
+    <option value="TT">ThunderCore</option>
+    <option value="CRO">Crypto.com Chain</option>
+    <option value="PLA">PLANET</option>
+    <option value="NET">NEXT</option>
+    <option value="VIBE">Vibe Coin</option>
+    <option value="SWFTC">SwftCoin</option>
+    <option value="MLGC">Marshal Lion Group Coin</option>
+    <option value="RCCC">RCCC</option>
+    <option value="MKR">Maker</option>
+    <option value="POA">POA Network</option>
+    <option value="UC">YouLive Coin (UC)</option>
+    <option value="BLZ">Bluzelle</option>
+    <option value="PVT">Pivot</option>
+    <option value="EDO">Eidoo</option>
+    <option value="BNT">Bancor</option>
+    <option value="DNT">district0x</option>
+    <option value="WPR">WePower</option>
+    <option value="GTO">Gifto</option>
+    <option value="FUEL">EtherParty</option>
+    <option value="STORJ">Storj</option>
+    <option value="EKO">EchoLink</option>
+    <option value="OAX">OpenANX</option>
+    <option value="WAN">Wanchain</option>
+    <option value="ATP">Atlas Protocol</option>
+    <option value="REQ">Request Network</option>
+    <option value="CXC"></option>
+    <option value="NXT">Nxt</option>
+    <option value="PXL">Pixel</option>
+    <option value="LOL">EMOGI Network</option>
+    <option value="FST">Fastcoin</option>
+    <option value="SLV">Silverway</option>
+    <option value="PNT">Penta</option>
+    <option value="SALT">Salt</option>
+    <option value="GXS">GXShares</option>
+    <option value="NKN">New kind of Network (NKN)</option>
+    <option value="PPT">Populous</option>
+    <option value="LRC">Loopring</option>
+    <option value="FTO">FuturoCoin</option>
+    <option value="PERL">Perlin</option>
+    <option value="PPY">Peerplays</option>
+    <option value="TOPC">Topchain</option>
+    <option value="MFT">Mainframe</option>
+    <option value="DCN">Dentacoin</option>
+    <option value="SNGLS">SingularDTV</option>
+    <option value="RRB">RenrenBit</option>
+    <option value="YEE">Yee</option>
+    <option value="ELF">aelf</option>
+    <option value="RBT">RBTC</option>
+    <option value="APPC">AppCoins</option>
+    <option value="DBC">DeepBrain Chain</option>
+    <option value="CDT">Coindash</option>
+    <option value="FAIR">Fair.Game </option>
+    <option value="TOS">ThingsOpreatingSystem</option>
+    <option value="ELA">Elastos</option>
+    <option value="YOYO">YOYOW</option>
+    <option value="DAV">DAV token</option>
+    <option value="CVNT">Content Value Network</option>
+    <option value="PAI">Project PAI</option>
+    <option value="SKY">Skycoin</option>
+    <option value="MAN">Matrix</option>
+    <option value="AIDOC">AIDOC</option>
+    <option value="DAT">Datum </option>
+    <option value="SNT">Status</option>
+    <option value="DAC">Davinci Coin</option>
+    <option value="QLC">QLINK</option>
+    <option value="MXC">Machine Xchange Coin</option>
+    <option value="DWS">DWS</option>
+    <option value="MEET">CoinMeet</option>
+    <option value="ZEN">Horizen</option>
+    <option value="AST">AirSwap</option>
+    <option value="ALLBI">ALL BEST ICO</option>
+    <option value="CRE">Carry</option>
+    <option value="LOT">Lottocoin</option>
+    <option value="DENT">Dent</option>
+    <option value="RTE">Rate3</option>
+    <option value="POE">Po.et</option>
+    <option value="LUN">Lunyr</option>
+    <option value="SPND">Spendcoin</option>
+    <option value="OGO">Origo.Network</option>
+    <option value="UUU">U Network</option>
+    <option value="RSR">Reserve Rights</option>
+    <option value="ABT">ArcBlock</option>
+    <option value="GST ">GAMESTARS</option>
+    }
+@helper CurrencyOptionsList(){
+    <option value="Euro">Euro</option>
+	<option value="USD">United States Dollars</option>
+	<option value="GBP">United Kingdom Pounds</option>
+	<option value="DZD">Algeria Dinars</option>
+	<option value="ARP">Argentina Pesos</option>
+	<option value="AUD">Australia Dollars</option>
+	<option value="ATS">Austria Schillings</option>
+	<option value="BSD">Bahamas Dollars</option>
+	<option value="BBD">Barbados Dollars</option>
+	<option value="BEF">Belgium Francs</option>
+	<option value="BMD">Bermuda Dollars</option>
+	<option value="BRR">Brazil Real</option>
+	<option value="BGL">Bulgaria Lev</option>
+	<option value="CAD">Canada Dollars</option>
+	<option value="CLP">Chile Pesos</option>
+	<option value="CNY">China Yuan Renmimbi</option>
+	<option value="CYP">Cyprus Pounds</option>
+	<option value="CSK">Czech Republic Koruna</option>
+	<option value="DKK">Denmark Kroner</option>
+	<option value="NLG">Dutch Guilders</option>
+	<option value="XCD">Eastern Caribbean Dollars</option>
+	<option value="EGP">Egypt Pounds</option>
+	<option value="FJD">Fiji Dollars</option>
+	<option value="FIM">Finland Markka</option>
+	<option value="FRF">France Francs</option>
+	<option value="DEM">Germany Deutsche Marks</option>
+	<option value="XAU">Gold Ounces</option>
+	<option value="GRD">Greece Drachmas</option>
+	<option value="HKD">Hong Kong Dollars</option>
+	<option value="HUF">Hungary Forint</option>
+	<option value="ISK">Iceland Krona</option>
+	<option value="INR">India Rupees</option>
+	<option value="IDR">Indonesia Rupiah</option>
+	<option value="IEP">Ireland Punt</option>
+	<option value="ILS">Israel New Shekels</option>
+	<option value="ITL">Italy Lira</option>
+	<option value="JMD">Jamaica Dollars</option>
+	<option value="JPY">Japan Yen</option>
+	<option value="JOD">Jordan Dinar</option>
+	<option value="KRW">Korea (South) Won</option>
+	<option value="LBP">Lebanon Pounds</option>
+	<option value="LUF">Luxembourg Francs</option>
+	<option value="MYR">Malaysia Ringgit</option>
+	<option value="MXP">Mexico Pesos</option>
+	<option value="NLG">Netherlands Guilders</option>
+	<option value="NZD">New Zealand Dollars</option>
+	<option value="NOK">Norway Kroner</option>
+	<option value="PKR">Pakistan Rupees</option>
+	<option value="XPD">Palladium Ounces</option>
+	<option value="PHP">Philippines Pesos</option>
+	<option value="XPT">Platinum Ounces</option>
+	<option value="PLZ">Poland Zloty</option>
+	<option value="PTE">Portugal Escudo</option>
+	<option value="RON">Romania Leu</option>
+	<option value="RUR">Russia Rubles</option>
+	<option value="SAR">Saudi Arabia Riyal</option>
+	<option value="XAG">Silver Ounces</option>
+	<option value="SGD">Singapore Dollars</option>
+	<option value="SKK">Slovakia Koruna</option>
+	<option value="ZAR">South Africa Rand</option>
+	<option value="KRW">South Korea Won</option>
+	<option value="ESP">Spain Pesetas</option>
+	<option value="XDR">Special Drawing Right (IMF)</option>
+	<option value="SDD">Sudan Dinar</option>
+	<option value="SEK">Sweden Krona</option>
+	<option value="CHF">Switzerland Francs</option>
+	<option value="TWD">Taiwan Dollars</option>
+	<option value="THB">Thailand Baht</option>
+	<option value="TTD">Trinidad and Tobago Dollars</option>
+	<option value="TRL">Turkey Lira</option>
+	<option value="VEB">Venezuela Bolivar</option>
+	<option value="ZMK">Zambia Kwacha</option>
+	<option value="EUR">Euro</option>
+	<option value="XCD">Eastern Caribbean Dollars</option>
+}
+@helper Step1DepositStatus ()
+{
+    <option  value="Submited">Submited</option>
+    <option selected value="Confirmed">Confirmed</option>
+}
+@helper Step2DepositStatus ()
+{
+    <option selected>Select</option>
+    <option value="Submited">Submited</option>
+    <option value="Confirmed">Confirmed</option>
+    <option selected  value="Processed">Processed</option>
+}
+@helper finalizeDepositStatus()
+{
+    <option>Select</option>
+    <option value="Submited">Submited</option>
+    <option value="Confirmed">Confirmed</option>
+    <option value="Processed">Processed</option>
+    <option selected value="Finalized">Finalized</option>
+}
+@*Form inputs*@
+@helper depositFormField(string inputID, string typeOfField, string inputType, string label, string fieldID, string value, string isReadOnly, string IsChecked, string MinVal, string Step, string isHidden, string isRequired)
+{
+    var isReadOnlyAttribute = isReadOnly != "" ? "readonly" : "";
+    var doNotShow = isHidden != "" ? "hidden" : "";
+    var check = IsChecked != "" ? "checked" : "";
+    @*choose type of input *@
+    if (typeOfField == "input")
+    {
+        <div  class = "form-in @doNotShow " id="@inputID">
+            <span>@Translate(label, label)</span>
+            <input @isReadOnlyAttribute type="@inputType" id="@fieldID"  name="@fieldID" value="@value" />
+        </div>
+    }
+    if (typeOfField == "select")
+    {
+        <div class = "form-in @doNotShow" id="@inputID">
+            <span>@Translate(label, label)</span>
+            <select class="deposit-select" id="@fieldID" name="@fieldID" value="@value">
+            </select>
+        </div>
+    }
+    if (typeOfField == "PaymentMethodSelect")
+    {
+        <div class = "form-in @doNotShow" id="@inputID">
+            <span>@Translate(label, label)</span>
+            <select id="@fieldID" name="@fieldID" value="@value" >
+               @PaymentMethodsList()
+            </select>
+        </div>
+    }
+    if (typeOfField == "number" )
+    {
+        <div class = "form-in @doNotShow" id="@inputID">
+            <span>@Translate(label, label)</span>
+            <input type="@inputType" min= "@MinVal" step="@Step" id="@fieldID" name="@fieldID" value="@value" />
+        </div>
+    }
+    if (typeOfField == "file")
+    {
+        <div class = "form-in" @doNotShow id="@inputID">
+            <span>@Translate(label, label)</span>
+            <input type="@inputType" id="@fieldID" name="@fieldID" value="" />
+        </div>
+    }
+    if (typeOfField == "checkbox")
+    {
+        <div class="form-in @doNotShow" id="@inputID">
+            <span>@Translate(label, label)</span>
+            <input type="@inputType" id="@fieldID" name="@fieldID" @check value="@value"/>
+        </div>
+    }
+    if (typeOfField == "email")
+    {	
+        <div class="form-in @doNotShow" id="@inputID">
+            <span>@Translate(label, label)</span>
+            <input type="@inputType" id="@fieldID" name="@fieldID" @check value="" />
+        </div>
+        
+    }
+    if (typeOfField == "statusSelect")
+    {
+        <div class = "form-in @doNotShow" id="@inputID">
+            <span>@Translate(label, label)</span>
+            <select id="@fieldID" name="@fieldID" value="" >
+                @Step1DepositStatus()
+            </select>
+        </div>
+    }
+    if (typeOfField == "statusSelectStep2")
+    {
+        <div class = "form-in @doNotShow" id="@inputID">
+            <span>@Translate(label, label)</span>
+            <select id="@fieldID" name="@fieldID" value="" >
+                @Step2DepositStatus()
+            </select>
+        </div>
+    }
+    if (typeOfField == "finalizedDeposit")
+    {
+        <div class = "form-in @doNotShow" id="@inputID">
+            <span>@Translate(label, label)</span>
+            <select id="@fieldID" name="@fieldID" value="" >
+                @finalizeDepositStatus()
+            </select>
+        </div>
+    }
+    if (typeOfField == "currency")
+    {
+        <div class = "form-in @doNotShow" id="@inputID">
+            <span>@Translate(label, label)</span>
+            <select id="@fieldID" name="@fieldID" value="" >
+                @CurrencyOptionsList()
+            </select>
+        </div>
+    }
+    if (typeOfField == "cryptocurrency")
+    {
+        <div class = "form-in @doNotShow" id="@inputID">
+            <span>@Translate(label, label)</span>
+            <select id="@fieldID" name="@fieldID" value="" >
+                @CryptoCurrenciesOptionsList()
+            </select>
+        </div>
+    }
+    if (typeOfField == "paymentMethodCurrency")
+    {
+        <div class = "form-in @doNotShow" id="@inputID" data-transfer-currency ='@GetString("Form.Fields.deposits_final_Deposit_currency.Value")'>
+            <span>@Translate(label, label)</span>
+            <select id="@fieldID" name="@fieldID" value="" >
+                @if (GetString("Form.Fields.deposits_final_Payment_method.Value") == "Skrill")
+                {
+                    @skrillCurrencies()
+                }
+                @if (GetString("Form.Fields.deposits_final_Payment_method.Value") == "Neteller")
+                {
+                    @netellerCurrencies()
+                }
+                @if (GetString("Form.Fields.deposits_final_Payment_method.Value") == "ecoPayz")
+                {
+                    @ecopayzCurrencies()
+                }
+                @if (GetString("Form.Fields.deposits_final_Payment_method.Value") == "BankTransfer")
+                {
+                    @bankCurrencies()
+                }
+                @if (GetString("Form.Fields.deposits_final_Payment_method.Value") == "Cryptocurrency")
+                {
+                    @CryptoCurrenciesOptionsList()
+                }
+            </select>
+        </div>
+    }
+    if (typeOfField == "amountAfterFirstExchange")
+    {
+        <div class = "form-in @doNotShow" id="@inputID" data-initial-value = '@GetString("Form.Fields.deposits_final_Admin_ammount_to_be_deposited.Value")'>
+            <span>@Translate(label, label)</span>
+                <input type="@inputType" id="@fieldID" name="@fieldID" value="@value" />
+        </div>
+    }
+    if (typeOfField == "textarea")
+    {
+        <div class="form-in @doNotShow" id="@inputID">
+            <div class="row">
+                <div class="col-xs-12">
+                    <span>@Translate(label, label)</span>
+                </div>
+            </div>
+            <textarea id="@fieldID" name="@fieldID" rows="4" cols="100">@value
+            </textarea>
+        </div>         
+    }
+}
+@helper infoCell (string fieldName, string value)
+{
+    if (value != "")
+    {
+        <li><span>@fieldName :</span> @GetString(value)</li>
+    }
+}
+@helper renderScreenshot(string imageField, string imageWidth, string largeImageWidth)
+{
+    string imageSrc = GetString(imageField);
+    string image = "http://" + GetGlobalValue("Global:Request.Host") + "/Admin/Public/GetImage.ashx?width=" + imageWidth + "&crop=1&image=" + imageSrc;
+    string imageLarge = "http://" + GetGlobalValue("Global:Request.Host") + "/Admin/Public/GetImage.ashx?width=" + largeImageWidth + "&crop=1&image=" + imageSrc;
+if(imageSrc != "/Files"){
+    <li>Screenshot: 
+        <a href = "@imageSrc" id="screenshotImage" data-lightbox="deposit-screenshot">
+            <img id="imageresource" src="@image"  width="@imageWidth" class="flexibleImage" style="max-width:100%;">
+        </a>
+    </li>
+}else{
+  <li>Screenshot: No Image Found</li>
+}
+ 
+}
+@*User Info  on Step-0-Form*@
+@helper formUserInfo(string userName, string firstName, string lastName, string email, string userID){
+    <div class="hidden">
+        <h3>User Info</h3>
+         @depositFormField("","input" , "text" , @Translate("Username"), "deposits_final_Username", userName, "readonly", "", "", "", "", "")
+         @depositFormField("","input" , "text" ,@Translate("First Name"), "deposits_final_First_Name", firstName, "readonly", "", "", "", "", "")
+         @depositFormField("","input" , "text" ,@Translate("Last Name"), "deposits_final_Last_Name", lastName, "readonly", "" , "", "", "", "")
+         @depositFormField("","input" , "email" ,@Translate("Email"), "deposits_final_Email", email, "readonly", "", "", "", "", "")
+         @depositFormField("","input","text",@Translate("User ID"), "deposits_final_User_ID", userID, "readonly", "", "", "", "", "")
+    </div>
+}
+@helper formAdminInfo(string email){
+    <h3>Admin Info</h3>
+    @depositFormField("","input" , "email" ,"Email", "deposits_final_Step_1_Admin_Email", email, "", "", "", "", "", "")
+   
+}
+@helper formAdminInfoStep1(string email){
+    <h3>Admin Info</h3>
+    @depositFormField("","input" , "email" ,"Email", "deposits_final_Step_2_Admin_Email", email, "", "", "", "", "", "")
+   
+}
+@helper formAdminInfoStep2(string email){
+     <h3>Admin Info</h3>
+     @depositFormField("","input" , "email" ,"Email", "deposits_final_Step_3_Admin_Email", email, "", "", "", "", "", "")
+   
+ }
+@*Bookmaker Info  on Step-0-Form*@
+@helper formBookmakerInfo(){
+    <h3>Bookmaker info</h3>
+    @depositFormField("","select" , "", @Translate("Bookmaker"), "deposits_final_Bookmaker", "", "", "", "", "", "", "" ) 
+    @depositFormField("","input", "text", @Translate("Account ID") , "deposits_final_Account_ID", "", "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input", "text", @Translate("Account currency") , "deposits_final_Account_currency", "", "readonly", "", "", "", "", "")
+    @depositFormField("","input", "text", @Translate("Username") , "deposits_final_Bookmaker_Username", "", "readonly", "", "", "", "hidden", "")
+}
+@*User Info  on Step-0-Form*@
+@helper formPaymentInfo(string expressDeposit, string minDepositValue){
+    <h3>
+        Payment info
+    </h3>
+
+    @depositFormField("", "PaymentMethodSelect", "", "Deposit Method", "deposits_final_Payment_method", "", "", "", @minDepositValue, "1", "", "")
+    @depositFormField("ammountToBeDeposited", "number", "number", "Amount to be deposited", "deposits_final_Ammount_to_be_deposited", "", "", "", "", "0.00001", "", "")
+    <div class="payment-info">
+        <div class="currencies">
+            @depositFormField("currency", "currency" , "", @Translate("Deposit currency"), "", "", "", "", "", "", "hidden", "" )
+            @depositFormField("cryptocurrency", "cryptocurrency" , "",@Translate("Deposit currency"), "", "", "", "", "", "", "hidden", "" )
+        </div>
+        @depositFormField("country", "input", "text", @Translate("Country"), "deposits_final_Country", "", "", "", "", "", "hidden", "")
+        @depositFormField("city", "input", "text", @Translate("City"), "deposits_final_City", "", "", "", "", "", "hidden", "")
+        @depositFormField("bank-name", "input", "text", @Translate("Bank Name"), "deposits_final_Bank_Name", "", "", "", "", "", "hidden", "")
+        @depositFormField("bank-address", "input", "text", @Translate("Bank address"), "deposits_final_Bank_address", "", "", "", "", "", "hidden", "")
+        @depositFormField("swift", "input", "text", @Translate("Swift"), "deposits_final_Swift", "", "", "", "", "", "hidden", "")
+        @depositFormField("iban", "input", "text", @Translate("IBAN"), "deposits_final_IBAN", "", "", "", "", "", "hidden", "")
+        @depositFormField("crypto-currency", "input", "text", @Translate("Crypto currency"), "deposits_final_Crypto_currency", "", "", "", "", "", "hidden", "")
+        @depositFormField("crypto-wallet-id", "input", "text", @Translate("Crypto Wallet ID"), "deposits_final_Crypto_Wallet_id", "", "", "", "", "", "hidden", "")
+        @depositFormField("payment-email-address", "input", "email", @Translate("Payment email address"), "deposits_final_Payment_Email_Address", "", "", "", "", "", "hidden", "")
+        @depositFormField("payment-email-address-confirm", "input", "email", @Translate("Confirm payment email address"), "deposits_final_Payment_Email_Address_Confirmation", "", "", "", "", "", "hidden", "")
+        @depositFormField("neteller-id", "input", "text", @Translate("Neteller ID"), "deposits_final_Neteller_ID", "", "", "", "", "", "hidden", "")
+        @depositFormField("ecopayz-account-number", "input", "text", @Translate("Ecopayz account number"), "deposits_final_Ecopayz_Account_Number", "", "", "", "", "", "hidden", "")
+        @depositFormField("ecopayz-account-number-confirm", "input", "text", @Translate("Confirm Ecopayz account number"), "deposits_final_Ecopayz_Account_Number_Confirm", "", "", "", "", "", "hidden", "")
+        @depositFormField("bank-account-number", "input", "text", @Translate("Bank account"), "deposits_final_Bank_Account_Number", "", "", "", "", "", "hidden", "")
+        @depositFormField("cryptocurrency", "input", "text", @Translate("Crypto transaction ID"), "deposits_final_Crypto_transaction_ID", "", "", "", "", "", "hidden", "")
+        @depositFormField("", "checkbox", "checkbox", @Translate("Is first deposit"), "deposits_final_Is_first_deposit", "", "", "", "", "", "hidden", "")
+        @depositFormField("ExpressDeposit", "checkbox", "checkbox", @Translate("Express Deposit"), "deposits_final_Express_fee", "", "", "", "", "", "hidden", "")
+        @depositFormField("MegaExpressDeposit", "checkbox", "checkbox", @Translate("Mega Express Deposit"), "deposits_final_Mega_Express", "", "", "", "", "", "hidden", "")
+    </div>
+}
+@helper depositsOandaScreenshots()
+{
+    @depositFormField("screenshot-oanda-1", "input", "file", @Translate("Screenshot of the transfer"), "deposits_final_Oanda_First_Screenshot", "", "", "", "", "", "hidden", "")
+    @depositFormField("screenshot-oanda-2", "input", "file", @Translate("Screenshot of the transfer"), "deposits_final_Oanda_Second_Screenshot", "", "", "", "", "", "hidden", "")
+}
+@*Payment Confirmation  on Step-0-Form*@ 
+@helper formConfirmPayment ()
+{
+    <h3>Confirm info</h3>
+    <div class = "form-in" id="confirm-payment">
+        <span>@Translate("Confirm the Payment", "Confirm the Payment")</span>
+        <select id="deposits_final_Confirm_Payment" name="deposits_final_Confirm_Payment" value="" >
+            <option value="No">@Translate("No","No")</option>
+            <option value="Yes">@Translate("Yes","Yes")</option>
+        </select>
+    </div>    
+<div class = "payment-confirmation">
+    @depositFormField("transaction-id", "input", "text", "Transaction ID", "deposits_final_Transaction_ID", "", "", "", "", "", "hidden", "")
+    @depositFormField("transaction-id-2", "input", "text", "Verify Transaction ID", "deposits_final_Transaction_ID_2", "", "", "", "", "", "hidden", "")
+    @depositFormField("screenshot", "input", "file", "Screenshot of the transfer", "deposits_final_Screenshot", "", "", "", "", "", "hidden", "")
+    @depositFormField("screenshot-admin", "input", "file", "Admin Screenshot of the transfer", "deposits_final_Admin_Screenshot_of_the_transfer", "/Files/Images/BetIBC/logo_betibc.png", "", "", "", "", "hidden", "")
+</div>
+}
+@*Deposit Status on Step-0-Form*@
+@helper formDepositStatus(string status, string hidden)
+{ 
+    <h3>Deposit status</h3> 
+    @depositFormField("", "input", "text", "Status", "deposits_final_Status", status, "readonly", "", "", "", "","")
+     
+
+}
+@*Timestamp*@
+@helper formDepositTimeStamp (string dateField, string hourField)
+{
+    <h3>Date and time</h3>
+    var hour = DateTime.Now.ToString("HH:mm");
+    var requestDate = DateTime.Today.ToString("yyyy-MM-dd");
+    @depositFormField("", "input", "text", "Date of request", dateField, requestDate, "readonly", "", "", "", "", "")
+    @depositFormField("", "input", "text", "Hour of request", hourField, hour, "readonly", "", "", "", "", "")
+}
+@*------Verify form-------*@
+@helper overwriteStep0Values()
+{
+    var checkIfExpress = GetString("Form.Fields.deposits_final_Express_fee.Value").ToLower() == "true" ? "checked" : "";
+    var checkIfIsFirst = GetString("Form.Fields.deposits_final_Is_first_deposit.Value").ToLower() == "true" ? "checked" : "";
+    var checkIfCanUseMerchant = GetString("Form.Fields.deposits_final_Can_use_merchant_account.Value").ToLower() == "true" ? "checked" : "";
+    //user info with existing values
+    @depositFormField("","input" , "text" ,"Username", "deposits_final_Username", GetString("Form.Fields.deposits_final_Username.Value"), "readonly", "", "", "", "hidden", "")
+  
+    @depositFormField("","input" , "text" ,"First Name", "deposits_final_First_Name", GetString("Form.Fields.deposits_final_First_Name.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Last Name", "deposits_final_Last_Name", GetString("Form.Fields.deposits_final_Last_Name.Value"), "readonly", "" , "", "", "hidden", "")
+    @depositFormField("","input" , "email" ,"Email", "deposits_final_Email", GetString("Form.Fields.deposits_final_Email.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input","text","User ID", "deposits_final_User_ID", GetString("Form.Fields.deposits_final_User_ID.Value"), "readonly", "", "", "", "hidden", "")
+    //bookmaker info with existing values
+    @depositFormField("","input" , "text","Bookmaker", "deposits_final_Bookmaker", GetString("Form.Fields.deposits_final_Bookmaker.Value"), "", "", "", "", "hidden", "" ) 
+    @depositFormField("","input", "text", "Account ID" , "deposits_final_Account_ID", GetString("Form.Fields.deposits_final_Account_ID.Value"), "readonly", "", "", "", "hidden", "")
+
+    @depositFormField("","input", "text", "Username" , "deposits_final_Bookmaker_Username", GetString("Form.Fields.deposits_final_Bookmaker_Username.Value"), "readonly", "", "", "", "hidden", "")
+   // payment info with exiting values
+  
+    @depositFormField("", "number", "number", "Amount to be deposited", "deposits_final_Ammount_to_be_deposited", GetString("Form.Fields.deposits_final_Ammount_to_be_deposited.Value"), "readonly", "", "", "0.00001", "hidden", "")
+ @depositFormField("", "input", "text", "Deposit Method", "deposits_final_Payment_method", GetString("Form.Fields.deposits_final_Payment_method.Value"), "", "", "", "1", "hidden", "")
+    @depositFormField("", "input", "text", "Country", "deposits_final_Country", GetString("Form.Fields.deposits_final_Country.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("", "input", "text", "City", "deposits_final_City", GetString("Form.Fields.deposits_final_City.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("", "input", "text", "Bank Name", "deposits_final_Bank_Name", GetString("Form.Fields.deposits_final_Bank_Name.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("", "input", "text", "Bank address", "deposits_final_Bank_address", GetString("Form.Fields.deposits_final_Bank_address.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("", "input", "text", "Swift", "deposits_final_Swift", GetString("Form.Fields.deposits_final_Swift.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("", "input", "text", "IBAN", "deposits_final_IBAN", GetString("Form.Fields.deposits_final_IBAN.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("", "input", "text", "Crypto currency", "deposits_final_Crypto_currency", GetString("Form.Fields.deposits_final_Crypto_currency.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("", "input", "text", "Crypto Wallet ID", "deposits_final_Crypto_Wallet_id", GetString("Form.Fields.deposits_final_Crypto_Wallet_id.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("", "input", "email", "Payment email address", "deposits_final_Payment_Email_Address", GetString("Form.Fields.deposits_final_Payment_Email_Address.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("", "input", "email", "Confirm payment email address", "deposits_final_Payment_Email_Address_Confirmation", GetString("Form.Fields.deposits_final_Payment_Email_Address_Confirmation.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("", "input", "text", "Neteller ID", "deposits_final_Neteller_ID", GetString("Form.Fields.deposits_final_Neteller_ID.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("", "input", "text", "Ecopayz account number", "deposits_final_Ecopayz_Account_Number", GetString("Form.Fields.deposits_final_Ecopayz_Account_Number.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("", "input", "text", "Confirm Ecopayz account number", "deposits_final_Ecopayz_Account_Number_Confirm", GetString("Form.Fields.deposits_final_Ecopayz_Account_Number_Confirm.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("", "input", "text", "Bank account", "deposits_final_Bank_Account_Number", GetString("Form.Fields.deposits_final_Bank_Account_Number.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("", "input", "text", "Crypto transaction ID", "deposits_final_Crypto_transaction_ID", GetString("Form.Fields.deposits_final_Crypto_transaction_ID.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("", "input", "text", "Deposit Currency", "deposits_final_Deposit_currency", GetString("Form.Fields.deposits_final_Deposit_currency.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("", "input", "text", "Account Currency", "deposits_final_Account_currency", GetString("Form.Fields.deposits_final_Account_currency.Value"), "", "", "", "", "hidden", "")
+    //Express deposit
+    @depositFormField("", "checkbox", "checkbox", "Is first deposit", "deposits_final_Is_first_deposit", GetBoolean("Form.Fields.deposits_final_Is_first_deposit.Value").ToString(), "", checkIfIsFirst, "", "", "hidden", "")
+    @depositFormField("", "checkbox", "checkbox", "Can use merchant account", "deposits_final_Can_use_merchant_account", GetString("Form.Fields.deposits_final_Can_use_merchant_account.Value").ToString(), "", checkIfCanUseMerchant, "", "", "hidden", "")
+    //Is First deposit
+    @depositFormField("", "checkbox", "checkbox", "Express Deposit", "deposits_final_Express_fee", GetString("Form.Fields.deposits_final_Express_fee.Value").ToString(), "", checkIfExpress, "", "", "hidden", "")
+    //Verify Deposit
+    @depositFormField("", "input", "text", "Transaction ID", "deposits_final_Transaction_ID", GetString("Form.Fields.deposits_final_Transaction_ID.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("transaction-id-2", "input", "text", "Verify Transaction ID", "deposits_final_Transaction_ID_2", GetString("Form.Fields.deposits_final_Transaction_ID_2.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("screenshot", "input", "file", "Screenshot of the transfer", "deposits_final_Screenshot", GetString("Form.Fields.deposits_final_Screenshot.Value"), "", "", "", "", "hidden", "")
+    //Request Timestamp
+    @depositFormField("", "input", "text", "Date of request", "deposits_final_Date_of_request", GetString("Form.Fields.deposits_final_Date_of_request.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("", "input", "text", "Hour of request", "deposits_final_Hour_of_request", GetString("Form.Fields.deposits_final_Hour_of_request.Value"), "readonly", "", "", "", "hidden", "")
+}
+@helper overwriteStep1Values()
+{   
+    @depositFormField("", "input", "text", "Deposit Method", "deposits_final_Payment_method", GetString("Form.Fields.deposits_final_Payment_method.Value"), "", "", "", "1", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin deposit currency", "deposits_final_Admin_deposit_currency", GetString("Form.Fields.deposits_final_Admin_deposit_currency.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin country", "deposits_final_Admin_country", GetString("deposits_final_Admin_country.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin currency", "deposits_final_Admin_Currency", GetString("deposits_final_Admin_Currency.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin transaction", "deposits_final_Transaction_ID_1", GetString("deposits_final_Transaction_ID_1.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin country", "deposits_final_Admin_country", GetString("deposits_final_Admin_country.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin city", "deposits_final_Admin_city", GetString("Form.Fields.deposits_final_Admin_city.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin bank Name", "deposits_final_Admin_bank_Name", GetString("Form.Fields.deposits_final_Admin_bank_Name.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin bank address", "deposits_final_Admin_bank_address", GetString("Form.Fields.deposits_final_Admin_bank_address.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin Swift", "deposits_final_Admin_Swift", GetString("Form.Fields.deposits_final_Admin_Swift.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin IBAN", "deposits_final_Admin_IBAN", GetString("Form.Fields.deposits_final_Admin_IBAN.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin Crypto currency", "deposits_final_Admin_crypto_currency", GetString("Form.Fields.deposits_final_Admin_crypto_currency.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin Crypto Wallet ID", "deposits_final_Admin_Crypto_Wallet_ID", GetString("Form.Fields.deposits_final_Admin_Crypto_Wallet_ID.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin Payment email address", "deposits_final_Admin_Payment_email_address", GetString("Form.Fields.deposits_final_Admin_Payment_email_address.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin Confirm payment email address", "deposits_final_Admin_Confirm_payment_email_address", GetString("Form.Fields.deposits_final_Admin_Confirm_payment_email_address.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin Neteller ID", "deposits_final_Admin_Neteller_ID", GetString("Form.Fields.deposits_final_Admin_Neteller_ID.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin Ecopayz account number", "deposits_final_Admin_Ecopayz_account_number", GetString("Form.Fields.deposits_final_Admin_Ecopayz_account_number.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin Confirm Ecopayz account number", "deposits_final_Admin_Confirm_Ecopayz_account_number", GetString("Form.Fields.deposits_final_Admin_Confirm_Ecopayz_account_number.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin Bank account", "deposits_final_Admin_Bank_account", GetString("Form.Fields.deposits_final_Admin_Bank_account.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin Crypto transaction ID", "deposits_final_Admin_Crypto_transaction_ID", GetString("deposits_final_Admin_Crypto_transaction_ID.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin Is first deposit", "deposits_final_Admin_Is_first_deposit", GetString("Form.Fields.deposits_final_Admin_Is_first_deposit.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin Transaction ID", "deposits_final_Admin_Transaction_ID", GetString("Form.Fields.deposits_final_Admin_Transaction_ID.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Admin Verify Transaction ID", "deposits_final_Admin_verify_transaction_ID", GetString("Form.Fields.deposits_final_Admin_verify_transaction_ID.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("screenshot", "input", "file", "Admin Screenshot of the transfer", "deposits_final_Admin_Screenshot_of_the_transfer", GetString("Form.Fields.deposits_final_Admin_Screenshot_of_the_transfer.Value"), "", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Step-1-Admin Date", "deposits_final_Step_1_Admin_Date", GetString("Form.Fields.deposits_final_Step_1_Admin_Date.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Step-1-Admin Hour", "deposits_final_Step_1_Admin_Hour", GetString("Form.Fields.deposits_final_Step_1_Admin_Hour.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Step-1-Admin Email", "deposits_final_Step_1_Admin_Email",GetString("Form.Fields.deposits_final_Step_1_Admin_Email.Value"), "readonly", "", "", "", "hidden", "")
+    //@depositFormField("","input" , "text" ,"Username", "deposits_final_Admin_city", GetString(".Value"), "readonly", "", "", "", "hidden", "")
+    
+}
+@helper overwriteStep2Values()
+{ 
+  
+    @infoCell("Sent Amount","Form.Fields.deposits_final_Ammount_to_be_deposited.Value")
+    @infoCell("Deposit Currency", "Form.Fields.deposits_final_Deposit_currency.Value")
+    @infoCell("Bookmaker Account Currency", "Form.Fields.deposits_final_Account_currency.Value")
+    @depositFormField("","input" , "text" ,"Admin Verify Transaction ID", "deposits_final_Admin_verify_transaction_ID", GetString("Form.Fields.deposits_final_Admin_verify_transaction_ID.Value.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Payment Method Currency", "deposits_final_Payment_method_currency", GetString("Form.Fields.deposits_final_Payment_method_currency.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Payment Method Currency Exchange Rate", "deposits_final_Payment_method_Oanda_exchange_rate", GetString("Form.Fields.deposits_final_Payment_method_Oanda_exchange_rate.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Deposit Amount", "deposits_final_Amount_after_first_exchange", GetString("Form.Fields.deposits_final_Amount_after_first_exchange.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Currency After First Exchange", "deposits_final_Currency_after_first_Exchange", GetString("Form.Fields.deposits_final_Currency_after_first_Exchange.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Oanda Currency Exchange Rate", "deposits_final_Oanda_Exchange_Rate", GetString("Form.Fields.deposits_final_Oanda_Exchange_Rate.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Final Amount", "deposits_final_Full_Processed_Amount", GetString("Form.Fields.deposits_final_Full_Processed_Amount.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Screenshot of the transfer Oanda 1", "deposits_final_Oanda_First_Screenshot", GetString("Form.Fields.deposits_final_Oanda_First_Screenshot.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Screenshot of the transfer Oanda 2", "deposits_final_Oanda_Second_Screenshot", GetString("Form.Fields.deposits_final_Oanda_Second_Screenshot.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"First Exception", "deposits_final_Exception_rule_one", GetString("Form.Fields.deposits_final_Exception_rule_one.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Second Exception", "deposits_final_Exception_rule_two", GetString("Form.Fields.deposits_final_Exception_rule_two.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Third Exception", "deposits_final_Exception_rule_three", GetString("Form.Fields.deposits_final_Exception_rule_three.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"First Exception Amount", "deposits_final_Exception_rule_one_amount", GetString("Form.Fields.deposits_final_Exception_rule_one_amount.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Second Exception Amount", "deposits_final_Exception_rule_two_amount", GetString("Form.Fields.deposits_final_Exception_rule_two_amount.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Third Exception Amount", "deposits_final_Exception_rule_three_amount", GetString("Form.Fields.deposits_final_Exception_rule_three_amount.Value"), "readonly", "", "", "", "hidden", "")
+    @infoCell("Account Currency", "Form.Fields.deposits_final_Account_currency.Value")
+    
+
+}
+@helper depositRenderUserInfo()
+{
+    <section class="depositUserInfo">
+        <h3>
+         @Translate("User Info","User Info")
+         </h3>
+         <ul>
+            @infoCell("Bet-Ibc Username","Form.Fields.deposits_final_Username.Value")
+            @infoCell("First Name","Form.Fields.deposits_final_First_Name.Value")
+            @infoCell("Last Name","Form.Fields.deposits_final_Last_Name.Value")
+            @infoCell("User email","Form.Fields.deposits_final_Email.Value")
+            @infoCell("User ID","Form.Fields.deposits_final_User_ID.Value")       
+            @infoCell("Express","Form.Fields.deposits_final_Express_fee.Value")
+            @infoCell("Mega Express","Form.Fields.deposits_final_Mega_Express.Value")
+            @infoCell("Can use merchant account","Form.Fields.deposits_final_Can_use_merchant_account.Value")
+         </ul>
+     </section>
+}
+@helper depositRenderBookmakerInfo()
+{
+    <section class="depositBookmakerInfo">
+        <h3>
+            @Translate("Bookmaker Info","Bookmaker Info")
+        </h3>
+        <ul>
+            @infoCell("Bookmaker","Form.Fields.deposits_final_Bookmaker.Value")
+            @infoCell("Username","Form.Fields.deposits_final_Bookmaker_Username.Value")
+            @infoCell("Account Currency","Form.Fields.deposits_final_Account_currency.Value")
+            @infoCell("Account ID","Form.Fields.deposits_final_Account_ID.Value")
+        </ul>
+    </section> 
+}
+@helper renderExceptionsInfo(){
+    <section class="depositExceptionInfo">
+        <h3>
+            @Translate("Exception Info","Exception Info")
+        </h3>
+        <ul>
+            @infoCell("First Exception","Form.Fields.deposits_final_Exception_rule_one.Value")
+            @infoCell("First Exception Amount","Form.Fields.deposits_final_Exception_rule_one_amount.Value")
+            @infoCell("Second Exception","Form.Fields.deposits_final_Exception_rule_two.Value")
+            @infoCell("Second Exception Amount","Form.Fields.deposits_final_Exception_rule_two_amount.Value")
+            @infoCell("Third Exception","Form.Fields.deposits_final_Exception_rule_three.Value")
+            @infoCell("Third Exception Amount","Form.Fields.deposits_final_Exception_rule_three_amount.Value")
+        </ul>
+    </section> 
+}
+@helper renderFeesInfo()
+{
+<section class="depositFeesInfo">
+    <h3>
+        @Translate("Fees Info","Fees Info")
+    </h3>
+    <ul>
+        @infoCell("Min Fee","Form.Fields.deposits_final_Minimum_amount_fee.Value")
+        @infoCell("Payment method fee","Form.Fields.deposits_final_payment_method_fee.Value")
+        @infoCell("Bookmaker fee","Form.Fields.deposits_final_Deposits_bookmaker_fee.Value")
+        @infoCell("Express fee","Form.Fields.deposits_final_Express_Fee_Calculation.Value")
+    </ul>
+</section> 
+}
+@helper renderPaymentCalculation()
+{
+    <section class="depositPaymentCalculationInfo">
+        <h3>
+            @Translate("Payment Calculation Info","Payment Calculation Info")
+        </h3>
+        <ul>
+            @infoCell("Payment Method Currency","Form.Fields.deposits_final_Payment_method_currency.Value")
+            @infoCell("Full Processed Amount","Form.Fields.deposits_final_Full_Processed_Amount.Value")
+        </ul>
+    </section> 
+    
+}
+@helper paymentMethodUserFields(string paymentMethod)
+{
+     
+     if (paymentMethod == "Skrill")
+     {
+      @infoCell("Payment Email Address" , "Form.Fields.deposits_final_Payment_Email_Address.Value")
+     }
+    if (paymentMethod == "Neteller")
+    {
+        @infoCell("Payment Email Address" , "Form.Fields.deposits_final_Payment_Email_Address.Value")
+        @infoCell("Neteller ID" , "Form.Fields.deposits_final_Neteller_ID.Value")
+    }
+   
+    if (paymentMethod == "ecoPayz")
+    {
+        @infoCell("ecoPayz account number", "Form.Fields.deposits_final_Ecopayz_Account_Number.Value")
+    }
+    if (paymentMethod == "BankTransfer")
+    {
+        @infoCell("Bank Country","Form.Fields.deposits_final_Country.Value")
+        @infoCell("Bank City","Form.Fields.deposits_final_City.Value")
+        @infoCell("Bank Name","Form.Fields.deposits_final_Bank_Name.Value")
+        @infoCell("Bank Address", "Form.Fields.deposits_final_Bank_address.Value")
+        @infoCell("Swift", "Form.Fields.deposits_final_Swift.Value")
+        @infoCell("Iban","Form.Fields.deposits_final_IBAN.Value")
+    }
+    if (paymentMethod == "Cryptocurrency")
+    {
+        @infoCell("Cripto Wallet Id", "Form.Fields.deposits_final_Crypto_Wallet_id.Value")
+        @infoCell("Cripto Transaction Id", "Form.Fields.deposits_final_Crypto_transaction_ID.Value")
+    }
+
+}
+@helper paymentInfoAdminFields(string paymentMethod)
+{
+     if (paymentMethod == "Skrill")
+     {
+      @infoCell("Payment Email Address" , "Form.Fields.deposits_final_Admin_Payment_email_address.Value")
+     }
+    if (paymentMethod == "Neteller")
+    {
+        @infoCell("Payment Email Address" , "Form.Fields.deposits_final_Admin_Payment_email_address.Value")
+        @infoCell("Neteller ID" , "Form.Fields.deposits_final_Admin_Neteller_ID.Value")
+    }
+   
+    if (paymentMethod == "ecoPayz")
+    {
+        @infoCell("ecoPayz account number", "Form.Fields.deposits_final_Admin_Confirm_Ecopayz_account_number.Value")
+    }
+    if (paymentMethod == "BankTransfer")
+    {
+        @infoCell("Bank Country","Form.Fields.deposits_final_Admin_country.Value")
+        @infoCell("Bank City","Form.Fields.deposits_final_Admin_city.Value")
+        @infoCell("Bank Name","Form.Fields.deposits_final_Admin_bank_Name.Value")
+        @infoCell("Bank Address", "Form.Fields.deposits_final_Admin_bank_address.Value")
+        @infoCell("Swift", "Form.Fields.deposits_final_Admin_Swift.Value")
+        @infoCell("Iban", "Form.Fields.deposits_final_Admin_IBAN.Value")
+    }
+    if (paymentMethod == "Cryptocurrency")
+    {
+        @infoCell("Cripto Wallet Id", "Form.Fields.deposits_final_Admin_Crypto_Wallet_ID.Value")
+        @infoCell("Cripto Transaction Id", "Form.Fields.deposits_final_Admin_Crypto_transaction_ID.Value")
+    }
+@renderScreenshot("Form.Fields.deposits_final_Admin_Screenshot_of_the_transfer.Value","300","900")
+ 
+}
+@helper paymentMethodAdminFields(string paymentMethod)
+{
+<div id="current-payment-method" data-current-payment-method = "@paymentMethod">
+ @if (paymentMethod == "Cryptocurrency")
+    {
+    @depositFormField("","cryptocurrency" , "","Deposit currency", "deposits_final_Admin_Deposit_currency", GetString("Form.deposits_final_Deposit_currency.deposits_final_Status.Value"), "", "", "", "", "", "" )
+}else{
+  @depositFormField("","currency" , "","Deposit currency", "deposits_final_Admin_Deposit_currency", GetString("Form.deposits_final_Deposit_currency.deposits_final_Status.Value"), "", "", "", "", "", "" )  
+}
+
+      <div class = "skrill-verification-admin hidden"> 
+        @depositFormField("", "input", "email", "Payment Email Address", "deposits_final_Admin_Payment_email_address", GetString("Form.Fields.deposits_final_Payment_Email_Address.Value"), "", "", "", "", "", "")
+     </div>
+
+   <div class = "neteller-verification-admin hidden"> 
+        @depositFormField("", "input", "email", "Payment Email Address", "deposits_final_Admin_Payment_email_address", GetString("Form.Fields.deposits_final_Payment_Email_Address.Value"), "", "", "", "", "", "")
+        @depositFormField("", "input", "text", "Neteller ID", "deposits_final_Admin_Neteller_ID", "", "", "", "", "", "", "")
+   </div>
+
+   <div class = "ecoPayz-verification-admin hidden">
+     
+        @depositFormField("", "input", "text", "ecoPayz account number", "deposits_final_Admin_Ecopayz_account_number", GetString("Form.Fields.deposits_final_Ecopayz_account_number.Value"), "", "", "", "", "", "")
+</div>
+
+   <div class = "bankTransfer-verification-admin hidden">
+       
+        @depositFormField("", "input", "text", "Bank Country", "deposits_final_Admin_country", GetString("Form.Fields.deposits_final_Country.Value"), "", "", "", "", "", "")
+        @depositFormField("", "input", "text", "Bank City", "deposits_final_Admin_city", GetString("Form.Fields.deposits_final_City.Value"), "", "", "", "", "", "")
+        @depositFormField("", "input", "text", "Bank Name", "deposits_final_Admin_bank_Name", GetString("Form.Fields.deposits_final_Bank_Name.Value"), "", "", "", "", "", "")
+        @depositFormField("", "input", "text", "Bank Address", "deposits_final_Admin_bank_address", GetString("Form.Fields.deposits_final_Bank_address.Value"), "", "", "", "", "", "")
+        @depositFormField("", "input", "text", "Swift", "deposits_final_Admin_Swift", GetString("Form.Fields.deposits_final_Swift.Value"), "", "", "", "", "", "")
+        @depositFormField("", "input", "text", "Iban", "deposits_final_Admin_IBAN", GetString("Form.Fields.deposits_final_IBAN.Value"), "", "", "", "", "", "")
+  </div>
+ 
+  
+      <div class = "crypto-verification-admin hidden">
+        @depositFormField("", "input", "text", "Cripto Wallet Id", "deposits_final_Admin_Crypto_Wallet_ID", GetString("deposits_final_Crypto_Wallet_ID.Value"), "", "", "", "", "", "")
+        @depositFormField("", "input", "text", "Cripto Transaction Id", "deposits_final_Admin_Crypto_transaction_ID", GetString("deposits_final_Crypto_transaction_ID.Value"), "", "", "", "", "", "")
+     </div>
+  </div>
+}
+@helper depositUserPaymentInfo(string paymentMethod)
+{
+    <section class="depositUserPaymentInfo">
+        <h3>
+            @Translate("User added Payment Info","User Added Payment Info")
+        </h3>
+        <ul>
+            @infoCell("Payment Method","Form.Fields.deposits_final_Payment_method.Value")
+            @infoCell("Amount","Form.Fields.deposits_final_Ammount_to_be_deposited.Value")
+            @infoCell("Deposit Currency", "Form.Fields.deposits_final_Deposit_currency.Value")
+            @*@infoCell()*@
+            @paymentMethodUserFields(paymentMethod)
+        </ul>
+    </section> 
+}
+@helper depositAdminPaymentInfo(string paymentMethod)
+{
+    <section class="depositAdminPaymentInfo">
+        <h3>
+            @Translate("Admin added Payment Info","Admin Added Payment Info")
+        </h3>
+        <ul>
+            @infoCell("Payment Method Admin", "Form.Fields.deposits_final_Payment_Method_Admin.Value")
+            @infoCell("Amount", "Form.Fields.deposits_final_Admin_ammount_to_be_deposited.Value")
+            @infoCell("Deposit Currency", "Form.Fields.deposits_final_Admin_deposit_currency.Value")
+            @*@infoCell()*@
+            @paymentInfoAdminFields(paymentMethod)
+        </ul>
+    </section> 
+}
+@helper depositUserConfirmation()
+{
+    @infoCell("Is Confirmed", "Form.Fields.deposits_final_Confirm_Payment.Value")
+    @infoCell("Transaction ID", "Form.Fields.deposits_final_Transaction_ID.Value")
+  
+    @renderScreenshot("Form.Fields.deposits_final_Screenshot.Value","300","900")
+}
+@*Write info in Step-1-Form*@
+@helper paymentMethodAdminFormFields(string paymentMethod)
+{
+
+<div class = "form-in ">
+<span>Payment Method: </span>
+ <select id="deposits_final_Payment_Method_Admin" name = "deposits_final_Payment_Method_Admin">
+    <option value = "Select">Select</option>
+   <option value = "Skrill">Skrill</option>
+    <option value = "Neteller">Neteller</option>
+    <option value = "Crypto">Crypto</option>
+    <option value = "Ecopayz">Ecopayz</option>
+    <option value = "Bank Global">Bank Global</option>
+    <option value = "Bank Vallettapay">Bank Vallettapay</option>
+    <option value = "Private Skrill">Private Skrill</option>
+    <option value = "Private Neteller">Private Neteller</option>
+     <option value = "Skrill-Merchant-EEA">Skrill Merchant EEA</option>
+     <option value = "Skrill-Merchant-ROW">Skrill Merchant ROW</option>
+     <option value = "Neteller-Merchant-EEA">Neteller Merchant EEA</option>
+     <option value = "Neteller-Merchant-ROW">Neteller Merchant ROW</option>
+</select>
+</div>
+
+
+   
+    @depositFormField("ammountToBeDepositedAdmin", "number", "number", "Amount to be deposited", "deposits_final_Admin_ammount_to_be_deposited", GetString("Form.Fields.deposits_final_Ammount_to_be_deposited.Value"), "", "", "", "0.000001", "", "") 
+    @paymentMethodAdminFields(paymentMethod)
+    @depositFormField("screenshot", "input", "file", "Admin Screenshot of the transfer", "deposits_final_Admin_Screenshot_of_the_transfer", "", "", "", "", "", "", "")
+}
+@helper step1Status()
+{
+    @depositFormField("","statusSelect" , "","Status", "deposits_final_Status", GetString("Form.Fields.deposits_final_Status.Value"), "", "", "", "", "", "" ) 
+}
+@helper step2Status()
+{
+    @depositFormField("","statusSelectStep2" , "","Status", "deposits_final_Status", GetString("Form.Fields.deposits_final_Status.Value"), "", "", "", "", "", "" ) 
+}
+@helper currencyExchange()
+{
+    var isCrypto = GetString("Form.Fields.deposits_final_Payment_method.Value") == "Cryptocurrency" ? "true" : "false";
+    var currencyExchangeFieldLabel = isCrypto.ToString() == "true" ? "Crypto Exchange Rate" : "Conversion Rate 2st";
+    var processDepositsFormPageId = GetPageIdByNavigationTag("ProcessDepositForm").ToString();
+    var recivedAmount = GetString("Form.Fields.deposits_final_Admin_ammount_to_be_deposited.Value");
+    var currentPage = GetGlobalValue("Global:Page.ID").ToString();
+    var cryptoScreenshotId = processDepositsFormPageId == currentPage ? "screenshot-oanda" : "screenshot-oanda-3";
+    var cryptoScreenshotLabel = processDepositsFormPageId == currentPage ? "Crypto exchange rate 24h" : "Crypto exchange rate 48h";
+    var cryptoScreenshotColumn = processDepositsFormPageId == currentPage ? "deposits_final_Oanda_First_Screenshot" : "deposits_final_Oanda_Second_Screenshot";
+    
+    <div id="calculateAmount" data-bookie-account-currency='@GetString("Form.Fields.deposits_final_Account_currency.Value")' data-deposit-currency='@GetString("Form.Fields.deposits_final_Deposit_currency.Value")'>
+    <div class = "col-xs-12 col-md-4">
+  
+       @depositFormField("amountAfterFirstExchange", "amountAfterFirstExchange", "number", "Received amount in Payment Option Currency: ", "deposits_final_Amount_after_first_exchange", "", "readonly", "", "", "", "", "")
+      <div class ="form-in">
+        <span>Payment Method Currency</span>
+        <select id = "deposits_final_Payment_method_currency" name = "deposits_final_Payment_method_currency">
+          <option value = "default">Select Currency</option>
+          @CurrencyOptionsList()
+        </select>
+      </div>
+      @depositFormField("", "input", "number", "Received amount in another currency on Payment Option", "deposits_final_Admin_ammount_to_be_deposited", @recivedAmount, "", "", "", "", "", "")
+
+   <div class ="form-in">
+     <span>Currency of Recived Amount</span>
+        <select id = "deposits_final_Deposit_currency" name = "deposits_final_Deposit_currency" data-currency-value = '@GetString("Form.Fields.deposits_final_Deposit_currency.Value")'>
+          @CurrencyOptionsList()
+        </select>
+</div>
+
+    </div>
+   <div class = "col-xs-12 col-md-4">
+     <div class = "deposits-inline-elements"  >
+   
+       @infoCell("Convert 1st:", "")
+       <li id= "convert-deposit-currency"><span>Convert 1st: </span>@GetString("Form.Fields.deposits_final_Deposit_currency.Value")</li>
+       <li id= "convert-from-deposit-currency"><span>to </span></li>
+     </div>
+      @depositFormField("paymentMethodCurrencyExchange", "input", "number", "Conversion Rate 1st", "deposits_final_Payment_method_Oanda_exchange_rate", "", "", "", "", "", "", "")
+        <div id ="amount-before-conversion-wrapper">
+       @infoCell("Amount to convert 1st:", "Form.Fields.deposits_final_Admin_ammount_to_be_deposited.Value")
+           </div>
+     <div id = "currencyExchange" class = "hidden">
+      <div class = "deposits-inline-elements" id = "currency-account-wrapper-conversion">
+        <li id= "convert-to-account-currency"><span>Convert 2st: </span></li>
+        <li><span>to </span></li>
+        <select id = "deposits_final_Account_currency" name="deposits_final_Account_currency" data-currency-value = '@GetString("Form.Fields.deposits_final_Account_currency.Value")'>
+            @CurrencyOptionsList()
+        </select>
+    
+     </div>
+
+       @depositFormField("", "number", "", currencyExchangeFieldLabel, "deposits_final_Oanda_Exchange_Rate", "", "", "", "", "", "", "")
+
+      <li id = "amountAfterFirstExchangeText"><span>Amount to convert 2st: </span></li>
+     </div>
+</div>
+ <div class = "col-xs-12 col-md-4">
+       @depositFormField("fakeAmountAfterFirstExchange", "input", "number", "Final Amount 1st conversion:", "", "", "", "", "", "", "", "")
+       @depositFormField("amountAfterSecondExchange", "input", "number", "Final Amount 2st conversion:", "deposits_final_Full_Processed_Amount", "", "", "", "", "", "hidden", "")
+
+  
+     
+   
+       @if (isCrypto.ToString()=="true")
+       {
+           @depositFormField("screenshot-oanda", "input", "file", "Screenshot Exchange Rate 1", "deposits_final_Oanda_First_Screenshot", "/Files/Images/BetIBC/logo_betibc.png", "", "", "", "", "hidden", "")
+           @depositFormField("screenshot-oanda-3", "input", "file", "Screenshot Exchange Rate 2", "deposits_final_Oanda_Second_Screenshot","/Files/Images/BetIBC/logo_betibc.png" , "", "", "", "", "hidden", "")
+           
+
+       }
+       else
+       {
+           @depositFormField("screenshot-oanda", "input", "file", "Screenshot of the transfer Oanda 1", "deposits_final_Oanda_First_Screenshot", "/Files/Images/BetIBC/logo_betibc.png", "", "", "", "", "hidden", "")
+           @depositFormField("screenshot-oanda-3", "input", "file", "Screenshot of the transfer Oanda 2", "deposits_final_Oanda_Second_Screenshot", "/Files/Images/BetIBC/logo_betibc.png", "", "", "", "", "hidden", "")
+       }
+ </div>
+
+   </div>
+}
+@helper minAmountFee()
+{  
+    @depositFormField("minAmountFee","input" , "","Min amount fee", "deposits_final_Minimum_amount_fee", "", "", "", "", "", "", "" ) 
+    @calculateButton("calculateMinAmountFee")
+}
+@helper paymentMethodFee()
+{
+    @depositFormField("paymentMethodFee","input" , "","Payment method fee", "deposits_final_payment_method_fee", "", "", "", "", "", "", "" ) 
+    @calculateButton("calculatePaymentMethodFee")
+}
+@helper bookmakerFee()
+{
+    @depositFormField("bookmakerFee","input" , "","Bookmaker fee", "deposits_final_Deposits_bookmaker_fee", "", "", "", "", "", "", "" ) 
+    @calculateButton("calculateBookmakerFee")
+}
+@helper expressFee()
+{
+    @depositFormField("expressFee","input" , "","Express fee", "deposits_final_Express_Fee_Calculation", "", "", "", "", "", "", "" ) 
+    @calculateButton("calculateExpressFee")
+}
+@helper amountToCredit()
+{
+    @depositFormField("amountToCredit","input" , "","Amount To Credit", "deposits_final_Amount_to_credit", "", "", "", "", "", "", "" ) 
+}
+@helper profitCounts()
+{
+    @depositFormField("profit","input" , "","Profit", "deposits_final_Profit", "", "", "", "", "", "", "" ) 
+    @calculateButton("calculateAmountToCredit")
+}
+@helper eWalletFee()
+{
+    @depositFormField("e-wallet_fee","input" , "","E-wallet fee", "deposits_final_E_wallet_fee", "", "", "", "", "", "", "" ) 
+}
+@helper depositFees()
+{
+    <div class="fee-wrapper">
+        @minAmountFee() 
+    </div>
+    <div class="fee-wrapper">
+        @paymentMethodFee()
+    </div>
+    <div class="fee-wrapper">
+        @bookmakerFee()
+    </div>
+    
+}
+@helper exceptionsList()
+{
+    <option value="default" selected disabled>@Translate("Select","Select")</option>
+  
+}
+@helper ExceptionsOrbit()
+{
+    if (GetString("Form.Fields.deposits_final_Bookmaker.Value") == "Orbit Exchange")
+    {
+        <div class="form-in" id="OrbitExpressException">
+            <span>@Translate("95% Share")</span>
+            <select id="deposits_final_Exception_Orbit_Express" name="deposits_final_Exception_Orbit_Express" value="">
+                <option value="true">Yes</option>
+                <option value="false" selected>No</option>
+            </select>
+        </div>
+    }
+}
+@helper Exception(string exceptionID, string label, string ID)
+{
+    var exceptionAmount = @ID + "_amount";
+    <div class = "form-in" id="@exceptionID">
+        <span>@Translate(label,label)</span>
+        <select id="@ID" name="@ID" value="" >
+            @exceptionsList()
+        </select>
+<input id = "@exceptionAmount" name="@exceptionAmount" value="0">
+    </div>
+ }
+@helper ExceptionNote (string noteId, string label, string fieldID, string value)
+{
+    @depositFormField(noteId,"textarea" , "",label, fieldID, value, "", "", "", "", "hidden", "" )
+}
+@helper MoneyToRecoverSelect()
+{
+    <div class = "form-in" id="recoverMoney">
+        <span>@Translate("Money To Recover")</span>
+        <select class="" id="recoverMoneySelect" name="recoverMoneySelect" value="">
+            <option selected>No</option>
+            <option>Yes</option>
+        </select>
+    </div>
+}
+@helper MoneyToRecover(){
+    var moneyToRecover = GetString("Form.Fields.deposits_final_Money_to_recover.Value");
+    if (moneyToRecover != "")
+    {
+        @depositFormField("recoverAmount", "input", "", "Amount to recover", "deposits_final_Money_to_recover", GetString("Form.Fields.deposits_final_Money_to_recover.Value"), "", "", "", "", "", "")
+        @infoCell("","Form.Fields.deposits_final_Account_currency.Value")
+        @depositFormField("recoverAmountNotes", "textarea", "", "Amount to recover Notes", "deposits_final_Money_to_recover_notes",GetString("Form.Fields.deposits_final_Money_to_recover_notes.Value"), "", "", "", "", "", "")
+    }else
+    {
+    @MoneyToRecoverSelect()
+        <div id="recoverMoneyValueAndNotes" class="hidden">
+            @depositFormField("recoverAmount", "input", "", "Amount to recover", "deposits_final_Money_to_recover", GetString("Form.Fields.deposits_final_Money_to_recover.Value"), "", "", "", "", "", "")
+            @infoCell("","Form.Fields.deposits_final_Account_currency.Value")
+            @depositFormField("recoverAmountNotes", "textarea", "", "Amount to recover Notes", "deposits_final_Money_to_recover_notes",GetString("Form.Fields.deposits_final_Money_to_recover_notes.Value"), "", "", "", "", "", "")
+        </div>
+    }
+}
+@helper KYC()
+{
+    <option value="KYCRequired">KYC required</option>
+}
+@helper calculations()
+{
+ <div class = "count-wrapper">
+    @depositFormField("number","input" , "","Amount to be credited", "deposits_final_Amount_To_Credit", "", "", "", "", "", "", "" )
+    @infoCell("", "Form.Fields.deposits_final_Account_currency.Value")
+    @calculateButton("calculateAmountToBeCredited")
+</div>
+    
+}
+@helper balanceBeforeAndAfter()
+{
+<div class = "count-wrapper">
+    @depositFormField("number","input" , "","Balance Before Deposit", "deposits_final_Balance_before_deposit", GetString("Form.Fields.deposits_final_Balance_before_deposit.Value"), "", "", "", "", "", "" )
+    @infoCell("", "Form.Fields.deposits_final_Account_currency.Value")
+</div>
+<div class = "count-wrapper">
+    @depositFormField("number","input" , "","Balance After Deposit", "deposits_final_Balance_after_deposit", "", "", "", "", "", "", "" )
+    @infoCell("", "Form.Fields.deposits_final_Account_currency.Value")
+    @calculateButton("balanceAfter")
+    @depositFormField("screenshot-ammount","input" , "file","Screenshot Amount Credited on Account", "deposits_final_Screenshot_Amout_Credited_on_Account", "/Files/Images/BetIBC/logo_betibc.png", "", "", "", "", "", "" )
+  </div>
+}
+@helper AgentProfit()
+{
+<div class = "form-in">
+    <span>Profit Currency</span>
+  <select id = "deposits_final_Profit_Currency_Agent_Profit" name = "deposits_final_Profit_Currency_Agent_Profit" data-account-currency = '@GetString("Form.Fields.deposits_final_Account_currency.Value")'>
+          <option value = "default">Select Currency</option>
+          @CurrencyOptionsList()
+  </select>
+</div>
+<div class = "Ewallet-Commision-Fee" data-payment-method = '@GetString("Form.Fields.deposits_final_Payment_method.Value")'>
+  @depositFormField("FeeEwalletComission","input" , "number","Fee BET-IBC Paid", "deposits_final_E_wallet_fee", "", "", "", "", "", "", "" )
+</div>
+<div class = "form-in" id = "convert-fee-paid-normal">
+    <span>Convert fee paid from</span>
+  <select id = "deposits_final_Convert_fee_paid_to_currency" name = "deposits_final_Convert_fee_paid_to_currency">
+          <option value = "default">Select Currency</option>
+          @CurrencyOptionsList()
+  </select>
+</div>
+<div class = "form-in" id = "convert-fee-paid-crypto">
+    <span>Convert fee paid from</span>
+  <select id = "deposits_final_Convert_fee_paid_to_currency" name = "deposits_final_Convert_fee_paid_to_currency">
+          <option value = "default">Select Currency</option>
+          @CryptoCurrenciesOptionsList()
+  </select>
+</div>
+
+  @depositFormField("fakeAmountAfterFirstExchangeAgent", "input", "number", "Received amount in Payment Option Currency", "", "", "", "", "", "", "", "")
+  @depositFormField("conversionRateAgent", "input", "number", "Conversion Rate", "deposits_final_Conversion_Rate_Agent_Profit", "", "", "", "", "", "", "")
+  @depositFormField("amountOfConvertedFee", "input", "number", "Amount of converted fee", "deposits_final_Agent_Amount_of_converted_fee", "", "", "", "", "", "", "")
+<div class = "count-wrapper">
+    @depositFormField("AgentProfitInput","input" , "","Agent Profit", "deposits_final_Profit", "", "", "", "", "", "", "" )
+    @infoCell("", "Form.Fields.deposits_final_Account_currency.Value")
+    @calculateButton("agentProfitCalculate")
+  </div>
+}
+@helper Notes()
+{
+    @depositFormField("DepositNotesField","textarea" , "","Deposit Notes", "deposits_final_Notes", "", "", "", "", "", "", "" )
+}
+@helper currencyExchangeFinal()
+{
+    var isCrypto = GetString("Form.Fields.deposits_final_Payment_method.Value") == "Cryptocurrency" ? "true" : "false";
+    var currencyExchangeFieldLabel = isCrypto.ToString() == "true" ? "Crypto Exchange Rate" : "Oanda Currency Exchange Rate";
+    var processDepositsFormPageId = GetPageIdByNavigationTag("ProcessDepositForm").ToString();
+    var currentPage = GetGlobalValue("Global:Page.ID").ToString();
+    var cryptoScreenshotId = processDepositsFormPageId == currentPage ? "screenshot-oanda" : "screenshot-oanda-3";
+    var cryptoScreenshotLabel = processDepositsFormPageId == currentPage ? "Crypto exchange rate 24h" : "Crypto exchange rate 48h";
+    var cryptoScreenshotColumn = processDepositsFormPageId == currentPage ? "deposits_final_Oanda_First_Screenshot" : "deposits_final_Oanda_Second_Screenshot";
+    var previousStepPMCERRaw = GetString("Form.Fields.deposits_final_Payment_method_Oanda_exchange_rate.Value");
+    var previousStepPMCER = previousStepPMCERRaw != "" ? previousStepPMCERRaw : "NA";
+    var previourAmountAfterFirstExchangeRaw = GetString("Form.Fields.deposits_final_Amount_after_first_exchange.Value");
+    var previourAmountAfterFirstExchange = previourAmountAfterFirstExchangeRaw != "" ? previourAmountAfterFirstExchangeRaw : "NA";
+    var previousSecondCurrencyExchangeRateRaw = GetString("Form.Fields.deposits_final_Oanda_Exchange_Rate.Value");
+    var previousSecondCurrencyExchangeRate = previousSecondCurrencyExchangeRateRaw != "" ? previousSecondCurrencyExchangeRateRaw : "NA";
+   <div class="row">
+        <div class="col-xs-8">
+            <div id="calculateAmount"   data-bookie-account-currency='@GetString("Form.Fields.deposits_final_Account_currency.Value")' data-deposit-currency='@GetString("Form.Fields.deposits_final_Deposit_currency.Value")'>
+                @infoCell("Sent Amount", "Form.Fields.deposits_final_Ammount_to_be_deposited.Value")
+                @infoCell("Deposit Currency", "Form.Fields.deposits_final_Deposit_currency.Value")
+                @infoCell("Bookmaker Account Currency", "Form.Fields.deposits_final_Account_currency.Value")
+                @depositFormField("paymentMethodCurrency", "paymentMethodCurrency", "", "Payment Method Currency", "deposits_final_Payment_method_currency", "", "", "", "", "", "", "")
+                @depositFormField("paymentMethodCurrencyExchange", "number", "", "Payment Method Currency Exchange Rate", "deposits_final_Payment_method_Oanda_exchange_rate", "", "", "", "", "", "hidden", "")
+                @depositFormField("amountAfterFirstExchange", "amountAfterFirstExchange", "", "Deposit Amount", "deposits_final_Amount_after_first_exchange", "", "", "", "", "", "hidden", "")
+                @depositFormField("CurrencyAfterFirstExchange", "input", "", "Currency After First Exchange", "deposits_final_Currency_after_first_Exchange", "", "", "", "", "", "hidden", "")
+                @depositFormField("currencyExchange", "number", "", currencyExchangeFieldLabel, "deposits_final_Oanda_Exchange_Rate", "", "", "", "", "", "hidden", "")
+          <div class = "count-wrapper"> 
+                @depositFormField("finalAmount", "number", "", "Final Amount", "deposits_final_Full_Processed_Amount", "", "", "", "", "", "", "")
+                @infoCell("", "Form.Fields.deposits_final_Account_currency.Value")
+          </div>
+                @if (isCrypto.ToString()=="true")
+                {
+                    @depositFormField("screenshot-oanda", "input", "file", "Screenshot Exchange Rate 1", "deposits_final_Oanda_First_Screenshot", "/Files/Images/BetIBC/logo_betibc.png", "", "", "", "", "hidden", "")
+                    @depositFormField("screenshot-oanda-3", "input", "file", "Screenshot Exchange Rate 2", "deposits_final_Oanda_Second_Screenshot", "/Files/Images/BetIBC/logo_betibc.png", "", "", "", "", "hidden", "")
+                }
+                else
+                {
+                    @depositFormField("screenshot-oanda", "input", "file", "Screenshot of the transfer Oanda 1", "deposits_final_Oanda_First_Screenshot", "/Files/Images/BetIBC/logo_betibc.png", "", "", "", "", "hidden", "")
+                    @depositFormField("screenshot-oanda-3", "input", "file", "Screenshot of the transfer Oanda 2", "deposits_final_Oanda_Second_Screenshot", "/Files/Images/BetIBC/logo_betibc.png", "", "", "", "", "hidden", "")
+                }
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <ul>
+                <li> Sent amount: @GetString("Form.Fields.deposits_final_Ammount_to_be_deposited.Value")</li>
+                <li> Deposit currency : @GetString("Form.Fields.deposits_final_Deposit_currency.Value")</li>
+                <li> Bookmaker Account Currency : @GetString("Form.Fields.deposits_final_Account_currency.Value")</li>
+                <li> Payment Method Currency : @GetString("Form.Fields.deposits_final_Payment_method_currency.Value")</li>
+                <li> Payment Method Currency Exchange Rate : @previousStepPMCER</li>
+                <li> Deposit amount after payment method exchange : @previourAmountAfterFirstExchange</li>
+                <li> Currency Exchange Rate : @previousSecondCurrencyExchangeRate</li>
+                <li> Final deposit amount : @GetString("Form.Fields.deposits_final_Full_Processed_Amount.Value") @GetString("Form.Fields.deposits_final_Account_currency.Value")</li>
+                <li>@renderScreenshot("Form.Fields.deposits_final_Oanda_First_Screenshot.Value","300","900")</li>
+                <li>@renderScreenshot("Form.Fields.deposits_final_Oanda_Second_Screenshot.Value", "300", "300")</li>
+             </ul>
+        </div>
+    </div>
+   
+}
+@helper depositFeesFinal()
+{
+    <div class="row">
+        <div class="col-xs-8">
+            @minAmountFee() 
+            @paymentMethodFee()
+            @bookmakerFee()
+            @expressFee()
+        </div>
+        <div class="col-xs-4">
+            <ul>
+                <li>Min Amount Fee : @GetString("Form.Fields.deposits_final_Minimum_amount_fee.Value") @GetString("Form.Fields.deposits_final_Account_currency.Value")</li>
+                <li>Payment Method Fee : @GetString("Form.Fields.deposits_final_payment_method_fee.Value") @GetString("Form.Fields.deposits_final_Account_currency.Value")</li>
+                <li>Bookmaker Fee : @GetString("Form.Fields.deposits_final_Deposits_bookmaker_fee.Value") @GetString("Form.Fields.deposits_final_Account_currency.Value")</li>
+                <li>Express Fee : @GetString("Form.Fields.deposits_final_Express_Fee_Calculation.Value") @GetString("Form.Fields.deposits_final_Account_currency.Value")</li>
+            </ul>
+        </div>
+    </div>
+}
+@helper previousExceptionValues()
+{
+    var exception1 = GetString("Form.Fields.deposits_final_Exception_rule_one.Value");
+    var exception2 = GetString("Form.Fields.deposits_final_Exception_rule_two.Value");
+    var exception3 = GetString("Form.Fields.deposits_final_Exception_rule_three.Value");
+    var exception1Value = GetString("Form.Fields.deposits_final_Exception_rule_one_amount.Value");
+    var exception2Value = GetString("Form.Fields.deposits_final_Exception_rule_two_amount.Value");
+    var exception3Value = GetString("Form.Fields.deposits_final_Exception_rule_three_amount.Value");
+    var currency = GetString("Form.Fields.deposits_final_Account_currency.Value");
+    <h3>Previous Step Values</h3>
+    <ul>
+        @if (exception1 != "")
+        {
+            <li>@exception1 : @exception1Value @currency </li>  
+        }
+        @if (exception2 != "")
+        {
+            <li>@exception2 : @exception2Value @currency </li>  
+        }
+        @if (exception3 != "")
+        {
+            <li>@exception3 : @exception3Value @currency </li>  
+        }
+    </ul>
+    
+}
+@helper calculationsFinal()
+{
+    <div class="row">
+        <div class="col-xs-8">
+            @depositFormField("number", "input", "", "Amount to be credited", "deposits_final_Amount_To_Credit", "", "", "", "", "", "", "")
+            @infoCell("", "Form.Fields.deposits_final_Account_currency.Value")
+            @calculateButton("calculateAmountToBeCredited")
+        </div>
+        <div class="col-xs-4">
+            <h3>Existing Value</h3>
+            <ul>
+                <li>Amount to be credited : @GetString("Form.Fields.deposits_final_Amount_to_credit.Value") @GetString("Form.Fields.deposits_final_Account_currency.Value")</li>
+                <li>Balance Before Deposit : @GetString("Form.Fields.deposits_final_Balance_before_deposit.Value") @GetString("Form.Fields.deposits_final_Account_currency.Value")</li>
+                <li>Balance After Deposit : @GetString("Form.Fields.deposits_final_Balance_after_deposit.Value") @GetString("Form.Fields.deposits_final_Account_currency.Value")</li>
+            </ul>
+        </div>
+    </div>
+}
+@helper AgentProfitFinal()
+{
+    <div class="row">
+        <div class="col-xs-8">
+            @depositFormField("AgentProfitInput","input" , "","Agent Profit", "deposits_final_Profit", "", "", "", "", "", "", "" )
+            @infoCell("", "Form.Fields.deposits_final_Account_currency.Value")
+            @calculateButton("agentProfitCalculate")
+        </div>
+        <div class="col-xs-4">
+            <h3>Existing Value</h3>
+            <ul>
+                <li>
+                    Agent Profit : @GetString("Form.Fields.deposits_final_Profit.Value") @GetString("Form.Fields.deposits_final_Account_currency.Value")
+                </li>
+            </ul>
+        </div>
+    </div>
+}
+@helper NotesFinal()
+{
+    var previousValues = GetString("Form.Fields.deposits_final_Notes.Value");
+    @depositFormField("DepositNotesField","textarea" , "","Deposit Notes", "deposits_final_Notes", previousValues, "", "", "", "", "", "" )
+}
+@helper FinalStatus()
+{
+    @depositFormField("","finalizedDeposit" , "","Status", "deposits_final_Status", GetString("Form.Fields.deposits_final_Status.Value"), "", "", "", "", "", "" ) 
+}
+@helper skypeReservationFee()
+{
+    if (GetString("Form.Fields.deposits_final_Bookmaker.Value") == "Skype Betting")
+    {
+        <option value="ReservationFee">Reservation Fee</option>
+    }
+    @depositFormField("skypeReservationFee","input" , "","Skype reservation fee", "deposits_final_Skype_Reservation_Fee", "", "", "", "", "", "hidden", "" )
+}
+@helper AdminProcesingTimeStanp()
+{
+    @depositFormField("","input" , "text" ,"Step-2-Admin Date", "deposits_final_Step_2_Admin_Date", GetString("Form.Fields.deposits_final_Step_2_Admin_Date.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Step-2-Admin Hour", "deposits_final_Step_2_Admin_Hour", GetString("Form.Fields.deposits_final_Step_2_Admin_Hour.Value"), "readonly", "", "", "", "hidden", "")
+    @depositFormField("","input" , "text" ,"Step-2-Admin Email", "deposits_final_Step_2_Admin_Email",GetString("Form.Fields.deposits_final_Step_2_Admin_Email.Value"), "readonly", "", "", "", "hidden", "")
+}
+@helper customPenaltySelect(string divId, string label, string selectId)
+{
+if(label != ""){
+    <div class = "form-in" id="@divId">
+        <span>@label</span>
+        <select class="" id="@selectId" name="@selectId" value="">
+            <option value = "0"selected = "selected">0</option>
+            <option value = "1">1</option>
+            <option value = "2">2</option>
+            <option value = "3">3</option>
+        </select>
+    </div>
+}
+}
+@helper CustomPenalty(string selectDivId, string selectLabel, string selectId, string divId, string percentLabel, string percentSystemId, string reasonLabel, string reasonSystemId)
+{
+    @customPenaltySelect(selectDivId , selectLabel , selectId)
+    <div id="@divId" class="hidden">
+        @depositFormField("","input" , "number" ,percentLabel, percentSystemId,"", "", "", "", "", "", "")
+        @depositFormField("","textarea" , "number" ,reasonLabel, reasonSystemId,"", "", "", "", "", "", "")
+    </div>
+}
+@helper ExtraFeeConfirmation()
+{
+    var extraFeePercent = GetString("Form.Fields.deposits_final_Custom_penalty_in_procent.Value");
+    var extraFeeReason = GetString("Form.Fields.deposits_final_Custom_penalty_reason.Value");
+ <div class = "form-in" id="customPenaltyVerify">
+            <span>@Translate("Num. of extra fees applied:")</span>
+            <select class="" id="deposits_final_Custom_penalty" name="deposits_final_Custom_penalty" value="">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+    <hr>
+    if(extraFeePercent != ""){
+            <div id="calculationExtraFee">
+        @depositFormField("","input" , "number" ,"Extra Fee Percent 1st", "deposits_final_Custom_penalty_in_procent",extraFeePercent, "", "", "", "", "", "")
+           <div class = "count-wrapper">
+        @depositFormField("","input" , "number" ,"Amount Extra Fee 1st:", "deposits_final_Custom_penalty_value",GetString("Form.Fields.deposits_final_Custom_penalty_value.Value"), "", "", "", "", "", "")
+        @infoCell("", "Form.Fields.deposits_final_Account_currency.Value")
+        @calculateButton("ExtraFeeValueCalculation")
+      </div>
+        @depositFormField("","textarea" , "text" ,"Extra Fee Reason 1st", "deposits_final_Custom_penalty_reason",extraFeeReason, "", "", "", "", "", "")
+  </div>
+    }
+    else
+    {
+       
+        <div id="calculationExtraFee" class="hidden">
+        @depositFormField("","input" , "number" ,"Extra Fee Percent 1st", "deposits_final_Custom_penalty_in_procent","", "", "", "", "", "", "")
+              <div class = "count-wrapper">
+        @depositFormField("","input" , "number" ,"Amount Extra Fee 1st:", "deposits_final_Custom_penalty_value",GetString("Form.Fields.deposits_final_Custom_penalty_value.Value"), "", "", "", "", "", "")
+        @infoCell("", "Form.Fields.deposits_final_Account_currency.Value")
+        @calculateButton("ExtraFeeValueCalculation")
+        </div>
+        @depositFormField("","textarea" , "text" ,"Extra Fee Reason 1st", "deposits_final_Custom_penalty_reason","", "", "", "", "", "", "")
+    
+        </div>
+    }
+    <hr>
+}
+@helper ExtraFee1Confirmation()
+ {
+     var extraFeePercent = GetString("Form.Fields.deposits_final_Custom_penalty_1_in_procent.Value");
+     var extraFeeReason = GetString("Form.Fields.deposits_final_Custom_penalty_1_reason.Value");
+     <hr>
+     if(extraFeePercent != ""){
+          <div id="calculationExtraFee1">
+         @depositFormField("","input" , "number" ,"Extra Fee Percent 2st", "deposits_final_Custom_penalty_1_in_procent",extraFeePercent, "", "", "", "", "", "")
+         <div class = "count-wrapper">
+         @depositFormField("","input" , "number" ,"Amount Extra Fee 2st:", "deposits_final_Custom_penalty_1_value",GetString("Form.Fields.deposits_final_Custom_penalty_1_value.Value"), "", "", "", "", "", "")
+         @infoCell("", "Form.Fields.deposits_final_Account_currency.Value")
+         @calculateButton("ExtraFee1ValueCalculation1")
+       </div>
+         @depositFormField("","textarea" , "text" ,"Extra Fee Reason 2st", "deposits_final_Custom_penalty_1_reason",extraFeeReason, "", "", "", "", "", "")
+      </div>
+     }
+     else
+     {
+         
+         <div id="calculationExtraFee1" class="hidden">
+             @depositFormField("","input" , "number" ,"Extra Fee Percent 2st", "deposits_final_Custom_penalty_1_in_procent","", "", "", "", "", "", "")
+               <div class = "count-wrapper">
+             @depositFormField("","input" , "number" ,"Amount Extra Fee 2st:", "deposits_final_Custom_penalty_1_value",GetString("Form.Fields.deposits_final_Custom_penalty_1_value.Value"), "", "", "", "", "", "")
+             @infoCell("", "Form.Fields.deposits_final_Account_currency.Value")
+             @calculateButton("ExtraFee1ValueCalculation1")
+               </div>
+             @depositFormField("","textarea" , "text" ,"Extra Fee Reason 2st", "deposits_final_Custom_penalty_1_reason","", "", "", "", "", "", "")
+       
+         </div>
+     }
+     <hr>
+ }
+@helper ExtraFee2Confirmation()
+{
+    var extraFeePercent = GetString("Form.Fields.deposits_final_Custom_penalty_2_in_procent.Value");
+    var extraFeeReason = GetString("Form.Fields.deposits_final_Custom_penalty_2_reason.Value");
+    <hr>
+    if(extraFeePercent != ""){
+          <div id="calculationExtraFee2" >
+        @depositFormField("","input" , "number" ,"Extra Fee Percent 3st", "deposits_final_Custom_penalty_2_in_procent",extraFeePercent, "", "", "", "", "", "")
+       <div class = "count-wrapper">
+        @depositFormField("","input" , "number" ,"Amount Extra Fee 3st:", "deposits_final_Custom_penalty_2_value",GetString("Form.Fields.deposits_final_Custom_penalty_2_value.Value"), "", "", "", "", "", "")
+        @infoCell("", "Form.Fields.deposits_final_Account_currency.Value")
+        @calculateButton("ExtraFee2ValueCalculation2")
+      </div>
+        @depositFormField("","textarea" , "text" ,"Extra Fee Reason 3st", "deposits_final_Custom_penalty_2_reason",extraFeeReason, "", "", "", "", "", "")
+      </div>
+    }
+    else
+    {
+       
+        <div id="calculationExtraFee2" class="hidden">
+            @depositFormField("","input" , "number" ,"Extra Fee Percent 3st", "deposits_final_Custom_penalty_2_in_procent","", "", "", "", "", "", "")
+              <div class = "count-wrapper">
+            @depositFormField("","input" , "number" ,"Amount Extra Fee 3st:", "deposits_final_Custom_penalty_2_value",GetString("Form.Fields.deposits_final_Custom_penalty_2_value.Value"), "", "", "", "", "", "")
+            @infoCell("", "Form.Fields.deposits_final_Account_currency.Value")
+            @calculateButton("ExtraFee2ValueCalculation2")
+          </div>
+            @depositFormField("","textarea" , "text" ,"Extra Fee Reason 3st", "deposits_final_Custom_penalty_2_reason","", "", "", "", "", "", "")
+          
+        </div>
+    }
+    <hr>
+}
+@helper canUseMerchant()
+{
+    @depositFormField("canUseMerchantAccount","checkbox","checkbox", @Translate("Can use Merchant Account"), "deposits_final_Can_use_merchant_account", "", "", "", "", "", "", "")
+
+}
+@helper depositAmountExplanation()
+{
+    @depositFormField("","textarea" , "text" ,"Amount to deposit Explanation", "deposits_final_Deposit_amount_explanation","", "", "", "", "", "", "")
+}
+@helper depositErrors(string currentDeposit)
+{ 
+<div class = "details-errors">
+   
+         
+                @if (GetString("Form.Fields.deposits_final_Admin_ammount_to_be_deposited.Value") != GetString("Form.Fields.deposits_final_Ammount_to_be_deposited.Value"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Amount to be deposited", "Amount to be deposited") <span>:</span> @GetString("Form.Fields.deposits_final_Ammount_to_be_deposited.Value")</p>
+                    </div>
+                }
+           
+                @if (GetString("Form.Fields.deposits_final_Admin_deposit_currency.Value") != GetString("Form.Fields.deposits_final_Deposit_currency.Value"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Deposit currency", "Deposit currency") <span>:</span> @GetString("Form.Fields.deposits_final_Deposit_currency.Value")</p>
+                    </div>
+                }
+                @if (GetString("Form.Fields.deposits_final_Admin_country.Value") != GetString("Form.Fields.deposits_final_Country.Value"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Country", "Country") <span>:</span> @GetString("Form.Fields.deposits_final_Country.Value")</p>
+                    </div>
+                }
+                @if (GetString("Form.Fields.deposits_final_Admin_city.Value") != GetString("Form.Fields.deposits_final_City.Value"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("City", "City") <span>:</span> @GetString("Form.Fields.deposits_final_City.Value")</p>
+                    </div>
+                }
+                @if (GetString("Form.Fields.deposits_final_Admin_Bank_account.Value") != GetString("Form.Fields.deposits_final_Bank_account.Value"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Bank account", "Bank account") <span>:</span> @GetString("Form.Fields.deposits_final_Bank_account.Value")</p>
+                    </div>
+                }
+                @if (GetString("Form.Fields.deposits_final_Admin_bank_Name.Value") != GetString("Form.Fields.deposits_final_Bank_Name.Value"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Admin bank Name", "Admin bank Name") <span>:</span> @GetString("Form.Fields.deposits_final_Bank_Name.Value")</p>
+                    </div>
+                }
+                @if (GetString("Form.Fields.deposits_final_Admin_bank_address.Value") != GetString("Form.Fields.deposits_final_Bank_address.Value"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Bank address", "Bank address") <span>:</span> @GetString("Form.Fields.deposits_final_Bank_address.Value")</p>
+                    </div>
+                }
+                @if (GetString("Form.Fields.deposits_final_Admin_Swift.Value") != GetString("Form.Fields.deposits_final_Swift.Value"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Swift", "Swift") <span>:</span> @GetString("Form.Fields.deposits_final_Swift.Value")</p>
+                    </div>
+                }
+                @if (GetString("Form.Fields.deposits_final_Admin_IBAN.Value") != GetString("Form.Fields.deposits_final_IBAN.Value"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("IBAN", "IBAN") <span>:</span> @GetString("Form.Fields.deposits_final_IBAN.Value")</p>
+                    </div>
+                }
+                @if (GetString("Form.Fields.deposits_final_Admin_Payment_email_address.Value") != GetString("Form.Fields.deposits_final_Admin_Payment_email_address.Value"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Payment email address", "Payment email address") <span>:</span> @GetString("Form.Fields.deposits_final_Payment_Email_Address.Value") </p>
+                    </div>
+                }
+              
+                @if (GetString("Form.Fields.deposits_final_Admin_Neteller_ID.Value") != GetString("Form.Fields.deposits_final_Neteller_ID.Value"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Neteller ID", "Neteller ID") <span>:</span> @GetString("deposits_final_Neteller_ID.Value")</p>
+                    </div>
+                }
+                @if (GetString("Form.Fields.deposits_final_Admin_Ecopayz_account_numbe.Valuer") != GetString("Form.Fields.deposits_final_Ecopayz_Account_Number.Value"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Ecopayz account number", "Ecopayz account number") <span>:</span> @GetString("Form.Fields.deposits_final_Ecopayz_Account_Number.Value")</p>
+                    </div>
+                }
+                @if (GetString("Form.Fields.deposits_final_Admin_Confirm_Ecopayz_account_number.Value") != GetString("Form.Fields.deposits_final_Ecopayz_Account_Number.Value"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Confirm Ecopayz account number", "Confirm Ecopayz account number") <span>:</span> @GetString("Form.Fields.deposits_final_Ecopayz_Account_Number.Value")</p>
+                    </div>
+                }
+                @if (GetString("Form.Fields.deposits_final_Admin_crypto_currency.Value") != GetString("Form.Fields.deposits_final_Crypto_currency.Value"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Crypto currency", "Crypto currency") <span>:</span> @GetString("Form.Fields.deposits_final_Crypto_currency.Value")</p>
+                    </div>
+                }
+                @if (GetString("Form.Fields.deposits_final_Admin_Crypto_Wallet_ID.Value") != GetString("Form.Fields.deposits_final_Crypto_Wallet_id.Value"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Crypto Wallet ID", "Crypto Wallet ID") <span>:</span> @GetString("Form.Fields.deposits_final_Crypto_Wallet_id.Value")</p>
+                    </div>
+                }
+               
+                @if (GetString("Form.Fields.deposits_final_Admin_Crypto_transaction_ID.Value") != GetString("Form.Fields.deposits_final_Admin_Crypto_transaction_ID.Value"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Crypto transaction ID", "Crypto transaction ID") <span>:</span> @GetString("Form.Fields.deposits_final_Transaction_ID.Value")</p>
+                    </div>
+                }
+           
+            
+</div>
+}

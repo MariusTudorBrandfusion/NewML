@@ -1,0 +1,27 @@
+﻿@{
+ var title = GetString("ItemPublisher:ItemType.Name");
+ var tipstersList = GetLoop("ItemPublisher:Items.List");
+}
+<section class = "tipster-slider-list" style = "background-image:url('/Files/Templates/Designs/BetIBC/Images/background_grey.jpg')">
+<div class = "container">
+<h1>@title</h1>
+
+<div class = "tipsters-slider-wrapper">
+@foreach(var tipster in tipstersList){
+var tipsterName = tipster.GetString("ItemPublisher:Item.Tipster_Name");
+var tipsterImage = tipster.GetString("ItemPublisher:Item.Tipster_Image");
+var tipsterLink = tipster.GetString("ItemPublisher:Item.Field.PageId");
+
+<div class = "tipster-slide"> 
+<a href = "/Default.aspx?ID=@tipsterLink">
+
+<img src = "@tipsterImage">
+<span>@tipsterName</span>
+</a>
+</div>
+}
+
+
+</div>
+</div>
+</section>

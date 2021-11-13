@@ -1,0 +1,20 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+<article class="grid__col-md-9">
+    <h1 class="article__header">@GetString("ItemPublisher:Item.Title")</h1>
+
+    <div class="article__summary">@GetString("ItemPublisher:Item.Summary")</div>
+
+    <img class="article__image" src="/Admin/Public/GetImage.ashx?width=1600&amp;height=1000&amp;crop=7&amp;Compression=75&amp;image=@GetString("ItemPublisher:Item.Image")" />
+
+    @GetString("ItemPublisher:Item.Text")
+</article>
+<details class="grid__col-md-3">
+    <div class="timeline-date timeline-date--clean">
+        2016
+        <small>Oct 1.</small>
+    </div>
+</details>
+
+
+

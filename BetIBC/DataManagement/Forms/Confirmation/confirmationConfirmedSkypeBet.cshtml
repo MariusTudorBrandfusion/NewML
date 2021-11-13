@@ -1,0 +1,56 @@
+﻿<div class="confirmation-container">
+
+    <div class="table-wrapper-skype">
+         <h3>CONFIRMATION</h3>
+        <table class="alternate confirmation-table" cellspacing="0" cellpadding="0">
+     
+            <tbody>
+          
+            <tr>
+                <th>BET ID</th>
+                <td>
+                     @GetValue("Form.RowID")  
+                </td>
+            </tr>
+            <tr>
+                <th>ID(asia)</th>
+                <td>
+                    @GetValue("Form.Fields.skypeBets_BetIdInAsia.Value") 
+                </td>
+            </tr>
+            <tr>
+                <th>End time</th>
+                <td>
+                    @GetValue("Form.Fields.skypeBets_GameEndTime.Value") 
+                </td>
+            </tr>
+            <tr>
+                <th>Game Ends</th>
+                <td>
+                    @GetValue("Form.Fields.skypeBets_GameEndsIn.Value") 
+                </td>
+            </tr>
+             <tr>
+                <th>Time Zone</th>
+                <td>
+                    @GetValue("Form.Fields.skypeBets_TimeZone.Value") 
+                </td>
+            </tr>
+            <tr>
+                <th>OPERATORS</th>
+                <td>
+                    <span>1.</span>@GetValue("Form.Fields.skypeBets_FirstAdminUsername.Value")<br>
+                  	<span>2.</span>@GetValue("Form.Fields.skypeBets_SecondAdminUsername.Value")<br>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--<div class="confirmation-buttons">
+      <button class="button" type="button"> Back </button>
+      <button class="button" type="button"> Save </button>
+    </div> -->
+
+</div>

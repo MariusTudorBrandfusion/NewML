@@ -1,0 +1,27 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.ParagraphViewModel>
+                                 
+@Include("Layout.cshtml")
+@Include("ParagraphRender.cshtml")
+
+@{
+    string backgroundImage = "";
+    string extraCssClasses = "";
+    string imageStyle = Model.Item.GetString("ImageStyle");
+	string customClass = Model.Item.GetString("Custom_Class");
+    if (imageStyle == "background")
+    {
+        extraCssClasses = " grid__col--bg";
+        backgroundImage = "background-image:url(/Admin/Public/GetImage.ashx?width=550&amp;height=550&amp;crop=5&amp;Compression=75&amp;image=" + Model.Item.GetFile("Image").Path + ");";
+    }
+}
+
+
+    </div>
+</div>
+<div class="@columnClass() @extraCssClasses paragraph-container @customClass wide-paragraph u-color-gray--bg" style="@backgroundImage">
+    @* <div class="content-container center-container dw-mod">
+        <div class="grid"> *@
+            @RenderContent(Model.Item)
+       @*  </div>
+    </div> *@
+</div>                                

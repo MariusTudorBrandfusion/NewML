@@ -1,0 +1,198 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.ParagraphViewModel>
+@using Dynamicweb.Frontend
+
+@helper RenderContent(ItemViewModel item)
+{
+string cardClass = item.GetBoolean("ShowAsCard") ? "paragraph-card" : "";
+ 	if (item.GetList("ContentPositions").SelectedValue == "image-top" || item.GetList("ContentPositions").SelectedValue == "image-centered" || string.IsNullOrEmpty(item.GetList("ContentPositions").SelectedValue))
+    {
+        <div class="grid__cell @cardClass">
+            @RenderImage(item)
+            @RenderHeading(item)
+            @RenderText(item)
+            @RenderModule(item) 
+        </div>
+        @RenderButton(item)
+    }
+
+    if (item.GetList("ContentPositions").SelectedValue == "title-top")
+    {
+        <div class="grid__cell @cardClass">
+          @RenderHeading(item)
+          @RenderImage(item)
+          @RenderText(item)
+          @RenderModule(item) 
+		</div>
+        @RenderButton(item)
+    }
+
+    if (item.GetList("ContentPositions").SelectedValue == "image-left")
+    {
+        <div class="grid">
+            <div class="grid__col-3">
+                @RenderImage(item)
+            </div>
+            <div class="grid__col-9">
+                @RenderHeading(item)
+                @RenderText(item)
+                @RenderModule(item) 
+                @RenderButton(item)
+            </div>
+        </div>
+    }
+
+    if (item.GetList("ContentPositions").SelectedValue == "all-centered")
+    {
+        <div class="grid__cell u-ta-center @cardClass">
+            @RenderImage(item)
+            @RenderHeading(item)
+            @RenderText(item)
+            @RenderModule(item) 
+        </div>
+        @RenderButton(item)
+    }
+
+    if (item.GetList("ContentPositions").SelectedValue == "middle-center")
+    {
+    <div class="u-ta-center u-middle">
+        <div class="grid__cell @cardClass">
+            @RenderImage(item)
+            @RenderHeading(item)
+            @RenderText(item)
+            @* @RenderModule(item) *@
+        </div>
+        @RenderButton(item)
+    </div>
+    }
+
+    if (item.GetList("ContentPositions").SelectedValue == "middle-left")
+    {
+    <div class="grid__cell u-middle">
+        <div class="@cardClass">
+            @RenderImage(item)
+            @RenderHeading(item)
+            @RenderText(item)
+            @RenderModule(item) 
+        </div>
+        @RenderButton(item)
+    </div>
+    }
+}
+
+@helper RenderHeading(ItemViewModel item)
+{
+    if (item.GetBoolean("ShowTitle") != false)
+    {
+        if (!string.IsNullOrEmpty(item.GetString("Title")))
+        {
+            string url = item.GetString("Link");
+
+            if (!String.IsNullOrEmpty(url))
+            {
+                <a href="@url">
+                    <h2 class="u-no-margin u-margin-bottom">@item.GetString("Title")</h2>
+                </a>
+            }
+            else
+            {
+                <h2 class="u-no-margin u-margin-bottom">@item.GetString("Title")</h2>
+            }
+        }
+    }
+}
+
+@helper RenderButton(ItemViewModel item)
+{
+    string url = item.GetString("Link");
+    string linkText = item.GetString("LinkText");
+    string footerCssClass = "";
+    string cardFooterClass = item.GetBoolean("ShowAsCard") ? "paragraph-card-footer" : "";
+    if (item.GetList("ContentPositions").SelectedValue == "all-centered" || item.GetList("ContentPositions").SelectedValue == "middle-center") {
+       footerCssClass = "grid--justify-center"; 
+    }
+
+    if (!string.IsNullOrEmpty(url) && !string.IsNullOrEmpty(linkText))
+    {
+        string buttonStyle =  !String.IsNullOrEmpty(item.GetList("ButtonDesign").SelectedValue) ? item.GetList("ButtonDesign").SelectedValue : "primary";
+
+        <div class="grid__cell-footer @footerCssClass @cardFooterClass">
+            <div class="u-margin-top u-margin-bottom">
+                @if (url.Contains("http"))
+                {
+                <a href="@url" class="btn btn--@buttonStyle btn--line-height dw-mod" target="_blank">@linkText</a>
+                }
+                else if (url.Contains("/"))
+                {
+                <a href="@url" class="btn btn--@buttonStyle btn--line-height dw-mod" download>@linkText</a>
+                }
+                else
+                {
+                <a href="@url" class="btn btn--@buttonStyle btn--line-height dw-mod">@linkText</a>
+                }
+            </div>
+        </div>
+    }
+}
+
+@helper RenderText(ItemViewModel item)
+{
+    if (!string.IsNullOrWhiteSpace(item.GetString("Text")))
+    {
+        @item.GetString("Text")
+    }
+}
+
+@helper RenderModule(ItemViewModel item)
+{
+    @Model.GetModuleOutput();
+}
+
+@helper RenderImage(ItemViewModel item)
+{
+    if (!string.IsNullOrEmpty(item.GetString("Image")) && item.GetList("ImageStyle").SelectedValue != "background")
+    {
+        string url = item.GetString("Link");
+
+        <div class="u-margin-bottom">
+            @if (!String.IsNullOrEmpty(url))
+            {
+                <a href="@url">
+                    @RenderImageElement(item)
+                </a>
+            }
+            else
+            {
+                @RenderImageElement(item)
+            }
+        </div>
+    }
+}
+
+@helper RenderImageElement(ItemViewModel item) { 
+    string image = item.GetFile("Image") != null ? System.Web.HttpContext.Current.Server.UrlEncode(item.GetFile("Image").Path) : "";
+    string altText = item.GetString("Title");
+    string imgCssClass = "";
+    string imgCrop = !string.IsNullOrEmpty(item.GetString("ImageCrop")) ? item.GetString("ImageCrop") : "5";
+    string imageSmWidth = "480";
+    string imageMdWidth = "992";
+    string imageMdHeight = "760";
+
+    if (item.GetList("ContentPositions").SelectedValue == "image-centered" || item.GetList("ContentPositions").SelectedValue == "all-centered" || item.GetList("ContentPositions").SelectedValue == "middle-center")
+    {
+        imgCssClass = "grid__cell-img--centered";
+    }
+
+    if (item.GetList("ImageStyle").SelectedValue == "ball")
+    {
+        imgCssClass += " grid__cell-img--ball";
+        <div class="responsive-image responsive-image--1-1">
+            <img class="grid__cell-img @imgCssClass" src="/Admin/Public/GetImage.ashx?width=@imageSmWidth&amp;height=@imageSmWidth&amp;crop=@imgCrop&amp;Compression=75&amp;DoNotUpscale=1&amp;image=@image" alt="@altText" title="@altText">
+        </div>
+    }
+    else
+    {
+        <div class="responsive-image responsive-image--4-3">
+            <img class="@imgCssClass" src="/Admin/Public/GetImage.ashx?width=@imageMdWidth&amp;crop=@imgCrop&amp;Compression=75&amp;DoNotUpscale=1&amp;image=@image" alt="@altText" title="@altText">
+        </div>
+    }
+}

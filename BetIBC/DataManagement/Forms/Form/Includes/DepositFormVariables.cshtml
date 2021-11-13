@@ -1,0 +1,63 @@
+﻿@{
+    //Page Info
+    var depositRequestPage = GetPageIdByNavigationTag("DepositRequestForm");
+    var userDepositListPage = GetPageIdByNavigationTag("UserDepositHistory");
+    var adminRequestedDepositsPage = GetPageIdByNavigationTag("AdminRequestedDeposits");
+    var adminVerifyDepositPage = GetPageIdByNavigationTag("DepositVerifyForm");
+    var currentPage = GetGlobalValue("Global:Page.ID").ToString();
+    var depositDetailPage = currentPage == userDepositListPage.ToString() ? userDepositListPage.ToString() : currentPage == adminRequestedDepositsPage.ToString() ? adminRequestedDepositsPage.ToString() : "";
+    //form required fields
+    var formStart = GetString("Form.Start");
+    var formEnd = GetString("Form.End");
+    var formhiddenFields = GetString("Form.Hidden");
+    //date and time used for request and verifications
+    var nowRow = DateTime.Now;
+    var nowDate = nowRow.ToString("dd/MM/yyyy");
+    //user or admin info used for request and verification
+    var firstName = GetGlobalValue("Global:Extranet.FirstName");
+    var lastName = GetGlobalValue("Global:Extranet.LastName");
+    var userName = GetGlobalValue("Global:Extranet.UserName");
+    var userID = GetGlobalValue("Global:Extranet.UserID");
+    var email = GetGlobalValue("Global:Extranet.Email");
+    //Default value fo express deposit checkbox
+    var expressDeposit = "True";
+    //Data List Deposit Values
+    var currentDeposit = System.Web.HttpContext.Current.Request["deposits_finalID"];
+    var accountCurrency = GetString("Form.Fields.deposits_final_Account_currency.Value");
+    var accountID = GetString("Form.Fields.deposits_final_Account_ID.Value");
+    var bankAccount = GetString("Form.Fields.deposits_final_Bank_account.Value");
+    var bankAccountNumber = GetString("Form.Fields.deposits_final_Bank_Account_Number.Value");
+    var bankAddress = GetString("Form.Fields.deposits_final_Bank_address.Value");
+    var bookmaker = GetString("Form.Fields.deposits_final_Bookmaker.Value");
+    var bookmakerUsername = GetString("Form.Fields.deposits_final_Bookmaker_Username.Value");
+    var city = GetString("Form.Fields.deposits_final_City.Value");
+    var confirmPayment = GetString("Form.Fields.deposits_final_Confirm_Payment.Value");
+    var country = GetString("Form.Fields.deposits_final_Country.Value");
+    var cryptoCurrency = GetString("Form.Fields.deposits_final_Crypto_currency.Value");
+    var cryptoTransactionID = GetString("Form.Fields.deposits_final_Crypto_transaction_ID.ValidationValue");
+    var cryptoWalletID = GetString("Form.Fields.deposits_final_Crypto_Wallet_id.Value");
+    var dateOfRequest = GetString("Form.Fields.deposits_final_Date_of_request.Value");
+    var depositCurrency = GetString("Form.Fields.deposits_final_Deposit_currency.Value");
+    var ecopayzAccountNumer = GetString("Form.Fields.deposits_final_Ecopayz_Account_Number.Value");
+    var depositEmail = GetString("Form.Fields.deposits_final_Email.Value");
+    var expressDepositValue = GetString("Form.Fields.deposits_final_Express_Deposit.Value");
+    var firstNameValue = GetString("Form.Fields.deposits_final_First_Name.Value");
+    var valueIBAN = GetString("Form.Fields.deposits_final_IBAN.Value");
+    var lastNameValue = GetString("Form.Fields.deposits_final_Last_Name.Value");
+    var isFirst = GetString("Form.Fields.deposits_final_Is_first_deposit.Value");
+    var finalName = GetString("Form.Fields.deposits_final_Name.Value");
+    var netllerID = GetString("Form.Fields.deposits_final_Neteller_ID.Value");
+    var paymentAddress = GetString("deposits_final_Payment_Email_Address");
+    var paymentAddressConfirmation = GetString("Form.Fields.deposits_final_Payment_Email_Address_Confirmation.Value");
+    var paymentMethod = GetString("Form.Fields.deposits_final_Payment_method.Value");
+    var screenshot = GetString("Form.Fields.deposits_final_Screenshot.Value");
+    var status = GetString("Form.Fields.deposits_final_Status.Value");
+    var swift = GetString("Form.Fields.deposits_final_Swift.Value");
+    var transactionID = GetString("Form.Fields.deposits_final_Transaction_ID.Value");
+    var transactionID2 = GetString("Form.Fields.deposits_final_Transaction_ID_2.Value");
+    var userIDValue = GetString("Form.Fields.deposits_final_User_ID.Value");
+    var usernameValue = GetString("Form.Fields.deposits_final_Username.Value");
+   
+    
+}
+    

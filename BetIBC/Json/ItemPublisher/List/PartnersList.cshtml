@@ -1,0 +1,79 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Web;
+
+@{
+    string selectedCountry = HttpContext.Current.Request.QueryString.Get("PartnerCountry");
+}
+
+@functions {
+
+    public class Partner
+    {
+        public string id { get; set; }
+        public string title { get; set; }
+        public string logo { get; set; }
+        public string link { get; set; }
+    }
+
+    public class Countries
+    {
+        public string id { get; set; }
+        public string title { get; set; }
+    }
+
+    public class Root
+    {
+        public List<Partner> Partners { get; set; }
+        public string selectedCountry { get; set; }
+        public List<Countries> Countries { get; set; }
+    }
+}
+
+@{
+    List<Root> feedObject = new List<Root>();
+
+    Root feedRoot = new Root();
+    feedRoot.Partners = new List<Partner>();
+
+    foreach (LoopItem partnerItem in GetLoop("ItemPublisher:Items.List"))
+    {
+        Partner partnerObject = new Partner();
+        partnerObject.id = partnerItem.GetString("ItemPublisher:Item.Field.Id");
+        partnerObject.title = partnerItem.GetString("ItemPublisher:Item.Title");
+        partnerObject.logo = partnerItem.GetString("ItemPublisher:Item.PartnerLogo");
+        partnerObject.link = "/Default.aspx?ID=" + partnerItem.GetString("ItemPublisher:Item.Field.PageId");
+
+        feedRoot.Partners.Add(partnerObject);
+    }
+
+    feedRoot.selectedCountry = Translate("All");
+    feedRoot.Countries = new List<Countries>();
+
+    Countries CountriesObjectAll = new Countries();
+    CountriesObjectAll.id = "";
+    CountriesObjectAll.title = Translate("All");
+
+    feedRoot.Countries.Add(CountriesObjectAll);
+
+    var countryFields = GetLoop("ItemPublisher:ItemType.Fields").FirstOrDefault((item) => item.GetString("ItemPublisher:ItemType.Field.SystemName") == "PartnerCountry");
+
+    foreach (var countryOptions in countryFields.GetLoop("ItemPublisher:ItemType.Field.Options"))
+    {
+        Countries solutionTypeObject = new Countries();
+        solutionTypeObject.id = countryOptions.GetString("ItemPublisher:ItemType.Field.Option.Value");
+        solutionTypeObject.title = countryOptions.GetString("ItemPublisher:ItemType.Field.Option.Label");
+
+        feedRoot.Countries.Add(solutionTypeObject);
+
+        if (selectedCountry == countryOptions.GetString("ItemPublisher:ItemType.Field.Option.Value"))
+        {
+            feedRoot.selectedCountry = countryOptions.GetString("ItemPublisher:ItemType.Field.Option.Label");
+        }
+    }
+
+    feedObject.Add(feedRoot);
+
+    string jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+}
+
+@jsonFeed

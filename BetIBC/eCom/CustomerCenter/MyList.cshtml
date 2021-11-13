@@ -1,0 +1,338 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using Dynamicweb.Ecommerce.Products;
+@using Dynamicweb.Extensibility
+@using Dynamicweb.Content
+@using System
+@using System.Text.RegularExpressions
+
+@{ 
+    int areaId = Int32.Parse(GetGlobalValue("Global:Area.ID"));
+    int pageId = Int32.Parse(GetGlobalValue("Global:Page.ID"));
+    string detailsPageID = GetPageIdByNavigationTag("CustomerFavoritesProductlist").ToString();
+    int productCatalogId = GetPageIdByNavigationTag("ProductsFeed");
+    int catalogPageId = GetPageIdByNavigationTag("ProductsPage");
+}
+
+@if (GetInteger("Ecom:CustomerCenter.List.Count") > 0)
+{
+    foreach (LoopItem listitem in GetLoop("Lists").OrderByDescending(listitem => listitem.GetString("Ecom:CustomerCenter.List.IsDefault")).ToList())
+    {
+        <!-- Trigger for the warning modal -->
+        <input type="checkbox" id="DeleteWarningModalTrigger_@listitem.GetString("Ecom:CustomerCenter.ListTypes.List.ID")" class="modal-trigger" />
+
+        <!-- Warning modal -->
+        <div class="modal-container">
+            <label for="DeleteWarningModalTrigger_@listitem.GetString("Ecom:CustomerCenter.ListTypes.List.ID")" id="DeleteWarningModalOverlay_@listitem.GetString("Ecom:CustomerCenter.ListTypes.List.ID")" class="modal-overlay"></label>
+            <div class="modal modal--xs" id="DeleteWarningModal_@listitem.GetString("Ecom:CustomerCenter.ListTypes.List.ID")">
+                <div class="modal__header">
+                    <h2>@Translate("Warning")</h2>
+                </div>
+                <div class="modal__body">
+                    <p>@Translate("Are you sure you wish to delete this favorite list?")</p>
+                    <p></p>
+                    <a href="@listitem.GetString("Ecom:CustomerCenter.List.RemoveURL")" class="btn btn--primary btn--full u-no-margin dw-mod">@Translate("Yes")</a>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+@* SHOW ALL LISTS *@    
+
+@if (GetString("Ecom:CustomerCenter.ProductList.Mode").Contains("showAll") && !GetString("Ecom:CustomerCenter.ProductList.Mode").Contains("edit") && !GetString("Ecom:CustomerCenter.ProductList.Mode").Contains("create"))
+{
+    <div class="grid__col-12 grid__col--bleed">
+        <div class="grid__cell">
+            <div class="u-pull--left">
+                <h2><i class="fa fa-star"></i> @GetGlobalValue("Global:Page.Name")</h2>  
+            </div>
+            <div class="u-pull--right">
+                <a href="@GetString("Ecom:CustomerCenter.List.AddURL")" class="btn btn--primary dw-mod"><i class="fa fa-plus"></i> @Translate("Add new list", "Add new list")</a>
+            </div>
+        </div>
+    </div>
+
+    if (GetInteger("Ecom:CustomerCenter.List.Count") > 0)
+    {
+        foreach (LoopItem listitem in GetLoop("Lists").OrderByDescending(listitem => listitem.GetString("Ecom:CustomerCenter.List.IsDefault")).ToList())
+        {
+            string isPublic = listitem.GetBoolean("Ecom:CustomerCenter.List.IsPublished") ? Translate("Yes") : Translate("No");
+            string isDefault = listitem.GetBoolean("Ecom:CustomerCenter.List.IsDefault") ? "u-color-light-gray--bg" : "";
+
+            <div class="grid__col-12 grid__col--border grid__col--bleed-x @isDefault">
+                <div class="grid">
+                    <div class="grid__col-md-4 grid__col-xs-12 grid__col--bleed-y">
+                        <div>
+                            @if (listitem.GetBoolean("Ecom:CustomerCenter.List.IsDefault"))
+                            {
+                            <i class="fa fa-check"></i>
+                            }
+
+                            <a href="/Default.aspx?ID=@pageId&ListID=@listitem.GetString("Ecom:CustomerCenter.ListTypes.List.ID")" class="u-bold">@listitem.GetString("Ecom:CustomerCenter.List.Name")</a>
+                        </div>
+                    </div>
+                    <div class="grid__col-md-4 grid__col-xs-12 grid__col--bleed-y">
+                        <div><a href="/Default.aspx?ID=@pageId&ListID=@listitem.GetString("Ecom:CustomerCenter.ListTypes.List.ID")" class="u-bold">@Translate("Products", "Products"): @listitem.GetString("Ecom:CustomerCenter.List.ProductCount")</a></div>
+                        <div>@Translate("Published until", "Published until"): @listitem.GetDate("Ecom:CustomerCenter.List.PublishToDate").ToString("d")</div>
+                    </div>
+                    <div class="grid__col-md-4 grid__col-xs-12 grid__col--bleed-y">
+                        <div class="grid__cell">
+                            <div class="u-pull--right">
+                                <a href="@listitem.GetString("Ecom:CustomerCenter.List.EditURL")" class="btn btn--secondary btn--condensed u-no-margin dw-mod"><i class="fa fa-pencil" title="@Translate("Edit", "Edit")"></i></a>
+                                <label for="DeleteWarningModalTrigger_@listitem.GetString("Ecom:CustomerCenter.ListTypes.List.ID")" id="DeleteWarningModalOverlay_@listitem.GetString("Ecom:CustomerCenter.ListTypes.List.ID")" class="btn btn--secondary btn--condensed u-no-margin dw-mod"><i class="fa fa-times" title="@Translate("Remove", "Remove")"></i></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    } else {
+        @Translate("No favorites lists found")
+    }
+}
+
+
+@* LIST EDITING / CREATION *@
+
+@if (GetString("Ecom:CustomerCenter.ProductList.Mode").Contains("edit") || GetString("Ecom:CustomerCenter.ProductList.Mode").Contains("create"))
+{
+    string actionType = "";
+    string action = "";
+
+    if (GetString("Ecom:CustomerCenter.ProductList.Mode").Contains("edit"))
+    {
+        actionType = "EditListForm";
+        action = GetString("Ecom:CustomerCenter.List.EditList");
+        //action = new Regex("([?&]ID)=[^?&]+").Replace(action, "?ID=" + detailsPageID);
+
+        <div class="grid__col-12 grid__col--bleed">
+            <h2><i class="fa fa-pencil"></i> @Translate("Edit list")</h2>
+        </div>
+    }
+    else
+    {
+        actionType = "AddListForm";
+        action = GetString("Ecom:CustomerCenter.List.CreateList");
+
+        <div class="grid__col-12 grid__col--bleed">
+            <h2><i class="fa fa-plus-square"></i> @Translate("Create new list")</h2>
+        </div>
+    }
+
+    <form class="form" id="@GetString("ParagraphID")@actionType" name="@GetString("ParagraphID")@actionType" action="@action" method="post">
+        <div class="form__field-group">
+            <label>@Translate("Name", "Name")</label>
+            @GetString("Ecom:CustomerCenter.List.Name.Input")
+        </div>
+        
+        <input type='hidden' id='CC_Type' name='CC_Type' value='0' />
+
+        <div class="form__field-group">
+            <label>@Translate("Description", "Description")</label>
+            @GetString("Ecom:CustomerCenter.List.Description.Input")
+        </div>
+
+        <label>@Translate("Published to", "Published to")</label>
+        <select name="CC_PublishedToDay">
+            @GetString("Ecom:CustomerCenter.List.PublishToDate.Days")
+        </select>
+        <select name="CC_PublishedToMonth">
+            @GetString("Ecom:CustomerCenter.List.PublishToDate.MonthNames")
+        </select>
+        <select name="CC_PublishedToYear">
+            @GetString("Ecom:CustomerCenter.List.PublishToDate.Years")
+        </select>
+
+        <div class="form__field-group">
+            @GetString("Ecom:CustomerCenter.List.IsPublished.Input")
+            <label for="CC_IsPublished">@Translate("Should the list be public?", "Should the list be public?")</label>
+        </div>
+
+        <div class="form__field-group">
+            @GetString("Ecom:CustomerCenter.List.IsDefault.Input")
+            <label for="CC_IsDefault">@Translate("Is this the default list?", "Is this the default list?")</label>
+        </div>
+
+        @if (GetString("Ecom:CustomerCenter.ProductList.Mode").Contains("edit"))
+        {
+            <input id="Submit" type="submit" value="@Translate("Update list")" class="btn btn--primary u-pull--right dw-mod" />
+        }
+        else
+        {
+            <input id="Submit" type="submit" value="@Translate("Create list")" class="btn btn--primary u-pull--right dw-mod" />
+        }
+    </form>
+}
+
+
+@* RENDER FAVORITES (PRODUCTS) *@
+
+@*@if (String.IsNullOrEmpty(GetString("Ecom:CustomerCenter.ProductList.Mode")))
+{
+    <script>
+        window.location.replace('/Default.aspx?ID=@detailsPageID');
+    </script>
+}*@
+
+@if (String.IsNullOrEmpty(GetString("Ecom:CustomerCenter.ProductList.Mode")))
+{
+    bool found = false;
+
+    Func<string, string> getParentGroupName = groupId =>
+    {
+        var group = Dynamicweb.Ecommerce.Products.Group.GetGroupById(groupId);
+        while (!found)
+        {
+            var parentGroup = group.ParentGroups.FirstOrDefault();
+            if (parentGroup == null)
+            {
+                found = true;
+            }
+            else
+            {
+                group = parentGroup;
+            }
+        }
+        return group.Name;
+    };
+
+    <form name="multiForm" id="multiForm" method="post">
+        <input type="hidden" name="CartCmd" id="CartCmd" value="addMulti" />
+        <div class="grid">
+            @foreach (LoopItem listitem in GetLoop("Lists"))
+            {
+                <div class="grid__col-12 grid__col--bleed">
+                    <div class="grid__cell">
+                        <div class="u-pull--left">
+                            <h2><i class="fa fa-star"></i> @listitem.GetString("Ecom:CustomerCenter.List.Name") <span>(@listitem.GetString("Ecom:CustomerCenter.List.ProductCount"))</span></h2>
+                        </div>
+                        <div class="u-pull--right">
+                            <div class="u-pull--right">
+                                <button type="submit" class="btn btn--secondary dw-mod">@Translate("Buy all") <i class="fa fa-shopping-cart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                if (found == false)
+                {
+                    <div class="grid__col-12 grid__col--bleed">
+                        @Translate("No favorites found")
+                    </div>
+                }
+
+                if (listitem.GetLoop("Ecom:CustomerCenter.List.ProductsList").Count > 0)
+                {
+                    foreach (var product in listitem.GetLoop("Ecom:CustomerCenter.List.ProductsList"))
+                    {
+                        string discount = product.GetString("Ecom:Product.Discount.Price.PriceWithVATFormatted");
+                        string price = product.GetString("Ecom:Product.Price.PriceWithVATFormatted");
+                        string onSale = product.GetString("Ecom:Product.Discount.Price.PriceWithVATFormatted") == product.GetString("Ecom:Product.Price.PriceWithVATFormatted") ? "u-hidden" : "";
+                        string productLink = Regex.Replace(product.GetString("Ecom:Product.Link.Clean"), @"\?ID=\d*\&", "?ID=" + catalogPageId + "&");
+                        string favoriteId = "Favorite" + product.GetString("Ecom:Product.ID");
+                        productLink = productLink.Replace("&feedType=productCatalog", "");
+                        productLink += "&ProductID=" + product.GetString("Ecom:Product.ID");
+
+                        <div class="grid__col-md-4 u-color-light-gray--bg u-margin-bottom">
+                            <div class="grid__cell">
+                                <div class="sticker @onSale">@Translate("Sale!")</div>
+                                <a href="@productLink"><img class="grid__cell-img grid__cell-img--centered" src="/Admin/Public/GetImage.ashx?width=300&amp;height=300&amp;crop=5&amp;Compression=75&amp;image=@product.GetString("Ecom:Product.ImageLarge.Default.Clean")" alt="@product.GetString("Ecom:Product.Name")" /></a>
+                            </div>
+                        </div>
+                        <div class="grid__col-md-8 u-color-light-gray--bg u-margin-bottom">
+                            <div>
+                                <div class="u-pull--left">
+                                    <a href="@productLink" onclick="Scroll.SavePosition(event)" title="@product.GetString("Ecom:Product.Name")"><h2 class="u-condensed-text u-max-w380px">@product.GetString("Ecom:Product.Name")</h2></a>
+                                    <div class="item-number">@product.GetString("Ecom:Product.Number")</div>
+                                </div>
+                                <div id="@favoriteId" class="favorites favorites--md u-pull--right">
+                                    <div>
+                                        @{ string favorite = product.GetBoolean("Ecom:Product.IsProductInFavoriteList") ? "fa fa-star" : "fa fa-star-o"; }
+                                        <i class="@favorite fa-1_5x"></i>
+                                    </div>
+
+                                    <div class="favorites-list">
+                                        <ul class="list list--clean">
+                                            @foreach (LoopItem listType in product.GetLoop("CustomerCenter.ListTypes"))
+                                            {
+                                                foreach (LoopItem list in listType.GetLoop("CustomerCenter.ProductLists"))
+                                                {
+                                                <li>
+                                                    @{string favLinkType = list.GetString("Ecom:Product.List.IsProductInThisList") == "True" ? list.GetString("Ecom:Product.RemoveFromThisList") : list.GetString("Ecom:Product.AddToThisListAction");}
+                                                    @{string isInListIcon = list.GetString("Ecom:Product.List.IsProductInThisList") == "True" ? "fa fa-star" : "fa fa-star-o";}
+                                                    <a href="@favLinkType" class="list__link"><i class="@isInListIcon"></i> @list.GetValue("Ecom:CustomerCenter.List.Name")</a>
+                                                </li>
+                                                            }
+                                                        }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid__cell">
+                                @product.GetString("Ecom:Product.ShortDescription")
+                            </div>
+
+                            <div class="grid__cell-footer product-list-item__footer">
+                                <div class="grid__cell">
+                                    <div class="u-pull--right">
+                                        <div class="u-margin-bottom">
+                                            <div class="before-price @onSale u-ta-right">@discount</div>
+                                            <div class="price u-ta-right">@price</div>
+                                        </div>
+                                        <input type="hidden" name="@("ProductLoopCounter")@product.GetString("Ecom:Product.LoopCounter")" value="@product.GetString("Ecom:Product.LoopCounter")" />
+                                        <input type="hidden" name="@("ProductID")@product.GetString("Ecom:Product.LoopCounter")" value="@product.GetString("Ecom:Product.ID")" />
+                                        <input type="hidden" name="@("VariantID")@product.GetString("Ecom:Product.LoopCounter")" value="@product.GetString("Ecom:Product.VariantID")" />
+
+                                        @{ 
+                                            string quantityField = "Quantity" + product.GetString("Ecom:Product.LoopCounter");
+                                        }
+
+                                        <div class="buttons-collection buttons-collection--right">
+                                            <button type="button" id="CartButton_@product.GetString("Ecom:Product.ID")" class="btn btn--primary btn--condensed u-pull--right dw-mod" name="submit" onclick="Cart.AddToCart(event, '@product.GetString("Ecom:Product.ID")', document.getElementById('@quantityField').value, 'Unit_@product.GetString("Ecom:Product.ID")');"><i class="fa fa-shopping-cart"></i> @Translate("Add to cart")</button>
+                                            <input type="number" class="u-w80px u-pull--right" id="@("Quantity")@product.GetString("Ecom:Product.LoopCounter")" name="@("Quantity")@product.GetString("Ecom:Product.LoopCounter")" value="1" min="1">
+
+                                            @if (product.GetLoop("Units").Count > 0)
+                                            {
+                                                string selectedUnit = "";                                           
+                                                foreach (LoopItem unitOption in product.GetLoop("Units"))
+                                                {
+                                                    if (unitOption.GetString("Ecom:VariantOption.Selected") == "SELECTED")
+                                                    {
+                                                        selectedUnit = unitOption.GetString("Ecom:VariantOption.Name");
+                                                    }
+                                                }
+
+                                                string unitId = "";
+
+                                                <input type="checkbox" id="UnitOptions_@product.GetString("Ecom:Product.ID")" class="dropdown-trigger" />
+                                                <div class="dropdown u-w150px">
+                                                    <label class="dropdown__header dropdown__btn" for="UnitOptions_@product.GetString("Ecom:Product.ID")">@selectedUnit</label>
+                                                    <div class="dropdown__content">
+                                                        @foreach (LoopItem unitOption in GetLoop("Units"))
+                                                        {
+                                                            string productContainerId = "Product" + product.GetString("Ecom:Product.ID");
+
+                                                            <div class="dropdown__item" onclick="Dynamo.UpdateContent('@productContainerId', '{/Default.aspx?ID=@productCatalogId&feedType=productCatalog&UnitID=@unitOption.GetString("Ecom:VariantOption.Id")')">@unitOption.GetString("Ecom:VariantOption.Name")</div>
+
+                                                            if (unitOption.GetString("Ecom:VariantOption.Selected") == "SELECTED")
+                                                            {
+                                                                unitId = unitOption.GetString("Ecom:VariantOption.ID");
+                                                            }
+                                                        }
+                                                    </div>
+                                                    <label class="dropdown-trigger-off" for="UnitOptions_@product.GetString("Ecom:Product.ID")"></label>
+                                                </div>
+                                                <input type="hidden" value="@unitId" name="Unit" id="Unit_@product.GetString("Ecom:Product.ID")" />
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </form>
+}

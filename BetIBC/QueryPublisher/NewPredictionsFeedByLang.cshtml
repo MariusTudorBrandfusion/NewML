@@ -1,0 +1,131 @@
+﻿[
+	@{
+		var rows = GetLoop("QueryResultItem");
+		int loopCounter = 0;
+		string totalPageNumbersLink = GetString("DwPaging.LastPageLink");
+		var TipsAreaID = GetGlobalValue("Global:Area.ID"); 
+        int loopCount = rows.Where(x => x.GetInteger("PageAreaId").ToString() == TipsAreaID).Count() - 1;
+	}
+
+	@foreach (var row in rows)
+	{
+
+	loopCounter++;
+    var pageItemID = row.GetInteger("PageItemId");
+	var predictionAreaID = row.GetInteger("PageAreaId");
+	var sortOrder= row.GetInteger("PageSort");
+	var PageId = row.GetInteger("PageId");
+	var ParentPageId = row.GetInteger("PageParentPageId");
+	var areaID = row.GetInteger("PageAreaIdString");
+	var oddRaw = row.GetString("Tips_Odds");
+	var odd = oddRaw.Contains(",") ? oddRaw.Replace(",","."): oddRaw;
+	var stakeRaw = row.GetString("Tips_Stake");
+	var stakePrelucrated = stakeRaw.Contains("*") ? stakeRaw.Replace("*","/10"): stakeRaw;
+	var stake = stakePrelucrated.Contains("/10") ? stakePrelucrated : stakePrelucrated + "/10";
+	var stakeClean = stake.Replace("/10" , "");
+	var won = row.GetString("Tips_Prediction_Status");
+    var category = row.GetString("Tips_Category");
+    var userID = row.GetString("Tips_User_ID");
+    var fallowVIP = row.GetString("Tips_FollowOn_VIP");
+    var tipsterEmail = row.GetString("Tips_Tipster_Email");
+	var tipsterRaw = row.GetString("Tips_Tipster_ID");
+	Dynamicweb.Content.Items.Item tipsterName = Dynamicweb.Content.Items.ItemManager.Storage.GetById("Tipster", tipsterRaw);
+    var tipsterNameClean = tipsterName != null ? tipsterName["Tipster_Name"] : "NOT FOUND";
+	var predictionDateRaw = row.GetDate("Tips_Date_Added");
+	var predictionDate = predictionDateRaw.ToString("dd/MM/yyyy");
+	var predictionStartGMT = row.GetDate("Tips_Start_GMT");
+    var predictionStartGMTRaw = predictionStartGMT.ToString("dd/MM/yyyy");
+	var TipsterNavigationTag =  tipsterNameClean.ToString().Replace(" ", "");
+	var TipsterPageId = GetPageIdByNavigationTag(TipsterNavigationTag).ToString();
+	var competition = "";  
+    var league = row.GetString("Tips_League");
+    if (league == "N/A" || league == "") {
+     competition = row.GetString("Tips_Tournament");
+    }else{
+     competition = row.GetString("Tips_League");
+    }
+	
+
+	var gameRaw = row.GetString("Tips_Prediction_Title");
+	var game = !string.IsNullOrEmpty(gameRaw) ? gameRaw : "N/A";
+	var prediction = row.GetString("Tips_BettingPrediction");
+	var bookmakerLogo = row.GetString("Tips_Bookmaker");
+	var BookmakerNameRaw = row.GetString("Tips_Bookmaker_Name");
+	var bookmakerName = BookmakerNameRaw.Contains("+") ? BookmakerNameRaw.Replace("+", " ") : BookmakerNameRaw;
+	var bookmakerUrl = row.GetString("Tips_BookmakerUrl");
+	var finalScore = row.GetString("Tips_Match_Final_Score") != "" ? row.GetString("Tips_Match_Final_Score") : "N/A" ;
+
+	if(row.GetString("Tips_Approved") == "False"){
+	if(loopCounter == rows.Count()){
+
+			<text>
+				{
+              	"TotalPages" : "@totalPageNumbersLink",
+				"TipsterGeneralArea": "@TipsAreaID",
+				"predictionAreaID" : "@predictionAreaID",
+				"sortOrder": "@sortOrder",
+                "ParentPageId": "@ParentPageId",
+              	"PageId": "@PageId",
+             	"odd": "@odd",
+              	"stake": "@stake",
+              	"stakeClean" : "@stakeClean",
+              	"won": "@won",
+              	"tipster" : "@tipsterNameClean",
+				"predictionDate" : "@predictionDate",
+				"startGMT" : "@predictionStartGMT",
+                "startGMTRaw" : "@predictionStartGMTRaw",
+				"TipsterPageId" : "@TipsterPageId",
+				"league" : "@competition",
+				"game" : "@game",
+				"betOn" : "@prediction",
+				"bookmakerName" : "@bookmakerName",
+				"bookmakerLogo" : "@bookmakerLogo",
+				"bookmakerUrl" : "@bookmakerUrl",
+              	"finalScore" : "@finalScore",
+                "category": "@category",
+                "userID": "@userID",
+                "fallowVIP": "@fallowVIP",
+                "tipsterEmail": "@tipsterEmail",
+              	"areaID": "@areaID",
+                "pageItemID": "@pageItemID"
+                }
+			</text>
+		}else{
+            <text>
+	            {
+              	"TotalPages" : "@totalPageNumbersLink",
+	     		"TipsterGeneralArea": "@TipsAreaID",
+				"predictionAreaID" : "@predictionAreaID",
+				"sortOrder": "@sortOrder",
+                "ParentPageId": "@ParentPageId",
+              	"PageId": "@PageId",
+             	"odd": "@odd",
+              	"stake": "@stake",
+              	"stakeClean" : "@stakeClean",
+              	"won": "@won",
+              	"tipster" : "@tipsterNameClean",
+				"predictionDate" : "@predictionDate",
+				"startGMT" : "@predictionStartGMT",
+                "startGMTRaw" : "@predictionStartGMTRaw",
+				"TipsterPageId" : "@TipsterPageId",
+				"league" : "@competition",
+				"game" : "@game",
+				"betOn" : "@prediction",
+				"bookmakerName" : "@bookmakerName",
+				"bookmakerLogo" : "@bookmakerLogo",
+				"bookmakerUrl" : "@bookmakerUrl",
+              	"finalScore" : "@finalScore",
+                "category": "@category",
+                "userID": "@userID",
+                "fallowVIP": "@fallowVIP",
+                "tipsterEmail": "@tipsterEmail",
+              	"areaID": "@areaID",
+                "pageItemID": "@pageItemID"
+              	},
+             </text>
+            }
+}
+
+}
+
+]

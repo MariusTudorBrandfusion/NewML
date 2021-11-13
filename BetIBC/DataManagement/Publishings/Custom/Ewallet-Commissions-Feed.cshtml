@@ -1,0 +1,74 @@
+﻿@using System.Web
+[
+    @{
+        int loopCount =  GetLoop("Rows").Count() - 1;
+        var rows = GetLoop("Rows");
+        int loopCounter = 0;
+        var ViewId = Pageview.CurrentParagraph.ModuleProperties.get_Value("ViewID"); 
+        
+        //var rowsCounter = rows.Where(row => row.GetString("AccessUserAddress_Bookmaker") == "Skype Betting");
+        //var rowsCounterToDisplay = rowsCounter.Count() -1 ;
+    }
+    
+    @foreach (var row in rows)
+    {
+       var name = row.GetString("EwalletCommissionsList_Name");
+        var valueRaw = row.GetString("EwalletCommissionsList_Value");
+        var isPercent = row.GetString("EwalletCommissionsList_Is_Procent");
+        var rowId = row.GetString("EwalletCommissionsListID");
+        var valueForLessThanMinRaw = row.GetString("EwalletCommissionsList_Value_for_less_then_min");
+        var valueforLessThanMinIsPercent = row.GetString("EwalletCommissionsList_Value_for_less_then_min_Is_Procent");
+        var value = isPercent == "True" ? valueRaw + "%" : valueRaw;
+        var valueForLessThanMin = valueforLessThanMinIsPercent == "True" ? valueForLessThanMinRaw + "%" : valueForLessThanMinRaw;
+        var notes = row.GetString("EwalletCommissionsList_Notes");
+        var rowName = "EwalletCommissionsListID";
+        var parameter = "FORM_ROW_ID=" + rowName + "%3d" + rowId + "&VIEW_ID=" + ViewId;
+        var editUrl = "/Default.aspx?ID=" + "118531" + "&" + parameter;
+        var paymentMethod = row.GetString("EwalletCommissionsList_Payment_method");
+        var currency = row.GetString("EwalletCommissionsList_Currency");
+        var applyFor = row.GetString("EwalletCommissionsList_Used_For");
+        var plainText = HttpUtility.HtmlDecode(notes);
+        var valueGraphicText = HttpUtility.HtmlDecode(value);
+         
+        if(loopCounter == loopCount){
+    
+            <text>
+                {
+                "Id" : "@rowId",
+                "Name" : "@name",
+                "Value" :"@valueRaw",
+                "IsPercent" :"@isPercent",
+                "ValueGraphic" : "@valueGraphicText",
+                "ValueMin" : "@valueForLessThanMinRaw",
+                "ValueMinIsPercent" : "@valueforLessThanMinIsPercent",
+                "ValueMinGraphic" : "@valueForLessThanMin",
+                "ApplyTo" : "@applyFor",
+                "PaymentMethod" : "@paymentMethod",
+                "Currency" : "@currency",
+                "Notes" : "@notes",
+                "EditUrl" : "@editUrl"
+                }
+            </text>
+        }else{
+            <text>
+                {
+                "Id" : "@rowId",
+                "Name" : "@name",
+                "Value" :"@valueRaw",
+                "IsPercent" :"@isPercent",
+                "ValueGraphic" : "@value",
+                "ValueMin" : "@valueForLessThanMinRaw",
+                "ValueMinIsPercent" : "@valueforLessThanMinIsPercent",
+                "ValueMinGraphic" : "@valueForLessThanMin",
+                "ApplyTo" : "@applyFor",
+                "PaymentMethod" : "@paymentMethod",
+                "Currency" : "@currency",
+                "Notes" : "@notes",
+                "EditUrl" : "@editUrl"
+                },
+            </text>
+        }
+    
+        loopCounter ++;
+    }
+]

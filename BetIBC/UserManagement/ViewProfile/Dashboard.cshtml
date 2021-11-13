@@ -1,0 +1,53 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using Dynamicweb.Extensibility
+@using Dynamicweb.Content
+@using System
+@using System.Web
+
+@{ 
+    string cartPageId = GetPageIdByNavigationTag("CartOrderlinesFeed").ToString();
+    string ordersPageId = GetPageIdByNavigationTag("CustomerOrders").ToString();
+    string favoritesPageId = GetPageIdByNavigationTag("CustomerFavorites").ToString();
+    string profilePageId = GetPageIdByNavigationTag("CustomerProfile").ToString();
+}
+
+<div class="paragraph-container__grid--bleed">
+    <div class="grid">
+        <div class="grid__col-md-6">
+            <a href="/Default.aspx?ID=@profilePageId" class="widget u-brand-color-two--bg-darken-10">
+                <div class="u-center-middle u-color-light">
+                    <i class="fa fa-user widget__icon"></i>
+                    <div class="widget__title">@Translate("My profile")</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="grid__col-md-6">
+            <a href="#" class="widget u-brand-color-two--bg">
+                <div class="u-center-middle u-color-light">
+                    <i class="fa fa-exchange widget__icon"></i>
+                    <div class="widget__title">@Translate("Transfers")</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="grid__col-md-6">
+            <a href="#" class="widget u-brand-color-two--bg-lighten-10">
+                <div class="u-center-middle u-color-light">
+                    <i class="fa fa-skype widget__icon"></i>
+                  	<i class="fa fa-paper-plane-o widget__icon"></i>
+                  <div class="widget__title">@Translate("Skype/Telegram Betting")</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="grid__col-md-6">
+            <a href="#" class="widget u-brand-color-two--bg-lighten-20">
+                <div class="u-center-middle u-color-light">
+                    <i class="fa fa-envelope widget__icon"></i>
+                    <div class="widget__title">@Translate("Contact us")</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

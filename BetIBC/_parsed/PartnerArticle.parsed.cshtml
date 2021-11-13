@@ -1,0 +1,1338 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+
+@using Dynamicweb.Frontend.Devices
+@using Dynamicweb.Extensibility
+@using Dynamicweb.Content
+@using Dynamicweb.Security;
+@using System
+@using System.Web
+
+@{
+    //General settings
+    string favicon = Model.Area.Item.GetFile("LogoFavicon") != null ? Model.Area.Item.GetFile("LogoFavicon").Path : "/Files/Images/favicon.png";
+    string logo = Model.Area.Item.GetFile("LogoImage") != null ? Model.Area.Item.GetFile("LogoImage").Path : "/Files/Images/logo-dynamicweb.png";
+    string logoWhite = Model.Area.Item.GetFile("LogoImageWhite") != null ? Model.Area.Item.GetFile("LogoImageWhite").Path : "/Files/Images/DWLogo.png";
+    bool megaMenu = Model.Area.Item.GetList("NavigationMegaMenu").SelectedValue.ToLower() == "true" ? true : false;
+    bool stickyMenu = Pageview.Device.ToString() == "Mobile" ? false : Model.Area.Item.GetBoolean("NavigationStickyMenu");
+    string mobileNavigationLevels = Model.Area.Item.GetBoolean("MobileNavigationLevels") ? Model.Area.Item.GetString("MobileNavigationLevels") : "3";
+    string footerColumnOneContent = !string.IsNullOrEmpty(Model.Area.Item.GetString("FooterColumnOne")) ? Model.Area.Item.GetString("FooterColumnOne") : "";
+    string footerColumnTwoContent = !string.IsNullOrEmpty(Model.Area.Item.GetString("FooterColumnTwo")) ? Model.Area.Item.GetString("FooterColumnTwo") : "";
+    string searchPlaceholder = Translate("Search products", "Search products");
+    string userSignedInError = !Model.LogOnFailed ? "" : "checked";
+    string userSignedInErrorText = "";
+
+
+
+
+    if (Model.LogOnFailed) {
+        switch (Model.LogOnFailedReason)
+        {
+            case Dynamicweb.Security.UserManagement.LogOnFailedReason.PasswordLengthInvalid:
+                userSignedInErrorText = Translate("Password length is invalid");
+                break;
+            case Dynamicweb.Security.UserManagement.LogOnFailedReason.IncorrectLogin:
+                userSignedInErrorText = Translate("Invalid email or password");
+                break;
+            case Dynamicweb.Security.UserManagement.LogOnFailedReason.ExceededFailedLogOnLimit:
+                userSignedInErrorText = Translate("You have exceeded the limit of allowed login attempts. The user account is temporarily locked");
+                break;
+            case Dynamicweb.Security.UserManagement.LogOnFailedReason.LoginLocked:
+                userSignedInErrorText = Translate("The user account is temporarily locked");
+                break;
+            case Dynamicweb.Security.UserManagement.LogOnFailedReason.PasswordExpired:
+                userSignedInErrorText = Translate("The password has expired and needs to be renewed");
+                break;
+            default:
+                userSignedInErrorText = Translate("An unknown error occured");
+                break;
+        }
+    }
+    string loggedIn = Model.CurrentUser.ID > 0 ? "true" : "false";
+    double cartProductsCount = Model.Cart.TotalProductsCount;
+    string wireframeMode = Model.Area.Item.GetBoolean("WireframeMode").ToString();
+
+    //Font settings
+    string navigationFont = Model.Area.Item.GetItem("NavigationFont").GetString("FontFamily").Replace(" ", "+");
+    string mobileNavigationFont = Model.Area.Item.GetItem("MobileNavigationFont").GetString("FontFamily").Replace(" ", "+");
+    string headerFont = Model.Area.Item.GetItem("ContentLayoutHeaderFont").GetString("FontFamily").Replace(" ", "+");
+    string subHeaderFont = Model.Area.Item.GetItem("ContentLayoutSubheaderFont").GetString("FontFamily").Replace(" ", "+");
+    string contentFont = Model.Area.Item.GetItem("ContentLayoutBodyText").GetString("FontFamily").Replace(" ", "+");
+
+    //Page IDs for use in the template
+    string firstPageId = Model.Area.FirstActivePage.ID.ToString();
+    string areaId = Model.Area.ID.ToString();
+    string autoCssLink = "/Files/Templates/Designs/BetIBC/css/rapido/betibc_" + areaId + ".min.css";
+    int pageId = Model.TopPage.ID;
+    string currentUserId = Model.CurrentUser.ID > 0 ? Model.CurrentUser.ID.ToString() : "";
+    int cartPageId = GetPageIdByNavigationTag("CartPage");
+    int miniCartFeedPageId = GetPageIdByNavigationTag("MiniCartFeed");
+    int cartFeedPageId = GetPageIdByNavigationTag("CartOrderlinesFeed");
+    int productsPageId = GetPageIdByNavigationTag("ProductsPage");
+    int productSearchPageId = GetPageIdByNavigationTag("ProductSearchFeed");
+    int productGroupsPageId = GetPageIdByNavigationTag("ProductGroupsFeed");
+    string myProfilePageId = (Model.CurrentUser.ID <= 0) ? GetPageIdByNavigationTag("SignInProfile").ToString() : GetPageIdByNavigationTag("CustomerProfile").ToString();
+    string myOrdersPageId = (Model.CurrentUser.ID <= 0) ? GetPageIdByNavigationTag("SignInOrders").ToString() : GetPageIdByNavigationTag("CustomerOrders").ToString();
+    string myFavoritesPageId = (Model.CurrentUser.ID <= 0) ? GetPageIdByNavigationTag("SignInFavorites").ToString() : GetPageIdByNavigationTag("CustomerFavorites").ToString();
+    int createAccountPageId = GetPageIdByNavigationTag("CreateAccount");
+    int signInProfilePageId = GetPageIdByNavigationTag("SignInProfile");
+    string forgotPasswordPageId = signInProfilePageId.ToString() + "&LoginAction=Recovery";
+    int myDashboardPageId = GetPageIdByNavigationTag("CustomerDashboard");
+    int newsletterSignUpPageId = GetPageIdByNavigationTag("NewsletterSignUp");
+    int createCommentPageId = GetPageIdByNavigationTag("CreateComment");
+    int commentPageId = GetPageIdByNavigationTag("Comments");
+    int ImpersonationPageId = GetPageIdByNavigationTag("Impersonation");
+ string myProfilePageId = (Model.CurrentUser.ID <= 0) ? GetPageIdByNavigationTag("SignInProfile").ToString() : GetPageIdByNavigationTag("CustomerProfile").ToString();
+    string myOrdersPageId = (Model.CurrentUser.ID <= 0) ? GetPageIdByNavigationTag("SignInOrders").ToString() : GetPageIdByNavigationTag("CustomerOrders").ToString();
+    string myFavoritesPageId = (Model.CurrentUser.ID <= 0) ? GetPageIdByNavigationTag("SignInFavorites").ToString() : GetPageIdByNavigationTag("CustomerFavorites").ToString();
+    int createAccountPageId = GetPageIdByNavigationTag("CreateAccount");
+    int signInProfilePageId = GetPageIdByNavigationTag("SignInProfile");
+    string forgotPasswordPageId = signInProfilePageId.ToString() + "&LoginAction=Recovery";
+    int myDashboardPageId = GetPageIdByNavigationTag("CustomerDashboard");
+
+    string stickyTop = stickyMenu ? "top-container--sticky" : "";
+    string pagePos = stickyMenu ? "js-page-pos" : "";
+    string topLayout = Model.Area.Item.GetList("LayoutTop").SelectedValue;
+
+    string megamenuPromotionImage = Model.Area.Item.GetFile("NavigationMegamenuPromotionImage") != null ? Model.Area.Item.GetFile("NavigationMegamenuPromotionImage").Path : "";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@Model.TopPage.Name</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link href="@favicon" rel="icon" type="image/png">
+
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+
+    <!-- Base (Default, wireframe) styles -->
+    <link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/base/base.css" type="text/css">
+
+    <!-- Rapido Css from Website Settings -->
+    <link id="rapidoCss" rel="stylesheet" href="@autoCssLink" type="text/css">
+
+    <!-- Ignite Css (Custom site specific styles) -->
+    <link id="igniteCss" type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/ignite.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick-theme.min.css">
+    <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/main.css" rel="stylesheet">
+    @RenderSnippet("PredictionCSS")
+     
+
+    <!-- Google fonts -->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=@navigationFont:100,200,300,400,500,600,700,800,900">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=@mobileNavigationFont:100,200,300,400,500,600,700,800,900">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=@headerFont:100,200,300,400,500,600,700,800,900">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=@subHeaderFont:100,200,300,400,500,600,700,800,900">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=@contentFont:100,200,300,400,500,600,700,800,900">
+</head>
+
+<body>
+
+@if (Pageview.Device.ToString() == "Mobile")
+{
+    <!-- Trigger for mobile navigation -->
+    <input type="checkbox" id="MobileNavTrigger" class="mobile-nav-trigger"/>
+
+    <!-- Mobile navigation -->
+    <nav class="mobile-navigation dw-mod">
+        <div class="grid">
+            <div class="grid__col-12">
+                <div class="grid__cell">
+                    <div class="u-pull--left">
+                        @if (Model.Languages.Count > 0)
+                        {
+                            string selectedLanguage = "";
+                            foreach (var lang in Model.Languages)
+                            {
+                                if (lang.IsCurrent)
+                                {
+                                    selectedLanguage = lang.Name;
+                                }
+                            }
+
+                            <div class="btn btn--clean btn--condensed u-no-margin is-dropdown is-dropdown--no-icon dw-mod">
+                                <i class="fa fa-globe"></i> @selectedLanguage
+                                <div class="menu menu--dropdown u-w100px u-ta-left">
+                                    @foreach (var lang in Model.Languages)
+                                    {
+                                        <a href="/Default.aspx?ID=@lang.Page.ID&CurrencyCode=@Dynamicweb.Services.Areas.GetArea(lang.ID).EcomCurrencyId" class="menu-dropdown__item dw-mod">@lang.Name</a>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="u-pull--right">
+                        @if (Model.CurrentUser.ID <= 0)
+                        {
+                            <label class="btn btn--clean btn--condensed u-no-margin dw-mod" for="mobileSignIn"><i class="fa fa-user"></i> @Translate("Sign in")</label>
+                        }
+                        else
+                        {
+                            <label class="btn btn--clean btn--condensed u-no-margin dw-mod" for="mobileSignIn"><i class="fa fa-user"></i> @Model.CurrentUser.Name</label>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="grid__col-12 grid__col--line-top u-no-padding"></div>
+
+            <input type="checkbox" id="mobileSignIn" class="expand-trigger"/>
+
+            @if (Model.CurrentUser.ID <= 0)
+            {
+                <div class="grid__col-12 u-no-padding expand-container">
+                    <div class="expand-container__content u-padding">
+                        <form method="post" id="MobileLoginForm">
+                            <input type="hidden" name="ID" value="@pageId"/>
+                            <input type="hidden" name="DWExtranetUsernameRemember" value="True"/>
+                            <input type="hidden" name="DWExtranetPasswordRemember" value="True"/>
+
+                            <input type="text" class="u-full-width" id="login-username" name="username" placeholder="@Translate("Email")"/>
+
+                            <input type="password" class="u-full-width" id="login-password" name="password" placeholder="@Translate("Password")"/>
+
+                            <label>
+                                <input type="checkbox" id="rememberMe" name="Autologin" checked="checked" value="True">
+                                <span>@Translate("Remember me", "Remember me")</span>
+                            </label>
+
+                            <button type="submit" class="btn btn--primary btn--full dw-mod" name="LoginAction" value="Login" onclick="Buttons.LockButton(event)">@Translate("Sign in")</button>
+
+                            <a class="btn btn--link u-ta-left" href="/Default.aspx?id=@pageId&LoginAction=Recovery">@Translate("Forgot your password?", "Forgot your password?")</a>
+                        </form>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="grid__col-12 u-no-padding expand-container">
+                    <div class="expand-container__content u-padding">
+                        <ul class="list list--clean">
+                            <li>
+                                <a href="/default.aspx?ID=@myProfilePageId" class="list__link"><i class="fa fa-user"></i> @Translate("My Profile")</a>
+                            </li>
+                            <li>
+                                <a href="/default.aspx?ID=@myOrdersPageId" class="list__link"><i class="fa fa-list"></i> @Translate("My Orders")</a>
+                            </li>
+                            <li>
+                                <a href="/default.aspx?ID=@myFavoritesPageId" class="list__link"><i class="fa fa-star"></i> @Translate("My Favorites")</a>
+                            </li>
+
+                            <li class="list__seperator"></li>
+                            <li>
+                                <a href="/Admin/Public/ExtranetLogoff.aspx?ID=@pageId" class="list__link">@Translate("Sign out")</a>
+                            </li>
+                            <li class="list__seperator"></li>
+                        </ul>
+                    </div>
+                </div>
+            }
+
+            <div class="grid__col-12">
+                @RenderNavigation(new
+                {
+                    id = "mobilenavigation",
+                    cssclass = "menu menu-mobile dwnavigation",
+                    startLevel = 1,
+                    endlevel = @mobileNavigationLevels,
+                    expand = "all",
+                    template = "BaseMenuForMobile.xslt"
+                })
+            </div>
+        </div>
+    </nav>
+    <label class="mobile-nav-trigger-off" for="MobileNavTrigger"></label>
+}
+
+<!-- Trigger for the login modal -->
+<input type="checkbox" id="SignInModalTrigger" class="modal-trigger @topLayout" @userSignedInError/>
+
+<!-- Login modal -->
+<div class="modal-container">
+    <label for="SignInModalTrigger" id="SignInModalOverlay" class="modal-overlay"></label>
+    <div class="modal modal--xs" id="SignInModal">
+        <div class="modal__header">
+            <h2>@Translate("Sign in")</h2>
+        </div>
+        <div class="modal__body">
+            <form method="post" id="LoginForm" class="u-no-margin">
+                <input type="hidden" name="ID" value="@pageId"/>
+                <input type="hidden" name="DWExtranetUsernameRemember" value="True"/>
+                <input type="hidden" name="DWExtranetPasswordRemember" value="True"/>
+                <input type="text" class="u-full-width" id="LoginUsername" name="username" placeholder="@Translate("Email")"/>
+                <input type="password" class="u-full-width" id="LoginPassword" name="password" placeholder="@Translate("Password")"/>
+                <div class="field-error">@userSignedInErrorText</div>
+
+                <label>
+                    <input type="checkbox" id="RememberMe" name="Autologin" checked="checked" value="True">
+                    <span>@Translate("Remember me", "Remember me")</span>
+                </label>
+
+                <button type="submit" class="btn btn--primary btn--full dw-mod" name="LoginAction" value="Login" onclick="Buttons.LockButton(event)">@Translate("Sign in")</button>
+
+                <a class="btn btn--link" href="/Default.aspx?id=@forgotPasswordPageId">@Translate("Forgot your password?", "Forgot your password?")</a>
+
+                <a class="btn btn--link" href="/default.aspx?ID=@createAccountPageId" class="list__link">@Translate("Create account")?</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<main class="site dw-mod">
+<header class="top-container @stickyTop dw-mod" id="Top">
+@if (topLayout == "normal")
+{
+    <!-- Header -->
+    <div class="header">
+        <div class="center-container top-container__center-container dw-mod">
+            <div class="grid">
+
+                @* Logo *@
+                <div class="grid__col-md-3 grid--align-self-center grid__col--bleed-y">
+                    <div class="logo u-padding--xs dw-mod">
+                        <a href="/Default.aspx?ID=@firstPageId">
+                            <img class="grid__cell-img" src="/Admin/Public/GetImage.ashx?height=40&amp;crop=5&amp;Compression=75&amp;image=@logo" alt="Logo"/>
+                        </a>
+                    </div>
+                </div>
+
+                @* Search *@
+                @if (Pageview.Device.ToString() != "Mobile")
+                {
+                    <div class="grid__col-6 grid__col--bleed-y grid--align-self-center">
+                        <div class="typeahead u-margin u-color-inherit js-typeahead" data-page-size="10" id="TopProductSearch" data-search-page-id="@productSearchPageId" data-result-page-id="@productsPageId" data-groups-page-id="@productGroupsPageId">
+                            <button type="button" class="btn btn--condensed u-color-light-gray--bg typeahead-group-btn dw-mod js-typeahead-groups-btn" data-group-id="all">@Translate("All")</button>
+                            <ul class="dropdown dropdown--absolute-position js-ajax-container js-typeahead-groups-content" id="TopProductSearchGroupsContent" data-template="SearchGroupsTemplate" data-json-feed="/Default.aspx?ID=@productGroupsPageId&LayoutTemplate=Json.cshtml&DisableStatistics=True&feedType=productGroups" data-init-onload="false"></ul>
+                            <input type="text" class="typeahead-search-field u-no-margin js-typeahead-search-field" placeholder="@searchPlaceholder">
+                            <ul class="dropdown dropdown--absolute-position js-ajax-container js-typeahead-search-content u-full-width" id="TopProductSearchContent" data-template="SearchContentTemplate" data-no-result-template="SearchEmpty" data-json-feed="/Default.aspx?ID=@productSearchPageId&LayoutTemplate=Json.cshtml&DisableStatistics=True&feedType=productsOnly" data-init-onload="false"></ul>
+                            <button type="button" class="btn btn--condensed btn--primary u-no-margin dw-mod js-typeahead-enter-btn"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="grid__cell grid__cell--align-middle-right">
+                        <ul class="menu dw-mod u-pull--right">
+                            @* Language selector *@
+                            @if (Model.Languages.Count > 0)
+                            {
+                                <li class="menu__item menu__item--horizontal u-w40px dw-mod">
+                                    <div class="header-menu__link is-dropdown is-dropdown--no-icon dw-mod">
+                                        <i class="fa fa-globe fa-1_5x"></i>
+                                        <div class="menu menu--dropdown u-w100px">
+                                            @foreach (var lang in Model.Languages)
+                                            {
+                                                <a href="/Default.aspx?ID=@lang.Page.ID&CurrencyCode=@Dynamicweb.Services.Areas.GetArea(lang.ID).EcomCurrencyId" class="menu-dropdown__item dw-mod">@lang.Name</a>
+                                            }
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+
+                                    @* Sign in + Customer center links *@
+                            <li class="menu__item menu__item--horizontal u-w40px dw-mod">
+                                <div class="header-menu__link is-dropdown is-dropdown--no-icon dw-mod">
+                                    @if (Model.CurrentUser.ID <= 0)
+                                    {
+                                        <i class="fa fa-user fa-1_5x u-color-inherit"></i>
+                                    }
+                                    else
+                                    {
+                                        <a href="/default.aspx?ID=@myDashboardPageId" class="u-color-inherit"><i class="fa fa-user fa-1_5x"></i></a>
+                                    }
+
+                                    <div class="menu menu--dropdown sign-in-dropdown u-w160px">
+                                        <div class="menu-dropdown__item">
+                                            <ul class="list list--clean">
+                                                @if (Model.CurrentUser.ID <= 0)
+                                                {
+                                                    <li>
+                                                        <label for="SignInModalTrigger" class="btn btn--primary btn--full u-no-margin sign-in-modal-trigger-button dw-mod">@Translate("Sign in")</label>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/default.aspx?ID=@createAccountPageId" class="list__link">@Translate("Create account")</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/default.aspx?ID=@forgotPasswordPageId" class="list__link">@Translate("Forgot your password?")</a>
+                                                    </li>
+                                                    <li class="list__seperator"></li>
+                                                }
+                                                <li>
+                                                    <a href="/default.aspx?ID=@myProfilePageId" class="list__link"><i class="fa fa-user"></i> @Translate("My Profile")</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/default.aspx?ID=@myOrdersPageId" class="list__link"><i class="fa fa-list"></i> @Translate("My Orders")</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/default.aspx?ID=@myFavoritesPageId" class="list__link"><i class="fa fa-star"></i> @Translate("My Favorites")</a>
+                                                </li>
+                                                @if (Model.CurrentUser.ID > 0)
+                                                {
+                                                    <li class="list__seperator"></li>
+                                                    <li>
+                                                        <a href="/Admin/Public/ExtranetLogoff.aspx?ID=@pageId" class="list__link">@Translate("Sign out")</a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            @* Favorites *@
+                            @if (Model.CurrentUser.ID > 0)
+                            {
+                                <li class="menu__item menu__item--horizontal dw-mod">
+                                    <a href="/Default.aspx?ID=@myFavoritesPageId" class="header-menu__link">
+                                        <i class="fa fa-star fa-1_5x"></i>
+                                    </a>
+                                </li>
+                            }
+
+                                    @* Mini cart *@
+                            <li class="menu__item menu__item--horizontal dw-mod">
+                                <div class="mini-cart">
+                                    <a href="/Default.aspx?ID=@cartPageId&Purge=True" class="header-menu__link dw-mod js-mini-cart-button" onmouseover="Cart.UpdateMiniCart(event, 'miniCart', '/Default.aspx?ID=@miniCartFeedPageId&feedType=MiniCart')">
+                                        <i class="fa fa-shopping-cart fa-1_5x"></i>
+                                        <div class="mini-cart__counter mini-cart__counter--inline dw-mod">
+                                            <div class="js-ajax-container js-mini-cart-counter" id="cartCounter" data-template="MiniCartCounterContent" data-json-feed="/Default.aspx?ID=@miniCartFeedPageId&feedType=Counter" data-init-onload="false" data-preloader="false">
+                                                <div class="js-mini-cart-counter-content">
+                                                    @cartProductsCount
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="mini-cart-dropdown js-ajax-container js-mini-cart" id="miniCart" data-template="MiniCartContent" data-cart-id="@cartFeedPageId" data-json-feed="/Default.aspx?ID=@miniCartFeedPageId&feedType=MiniCart" data-init-onload="false"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                }
+
+                            @* Mobile search *@
+                @if (Pageview.Device.ToString() == "Mobile")
+                {
+                    <div class="grid__col-12 grid__col--bleed-y grid--align-self-center">
+                        <div class="grid__cell">
+                            <div class="js-typeahead" data-page-size="10" id="MobileProductSearch" data-search-page-id="@productSearchPageId" data-result-page-id="@productsPageId">
+                                <input type="text" class="u-full-width js-typeahead-search-field" placeholder="@searchPlaceholder">
+                                <ul class="dropdown dropdown--absolute-position js-ajax-container js-typeahead-search-content" id="MobileProductSearchContent" data-template="SearchContentTemplate" data-no-result-template="SearchEmpty" data-json-feed="/Default.aspx?ID=@productSearchPageId&LayoutTemplate=Json.cshtml&DisableStatistics=True&feedType=productsOnly" data-init-onload="false"></ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Main navigation -->
+    <nav class="main-navigation dw-mod">
+        <div class="center-container top-container__center-container dw-mod">
+            <div class="grid">
+                <div class="grid__col-12 grid--align-self-center grid__col--bleed-y">
+                    <div class="grid__cell">
+                        @* Mobile navigation trigger *@
+                        @if (Pageview.Device.ToString() == "Mobile")
+                        {
+                            <div class="menu dw-mod">
+                                <div class="menu__item dw-mod">
+                                    <label for="MobileNavTrigger" class="mobile-nav-trigger-button menu__link dw-mod"></label>
+                                </div>
+
+                                @* Favorites *@
+                                @if (Model.CurrentUser.ID > 0)
+                                {
+                                    <div class="menu__item menu__item--horizontal menu__item--top-level dw-mod">
+                                        <a href="/Default.aspx?ID=@myFavoritesPageId" class="menu__link dw-mod">
+                                            <i class="fa fa-star fa-1_5x"></i>
+                                        </a>
+                                    </div>
+                                }
+
+                                        @* Mini cart *@
+                                <div class="menu__item dw-mod">
+                                    <div class="mini-cart">
+                                        <a href="/Default.aspx?ID=@cartPageId&Purge=True" class="menu__link dw-mod js-mini-cart-button" onmouseover="Cart.UpdateMiniCart(event, 'miniCart', '/Default.aspx?ID=@miniCartFeedPageId&feedType=MiniCart')">
+                                            <i class="fa fa-shopping-cart fa"></i>
+                                            <div class="mini-cart__counter mini-cart__counter--inline dw-mod">
+                                                <div class="js-ajax-container js-mini-cart-counter" id="cartCounter" data-template="MiniCartCounterContent" data-json-feed="/Default.aspx?ID=@miniCartFeedPageId&feedType=Counter" data-init-onload="false" data-preloader="false">
+                                                    <div class="js-mini-cart-counter-content">
+                                                        @cartProductsCount
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <div class="mini-cart-dropdown js-ajax-container js-mini-cart" id="miniCart" data-template="MiniCartContent" data-cart-id="@cartFeedPageId" data-json-feed="/Default.aspx?ID=@miniCartFeedPageId&feedType=MiniCart" data-init-onload="false"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            if (!megaMenu)
+                            {
+                                @RenderNavigation(new
+                                {
+                                    id = "topnavigation",
+                                    cssclass = "menu dw-mod dwnavigation",
+                                    startLevel = 1,
+                                    endlevel = 4,
+                                    expandmode = "All",
+                                    template = "BaseMenuWithDropdown.xslt"
+                                })
+                                ;
+                            }
+                            else
+                            {
+                                @RenderNavigation(new
+                                {
+                                    id = "topnavigation",
+                                    cssclass = "menu dw-mod dwnavigation",
+                                    startLevel = 1,
+                                    endlevel = 3,
+                                    promotionImage = megamenuPromotionImage,
+                                    promotionLink = Model.Area.Item.GetString("NavigationMegamenuPromotionLink"),
+                                    template = "BaseMegaMenu.xslt"
+                                })
+                                ;
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+}
+@if (topLayout == "condensed")
+{
+    <!-- Main navigation -->
+    <nav class="main-navigation dw-mod">
+        <div class="center-container top-container__center-container dw-mod">
+            <div class="grid">
+                <div class="grid__col-md-12 grid__col-sm-12 grid__col-xs-12 grid--align-self-center grid__col--bleed-y">
+                    <div class="grid__cell grid__cell--align-middle-left">
+                        @* Mobile navigation trigger *@
+                        @if (Pageview.Device.ToString() == "Mobile")
+                        {
+                            <div class="menu dw-mod u-pull--left">
+                                <div class="menu__item dw-mod">
+                                    <label for="MobileNavTrigger" class="mobile-nav-trigger-button menu__link dw-mod"></label>
+                                </div>
+                            </div>
+                        }
+
+                                    @* Logo *@
+                        <div class="logo u-w100px--xs dw-mod u-pull--left">
+                            <a href="/Default.aspx?ID=@firstPageId">
+                                <img src="/Admin/Public/GetImage.ashx?width=180&height=40&crop=1&Compression=100&image=@logoWhite" alt="Logo"/>
+                            </a>
+                        </div>
+
+                        @* Navigation *@
+                        <div class="u-pull--left">
+                            @if (Pageview.Device.ToString() != "Mobile")
+                            {
+                                if (!megaMenu)
+                                {
+                                    @RenderNavigation(new
+                                    {
+                                        id = "topnavigation",
+                                        cssclass = "menu dw-mod dwnavigation",
+                                        startLevel = 1,
+                                        endlevel = 4,
+                                        expandmode = "All",
+                                        template = "BaseMenuWithDropdown.xslt"
+                                    })
+                                    ;
+                                }
+                                else
+                                {
+                                    @RenderNavigation(new
+                                    {
+                                        id = "topnavigation",
+                                        cssclass = "menu dw-mod dwnavigation",
+                                        startLevel = 1,
+                                        endlevel = 3,
+                                        promotionImage = megamenuPromotionImage,
+                                        promotionLink = Model.Area.Item.GetString("NavigationMegamenuPromotionLink"),
+                                        template = "BaseMegaMenu.xslt"
+                                    })
+                                    ;
+                                }
+                            }
+                        </div>
+
+                        <div class="grid__cell grid__cell--align-middle-right">
+                            <ul class="menu dw-mod u-pull--right">
+                                @* Language selector *@
+                                @if (Model.Languages.Count > 0)
+                                {
+                                    <li class="menu__item menu__item--horizontal menu__item--top-level dw-mod u-hidden-xxs">
+                                        <div class="menu__link u-w40px is-dropdown is-dropdown--no-icon dw-mod">
+                                            <i class="fa fa-globe fa-1_5x"></i>
+                                            <div class="menu menu--dropdown u-w100px">
+                                                @foreach (var lang in Model.Languages)
+                                                {
+                                                    <a href="/Default.aspx?ID=@lang.Page.ID&CurrencyCode=@Dynamicweb.Services.Areas.GetArea(lang.ID).EcomCurrencyId" class="menu-dropdown__item dw-mod">@lang.Name</a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+
+                                            @* Sign in + Customer center links *@
+                                <li class="menu__item menu__item--horizontal menu__item--top-level dw-mod u-hidden-xxs">
+                                    <div class="menu__link u-w40px is-dropdown is-dropdown--no-icon dw-mod">
+                                        @if (Model.CurrentUser.ID <= 0)
+                                        {
+                                            <i class="fa fa-user fa-1_5x"></i>
+                                        }
+                                        else
+                                        {
+                                            <a href="/default.aspx?ID=@myDashboardPageId" class="u-color-inherit"><i class="fa fa-user fa-1_5x"></i></a>
+                                        }
+
+                                        <div class="menu menu--dropdown sign-in-dropdown u-w160px">
+                                            <div class="menu-dropdown__item">
+                                                <ul class="list list--clean">
+                                                    @if (Model.CurrentUser.ID <= 0)
+                                                    {
+                                                        <li>
+                                                            <label for="SignInModalTrigger" class="btn btn--primary btn--full u-no-margin sign-in-modal-trigger-button dw-mod">@Translate("Sign in")</label>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/default.aspx?ID=@createAccountPageId" class="list__link">@Translate("Create account")</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/default.aspx?ID=@forgotPasswordPageId" class="list__link">@Translate("Forgot your password?")</a>
+                                                        </li>
+                                                        <li class="list__seperator"></li>
+                                                    }
+                                                    <li>
+                                                        <a href="/default.aspx?ID=@myProfilePageId" class="list__link"><i class="fa fa-user"></i> @Translate("My Profile")</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/default.aspx?ID=@myOrdersPageId" class="list__link"><i class="fa fa-list"></i> @Translate("My Orders")</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/default.aspx?ID=@myFavoritesPageId" class="list__link"><i class="fa fa-star"></i> @Translate("My Favorites")</a>
+                                                    </li>
+                                                    @if (Model.CurrentUser.ID > 0)
+                                                    {
+                                                        <li class="list__seperator"></li>
+                                                        <li>
+                                                            <a href="/Admin/Public/ExtranetLogoff.aspx?ID=@pageId" class="list__link">@Translate("Sign out")</a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                @* Favorites *@
+                                @if (Model.CurrentUser.ID > 0)
+                                {
+                                    <li class="menu__item menu__item--horizontal menu__item--top-level dw-mod">
+                                        <a href="/Default.aspx?ID=@myFavoritesPageId" class="menu__link dw-mod">
+                                            <i class="fa fa-star fa-1_5x"></i>
+                                        </a>
+                                    </li>
+                                }
+
+                                            @* Mini cart *@
+                                <li class="menu__item menu__item--horizontal menu__item--top-level dw-mod">
+                                    <div class="mini-cart">
+                                        <a href="/Default.aspx?ID=@cartPageId&Purge=True" class="menu__link dw-mod js-mini-cart-button" onmouseover="Cart.UpdateMiniCart(event, 'miniCart', '/Default.aspx?ID=@miniCartFeedPageId&feedType=MiniCart')">
+                                            <i class="fa fa-shopping-cart fa-1_5x"></i>
+                                            <div class="mini-cart__counter mini-cart__counter--inline dw-mod">
+                                                <div class="js-ajax-container js-mini-cart-counter" id="cartCounter" data-template="MiniCartCounterContent" data-json-feed="/Default.aspx?ID=@miniCartFeedPageId&feedType=Counter" data-init-onload="false" data-preloader="false">
+                                                    <div class="js-mini-cart-counter-content">
+                                                        @cartProductsCount
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <div class="mini-cart-dropdown js-ajax-container js-mini-cart" id="miniCart" data-template="MiniCartContent" data-cart-id="@cartFeedPageId" data-json-feed="/Default.aspx?ID=@miniCartFeedPageId&feedType=MiniCart" data-init-onload="false"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Searchbar -->
+    <div class="u-box-shadow u-color-light-gray--bg">
+        <div class="center-container top-container__center-container dw-mod">
+            <div class="typeahead u-padding u-center-max-w600px u-color-inherit js-typeahead" data-page-size="10" id="ProductSearchBar" data-search-page-id="@productSearchPageId" data-result-page-id="@productsPageId" data-groups-page-id="@productGroupsPageId">
+                <button type="button" class="btn btn--condensed u-color-light-gray--bg typeahead-group-btn dw-mod js-typeahead-groups-btn" data-group-id="all">@Translate("All")</button>
+                <ul class="dropdown dropdown--absolute-position js-ajax-container js-typeahead-groups-content" id="ProductSearchBarGroupsContent" data-template="SearchGroupsTemplate" data-json-feed="/Default.aspx?ID=@productGroupsPageId&LayoutTemplate=Json.cshtml&DisableStatistics=True&feedType=productGroups" data-init-onload="false"></ul>
+                <div class="typeahead-search-field">
+                    <input type="text" class="u-no-margin u-full-width js-typeahead-search-field" placeholder="@searchPlaceholder">
+                    <ul class="dropdown dropdown--absolute-position js-ajax-container js-typeahead-search-content" id="ProductSearchBarContent" data-template="SearchContentTemplate" data-no-result-template="SearchEmpty" data-json-feed="/Default.aspx?ID=@productSearchPageId&LayoutTemplate=Json.cshtml&DisableStatistics=True&feedType=productsOnly" data-init-onload="false"></ul>
+                </div>
+                <button type="button" class="btn btn--condensed btn--primary u-no-margin dw-mod js-typeahead-enter-btn"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+}
+@if (topLayout == "minimal")
+{
+    <!-- Main navigation -->
+    <nav class="main-navigation dw-mod">
+        <div class="center-container top-container__center-container dw-mod">
+            <div class="grid">
+                <div class="grid__col-md-12 grid__col-sm-12 grid__col-xs-12 grid--align-self-center grid__col--bleed-y">
+                    <div class="grid__cell grid__cell--align-middle-left">
+
+                        @* Mobile navigation trigger *@
+                        @if (Pageview.Device.ToString() == "Mobile")
+                        {
+                            <div class="menu  dw-mod u-pull--left">
+                                <div class="menu__item dw-mod">
+                                    <label for="MobileNavTrigger" class="mobile-nav-trigger-button menu__link dw-mod"></label>
+                                </div>
+                            </div>
+                        }
+
+                                    @* Logo *@
+                        <div class="logo u-w100px--xs dw-mod u-pull--left">
+                            <a href="/Default.aspx?ID=@firstPageId">
+                                <img src="/Admin/Public/GetImage.ashx?width=180&height=40&crop=1&Compression=100&image=@logoWhite" alt="Logo"/>
+                            </a>
+                        </div>
+
+                        @* Menu *@
+                        <div class="u-pull--left">
+                            @if (Pageview.Device.ToString() != "Mobile")
+                            {
+                                if (!megaMenu)
+                                {
+                                    @RenderNavigation(new
+                                    {
+                                        id = "topnavigation",
+                                        cssclass = "menu dw-mod dwnavigation",
+                                        startLevel = 1,
+                                        endlevel = 4,
+                                        expandmode = "All",
+                                        template = "BaseMenuWithDropdown.xslt"
+                                    })
+                                    ;
+                                }
+                                else
+                                {
+                                    @RenderNavigation(new
+                                    {
+                                        id = "topnavigation",
+                                        cssclass = "menu dw-mod dwnavigation",
+                                        startLevel = 1,
+                                        endlevel = 3,
+                                        promotionImage = megamenuPromotionImage,
+                                        promotionLink = Model.Area.Item.GetString("NavigationMegamenuPromotionLink"),
+                                        template = "BaseMegaMenu.xslt"
+                                    })
+                                    ;
+                                }
+                            }
+                        </div>
+
+                        <div class="grid__cell grid__cell--align-middle-right">
+                            <ul class="menu dw-mod u-pull--right">
+                                @* Search *@
+                                <li class="menu__item menu__item--horizontal menu__item--top-level u-hidden-xxs dw-mod">
+                                    <div class="menu__link u-w40px is-dropdown is-dropdown--no-icon dw-mod">
+                                        <i class="fa fa-search fa-1_5x"></i>
+                                        <div class="menu menu--dropdown u-w340px top-micro-search">
+                                            <div class="typeahead js-typeahead" data-page-size="10" id="ProductSearchBar" data-search-page-id="@productSearchPageId" data-result-page-id="@productsPageId" data-groups-page-id="@productGroupsPageId">
+                                                <div class="typeahead-search-field">
+                                                    <input type="text" class="u-no-margin u-full-width js-typeahead-search-field" placeholder="@searchPlaceholder">
+                                                    <ul class="dropdown dropdown--absolute-position u-full-width js-ajax-container js-typeahead-search-content" id="ProductSearchBarContent" data-template="SearchContentTemplate" data-no-result-template="SearchEmpty" data-json-feed="/Default.aspx?ID=@productSearchPageId&LayoutTemplate=Json.cshtml&DisableStatistics=True&feedType=productsOnly" data-init-onload="false"></ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                @* Language selector *@
+                                @if (Model.Languages.Count > 0)
+                                {
+                                    <li class="menu__item menu__item--horizontal menu__item--top-level u-hidden-xxs dw-mod">
+                                        <div class="menu__link u-w40px is-dropdown is-dropdown--no-icon dw-mod">
+                                            <i class="fa fa-globe fa-1_5x"></i>
+                                            <div class="menu menu--dropdown u-w100px">
+                                                @foreach (var lang in Model.Languages)
+                                                {
+                                                    <a href="/Default.aspx?ID=@lang.Page.ID&CurrencyCode=@Dynamicweb.Services.Areas.GetArea(lang.ID).EcomCurrencyId" class="menu-dropdown__item dw-mod">@lang.Name</a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+
+                                            @* Sign in + Customer center links *@
+                                <li class="menu__item menu__item--horizontal menu__item--top-level u-hidden-xxs dw-mod">
+                                    <div class="menu__link u-w40px is-dropdown is-dropdown--no-icon dw-mod">
+                                        @if (Model.CurrentUser.ID <= 0)
+                                        {
+                                            <i class="fa fa-user fa-1_5x"></i>
+                                        }
+                                        else
+                                        {
+                                            <a href="/default.aspx?ID=@myDashboardPageId" class="u-color-inherit"><i class="fa fa-user fa-1_5x"></i></a>
+                                        }
+
+                                        <div class="menu menu--dropdown sign-in-dropdown u-w160px">
+                                            <div class="menu-dropdown__item">
+                                                <ul class="list list--clean">
+                                                    @if (Model.CurrentUser.ID <= 0)
+                                                    {
+                                                        <li>
+                                                            <label for="SignInModalTrigger" class="btn btn--primary btn--full u-no-margin sign-in-modal-trigger-button dw-mod">@Translate("Sign in")</label>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/default.aspx?ID=@createAccountPageId" class="list__link">@Translate("Create account")</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="/default.aspx?ID=@forgotPasswordPageId" class="list__link">@Translate("Forgot your password?")</a>
+                                                        </li>
+                                                        <li class="list__seperator"></li>
+                                                    }
+                                                    <li>
+                                                        <a href="/default.aspx?ID=@myProfilePageId" class="list__link"><i class="fa fa-user"></i> @Translate("My Profile")</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/default.aspx?ID=@myOrdersPageId" class="list__link"><i class="fa fa-list"></i> @Translate("My Orders")</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/default.aspx?ID=@myFavoritesPageId" class="list__link"><i class="fa fa-star"></i> @Translate("My Favorites")</a>
+                                                    </li>
+                                                    @if (Model.CurrentUser.ID > 0)
+                                                    {
+                                                        <li class="list__seperator"></li>
+                                                        <li>
+                                                            <a href="/Admin/Public/ExtranetLogoff.aspx?ID=@pageId" class="list__link">@Translate("Sign out")</a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                @* Favorites *@
+                                @if (Model.CurrentUser.ID > 0)
+                                {
+                                    <li class="menu__item menu__item--horizontal menu__item--top-level dw-mod">
+                                        <a href="/Default.aspx?ID=@myFavoritesPageId" class="menu__link dw-mod">
+                                            <i class="fa fa-star fa-1_5x"></i>
+                                        </a>
+                                    </li>
+                                }
+
+                                            @* Mini cart *@
+                                <li class="menu__item menu__item--horizontal menu__item--top-level dw-mod">
+                                    <div class="mini-cart u-w60px--xs">
+                                        <a href="/Default.aspx?ID=@cartPageId&Purge=True" class="menu__link dw-mod js-mini-cart-button" onmouseover="Cart.UpdateMiniCart(event, 'miniCart', '/Default.aspx?ID=@miniCartFeedPageId&feedType=MiniCart')">
+                                            <i class="fa fa-shopping-cart fa-1_5x"></i>
+                                            <div class="mini-cart__counter mini-cart__counter--inline dw-mod">
+                                                <div class="js-ajax-container js-mini-cart-counter" id="cartCounter" data-template="MiniCartCounterContent" data-json-feed="/Default.aspx?ID=@miniCartFeedPageId&feedType=Counter" data-init-onload="false" data-preloader="false">
+                                                    <div class="js-mini-cart-counter-content">
+                                                        @cartProductsCount
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <div class="mini-cart-dropdown js-ajax-container js-mini-cart" id="miniCart" data-template="MiniCartContent" data-cart-id="@cartFeedPageId" data-json-feed="/Default.aspx?ID=@miniCartFeedPageId&feedType=MiniCart" data-init-onload="false"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    @* Mobile search *@
+                    @if (Pageview.Device.ToString() == "Mobile")
+                    {
+                        <div class="grid__col-12 grid__col--bleed-y grid--align-self-center">
+                            <div class="grid__cell">
+                                <div class="js-typeahead" data-page-size="10" id="MobileProductSearch" data-search-page-id="@productSearchPageId" data-result-page-id="@productsPageId">
+                                    <input type="text" class="u-full-width js-typeahead-search-field" placeholder="@searchPlaceholder">
+                                    <ul class="dropdown dropdown--absolute-position js-ajax-container js-typeahead-search-content" id="MobileProductSearchContent" data-template="SearchContentTemplate" data-no-result-template="SearchEmpty" data-json-feed="/Default.aspx?ID=@productSearchPageId&LayoutTemplate=Json.cshtml&DisableStatistics=True&feedType=productsOnly" data-init-onload="false"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+}
+
+
+            @* Impersonation bar *@
+@if (Model.CurrentUser.ID > 0 && Model.SecondaryUsers.Count > 0)
+{
+    <div class="u-color-warning--bg">
+        <div class="center-container top-container__center-container dw-mod">
+            @*Impersonation*@
+            <div class="grid">
+                <div class="grid--align-self-center grid__col-x">
+                    @if (Model.CurrentSecondaryUser != null && Model.CurrentSecondaryUser.ID > 0)
+                    {
+                        string stopImpersonateTranslation = Translate("Stop impersonation");
+                        <div class="grid-cell">
+                            <div class="u-pull--left u-bold u-margin-top">
+                                <i class="fa fa-user-secret"></i>
+                                @Model.CurrentSecondaryUser.Name<text>&nbsp;</text>@Translate("is impersonated by")<text>&nbsp;</text>@Pageview.User.UserName
+                            </div>
+                            <form method="post" class="u-pull--right u-no-margin">
+                                <input type="submit" class="btn btn--secondary dw-mod u-no-margin" name="DwExtranetRemoveSecondaryUser" value="@stopImpersonateTranslation">
+                            </form>
+                        </div>
+                    }
+                    else
+                    {
+                        string viewListTranslation = Translate("View the list of users you can impersonate");
+                        <div class="grid-cell u-bold">
+                            <i class="fa fa-user-secret"></i>
+                            <a href="/Default.aspx?ID=@ImpersonationPageId" title="@viewListTranslation" class="u-color-font-black">@viewListTranslation</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+</header>
+
+<!-- Floating mini cart -->
+@if (!stickyMenu && pageId == productsPageId)
+{
+    <div class="floating-mini-cart u-hidden" id="FloatingMiniCart">
+        <div class="mini-cart">
+            <a href="/Default.aspx?ID=@cartPageId&Purge=True" class="menu-tools__link menu__link--condensed dw-mod js-mini-cart-button" onmouseover="Cart.UpdateMiniCart(event, 'SecondaryMiniCart', '/Default.aspx?ID=@miniCartFeedPageId&feedType=MiniCart')">
+                <i class="fa fa-shopping-cart fa-4x"></i>
+                <div class="mini-cart__counter mini-cart__counter--lg dw-mod">
+                    <div class="js-ajax-container js-mini-cart-counter" id="FloatingCartCounter" data-template="MiniCartCounterContent" data-json-feed="/Default.aspx?ID=@miniCartFeedPageId&feedType=Counter" data-preloader="false" data-init-onload="false">
+                        <div class="js-mini-cart-counter-content">
+                            @cartProductsCount
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <div class="mini-cart-dropdown js-ajax-container js-mini-cart" id="SecondaryMiniCart" data-template="MiniCartContent" data-cart-id="@cartFeedPageId" data-json-feed="/Default.aspx?ID=@miniCartFeedPageId&feedType=MiniCart" data-init-onload="false"></div>
+        </div>
+    </div>
+}
+
+<!-- Render the content -->
+<div id="Page" class="page @pagePos">
+    <section class="center-container content-container dw-mod" id="content">
+        @inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+
+
+@*This is an example implementation of a Partner template. 
+ You may want to re-configure the itemtype and adjust this template to the specific needs. *@
+@{ 
+    string fullBackgroundImage = "";
+    if (Model.Item.GetFile("Image") != null)
+    {
+        fullBackgroundImage = "background-image:url(/Admin/Public/GetImage.ashx?width=2500&amp;height=1100&amp;crop=1&amp;Compression=90&amp;image=" + Model.Item.GetFile("Image").Path + ");";
+    }
+
+    string caseListPageId = GetPageIdByNavigationTag("CasesListFeed").ToString();
+    string partnerName = Model.Item.GetString("PartnerName");
+    string partnerLink = Model.ID.ToString();
+}
+
+<div class="grid">
+
+    @* Escape the container and section *@
+    </div>
+    </section>
+    @* ----------------------------------- *@
+
+    <section class="multiple-paragraphs-container u-color-light" style="@fullBackgroundImage">
+        <div class="center-container center-container--with-background-image dw-mod">
+            <div class="grid center-container--with-background-image">
+                <div class="grid__col-md-12 grid__col-xs-12 paragraph-container" style="">
+                    <div class="u-ta-center u-middle">
+                        <div>
+                            <h1 class="article__header article__header--giant">@Model.Item.GetString("BannerHeading")</h1>
+                            <div class="article__subheader article__subheader--giant">@Model.Item.GetString("BannerSubheading")</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @* Re-enter the container and section *@
+    <section class="center-container content-container dw-mod">
+    <div class="grid">
+    @* ----------------------------------- *@
+
+
+    <div class="grid__col-12"></div>
+
+    @* The descriptions *@
+    <article class="grid__col-md-8">
+        <h2 class="article__header">@Translate("About us")</h2>
+        <div class="article__paragraph">@Model.Item.GetString("AboutUs")</div>
+    </article>
+
+    @* Customer informations *@
+    <div class="grid__col-md-4">
+        @if (Model.Item.GetFile("PartnerLogo") != null) {
+            <img src="/Admin/Public/GetImage.ashx?width=300&amp;crop=5&amp;Compression=90&amp;image=@Model.Item.GetFile("PartnerLogo").Path" class="article__image" />
+        }
+
+        <table class="table">
+            @if (!String.IsNullOrEmpty(Model.Item.GetString("PartnerStatus"))) {
+                <tr>
+                    <td width="32"><i class="fa fa-users fa-2x u-brand-color-two"></i></td>
+                    <td>
+                        <div class="u-bold">@Translate("Partner status")</div>
+                        <div>@Model.Item.GetString("PartnerStatus")</div>
+                    </td>
+                </tr>
+            }
+            @if (!String.IsNullOrEmpty(Model.Item.GetString("CertifiedDevelopers"))) {
+                <tr>
+                    <td width="32"><i class="fa fa-user-plus fa-2x u-brand-color-two"></i></td>
+                    <td>
+                        <div class="u-bold">@Translate("Number of certified developers")</div>
+                        <div>@Model.Item.GetString("CertifiedDevelopers")</div>
+                    </td>
+                </tr>
+            }
+            @if (!String.IsNullOrEmpty(Model.Item.GetString("PartnerLocation"))) {
+                <tr>
+                    <td width="32"><i class="fa fa-globe fa-2x u-brand-color-two"></i></td>
+                    <td>
+                        <div class="u-bold">@Translate("Location")</div>
+                        <div class="u-no-margin-on-p-elements">@Model.Item.GetString("PartnerLocation")</div>
+                    </td>
+                </tr>
+            }
+            @if (!String.IsNullOrEmpty(Model.Item.GetString("WebsiteUrl"))) {
+                <tr>
+                    <td width="32"><i class="fa fa-desktop fa-2x u-brand-color-two"></i></td>
+                    <td>
+                        <div class="u-bold">@Translate("Website")</div>
+                        <a href="@Model.Item.GetString("WebsiteUrl")">@Model.Item.GetString("WebsiteUrl")</a>
+                    </td>
+                </tr>
+            }
+            @if (!String.IsNullOrEmpty(Model.Item.GetString("PartnerPhoneNumber")) || !String.IsNullOrEmpty(Model.Item.GetString("PartnerPhoneNumber"))) {
+                <tr>
+                    <td width="32"><i class="fa fa-user-plus fa-2x u-brand-color-two"></i></td>
+                    <td>
+                        <div class="u-bold">@Translate("Get in touch")</div>
+                        @if (!String.IsNullOrEmpty(Model.Item.GetString("PartnerPhoneNumber")))
+                        {
+                            <div>@Model.Item.GetString("PartnerPhoneNumber")</div>
+                        }
+                        @if (!String.IsNullOrEmpty(Model.Item.GetString("PartnerEmailAddress")))
+                        {
+                            <div>@Model.Item.GetString("PartnerEmailAddress")</div>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+
+    @* Related cases *@
+    @* Escape the container and section *@
+    </div>
+    </section>
+    @* ----------------------------------- *@
+
+    <section class="multiple-paragraphs-container u-color-light-gray--bg">
+        <div class="center-container dw-mod">
+            <div class="grid">
+                <div class="grid__col-md-12 grid__col-xs-12 paragraph-container">
+                    <h1 class="article__header u-no-margin">@Translate("Cases by") @partnerName</h1>
+                </div>
+            </div>
+
+            <div class="grid u-no-margin js-ajax-container" id="RelatedCases" data-template="RelatedCasesTemplate" data-json-feed="/Default.aspx?ID=@caseListPageId&LayoutTemplate=Json.cshtml&DisableStatistics=True&PartnerLink=@partnerLink"></div>
+
+            <script id="RelatedCasesTemplate" type="text/x-template">
+                <div class="grid u-no-margin" id="Cases" data-template="CasesTemplate" ></div>
+            </script>
+
+            <script id="CasesTemplate" type="text/x-template">
+                <div class="grid__col-md-3 grid__col-sm-3 grid__col-xs-12">
+                    <div class="u-ta-center paragraph-card">
+                        <div class="u-margin-bottom">
+                            <a href="{{link}}">
+                                <img class="grid__cell-img grid__cell-img--centered" src="/Admin/Public/GetImage.ashx?width=992&amp;height=760&amp;crop=5&amp;Compression=75&amp;DoNotUpscale=True&amp;image={{image}}" alt="{{title}}">
+                            </a>
+                        </div>
+
+                        <a href="{{link}}">
+                            <h2 class="u-no-margin u-margin-bottom">{{title}}</h2>
+                        </a>
+
+                        <p>{{summary}}</p>
+                    </div>
+                    <div class="grid__cell-footer grid--justify-center paragraph-card-footer">
+                        <div class="u-margin-top u-margin-bottom">
+                            <a href="{{link}}" class="btn btn--secondary btn--line-height dw-mod">@Translate("Read more")</a>
+                        </div>
+                    </div>
+                </div>
+            </script>
+        </div>
+    </section>
+
+    @* Re-enter the container and section *@
+    <section class="content-container center-container dw-mod">
+    <div class="grid">
+    @* ----------------------------------- *@
+
+</div>
+
+    </section>
+</div>
+</main>
+
+<!-- Footer section -->
+<footer class="footer dw-mod">
+    <div class="center-container dw-mod">
+        <div class="grid">
+            @if (!String.IsNullOrEmpty(footerColumnOneContent))
+            {
+                <div class="grid__col-md-auto">
+                    <h4 class="footer__heading">@Translate("Contact", "Contact")</h4>
+                    @footerColumnOneContent
+                </div>
+            }
+            @if (!String.IsNullOrEmpty(footerColumnTwoContent))
+            {
+                <div class="grid__col-md-auto">
+                    @footerColumnTwoContent
+                </div>
+            }
+            @if (Model.Area.Item.GetBoolean("FooterNewsletterSignUp"))
+            {
+                <div class="grid__col-md-auto">
+                    <h4 class="footer__heading">@Translate("Mailing list", "Mailing list")</h4>
+                    <p>@Translate("Sign up if you would like to receive occasional treats from us", "Sign up if you would like to receive occasional treats from us").</p>
+                    <form class="form" name="NewsletterRedirect" action='/Default.aspx' method="get" enctype="multipart/form-data">
+                        <input name="ID" id="ID" value="@newsletterSignUpPageId" type="hidden"/>
+                        <div class="form__field-combi">
+                            <input name="NewsletterEmail" id="NewsletterEmail" type="text" placeholder='@Translate("Your email address", "Your email address")'/>
+                            <input class="btn btn--primary dw-mod" type="submit" id="Submitter" value='@Translate("Go", "Go")'/>
+                        </div>
+                    </form>
+                </div>
+            }
+            @if (Model.Area.Item.GetItems("FooterSocialLinks").Count > 0)
+            {
+                <div class="grid__col-md-auto">
+                    <h4 class="footer__heading">@Translate("Social links", "Social links")</h4>
+
+                    <div class="collection">
+                        @foreach (var socialitem in Model.Area.Item.GetItems("FooterSocialLinks"))
+                        {
+                            //Fields.FirstOrDefault(x => x.SystemName == "Icon").GetString()
+                            var socialIcon = socialitem.GetValue("Icon") as Dynamicweb.Frontend.ListViewModel;
+                            string socialIconClass = socialIcon.SelectedValue;
+                            string socialIconTitle = socialIcon.SelectedName;
+                            string socialLink = socialitem.GetString("Link");
+
+                            <a href="@socialLink" title="@socialIconTitle"><i class="fa @socialIconClass fa-2x u-color-light"></i></a>
+                        }
+                    </div>
+                </div>
+            }
+            <div class="grid__col-12 grid--align-center">
+                <p>@Model.Area.Item.GetString("FooterCopyrightText")</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+@* Wireframe mode  *@
+@if (wireframeMode == "True" && Model.CurrentUser.ID > 0)
+{
+    <input type="checkbox" class="panel-trigger" id="WireframeToolsTrigger"/>
+    <aside id="WireframeTools" class="panel panel--right wireframe-tools">
+        <label for="WireframeToolsTrigger" id="wireframeToolsToggle" class="panel-trigger-btn wireframe-tools-toggle"></label>
+        <div id="WireframeToolsContent" class="panel__content">
+            <div id="WireframeToolsHelpText" class="wireframe-tools__info">
+                @Translate("Click on a selectable element to add a comment")
+            </div>
+            <div class="js-ajax-container u-visually-hidden" id="CreateCommentForm" data-template="CreateCommentFormTemplate" data-json-feed="/Default.aspx?ID=@createCommentPageId&LayoutTemplate=Json.cshtml&DisableStatistics=True&feedType=Comments"></div>
+            <div class="js-ajax-container" id="Comments" data-template="CommentListTemplate" data-json-feed="/Default.aspx?ID=@commentPageId&LayoutTemplate=Json.cshtml&DisableStatistics=True&Comment_PageId=@pageId" data-init-onload="false"></div>
+        </div>
+    </aside>
+
+    <script id="CreateCommentFormTemplate" type="text/x-template">
+            <div>
+                {{formBegin}}
+                <label>@Translate("Comment")</label>
+                <textarea name="Comment" class="comment-textarea u-full-width"></textarea>
+                <input type="hidden" id="TargetElement" name="TargetElement" value="" />
+                <input type="hidden" name="Comment_PageId" value="@pageId" />
+                <input type="hidden" name="Comment_UserId" value="@currentUserId" />
+                <input type="submit" class="btn btn--primary btn--full dw-mod" value="Save changes">
+                {{formEnd}}
+            </div>
+        </script>
+
+    <script id="CommentListTemplate" type="text/x-template">
+            <div id="Comment" class="comment" data-template="CommentTemplate"></div>
+        </script>
+
+    <script id="CommentTemplate" type="text/x-template">
+            <div>
+                <div id="Comment_{{count}}" class="js-comment"><span class="comment__number">{{count}}</span> {{comment}}</div>
+            </div>
+        </script>
+}
+
+
+    @* Templates for Typeahead *@
+<script id="SearchGroupsTemplate" type="text/x-template">
+        <li class="dropdown__item" onclick="Search.UpdateGroupSelection(this)" data-group-id="{{id}}">{{name}}</li>
+    </script>
+
+<script id="SearchContentTemplate" type="text/x-template">
+        <li class="dropdown__item dropdown__item--seperator">
+            <a href="{{link}}" class="js-typeahead-link u-color-inherit u-pull--left">
+                <div class="u-margin-right u-pull--left {{noimage}} u-hidden-xs u-hidden-xxs"><img src="/Admin/Public/GetImage.ashx?width=45&height=38&crop=1&Compression=75&image={{image}}" alt="{{name}}"></div>
+                <div class="u-pull--left">
+                    <div class="u-bold u-max-w220px u-truncate-text js-typeahead-name">{{name}}</div>
+                    <div>{{price}}</div>
+                </div>
+            </a>
+            <div class="u-margin-left u-pull--right u-hidden-xs u-hidden-xxs">
+                <button class="btn btn--primary btn--condensed u-no-margin dw-mod {{hideBuyOptions}} js-ignore-click-outside" onclick="Cart.AddToCart(event, '{{id}}', '1')"><i class="fa fa-shopping-cart js-ignore-click-outside"></i></button>
+                <a href="{{link}}" class="btn btn--secondary btn--condensed u-no-margin dw-mod {{hideViewMore}} js-ignore-click-outside">@Translate("View")</a>
+            </div>
+        </li>
+    </script>
+
+<script id="SearchMore" type="text/x-template">
+        <li class="dropdown__item dropdown__item--not-selectable">
+            <a href="/Default.aspx?ID=@productsPageId&Search={{searchParameter}}&GroupID={{groupId}}" class="btn btn--primary btn--full u-no-margin dw-mod js-typeahead-link">
+                @Translate("View all")
+            </a>
+        </li>
+    </script>
+
+<script id="SearchEmpty" type="text/x-template">
+        <li class="u-margin u-padding-left">
+            @Translate("Your search gave 0 results")
+        </li>
+    </script>
+
+@* Templates for the mini cart *@
+<script id="MiniCartCounterContent" type="text/x-template">
+        <div class="js-mini-cart-counter-content">
+            {{numberofproducts}}
+        </div>
+    </script>
+
+<script id="MiniCartContent" type="text/x-template">
+        <div class="mini-cart-dropdown__inner {{isempty}}">
+            <h4 class="u-ta-center">@Translate("Shopping cart")</h4>
+            <div class="mini-cart-dropdown__body">
+                <table class="table mini-cart-table">
+                    <thead>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>@Translate("Product")</td>
+                            <td class="u-ta-right">@Translate("Qty")</td>
+                            <td class="u-ta-right">@Translate("Price")</td>
+                        </tr>
+                    </thead>
+
+                    <tbody id="MiniCartOrderLines"></tbody>
+
+                    <tr>
+                        <td><i class="fa fa-credit-card"></i></td>
+                        <td>{{paymentmethod}}</td>
+                        <td colspan="2" class="u-ta-right">{{paymentfee}}</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-truck"></i></td>
+                        <td>{{shippingmethod}}</td>
+                        <td colspan="2" class="u-ta-right">{{shippingfee}}</td>
+                    </tr>
+                    <tr class="mini-cart-totals">
+                        <td colspan="2">@Translate("Total")</td>
+                        <td class="u-ta-right">{{numberofproducts}}</td>
+                        <td class="u-ta-right">{{totalprice}}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <table class="table mini-cart-table">
+                <tr class="mini-cart-orderlines__footer">
+                    <td colspan="2"><button type="button" class="btn btn--secondary u-pull--left u-no-margin dw-mod btn--sm" onclick="Cart.EmptyCart(event)">@Translate("Empty cart")</button></td>
+                    <td colspan="2" class="u-ta-right"><a href="/Default.aspx?ID=@cartPageId" class="btn btn--primary u-pull--right u-no-margin dw-mod btn--sm">@Translate("Proceed to checkout")</a></td>
+                </tr>
+            </table>
+        </div>
+    </script>
+
+<script id="MiniCartOrderline" type="text/x-template">
+        <tr class="{{isempty}}">
+            <td><a href="{{link}}" class="{{hideimage}}"><img src="/Admin/Public/GetImage.ashx?width=50&height=50&crop=5&Compression=75&image={{image}}" alt="{{name}}"></a></td>
+            <td>
+                <a href="{{link}}" class="mini-cart-orderlines__name">{{name}}</a>
+                <a href="{{link}}" class="mini-cart-orderlines__name">{{variantname}}</a>
+            </td>
+            <td class="u-ta-right">{{quantity}}</td>
+            <td class="u-ta-right">{{totalprice}}</td>
+        </tr>
+    </script>
+
+<script id="MiniCartOrderlineDiscount" type="text/x-template">
+        <tr class="table__row--no-border {{isempty}}">
+            <td>&nbsp;</td>
+            <td><div class="mini-cart-orderlines__name">{{name}}</div></td>
+            <td class="u-ta-right">&nbsp;</td>
+            <td class="u-ta-right">{{totalprice}}</td>
+        </tr>
+    </script>
+
+
+
+<!-- Javascript -->
+<script src="/Files/Templates/Designs/BetIBC/js/Buttons.js"></script>
+<script src="/Files/Templates/Designs/BetIBC/js/Facets.js"></script>
+<script src="/Files/Templates/Designs/BetIBC/js/Cart.js"></script>
+<script src="/Files/Templates/Designs/BetIBC/js/Search.js"></script>
+<script src="/Files/Templates/Designs/BetIBC/js/DynamoConfig.js"></script>
+<script src="/Files/Templates/Designs/BetIBC/js/Dynamo.js"></script>
+<script src="/Files/Templates/Designs/BetIBC/js/Variants.js"></script>
+<script src="/Files/Templates/Designs/BetIBC/js/ImageList.js"></script>
+<script src="/Files/Templates/Designs/BetIBC/js/LoadMore.js"></script>
+<script src="/Files/Templates/Designs/BetIBC/js/RememberState.js"></script>
+<script src="/Files/Templates/Designs/BetIBC/js/Scroll.js"></script>
+<script src="/Files/Templates/Designs/BetIBC/js/Wireframe.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick.min.js" type="text/javascript"></script>
+<script src="/Files/Templates/Designs/BetIBC/js/Main.js"></script>
+
+<script>
+    Wireframe.Init(@wireframeMode.ToLower(), "productList", @loggedIn);
+</script>
+
+</body>
+</html>
+

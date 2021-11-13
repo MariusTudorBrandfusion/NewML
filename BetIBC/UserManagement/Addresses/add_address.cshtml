@@ -1,0 +1,145 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@{
+    var bookmakerValue = GetString("UserManagement:User.UserAddress.AccessUserAddress_Bookmaker"); 
+    var threeExtraValue = GetString("UserManagement:User.UserAddress.AccessUserAddress_3extra").ToString(); 
+    var fiveExtraValue = GetString("UserManagement:User.UserAddress.AccessUserAddress_5extra").ToString(); 
+    var tenExtraValue = GetString("UserManagement:User.UserAddress.AccessUserAddress_10extra").ToString(); 
+    var twoFlat = GetString("UserManagement:User.UserAddress.AccessUserAddress_2flat").ToString();
+    var threeFlat = GetString("UserManagement:User.UserAddress.AccessUserAddress_3flat").ToString();
+    var fiveFlat = GetString("UserManagement:User.UserAddress.AccessUserAddress_5flat").ToString();
+    var sixFlat = GetString("UserManagement:User.UserAddress.AccessUserAddress_6flat").ToString();
+    var tenFlat = GetString("UserManagement:User.UserAddress.AccessUserAddress_10flat").ToString();
+    var megaExpress = GetString("UserManagement:User.UserAddress.AccessUserAddress_MegaExpressSubscription").ToString();
+    var informedAboutMerchant = GetString("UserManagement:User.UserAddress.AccessUserAddress_3informedAboutMerchant").ToString();
+    var depositedbeforeMerchant = GetString("UserManagement:User.UserAddress.AccessUserAddress_5DepositedbeforeMerchant").ToString();
+    var nintyFiveShare = GetString("UserManagement:User.UserAddress.AccessUserAddress_95share").ToString();
+    var expressSubscription = GetString("UserManagement:User.UserAddress.AccessUserAddress_Express_subscription").ToString();
+    var isChecked1 = threeExtraValue == "True" ? "display:none;": "";
+    var isChecked2 = fiveExtraValue == "True" ? "display:none;" : "";
+    var isChecked3 = tenExtraValue == "True" ? "display:none;" : "";
+    var isChecked4 = twoFlat == "True" ? "display:none;" : "";
+    var isChecked5 = threeFlat == "True" ? "display:none;" : "";
+    var isChecked6 = fiveFlat == "True" ? "display:none;" : "";
+    var isChecked7 = sixFlat == "True" ? "display:none;" : "";
+    var isChecked8 = tenFlat == "True" ? "display:none;" : "";
+    var isChecked9 = megaExpress == "True" ? "display:none;" : "";
+    var isChecked10 = informedAboutMerchant == "True" ? "display:none;" : "";
+    var isChecked11 = depositedbeforeMerchant == "True" ? "display:none;" : "";
+    var isChecked12 = nintyFiveShare == "True" ? "display:none;" : "";
+    var isChecked13 = expressSubscription == "True" ? "display:none;" : "";
+    var Checked1 = threeExtraValue == "False" ? "display:none;": "";
+    var Checked2 = fiveExtraValue == "False" ? "display:none;" : "";
+    var Checked3 = tenExtraValue == "False" ? "display:none;" : "";
+    var Checked4 = twoFlat == "False" ? "display:none;" : "";
+    var Checked5 = threeFlat == "False" ? "display:none;" : "";
+    var Checked6 = fiveFlat == "False" ? "display:none;" : "";
+    var Checked7 = sixFlat == "False" ? "display:none;" : "";
+    var Checked8 = tenFlat == "False" ? "display:none;" : "";
+    var Checked9 = megaExpress == "False" ? "display:none;" : "";
+    var Checked10 = informedAboutMerchant == "False" ? "display:none;" : "";
+    var Checked11 = depositedbeforeMerchant == "False" ? "display:none;" : "";
+    var Checked12 = nintyFiveShare == "False" ? "display:none;" : "";
+    var Checked13 = expressSubscription == "False" ? "display:none;" : "";
+ }
+
+<div class="paragraph-container__grid--bleed">
+    <div class="grid">
+        <div class="grid__col-md-8 grid__col-sm-12 grid__col-xs-12">
+            <h2>
+                @if (!string.IsNullOrWhiteSpace(GetString("UserManagement:User.ManageAddresses.AddAddress")))
+                {
+                    <i class="fa fa-pencil"></i>  @Translate("Edit bookmaker account details")
+                }
+                @if (!string.IsNullOrWhiteSpace(GetString("UserManagement:User.ManageAddresses.UpdateAddress")))
+                {
+                    <i class="fa fa-pencil"></i> @Translate("Edit bookmaker account details")
+                }
+            </h2>
+
+            @GetString("UserManagement:User.ManageAddresses.FormStart")
+
+            <h3>Bookmaker : @bookmakerValue</h3>
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_Username">@Translate("Username")</label>
+         
+            <input type="text" class="u-full-width" name="CustomField.AccessUserAddress_AccessUserAddress_Username" id="CustomField.AccessUserAddress_AccessUserAddress_Username" value="@GetString("UserManagement:User.UserAddress.AccessUserAddress_Username")" />
+           
+
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_Password">@Translate("Password")</label>
+            <input type="text" class="u-full-width" name="CustomField.AccessUserAddress_AccessUserAddress_Password" id="CustomField.AccessUserAddress_AccessUserAddress_Password" value="@GetString("UserManagement:User.UserAddress.AccessUserAddress_Password")" />
+
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_Currency">@Translate("Currency")</label>
+            <input type="text" class="u-full-width" name="CustomField.AccessUserAddress_AccessUserAddress_Currency" id="CustomField.AccessUserAddress_AccessUserAddress_Currency" value="@GetString("UserManagement:User.UserAddress.AccessUserAddress_Currency")"  readonly/>
+            @if(GetString("UserManagement:User.UserAddress.AccessUserAddress_Bookmaker") == "Betfair"){
+                <label for="CustomField.AccessUserAddress_AccessUserAddress_Security_Question">@Translate("Security question")</label>
+                <input type="text" class="u-full-width" name="CustomField.AccessUserAddress_AccessUserAddress_Security_Question" id="CustomField.AccessUserAddress_AccessUserAddress_Security_Question" value="@GetString("UserManagement:User.UserAddress.AccessUserAddress_Security_Question")" />
+
+                <label for="CustomField.AccessUserAddress_AccessUserAddress_Security_Question_Answer">@Translate("Answer for Security question")</label>
+                <input type="text" class="u-full-width" name="CustomField.AccessUserAddress_AccessUserAddress_Security_Question_Answer" id="CustomField.AccessUserAddress_AccessUserAddress_Security_Question_Answer" value="@GetString("UserManagement:User.UserAddress.AccessUserAddress_Security_Question_Answer")" />
+            }
+            @if(GetDate("UserManagement:User.UserAddress.AccessUserAddress_First_Deposit_Date").ToString("yyyy-MM-dd") != "0001-01-01")
+    {
+        <label for="CustomField.AccessUserAddress_AccessUserAddress_First_Deposit_Date">@Translate("First Deposit Date") - @Translate("Current Value") : @GetDate("UserManagement:User.UserAddress.AccessUserAddress_First_Deposit_Date").ToString("MMMM dd, yyyy")</label>
+        <input type="date" class="u-full-width" name="CustomField.AccessUserAddress_AccessUserAddress_First_Deposit_Date" id="CustomField.AccessUserAddress_AccessUserAddress_First_Deposit_Date" value='@(GetDate("UserManagement:User.UserAddress.AccessUserAddress_First_Deposit_Date").ToString("yyyy-MM-dd"))'/>
+    }
+
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_Balance">@Translate("Account Balance")</label>
+            <input type="text" class="u-full-width" name="CustomField.AccessUserAddress_AccessUserAddress_Balance" id="CustomField.AccessUserAddress_AccessUserAddress_Balance" value="@GetString("UserManagement:User.UserAddress.AccessUserAddress_Balance")" />
+			 
+            @*<label for="CustomField.AccessUserAddress_AccessUserAddress_Open_Bets" >@Translate("Open Bets")</label>
+            <input type="text" class="u-full-width" name="CustomField.AccessUserAddress_AccessUserAddress_Open_Bets"  id="CustomField.AccessUserAddress_AccessUserAddress_Open_Bets"  value="@GetString("UserManagement:User.UserAddress.AccessUserAddress_Open_Bets")" />*@
+            
+            <h3>Exceptions</h3>       
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_3extra" >+ 3% Extra  <span style="@Checked1 font-weight: 600;">: @threeExtraValue</span></label>
+            <input style="@isChecked1" id="3Extra" type="checkbox" class="" name="CustomField.AccessUserAddress_AccessUserAddress_3extra"  id="CustomField.AccessUserAddress_AccessUserAddress_3extra"  />
+            
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_5extra" >+ 5% Extra <span style="@Checked2 font-weight: 600;">: @fiveExtraValue</span></label>
+            <input style="@isChecked2"  id="5Extra" type="checkbox" class="" name="CustomField.AccessUserAddress_AccessUserAddress_5extra"  id="CustomField.AccessUserAddress_AccessUserAddress_5extra"  />
+            
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_10extra" >+ 10% Extra  <span style="@Checked3 font-weight: 600;">: @tenExtraValue</span></label>
+            <input style="@isChecked3" id="10Extra" type="checkbox" class="" name="CustomField.AccessUserAddress_AccessUserAddress_10extra"  id="CustomField.AccessUserAddress_AccessUserAddress_10extra"   />
+            
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_2flat" >+ 2 Flat  <span style="@Checked4 font-weight: 600;">: @twoFlat</span></label>
+            <input style="@isChecked4" id="2Flat" type="checkbox" class="" name="CustomField.AccessUserAddress_AccessUserAddress_2flat"  id="CustomField.AccessUserAddress_AccessUserAddress_2flat"   />
+            
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_3flat" >+ 3 Flat : <span style="@Checked5 font-weight: 600;">@threeFlat</span></label>
+            <input style="@isChecked5" id="3Flat" type="checkbox" class="" name="CustomField.AccessUserAddress_AccessUserAddress_3flat"  id="CustomField.AccessUserAddress_AccessUserAddress_3flat"  />
+            
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_5flat" >+ 5 Flat  <span style="@Checked6 font-weight: 600;">: @fiveFlat</span></label>
+            <input style="@isChecked6" id="5Flat" type="checkbox" class="" name="CustomField.AccessUserAddress_AccessUserAddress_5flat"  id="CustomField.AccessUserAddress_AccessUserAddress_5flat"   />
+            
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_6flat" >+ 6 Flat  <span style="@Checked7 font-weight: 600;">: @sixFlat</span></label>
+            <input style="@isChecked7" id="6Flat" type="checkbox" class="" name="CustomField.AccessUserAddress_AccessUserAddress_6flat"  id="CustomField.AccessUserAddress_AccessUserAddress_6flat"   />
+            
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_10flat" >+ 10 Flat <span style="@Checked8 font-weight: 600;">: @tenFlat</span></label>
+            <input style="@isChecked8" id="10Flat" type="checkbox" class="" name="CustomField.AccessUserAddress_AccessUserAddress_10flat"  id="CustomField.AccessUserAddress_AccessUserAddress_10flat" />
+            
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_MegaExpressSubscription" >Mega Express Subscription  <span style="@Checked9 font-weight: 600;">: @megaExpress</span></label>
+            <input style="@isChecked9" id="MegaExpress" type="checkbox" class="" name="CustomField.AccessUserAddress_AccessUserAddress_MegaExpressSubscription"  id="CustomField.AccessUserAddress_AccessUserAddress_MegaExpressSubscription" />
+            
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_3informedAboutMerchant" >Was Informed about Merchant  <span style="@Checked10 font-weight: 600;">: @informedAboutMerchant</span></label>
+            <input style="@isChecked10" id="wasInformed" type="checkbox" class="" name="CustomField.AccessUserAddress_AccessUserAddress_3informedAboutMerchant"  id="CustomField.AccessUserAddress_AccessUserAddress_3informedAboutMerchant"  />
+           
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_5DepositedbeforeMerchant" >Deposited Before Merchant  <span style="@Checked11 font-weight: 600;"> : @depositedbeforeMerchant</span></label>
+            <input style="@isChecked11 id="depositBeforeMerchant" type="checkbox" class="" name="CustomField.AccessUserAddress_AccessUserAddress_5DepositedbeforeMerchant"  id="CustomField.AccessUserAddress_AccessUserAddress_5DepositedbeforeMerchant"  />
+            @if (bookmakerValue == "Orbit Exchange")
+            {
+                <label for="CustomField.AccessUserAddress_AccessUserAddress_95share" >95% share  <span style="@Checked12 font-weight: 600;">: @nintyFiveShare</span></label>
+                <input style="@isChecked12" id="95share" type="checkbox" class="" name="CustomField.AccessUserAddress_AccessUserAddress_95share"  id="CustomField.AccessUserAddress_AccessUserAddress_95share" />
+            }
+            
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_Money_to_recover">@Translate("Money to Recover")</label>
+            <input type="text" class="u-full-width" name="CustomField.AccessUserAddress_AccessUserAddress_Money_to_recover" id="CustomField.AccessUserAddress_AccessUserAddress_Money_to_recover" value="@GetString("UserManagement:User.UserAddress.AccessUserAddress_Money_to_recover")" />
+            
+            <label for="CustomField.AccessUserAddress_AccessUserAddress_Express_subscription" >Express Subscription  <span style="@Checked13 font-weight: 600;"> : @expressSubscription</span></label>
+            <input style="@isChecked13 id="ExpressSubscription" type="checkbox" class="" name="CustomField.AccessUserAddress_AccessUserAddress_Express_subscription"  id="CustomField.AccessUserAddress_AccessUserAddress_Express_subscription"  />
+            <button type="submit" class="btn btn--primary btn--full dw-mod" id="submitter">@Translate("Save")</button>
+
+            @GetString("UserManagement:User.ManageAddresses.FormEnd")
+        </div>
+    </div>
+</div>
+@SnippetStart("EditAddressJs")
+<script>
+    
+</script>
+@SnippetEnd("EditAddressJs")

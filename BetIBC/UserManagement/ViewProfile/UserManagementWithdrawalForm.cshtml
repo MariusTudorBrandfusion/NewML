@@ -1,0 +1,377 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+
+    
+
+    @GetString("UserManagement:User.FormStart")
+  
+		<div class="grid__col-sm-12">   
+          <div class="form__field-group">
+
+              <input type="radio" id="Player6" class="radio-button-input" name="Player" value="Player"> <label for="Player6">Player</label>
+              <input type="radio" id="Player7" class="radio-button-input" name="Player" value="Agent"> <label for="Player7">Agent</label><br>
+          </div>
+        </div>
+           
+        <div class="grid__col-sm-12">         
+          <div class="form__field-group">
+
+              <input type="radio" id="SingleMultipleaccount8" class="radio-button-input" name="SingleMultipleaccount" value="Single account withdrawal"> <label for="SingleMultipleaccount8">Single account withdrawal</label>
+              <input type="radio" id="SingleMultipleaccount9" class="radio-button-input" name="SingleMultipleaccount" value="Multiple account withdrawal (euro only)"> <label for="SingleMultipleaccount9">Multiple account withdrawal (euro only)</label><br>
+           </div> 
+         </div>      
+              
+        <input type="hidden" name="Last Name" value="@GetString("UserManagement:User.LastName")">
+		<input type="hidden" id="EmailAddress" name="EmailAddress" value="@GetString("UserManagement:User.Email")">        
+        <input type="hidden" name="First Name" value="@GetString("UserManagement:User.FirstName")">        
+                
+                
+        <div class="single-account-container hidden grid">        
+                
+            <div class="grid__col-sm-6">     
+                <div class="grid__cell">     
+
+                  <div class="form__field-group">
+                      <label>@Translate("Bookmaker")</label>
+                      <select id="Bookmaker" name="Bookmaker">
+                        <option value="Maxbet">Maxbet</option>
+                        <option value="Pinbet88">Pinbet88</option>
+                        <option value="SBOBET">SBOBET</option>
+                        <option value="VIP Service">VIP Service</option>
+                        <option value="TURF7">TURF7</option>
+                        <option value="Betfair">Betfair</option>
+                        <option value="Matchbook">Matchbook</option>
+                        <option value="BetISN">BetISN</option>
+                      </select>
+
+
+                 </div>
+              </div>
+            </div>    
+
+
+            <div class="grid__col-sm-6">     
+              <div class="grid__cell">
+                 <div class="form__field-group">
+                    <label>@Translate("Username")</label>
+                    <input type="text" name="Username" value="">
+
+                </div>
+              </div>
+            </div>     
+
+
+            <div class="grid__col-sm-6">     
+                <div class="grid__cell">
+
+                    <div class="form__field-group">
+
+                      <label>@Translate("Currency")</label>
+                      <select id="Currency" name="Currency">
+                        <option value="Euro (€)">Euro (€)</option>
+                        <option value="Dollar ($)">Dollar ($)</option>
+                        <option value="SGD">SGD</option>
+                        <option value="Malaysian ringgit (MYR)">Malaysian ringgit (MYR)</option>
+                        <option value="GBP (£)">GBP (£)</option>
+                        <option value="BTC (₿)">BTC (₿)</option>
+                      </select>
+
+
+                    </div>
+              </div>
+            </div>  
+
+            <div class="grid__col-sm-6">     
+                <div class="grid__cell">
+                    <div class="form__field-group">
+                        <label>@Translate("Withdrawal amount")</label>
+                        <input type="number" id="Withdrawalamount" name="Withdrawalamount" placeholder="Withdrawal amount">
+
+                    </div>
+              </div>
+            </div>    
+              
+              
+        </div>  
+          
+        <div class="multiple-account-container hidden grid">       
+        	
+          	<div class="grid__col-sm-6">     
+                <div class="grid__cell">
+                    <div class="form__field-group">
+                     <label>MAXBET</label>  
+                     <input type="text" id="MAXBET" name="MAXBET" />
+                      	
+					 </div>
+                </div>
+            </div> 
+             
+              
+            <div class="grid__col-sm-6">     
+                    <div class="grid__cell">
+                        <div class="form__field-group">
+                          
+                          <label>@Translate("Amount to be withdrawn from") MAXBET</label>
+                          <input type="text" id="AmounttobewithdrawnfromMAXBET" name="AmounttobewithdrawnfromMAXBET" />  
+                          	
+    					 </div>
+                    </div>
+            </div> 	
+			
+          
+          	<div class="grid__col-sm-6">     
+                <div class="grid__cell">
+                    <div class="form__field-group">
+                        <label>Pinbet88</label>
+                        <input type="text" name="Pinbet88" value="">
+
+                    </div>
+                </div>
+            </div> 
+             
+              
+            <div class="grid__col-sm-6">     
+                    <div class="grid__cell">
+                        <div class="form__field-group">
+                            <label>@Translate("Amount to be withdrawn from") Pinbet88</label>
+                            <input type="text" name="Amount to be withdrawn from Pinbet88" value="">
+
+                        </div>
+                    </div>
+            </div>
+              
+              
+            <div class="grid__col-sm-6">     
+                <div class="grid__cell">
+                    <div class="form__field-group">
+                        <label>SBOBET</label>
+                        <input type="text" name="SBOBET" value="">
+
+                    </div>
+                </div>
+            </div> 
+             
+              
+            <div class="grid__col-sm-6">     
+                    <div class="grid__cell">
+                        <div class="form__field-group">
+                            <label>@Translate("Amount to be withdrawn from") SBOBET</label>
+                            <input type="text" name="Amount to be withdrawn from SBOBET" value="">
+
+                        </div>
+                    </div>
+            </div>  
+              
+			<div class="grid__col-sm-6">     
+                <div class="grid__cell">
+                    <div class="form__field-group">
+                        <label>VIP Service</label>
+                        <input type="text" name="VIP Service" value="">
+
+                    </div>
+                </div>
+            </div> 
+             
+              
+            <div class="grid__col-sm-6">     
+                    <div class="grid__cell">
+                        <div class="form__field-group">
+                            <label>@Translate("Amount to be withdrawn from") VIP Service</label>
+                            <input type="text" name="Amount to be withdrawn from VIP Service" value="">
+
+                        </div>
+                    </div>
+            </div> 
+
+              
+              
+            <div class="grid__col-sm-6">     
+                <div class="grid__cell">
+                    <div class="form__field-group">
+                        <label>TURF7</label>
+                        <input type="text" name="TURF7" value="">
+
+                    </div>
+                </div>
+            </div> 
+             
+              
+            <div class="grid__col-sm-6">     
+                    <div class="grid__cell">
+                        <div class="form__field-group">
+                            <label>@Translate("Amount to be withdrawn from") TURF7</label>
+                            <input type="text" name="Amount to be withdrawn from TURF7" value="">
+
+                        </div>
+                    </div>
+            </div>  
+              
+              
+              
+            <div class="grid__col-sm-6">     
+                <div class="grid__cell">
+                    <div class="form__field-group">
+                        <label>Betfair</label>
+                        <input type="text" name="Betfair" value="">
+
+                    </div>
+                </div>
+            </div> 
+             
+              
+            <div class="grid__col-sm-6">     
+                    <div class="grid__cell">
+                        <div class="form__field-group">
+                            <label>@Translate("Amount to be withdrawn from") Betfair</label>
+                            <input type="text" name="Amount to be withdrawn from Betfair" value="">
+
+                        </div>
+                    </div>
+            </div>    
+              
+              
+              
+            <div class="grid__col-sm-6">     
+                <div class="grid__cell">
+                    <div class="form__field-group">
+                        <label>Matchbook</label>
+                        <input type="text" name="Matchbook" value="">
+
+                    </div>
+                </div>
+            </div> 
+             
+              
+            <div class="grid__col-sm-6">     
+                    <div class="grid__cell">
+                        <div class="form__field-group">
+                            <label>@Translate("Amount to be withdrawn from") Matchbook</label>
+                            <input type="text" name="Amount to be withdrawn from Matchbook" value="">
+
+                        </div>
+                    </div>
+            </div>   
+              
+              
+              
+            <div class="grid__col-sm-6">     
+                <div class="grid__cell">
+                    <div class="form__field-group">
+                        <label>BetISN</label>
+                        <input type="text" name="BetISN" value="">
+
+                    </div>
+                </div>
+            </div> 
+             
+              
+            <div class="grid__col-sm-6">     
+                    <div class="grid__cell">
+                        <div class="form__field-group">
+                            <label>@Translate("Amount to be withdrawn from") BetISN</label>
+                            <input type="text" name="Amount to be withdrawn from BetISN" value="">
+
+                        </div>
+                    </div>
+            </div>     
+              
+              
+            
+		
+      </div> 
+           
+              
+        <div class="grid__col-sm-12">     
+          	<div class="grid__cell">
+          		<div class="form__field-group">
+                      <label>@Translate("Payment Method")</label>
+                      <input type="radio" class="radio-button-input skrill-payment-method-input" id="PaymentMethod24" name="PaymentMethod" value="Skrill (Moneybookers)"> <label for="PaymentMethod24">Skrill (Moneybookers)</label><br>
+                      <input type="radio" class="radio-button-input neteller-payment-method-input" id="PaymentMethod25" name="PaymentMethod" value="Neteller"> <label for="PaymentMethod25">Neteller</label><br>
+                      <input type="radio" class="radio-button-input ecopayz-payment-method-input" id="PaymentMethod26" name="PaymentMethod" value="EcoPayz"> <label for="PaymentMethod26">EcoPayz</label><br>
+                      <input type="radio" class="radio-button-input banktransfer-payment-method-input" id="PaymentMethod27" name="PaymentMethod" value="Bank Transfer"> <label for="PaymentMethod27">Bank Transfer</label><br>
+                      <input type="radio" class="radio-button-input bitcoin-payment-method-input" id="PaymentMethod28" name="PaymentMethod" value="Bitcoin"> <label for="PaymentMethod28">Bitcoin</label><br>
+
+
+                </div>
+        	</div>
+     	</div>  
+                        
+        <div class="grid__col-sm-6 hidden skrill-payment-method">     
+          	<div class="grid__cell">
+          		<div class="form__field-group">
+                    <label>Email</label>
+                    <input type="text" name="Skrill email" value="">
+            	</div>
+                <div class="form__field-group">
+                  
+                  <label>Recipient's Name</label>
+                  <input type="text" name="Skrill Recipient's Name" value="">
+            
+        		</div>  
+                  
+        	</div>
+     	</div>   
+              
+        <div class="grid__col-sm-6 hidden neteller-payment-method">     
+          	<div class="grid__cell">
+          		<div class="form__field-group">
+                    <label>Email</label>
+                    <input type="text" name="Neteller email" value="">
+
+                </div>
+                
+                  
+        	</div>
+     	</div>         
+              
+        <div class="grid__col-sm-6 hidden ecopayz-payment-method">     
+          	<div class="grid__cell">
+          		<div class="form__field-group">
+                      <label>Recipient's Name</label>
+                      <input type="text" name="EcoPayz Recipient's Name" value="">
+
+                  </div>
+                <div class="form__field-group">
+                    <label>Account Number</label>
+                    <input type="text" name="EcoPayz Account Number" value="">
+
+                </div> 
+                  
+        	</div>
+     	</div> 
+              
+              
+        <div class="grid__col-sm-6 hidden banktransfer-payment-method">     
+          	<div class="grid__cell">
+          		<div class="form__field-group">
+                    <label>SWIFT / BIC</label>
+                    <input type="text" name="Bank Transfer SWIFT / BIC" value="">
+
+                </div>
+                <div class="form__field-group">
+                    <label>IBAN</label>
+                    <input type="text" name="Bank Transfer IBAN" value="">
+
+                </div>
+                  
+        	</div>
+     	</div> 
+              
+              
+        <div class="grid__col-sm-6 hidden bitcoin-payment-method">     
+          	<div class="grid__cell">
+          		<div class="form__field-group">
+                    <label>Account Number</label>
+                    <input type="text" name="Bitcoin Account Number" value="">
+
+                </div>
+                
+                  
+        	</div>
+     	</div>         
+              
+          
+                        
+                        
+        <button type="submit" class="btn btn--primary btn--full dw-mod" id="submitter">@Translate("Save changes")</button>
+    @GetString("UserManagement:User.FormEnd")

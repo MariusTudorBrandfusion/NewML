@@ -1,0 +1,197 @@
+﻿@{
+
+
+var formStart = GetString("Form.Start");
+var formEnd = GetString("Form.End");
+var accountID = GetGlobalValue("Global:Extranet.UserID");
+var formHiddenFileds = GetString("Form.Hidden");
+var now = DateTime.Now.ToString("dd/MM/yyyy, HH:mm");
+
+}
+<div class = "loading-background active">
+   </div>
+<div class="container form-content" data-type-accontID = "@accountID">
+ 
+	@formStart
+@formHiddenFileds
+<div class = "form-in hidden">
+  <span>@Translate("Client ID","Client ID")</span>
+  <input type="text" id="transfers_Client_Id" name="transfers_Client_Id" value='@GetGlobalValue("Global:Extranet.UserID")' />
+</div>
+<div class = "form-in hidden">
+    <span>@Translate("Client Email","Client Email")</span>
+  <input type="text" id="transfers_Client_Email" name="transfers_Client_Email" value='@GetGlobalValue("Global:Extranet.Email")'>
+</div>
+<div class = "form-in hidden">
+     <span>@Translate("Client Username","Client Username")</span>
+  <input type="text" id="transfers_Client_Username" name="transfers_Client_Username" value='' />
+</div>
+<div class = "form-in">
+    <span>@Translate("From Bookmaker","From Bookmaker")</span>
+  <select id="transfers_Bookmaker" name="transfers_Bookmaker">
+    <option value = "Bookmaker">Bookmaker</option>
+  </select>
+ 
+</div>
+<div class = "form-in">
+   <span>@Translate("From Account","From Account")</span>
+      <input type = "text" id="transfers_Transfer_from_Username" readonly name="transfers_Transfer_from_Username">
+</div>    
+<div class = "form-in">
+    <span>@Translate("To Bookmaker","To Bookmaker")</span>
+  <select id="transfers_Receiver_Bookmaker_New" name="transfers_Receiver_Bookmaker_New">
+    <option value = "Bookmaker">Bookmaker</option>
+  </select>
+ 
+</div>
+     
+<div class = "form-in">
+  <span>@Translate("To Account","To Account")</span>
+       <input type="text" id="transfers_Transfer_to_Username" readonly name="transfers_Transfer_to_Username">
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("Account Currency","Account Currency")</span>
+  <input type="text" id="transfers_Account_Currency" name="transfers_Account_Currency" value="" />
+</div>
+    <div class = "form-in hidden">
+  <span>@Translate("To Account Currency","To Account Currency")</span>
+  <input type="text" id="transfers_To_Account_Currency" name="transfers_To_Account_Currency" value="" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("Agent Profit","Agent Profit")</span>
+  <input type="text" id="transfers_Agent_profit" name="transfers_Agent_profit" value="" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("Ammount after comisions","Ammount after comisions")</span>
+  <input type="text" id="transfers_Ammount_to_be_transferd_after_commisions" name="transfers_Ammount_to_be_transferd_after_commisions" value="" />
+</div>
+<div class = "form-in">
+    <span>@Translate("Ammount","Ammount")</span>
+  <input type="text" id="transfers_Amount" name="transfers_Amount" value="" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("Balance after Transfer","Balance after Transfer")</span>
+  <input type="text" id="transfers_Balance_after_Transfer" name="transfers_Balance_after_Transfer" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("Receiver Bookmaker Ballance After Transfer","Receiver Bookmaker Ballance After Transfer")</span>
+  <input type="text" id="transfers_Receiver_Bookmaker_Balance_after_Transfer" name="transfers_Receiver_Bookmaker_Balance_after_Transfer" value="" />
+</div>  
+<div class = "form-in hidden">
+   <span>@Translate("Commision ammount","Commision ammount")</span>
+  <input type="text" id="transfers_Commision_ammount" name="transfers_Commision_ammount" value="" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("Commision in Procent","Commision in Procent")</span>
+  <input type="text" id="transfers_Commision_in_procent" name="transfers_Commision_in_procent" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("Commision Currency","Commision Currency")</span>
+  <input type="text" id="transfers_Currency" name="transfers_Currency" value="" />
+</div>
+<div class = "form-in hidden">
+    <span>@Translate("Transfer Status","Transfer Status")</span>
+  <input type="text" id="transfers_Transfer_Status" name="transfers_Transfer_Status" value="Requested" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("Initial Balance","Initial Balance")</span>
+  <input type="text" id="transfers_Initial_Balance" name="transfers_Initial_Balance" value="" />
+</div>
+    <div class = "form-in hidden">
+   <span>@Translate("Receiver Bookmaker Initial Ballance","Receiver Bookmaker Initial Ballance")</span>
+  <input type="text" id="transfers_Receiver_Bookmaker_initial_Ballance" name="transfers_Receiver_Bookmaker_initial_Ballance" value="" />
+</div>
+
+<div class = "form-in hidden">
+   <span>@Translate("First Transfer","First Transfer")</span>
+  <input type="text" id="transfers_First_Transfer_New" name="transfers_First_Transfer_New" value="" />
+</div>
+<div class = "form-in hidden">
+     <span>@Translate("Oanda Exchange Rate","Oanda Exchange Rate")</span>
+  <input type="text" id="transfers_Oanda_Exchange_Rate" name="transfers_Oanda_Exchange_Rate" value="1.00" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("Operator 1 Email","Operator 1 Email")</span>
+  	<input type="text" id="transfers_Operator1_Email" name="transfers_Operator1_Email" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("Operator 1 ID","Operator 1 ID")</span>
+  <input type="text" id="transfers_Operator1_Id" name="transfers_Operator1_Id" value="" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("Operator 1 Name","Operator 1 Name")</span>
+  <input type="text" id="transfers_Operator1_Name" name="transfers_Operator1_Name" value="" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("Operator 2 Email","Operator 2 Email")</span>
+<input type="text" id="transfers_Operator2_Email" name="transfers_Operator2_Email" value="" />  
+</div>
+<div class = "form-in hidden">
+  <span>Operator 2 ID</span>
+  <input type="text" id="transfers_Operator2_Id" name="transfers_Operator2_Id" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("Operator 2 Name","Operator 2 Name")</span>
+  <input type="text" id="transfers_Operator2_Name" name="transfers_Operator2_Name" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("Operator 3 Email","Operator 3 Email")</span>
+  <input type="text" id="transfers_Operator3_Email" name="transfers_Operator3_Email" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("Operator 3 ID","Operator 3 ID")</span>
+  <input type="text" id="transfers_Operator3_Id" name="transfers_Operator3_Id" value="" />
+</div>
+<div class = "form-in hidden">
+     <span>@Translate("Operator 3 Name","Operator 3 Name")</span>
+  	<input type="text" id="transfers_Operator3_Name" name="transfers_Operator3_Name" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("Operator 4 Email","Operator 4 Email")</span>
+  <input type="text" id="transfers_Operator4_Email" name="transfers_Operator4_Email" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("Operator 4 ID","Operator 4 ID")</span>
+  <input type="text" id="transfers_Operator4_Id" name="transfers_Operator4_Id" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("Operator 4 Name","Operator 4 Name")</span>
+  <input type="text" id="transfers_Operator4_Name" name="transfers_Operator4_Name" value="" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("Request Created on Date","Request Created on Date")</span>
+  <input type="text" id="transfers_Request_Created_on_Date_New" name="transfers_Request_Created_on_Date_New" value="@now" />
+</div>
+<div class = "form-in hidden">
+    <span>@Translate("Transaction Number provided","Transaction Number provided")</span>
+  	<input type="text" id="transfers_Transaction_Number_provided" name="transfers_Transaction_Number_provided" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("Transaction Number provided by admin","Transaction Number provided by admin")</span>
+  <input type="text" id="transfers_Transaction_Number_provided_by_admin" name="transfers_Transaction_Number_provided_by_admin" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("Transaction Screenshot by admin","Transaction Screenshot by admin")</span>
+  <input type="file" id="transfers_Transaction_Screenshot_by_admin" name="transfers_Transaction_Screenshot_by_admin" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("Sender Initial Balance Screenshot","Sender Initial Balance Screenshot") </span>
+  <input type="file" id="transfers_From_Initial_Balance_Screenshot" name="transfers_From_Initial_Balance_Screenshot" />
+</div>
+ <div class = "form-in hidden">
+   <span>@Translate("Reciver Initial Balance Screenshot","Reciver Initial Balance Screenshot") </span>
+  <input type="file" id="transfers_To_Initial_Balance_Screenshot" name="transfers_To_Initial_Balance_Screenshot" />
+</div>
+<div class = "form-in hidden">
+    <span>@Translate("From User ID","From User ID")</span>
+  	<input type="text" id="transfers_Transfer_from_User_ID" name="transfers_Transfer_from_User_ID" value="" />
+</div>
+<div class = "form-in hidden">
+    <span>@Translate("To User ID","To User ID")</span>
+  	<input type="text" id="transfers_Transfer_to_User_ID" name="transfers_Transfer_to_User_ID" value="" />
+</div>
+@GetString("Form.Button.Submit")
+@formEnd
+
+</div>
+  	

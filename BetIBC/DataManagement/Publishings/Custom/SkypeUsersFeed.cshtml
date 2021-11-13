@@ -1,0 +1,40 @@
+﻿[
+	@{
+		int loopCount =  GetLoop("Rows").Count() - 1;
+		var rows = GetLoop("Rows");
+		int loopCounter = 0;
+	}
+
+	@foreach (var row in rows) {
+		var skypeUserId = row.GetInteger("AccessUserId");
+		var skypeUserUserName = row.GetString("AccessUserUserName");
+		var skypeUserFirstName = row.GetString("AccessUserFirstName");
+		var skypeUserLastName = row.GetString("AccessUserLastName");
+		var fullName = skypeUserFirstName + " " + skypeUserLastName;
+	
+		if(loopCounter == loopCount){
+
+			<text>
+			{
+				"userId": "@skypeUserId",
+				"userName": "@skypeUserUserName",
+              	"firstName" : "@skypeUserFirstName",
+                "lastName" : "@skypeUserLastName",
+                "fullName" : "@fullName"
+			}
+			</text>
+		}else{
+              <text>
+              {
+                  "userId": "@skypeUserId",
+                  "userName": "@skypeUserUserName",
+                  "name" : "@skypeUserFirstName",
+                  "lastName" : "@skypeUserLastName",
+                  "fullName" : "@fullName"
+              },
+              </text>
+            }
+loopCounter ++;
+}
+
+]

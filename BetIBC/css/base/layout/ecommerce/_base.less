@@ -1,0 +1,130 @@
+//Base classes for Ecommerce
+
+//Top micro search
+.top-micro-search {
+    left: -150px;
+}
+
+//Product
+.product__title {
+    width:  ~"calc(100% - 40px)";
+}
+
+
+//Item number
+.item-number {
+    color: @gray;
+    margin-bottom: @reflex-cell-spacing-sm;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: @font-size--xs;
+}
+
+
+//Prices
+.price {
+    font-weight: 500;
+    font-size: @font-size--lg;
+}
+
+.price--condensed {
+    font-size: @font-size--sm;
+}
+
+.before-price {
+    color: @gray;
+    font-size: @font-size--sm;
+    text-decoration: line-through;
+    line-height: 1.4;
+}
+
+
+//Favorites
+
+.favorites--md {
+    padding: @reflex-cell-spacing-md;
+}
+
+.favorites--lg {
+    padding: @reflex-cell-spacing-md;
+    margin-top: @reflex-cell-spacing-md;
+}
+
+.favorites-list {
+    background-color: @gray-lightest;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    z-index: @z-index-8;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: none;
+    width: 250px;
+    padding: @reflex-cell-spacing-md;
+}
+
+.favorites:hover:not(.disabled) .favorites-list {
+    display: block;
+}
+
+.favorites.disabled i {
+    color: @gray-light;
+}
+
+
+//Sticker
+.sticker {
+    position: absolute;
+    left: 0;
+    top: @reflex-cell-spacing-md;
+    padding: 0 8px;
+    background-color: @color-sticker;
+    color: @white;
+    width: 55px;
+    line-height: 1.4;
+    font-size: 1em;
+    text-align: center;
+}
+
+.sticker--right {
+    right: @reflex-cell-spacing-md;
+    left: inherit;
+}
+
+.micro-sticker {
+    position: absolute;
+    left: -@reflex-cell-spacing-md;
+    top: @reflex-cell-spacing-md;
+    padding: 0 @reflex-cell-spacing-md;
+    border-radius: 0;
+    height: 18px;
+    line-height: 18px;
+    background-color: @color-sticker;
+    color: @white;
+    font-size: 0.7em;
+    text-align: center;
+    z-index: @z-index-1; 
+}
+
+
+//Stock icon
+.stock-icon {
+    width: 8px;
+    height: 8px;
+    margin-left: @reflex-cell-spacing-md;
+    margin-right: @reflex-cell-spacing-md;
+    border-radius: 100px;
+    background-color: @gray;
+    display: inline-block;
+}
+
+.stock-icon--in {
+    background-color: @color-stock-in;
+}
+
+.stock-icon--not {
+    background-color: @color-stock-not;
+}
+
+.stock-icon--comming {
+    background-color: @color-stock-comming;
+}

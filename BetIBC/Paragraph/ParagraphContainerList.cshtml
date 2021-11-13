@@ -1,0 +1,99 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.ParagraphViewModel>
+ 
+@using Dynamicweb.Frontend.Devices
+
+@{ 
+    string title = Model.Item.GetString("List_Title");
+    string titleSize = Model.Item.GetString("Title_Font_Size");
+    string backgroundColor = !string.IsNullOrEmpty(Model.Item.GetList("BackgroundColor").SelectedValue) ? "u-" + Model.Item.GetList("BackgroundColor").SelectedValue + "--bg" : "";
+    string paragraphContainerClasses = "";
+    string containerClasses = string.IsNullOrEmpty(Model.Item.GetList("Width").SelectedValue) ? "center-container dw-mod" : "";
+    string gridClasses = "";
+
+    if (Model.Item.GetList("Width").SelectedValue == "center") {
+        containerClasses = backgroundColor + " center-container";
+    }
+
+    if (Model.Item.GetList("Width").SelectedValue == "full")
+    {
+        containerClasses = backgroundColor;
+    }
+
+    if (Model.Item.GetList("Width").SelectedValue == "combi")
+    {
+        paragraphContainerClasses = backgroundColor;
+        containerClasses = "center-container";
+    }
+
+    string customClass = Model.Item.GetString("Custom_Class");
+}
+
+@* Escape the container and section *@
+@* </div>
+</section> *@
+@* ----------------------------------- *@
+
+<section class="multiple-paragraphs-container grid__col-md-12 grid__col-xs-12 u-no-padding @paragraphContainerClasses">   
+    <div class="@containerClasses dw-mod">
+        <div class="grid icons-list @customClass">
+            @if(title != ""){
+<h1 style= 'font-size:@titleSize;'>@title</h1>
+                }
+            @if (Model.Item.GetItems("Icons_List").Count > 0) {
+                foreach (var list in Model.Item.GetItems("Icons_List"))
+                {
+                    var imageList = ((IList<Dynamicweb.Frontend.FileViewModel>)list.GetValue("Image")).FirstOrDefault();
+                    string iconText = list.GetString("Icon_Text");
+
+                    string iconIconTextLink = list.GetString("Icon_Text_Link");
+                    string iconLink = list.GetString("Icon_Link");
+					string iconClass = list.GetString("Icon");
+					string fontColor = list.GetString("Font_Color");
+					string fontSize = list.GetString("Font_Size");
+
+                    var iconsType = ((Dynamicweb.Frontend.ListViewModel)list.GetValue("Icons_Type")).SelectedOptions;
+                    var iconsTypeValues = iconsType.Select(i => i.Value).ToList();
+
+                    if(iconsTypeValues.Contains( "ImageIcon") || iconsTypeValues.Contains("FaIcon")) { 
+                        <div class="grid__col-md-3 grid__col-xs-12 paragraph-container">
+                            <div class="grid__cell">
+                                @if(imageList != null) { 
+                                    <div class="responsive-image responsive-image--16-9"> 
+                                        @if(!string.IsNullOrEmpty(iconLink)) {
+                                            <a href="@iconLink"><img src="@imageList.Path" /></a> 
+                                        } else {
+                                            <img src="@imageList.Path" />
+                                        }
+                                        
+                                    </div> 
+                                }else{
+                          			<div class="align-center">
+                          				<i class="fa @iconClass" style="color: @fontColor; font-size: @fontSize;"></i>
+									</div>
+								}
+                          
+                                @if(!string.IsNullOrEmpty(iconText)) { 
+                                    <h5 class="align-center">@iconText</h5>
+                                }
+                            </div>
+                        </div>
+                    } else { 
+                        <div class="agents-list">
+                            <div class="u-pull--left">
+                                @if(!string.IsNullOrEmpty(iconText)) { 
+                                    <h5 class="align-center">@iconText</h5>
+                                }
+                            </div>
+                            <a class="u-pull--right btn btn--primary dw-mod" href="@iconLink">@iconIconTextLink</a>
+                        </div>
+                    } 
+                }
+            }
+        </div>
+    </div>
+</section>
+
+@* Re-enter the container and section *@
+@* <section class="content-container center-container dw-mod">
+<div class="grid"> *@
+@* ----------------------------------- *@

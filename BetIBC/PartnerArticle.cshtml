@@ -1,0 +1,167 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+@MasterPageFile("Master.cshtml")
+
+@*This is an example implementation of a Partner template. 
+ You may want to re-configure the itemtype and adjust this template to the specific needs. *@
+@{ 
+    string fullBackgroundImage = "";
+    if (Model.Item.GetFile("Image") != null)
+    {
+        fullBackgroundImage = "background-image:url(/Admin/Public/GetImage.ashx?width=2500&amp;height=1100&amp;crop=1&amp;Compression=90&amp;image=" + Model.Item.GetFile("Image").Path + ");";
+    }
+
+    string caseListPageId = GetPageIdByNavigationTag("CasesListFeed").ToString();
+    string partnerName = Model.Item.GetString("PartnerName");
+    string partnerLink = Model.ID.ToString();
+}
+
+<div class="grid">
+
+    @* Escape the container and section *@
+    </div>
+    </section>
+    @* ----------------------------------- *@
+
+    <section class="multiple-paragraphs-container u-color-light" style="@fullBackgroundImage">
+        <div class="center-container center-container--with-background-image dw-mod">
+            <div class="grid center-container--with-background-image">
+                <div class="grid__col-md-12 grid__col-xs-12 paragraph-container" style="">
+                    <div class="u-ta-center u-middle">
+                        <div>
+                            <h1 class="article__header article__header--giant">@Model.Item.GetString("BannerHeading")</h1>
+                            <div class="article__subheader article__subheader--giant">@Model.Item.GetString("BannerSubheading")</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @* Re-enter the container and section *@
+    <section class="center-container content-container dw-mod">
+    <div class="grid">
+    @* ----------------------------------- *@
+
+
+    <div class="grid__col-12"></div>
+
+    @* The descriptions *@
+    <article class="grid__col-md-8">
+        <h2 class="article__header">@Translate("About us")</h2>
+        <div class="article__paragraph">@Model.Item.GetString("AboutUs")</div>
+    </article>
+
+    @* Customer informations *@
+    <div class="grid__col-md-4">
+        @if (Model.Item.GetFile("PartnerLogo") != null) {
+            <img src="/Admin/Public/GetImage.ashx?width=300&amp;crop=5&amp;Compression=90&amp;image=@Model.Item.GetFile("PartnerLogo").Path" class="article__image" />
+        }
+
+        <table class="table">
+            @if (!String.IsNullOrEmpty(Model.Item.GetString("PartnerStatus"))) {
+                <tr>
+                    <td width="32"><i class="fa fa-users fa-2x u-brand-color-two"></i></td>
+                    <td>
+                        <div class="u-bold">@Translate("Partner status")</div>
+                        <div>@Model.Item.GetString("PartnerStatus")</div>
+                    </td>
+                </tr>
+            }
+            @if (!String.IsNullOrEmpty(Model.Item.GetString("CertifiedDevelopers"))) {
+                <tr>
+                    <td width="32"><i class="fa fa-user-plus fa-2x u-brand-color-two"></i></td>
+                    <td>
+                        <div class="u-bold">@Translate("Number of certified developers")</div>
+                        <div>@Model.Item.GetString("CertifiedDevelopers")</div>
+                    </td>
+                </tr>
+            }
+            @if (!String.IsNullOrEmpty(Model.Item.GetString("PartnerLocation"))) {
+                <tr>
+                    <td width="32"><i class="fa fa-globe fa-2x u-brand-color-two"></i></td>
+                    <td>
+                        <div class="u-bold">@Translate("Location")</div>
+                        <div class="u-no-margin-on-p-elements">@Model.Item.GetString("PartnerLocation")</div>
+                    </td>
+                </tr>
+            }
+            @if (!String.IsNullOrEmpty(Model.Item.GetString("WebsiteUrl"))) {
+                <tr>
+                    <td width="32"><i class="fa fa-desktop fa-2x u-brand-color-two"></i></td>
+                    <td>
+                        <div class="u-bold">@Translate("Website")</div>
+                        <a href="@Model.Item.GetString("WebsiteUrl")">@Model.Item.GetString("WebsiteUrl")</a>
+                    </td>
+                </tr>
+            }
+            @if (!String.IsNullOrEmpty(Model.Item.GetString("PartnerPhoneNumber")) || !String.IsNullOrEmpty(Model.Item.GetString("PartnerPhoneNumber"))) {
+                <tr>
+                    <td width="32"><i class="fa fa-user-plus fa-2x u-brand-color-two"></i></td>
+                    <td>
+                        <div class="u-bold">@Translate("Get in touch")</div>
+                        @if (!String.IsNullOrEmpty(Model.Item.GetString("PartnerPhoneNumber")))
+                        {
+                            <div>@Model.Item.GetString("PartnerPhoneNumber")</div>
+                        }
+                        @if (!String.IsNullOrEmpty(Model.Item.GetString("PartnerEmailAddress")))
+                        {
+                            <div>@Model.Item.GetString("PartnerEmailAddress")</div>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+
+    @* Related cases *@
+    @* Escape the container and section *@
+    </div>
+    </section>
+    @* ----------------------------------- *@
+
+    <section class="multiple-paragraphs-container u-color-light-gray--bg">
+        <div class="center-container dw-mod">
+            <div class="grid">
+                <div class="grid__col-md-12 grid__col-xs-12 paragraph-container">
+                    <h1 class="article__header u-no-margin">@Translate("Cases by") @partnerName</h1>
+                </div>
+            </div>
+
+            <div class="grid u-no-margin js-ajax-container" id="RelatedCases" data-template="RelatedCasesTemplate" data-json-feed="/Default.aspx?ID=@caseListPageId&LayoutTemplate=Json.cshtml&DisableStatistics=True&PartnerLink=@partnerLink"></div>
+
+            <script id="RelatedCasesTemplate" type="text/x-template">
+                <div class="grid u-no-margin" id="Cases" data-template="CasesTemplate" ></div>
+            </script>
+
+            <script id="CasesTemplate" type="text/x-template">
+                <div class="grid__col-md-3 grid__col-sm-3 grid__col-xs-12">
+                    <div class="u-ta-center paragraph-card">
+                        <div class="u-margin-bottom">
+                            <a href="{{link}}">
+                                <img class="grid__cell-img grid__cell-img--centered" src="/Admin/Public/GetImage.ashx?width=992&amp;height=760&amp;crop=5&amp;Compression=75&amp;DoNotUpscale=True&amp;image={{image}}" alt="{{title}}">
+                            </a>
+                        </div>
+
+                        <a href="{{link}}">
+                            <h2 class="u-no-margin u-margin-bottom">{{title}}</h2>
+                        </a>
+
+                        <p>{{summary}}</p>
+                    </div>
+                    <div class="grid__cell-footer grid--justify-center paragraph-card-footer">
+                        <div class="u-margin-top u-margin-bottom">
+                            <a href="{{link}}" class="btn btn--secondary btn--line-height dw-mod">@Translate("Read more")</a>
+                        </div>
+                    </div>
+                </div>
+            </script>
+        </div>
+    </section>
+
+    @* Re-enter the container and section *@
+    <section class="content-container center-container dw-mod">
+    <div class="grid">
+    @* ----------------------------------- *@
+
+</div>

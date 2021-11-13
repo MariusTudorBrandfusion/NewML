@@ -1,0 +1,158 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using Dynamicweb.Core
+@using System
+@SnippetStart("BootstrapCss")
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+@SnippetEnd("BootstrapCss")
+@Include("/Files/Templates/Designs/BetIBC/UserManagement/ViewProfile/Includes/ProfileHelpers.cshtml")
+@{
+    var firstName = GetString("UserManagement:User.FirstName");
+    var lastName = GetString("UserManagement:User.LastName");
+    var fullName = firstName + " " + lastName;
+    var userId = GetString("UserManagement:User.ID");
+    var userEmail = GetString("UserManagement:User.Email");
+    var userEmail2 = GetString("UserManagement:User.AccessUser_Email_2");
+    var userEmail3 = GetString("UserManagement:User.AccessUser_Email_3");
+    var country = GetString("UserManagement:User.Country");
+    var language = GetString("UserManagement:User.AccessUser_Language");
+    var usesSkype = GetString("UserManagement:User.AccessUser_Uses_Skype");
+    var skypeId = GetString("UserManagement:User.AccessUser_Skype_ID");
+    var usesWL = GetString("UserManagement:User.AccessUser_Uses_Windows_Live");
+    var WLUsername = GetString("UserManagement:User.AccessUser_Windows_Live_Username");
+    var usesYahoo = GetString("UserManagement:User.AccessUser_Uses_Yahoo");
+    var yahooUsername = GetString("UserManagement:User.AccessUser_Yahoo_username");
+    var usesTelegram = GetString("UserManagement:User.AccessUser_Uses_Telegram");
+    var telegramNumber = GetString("UserManagement:User.AccessUser_Telegram_Phone_Number");
+    var timezone = GetString("UserManagement:User.AccessUser_Time_zone");
+    var phone = GetString("UserManagement:User.DefaultAddress.Phone");
+    var feeForDeposits = GetString("UserManagement:User.AccessUser_Fee_for_deposits");
+    var feeForDepositsLabel = GetString("UserManagement:User.AccessUser_Fee_for_deposits.Name");
+    var feeForWithdrawals = GetString("UserManagement:User.AccessUser_Fee_for_withdrawals");
+    var feeForWithdrawalsLabel = GetString("UserManagement:User.AccessUser_Fee_for_withdrawals.Name");
+    var feeForIBT = GetString("UserManagement:User.AccessUser_Fee_for_IBT");
+    var feeForIBTLabel = GetString("UserManagement:User.AccessUser_Fee_for_IBT.Name");
+    var megaSubscription = GetString("UserManagement:User.AccessUser_Mega_Express_Subscription");
+    var megaSubscriptionLabel = GetString("UserManagement:User.AccessUser_Mega_Express_Subscription.Name");
+    var expressSubscription = GetString("UserManagement:User.AccessUser_Express_Subscription");
+    var expressSubscriptionLabel = GetString("UserManagement:User.AccessUser_Express_Subscription.Name");
+    var useMerchent = GetString("UserManagement:User.AccessUser_Can_use_merchant_Account");
+    var economicArea = GetString("UserManagement:User.AccessUser_Economic_Area");
+
+
+
+}
+
+<div class="section" id="areaheader">
+    <div class="grid__col-8 grid__col--bleed user-profile-page">
+        <div class="grid__cell">
+            <div class="u-pull--left">
+                <h2><i class="fa fa-user"></i> @Translate("User profile")</h2>
+            </div>
+            <div class="u-pull--right">
+                <a href="/@GetString("UserManagement:User.EditUrl")" class="btn btn--primary dw-mod"><i class="fa fa-address-card-o"></i> @Translate("Edit user account")</a>
+                <a href="/@GetString("UserManagement:User.ManageAddressesUrl")" class="btn btn--primary dw-mod"><i class="fa fa-address-card-o"></i> @Translate("Edit Bookmaker Accounts")</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section">
+  
+    <div class="row">
+        <div class="col-xs-12 col-md-4" id ="BasicAndPaymentInfo">
+            <h4>User Basic Info</h4>
+            <ul>
+                <li><strong>User Bet-ibc</strong> : @fullName</li>
+                <li><strong>ID Bet-ibc</strong> : @userId </li>
+                <li><strong>Account Email</strong> : @userEmail</li>
+                <li><strong>Email2</strong> : @userEmail2</li>
+                <li><strong>Email3</strong> : @userEmail3</li>
+                <li><strong>First Name</strong> : @firstName</li>
+                <li><strong>Last name</strong> : @lastName</li>
+                <li><strong>Country</strong> : @country</li>
+                <li><strong>Time Zone</strong> : @timezone</li>
+                <li><strong>Language</strong> : @language</li>
+                <li><strong>Phone</strong> : @phone</li>
+                <li><strong>Skype</strong> : @usesSkype</li>
+                <li><strong>Skype ID</strong> : @skypeId</li>
+                <li><strong>Windows Live</strong> : @usesWL</li>
+                <li><strong>WL Username</strong> : @WLUsername</li>
+                <li><strong>Yahoo</strong> : @usesYahoo</li>
+                <li><strong>Yahoo Username</strong> : @yahooUsername</li>
+                <li><strong>Telegram</strong> : @usesTelegram</li>
+                <li><strong>Telegram phone</strong> : @telegramNumber</li>
+                <li><strong>Use Merchant</strong> : @useMerchent</li>
+              @if(useMerchent == "True"){
+               <li><strong>Economic Area</strong> : @economicArea</li>
+              }
+               
+            </ul>
+            <h4>Payment Information</h4>
+            @RenderParagraphContent(48371)
+            <a href="http://bet.dotfusion.ro/Default.aspx?ID=121590" class="btn btn-primary" > New Payment Method</a>
+        </div>
+        <div class="col-xs-12 col-md-4" id ="AccountsInfo" data-attribute-userid = "@userId">
+            <h4>Betting Accounts Information</h4>
+            <ul id="user-bookmaker-account-info">
+                
+            </ul>
+        </div>
+        <div class="col-xs-12 col-md-4" id="closedAccounts">
+            <h4>Closed Accounts</h4>
+         
+            @RenderParagraphContent(48307)
+            <a href="http://bet.dotfusion.ro/Default.aspx?ID=121416" class="btn btn-primary" > New Closed account</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-4" >
+            <h4>Charges and Fees</h4>
+            <ul>
+              @if(feeForDeposits != ""){
+                <li><strong>@feeForDepositsLabel</strong> : @feeForDeposits</li>
+              }
+              @if(feeForWithdrawals != ""){
+              <li><strong>@feeForWithdrawalsLabel</strong> : @feeForWithdrawals</li>
+              }
+              @if(feeForIBT != ""){  
+                <li><strong>@feeForIBTLabel</strong> : @feeForIBT</li>
+              }
+                <li><strong>@megaSubscriptionLabel</strong> : @megaSubscription</li>
+                <li><strong>@expressSubscriptionLabel</strong> : @expressSubscription</li>
+                
+            </ul>           
+        </div>
+        <div class="col-xs-12 col-md-4" >
+            @RenderParagraphContent(48577)
+            <a href="/english/exception-for-users-form" class="btn btn-primary" >Add exception</a>
+            
+        </div>
+        <div class="col-xs-12 col-md-4">
+            @RenderParagraphContent(48641)
+            <a href="/english/exceptions-for-bookmakers-form"class="btn btn-primary">Add Bookmaker exception</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-4" >
+            <h4>User Sign-up Information</h4>    
+            
+            <ul>
+          
+                <li>Country : @GetString("UserManagement:User.Country") </li>
+                <li>Time Zone : @GetString("UserManagement:User.AccessUser_Time_zone")</li>
+                <li>Ip address: @GetString("UserManagement:User.AccessUser_userIP") </li>
+                <li>Created on: @GetDate("UserManagement:User.AccessUser_Sign_up_date").ToString()</li>
+            </ul>
+            
+            </div>
+    </div>
+
+</div>
+
+        </div>
+    </div>
+</div>
+
+

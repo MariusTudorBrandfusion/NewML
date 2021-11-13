@@ -1,0 +1,43 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+
+@{
+ int userId = int.Parse(GetGlobalValue("Global:Extranet.UserID"));
+}
+
+@if( userId > 1 ){
+
+  int myAccountsId = GetPageIdByNavigationTag("MyAccounts");
+	<div class="bookmark-box-my-accounts">
+		<a href="/Default.aspx?ID=@myAccountsId" class="btn btn--primary dw-mod">@Translate("My Accounts")</a>
+	</div>
+}else{
+
+  foreach (LoopItem item in GetLoop("ItemPublisher:Items.List"))
+    {
+
+        string bookmakerName = @item.GetString("ItemPublisher:Item.Bookmaker_Name"),
+               bookmakerLogo = @item.GetString("ItemPublisher:Item.Bookmaker_Logo"),
+               bookmakerUrl = @item.GetString("ItemPublisher:Item.Url"),
+               bookmakerRegisterLink = @item.GetString("ItemPublisher:Item.Register_Page_Link");
+
+
+        <div class="bookmark-box">
+          <div class="center-container content-container">
+            @* <small class="article__subheader">@Translate("Written by") @item.GetString("ItemPublisher:Item.Author") @Translate("on") @item.GetDate("ItemPublisher:Item.Date").ToShortDateString()</small> *@
+
+            <div class="u-pull--left"> 
+                @if(!string.IsNullOrEmpty(bookmakerLogo)) {
+                    <img src="@bookmakerLogo" class="img-responsive"/>
+                } 
+            </div>
+            <div class="u-pull--right">
+                @if(!string.IsNullOrEmpty(bookmakerUrl)) {
+                    <a href="@bookmakerRegisterLink" class="btn btn--primary dw-mod">@Translate("OpenAccountAt","Open account at:") @bookmakerName </a>
+                }
+            </div>
+          </div>
+        </div>
+    }
+
+}

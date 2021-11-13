@@ -1,0 +1,135 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@{
+string skrillTrue = GetString("UserManagement:User.AccessUser_Payment_Method_Skril");
+string ecopayzTrue = GetString("UserManagement:User.AccessUser_Payment_Method_EcoPayz");
+string netellerTrue = GetString("UserManagement:User.AccessUser_Payment_Method_Neteller");
+string bankTrue = GetString("UserManagement:User.AccessUser_Payment_Method_Bank_Transfer");
+string bitcoinTrue = GetString("UserManagement:User.AccessUser_Payment_Method_Bitcoin");
+string skrillEmailValue = GetString("UserManagement:User.AccessUser_Skrill_email");
+string ecopayzAccountValue = GetString("UserManagement:User.AccessUser_ecoPayz_email");
+string netellerEmailValue = GetString("UserManagement:User.AccessUser_Neteller_email");
+string bankBicValue = GetString("UserManagement:User.AccessUser_Bank_bic");
+string bankSwiftValue = GetString("UserManagement:User.AccessUser_Bank_swift");
+string ibanValue = GetString("UserManagement:User.AccessUser_Iban");
+string bitcoinEmailValue = GetString("UserManagement:User.AccessUser_Cryptocurrency_email");
+string skrillEditTag = GetString("CustomField.AccessUser_AccessUser_Skrill_email");
+string netellerEditTag = GetString("CustomField.AccessUser_AccessUser_Neteller_email");
+string ecopayzEditTag = GetString("CustomField.AccessUser_AccessUser_ecoPayz_email");
+string bitcoinEditTag = GetString("CustomField.AccessUser_AccessUser_Cryptocurrency_email");
+string bicEditTag = GetString("CustomField.AccessUser_AccessUser_Bank_bic");
+string swiftEditTag = GetString("CustomField.AccessUser_AccessUser_Bank_swift");
+string ibanEditTag = GetString("CustomField.AccessUser_AccessUser_Iban");
+
+
+}
+
+<div class="grid__col-8 grid__col--bleed">
+    <div class="grid__cell">
+        <div class="u-pull--left">
+            <h2><i class="fa fa-user"></i> @Translate("Edit user account")</h2>
+        </div>
+        <div class="u-pull--right">
+            <a href="/@GetString("UserManagement:User.ManageAddressesUrl")" class="btn btn--primary dw-mod"><i class="fa fa-address-card-o"></i> @Translate("My accounts")</a>
+        </div>
+    </div>
+
+<p class="hidden">@GetString("UserManagement:User.DefaultAddress.PhoneBusiness")</p>
+
+    @GetString("UserManagement:User.FormStart")
+	
+        <label for="UserManagement_Form_FirstName">@Translate("First Name")</label>
+        <input type="text" class="u-full-width" name="UserManagement_Form_FirstName" id="UserManagement_Form_FirstName" value="@GetString("UserManagement:User.FirstName")" />
+        <div class="field-error">@GetString("UserManagement:User.Name.Input.Error")</div>
+
+		<label for="UserManagement_Form_LastName">@Translate("Last Name")</label>
+        <input type="text" class="u-full-width" name="UserManagement_Form_LastName" id="UserManagement_Form_LastName" value="@GetString("UserManagement:User.LastName")" />
+        <div class="field-error">@GetString("UserManagement:User.Name.Input.Error")</div>
+
+        <label for="UserManagement_Form_Email">@Translate("Email")</label>
+        <input type="email" class="u-full-width" name="UserManagement_Form_Email" id="UserManagement_Form_Email" value="@GetString("UserManagement:User.Email")" />
+        <div class="field-error">@GetString("UserManagement:User.Email.Input.Error")</div>
+
+        <label for="UserManagement_Form_NewPassword">@Translate("Old password")</label>
+        @GetString("UserManagement:User.OldPassword.Input").Replace("input ", "input class=\"u-full-width\"")
+        <div class="field-error">@GetString("UserManagement:User.OldPassword.Input.Error")</div>
+
+        <label for="UserManagement_Form_NewPassword">@Translate("New password")</label>
+        @GetString("UserManagement:User.NewPassword.Input").Replace("input ", "input class=\"u-full-width\"")
+        <div class="field-error">@GetString("UserManagement:User.NewPassword.Input.Error")</div>
+
+        <label for="UserManagement_Form_NewPasswordConfirm">@Translate("Confirm password")</label>
+        @GetString("UserManagement:User.NewPasswordConfirm.Input").Replace("input ", "input class=\"u-full-width\"")
+        <div class="field-error">@GetString("UserManagement:User.NewPasswordConfirm.Input.Error")</div>
+		<div class="hidden">
+		<label for="UserManagement_Form_HouseNumber">@Translate("Initially created address")</label>
+		<input name="UserManagement_Form_HouseNumber" class="u-full-width" type="text" id="UserManagement_Form_HouseNumber" value="@GetString("UserManagement:User.HouseNumber")"/> <!--@GetString("UserManagement:User.HouseNumber")-->
+			<div class="field-error"></div>
+		</div>
+        <label for="UserManagement_Form_PhoneMobile">@Translate("Phone")</label>
+        <input type="tel" class="u-full-width" name="UserManagement_Form_PhoneMobile" id="UserManagement_Form_PhoneMobile" value="@GetString("UserManagement:User.PhoneMobile")" />
+        <div class="field-error">@GetString("UserManagement:User.Phone.Input.Error")</div>
+
+		<label for="CustomField.AccessUser_AccessUser_Instant_Messenger">@Translate("Instant messenger")</label>
+      
+		<select type="text" class="u-full-width" name="CustomField.AccessUser_AccessUser_Instant_Messenger" id="CustomField.AccessUser_AccessUser_Instant_Messenger" value="@GetString("UserManagement:User.AccessUser_Instant_Messenger")" />
+                          
+                          <option>Skype</option>
+                          <option>Windows Live</option>
+                          <option>Telegram</option>
+                      </select>
+	
+
+
+
+		<label for="CustomField.AccessUser_AccessUser_Instant_Messenger_ID">@Translate("Instant messenger ID")</label>
+        <input type="text" class="u-full-width" name="CustomField.AccessUser_AccessUser_Instant_Messenger_ID" id="CustomField.AccessUser_AccessUser_Instant_Messenger_ID" value="@GetString("UserManagement:User.AccessUser_Instant_Messenger_ID")" />
+        
+		<label for="CustomField.AccessUser_AccessUser_Time_zone">@Translate("Time zone")</label>
+        <input type="text" class="u-full-width" name="CustomField.AccessUser_AccessUser_Time_zone" id="CustomField.AccessUser_AccessUser_Time_zone" value="@GetString("UserManagement:User.AccessUser_Time_zone")" />
+       
+		<label for="UserManagement_Form_ImageUploader">@Translate("Upload profile image")</label>
+		<input name="UserManagement_Form_ImageUploader" type="file" id="UserManagement_Form_ImageUploader" />
+
+				
+        
+                 @*<label>@Translate("PAYMENT METHOD"):</label>
+
+                <label>@GetString("UserManagement:User.CustomField.AccessUser_Payment_Method_Skrill.Input") Skrill (Moneybookers)</label>
+                <label>@GetString("UserManagement:User.CustomField.AccessUser_Payment_Method_Neteller.Input") Neteller</label>
+                <label>@GetString("UserManagement:User.CustomField.AccessUser_Payment_Method_Bank_Transfer.Input") Bank Transfer</label>
+                <label>@GetString("UserManagement:User.CustomField.AccessUser_Payment_Method_EcoPayz.Input") EcoPayz</label>                
+                <label>@GetString("UserManagement:User.CustomField.AccessUser_Payment_Method_Bitcoin.Input") Bitcoin</label>  *@
+
+
+
+
+
+
+
+
+
+ @if (GetLoop("DWExtranetSecondaryUsers").Count > 0 || !string.IsNullOrWhiteSpace(GetGlobalValue("Global:Extranet.SecondaryUser.UserID"))){	
+<h2>Payment Details</h2>
+	 <label for="CustomField.AccessUser_Can_use_merchant_Account">@Translate("Can Use Merchant")</label>
+	 @GetString("UserManagement:User.CustomField.AccessUser_Can_use_merchant_Account.Input")	
+
+	@*<label for="@skrillEditTag">Email used for Skrill</label>
+	<input class="u-full-width" type="text" id="@skrillEditTag" name="@skrillEditTag" value="@skrillEmailValue" />
+	<label for="@ecopayzEditTag">Account used for ecoPayz</label>
+	<input class="u-full-width" type="text" id="@ecopayzEditTag" name="@ecopayzEditTag" value="@ecopayzAccountValue" />
+	<label for="@netellerEditTag">Email used for Neteller</label>
+	<input class="u-full-width" type="text" id="@netellerEditTag" name="@netellerEditTag" value="@netellerEmailValue" />
+	<label for="@swiftEditTag">Bank Swift</label>
+	<input class="u-full-width" type="text" id="@swiftEditTag" name="@swiftEditTag" value="@bankSwiftValue" />
+	<label for="@bicEditTag">Bank Bic</label>
+	<input class="u-full-width" type="text" id="@bicEditTag" name="@bicEditTag" value="@bankBicValue" />
+	<label for="@ibanEditTag">IBAN</label>
+	<input class="u-full-width" type="text" id="@ibanEditTag" name="@ibanEditTag" value="@ibanValue" />
+	<label for="@bitcoinEditTag">Email used for Cryptocurrency ewallet</label>
+	<input class="u-full-width" type="text" id="@bitcoinEditTag" name="@bitcoinEditTag" value="@bitcoinEmailValue" />*@
+
+         }                      
+
+        <button type="submit" class="btn btn--primary btn--full dw-mod" id="submitter">@Translate("Save changes")</button>
+    @GetString("UserManagement:User.FormEnd")
+</div>

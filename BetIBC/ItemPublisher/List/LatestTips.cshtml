@@ -1,0 +1,51 @@
+﻿@{
+var tipsList = GetLoop("ItemPublisher:Items.List");
+DateTime dateOpenToBet = DateTime.Now.AddHours(-24);
+var allTips = GetPageIdByNavigationTag("LatestTips");
+}
+
+<section class = "latest-tips-list-homepage"> 
+<div class = "latest-tips-list-homepage-wrapper">
+
+<h1> @Translate("Latest Tips", "Latest Tips")</h1>
+<table style="width:100%">
+  <tr class = "latest-tips-table-header">
+    <th>@Translate("Date & Time", "Date & Time")</th>
+    <th>@Translate("League", "League")</th>
+ <th>@Translate("Match", "Match")</th>
+ <th>@Translate("Stake", "Stake")</th>
+ <th>@Translate("Odd", "Odd")</th>
+ <th>@Translate("Betting Tip", "Betting Tip")</th>
+ <th>@Translate("Bookmaker", "Bookmaker")</th>
+     <th>@Translate("Status", "Status")</th>
+  </tr>
+@foreach(var tip in tipsList){
+var startGMT = DateTimeOffset.Parse(tip.GetString("ItemPublisher:Item.Start_GMT")).UtcDateTime;
+var league = tip.GetString("ItemPublisher:Item.League");
+var match = tip.GetString("ItemPublisher:Item.Prediction_Title");
+var stake = tip.GetString("ItemPublisher:Item.Stake");
+var odd = tip.GetString("ItemPublisher:Item.Odds");
+var bettingTip = tip.GetString("ItemPublisher:Item.BettingPrediction");
+var bookmaker = tip.GetString("ItemPublisher:Item.Bookmaker.Name");
+int statusBet  = DateTime.Compare(startGMT, dateOpenToBet);
+var status = statusBet > 0 ? "Open to bet" : "Started";
+var statusClass= statusBet > 0 ? "open-to-bet" : "started";
+
+
+  <tr class = "@statusClass">
+    <td class = "start-gmt-column"><span class="mobile-label">@Translate("Start GMT", "Start GMT"): </span>@startGMT</td>
+    <td class = "league-column"><span class="mobile-label">@Translate("League", "League"): </span>@league</td>
+  <td class = "match-column"><span class="mobile-label">@Translate("Match", "Match"): </span>@match</td>
+  <td class = "stake-column"><span class="mobile-label"></span>@Translate("Stake", "Stake"): @stake</td>
+  <td class = "odd-column"><span class="mobile-label"></span>@Translate("Odd", "Odd"): @odd</td>
+  <td class = "bettingTip-column"><span class="mobile-label"></span>@Translate("Betting Tip", "Betting Tip"): @bettingTip</td>
+  <td class = "bookmaker-column"><span class="mobile-label"></span>@Translate("Bookmaker", "Bookmaker"): @bookmaker</td>
+  <td class = "status-column"><span class="status-tip-mobile"></span><span class="mobile-label">@Translate("Status", "Status"): </span>@status</td>
+  </tr>
+}
+</table>
+  <div class = "cta-allTips-button">
+    <a href = "Default.aspx?ID=@allTips"><i class="fa fa-arrow-right"></i>@Translate("Latest Tips", "Latest Tips")</a>
+  </div>
+</div>
+</section>

@@ -1,0 +1,48 @@
+
+@{
+    var formStart = GetString("Form.Start");
+    var formEnd = GetString("Form.End");
+    var formHiddenFileds = GetString("Form.Hidden");
+    var lableName = GetString("Form.Fields.ExceptionsList_Name.Label");
+    var lableValue = GetString("Form.Fields.ExceptionsList_Value.Label");
+    var lableIsProcent = GetString("Form.Fields.ExceptionsList_Is_Procent.Label");
+    var name = GetString("Form.Fields.ExceptionsList_Name.Systemname");
+    var value = GetString("Form.Fields.ExceptionsList_Value.Systemname");
+    var isProcent = GetString("Form.Fields.ExceptionsList_Is_Procent.Systemname");
+    var nameValue = GetString("Form.Fields.ExceptionsList_Name.Value");
+    var valueValue = GetString("Form.Fields.ExceptionsList_Value.Value");
+    var isProcentValue = GetString("Form.Fields.ExceptionsList_Is_Procent.Value");
+}
+
+<div class="container">
+    <div class="exceptions-commissions-form exception-form-wrapper">
+        <h1>Edit Exception</h1>
+        @formStart
+        @formHiddenFileds
+        <div>
+            <label>@lableName</label>
+            <input type="text" id="@name" name="@name" value="@nameValue" required></input>
+        </div>
+        <div>
+            <label>@lableValue</label>
+            <input type="text" id="@value" name="@value" value="@valueValue" required></input>
+        </div>
+        <div style="overflow: hidden">
+            <label style="display: inline-block; float: left">@lableIsProcent</label>
+            @if (isProcentValue == "True")
+            {
+                <input style="display: inline-block; float: left; margin-left: 10px; margin-top: 5px ;  width: initial;" type="checkbox" checked="checked" id="@isProcent" name="@isProcent" value="True" ></input>
+            }
+            else
+            {
+                <input style="display: inline-block; float: left; margin-left: 10px; margin-top: 5px ;  width: initial;" type="checkbox" id="@isProcent" name="@isProcent" value="True" ></input>
+            }
+
+        </div>
+        <div>
+            <input id="submit-exceptions-commissions-form" value="Edit Exception" type="submit"/>
+        </div>
+        @formEnd
+    </div>
+
+</div>

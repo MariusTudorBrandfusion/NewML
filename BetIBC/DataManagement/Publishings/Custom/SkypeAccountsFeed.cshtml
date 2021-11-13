@@ -1,0 +1,61 @@
+﻿[
+	@{
+//int loopCount =  GetLoop("Rows").Count() - 1;
+		var rows = GetLoop("Rows");
+		int loopCounter = 0;
+		var rowsCounter = rows.Where(row => row.GetString("AccessUserAddress_Bookmaker") == "Skype Betting");
+		var rowsCounterToDisplay = rowsCounter.Count() -1 ;
+	}
+
+	@foreach (var row in rows.Where(row => row.GetString("AccessUserAddress_Bookmaker") == "Skype Betting")) {
+
+		var skypeAccountUserId = row.GetInteger("AccessUserAddressUserId");
+		var skypeAccountUserName = row.GetString("AccessUserAddress_Username");
+		var skypeAccountPassword = row.GetString("AccessUserAddress_Password");
+		var skypeAccountStartingBalance = row.GetString("AccessUserAddress_Balance");
+		var skypeAccountCommission = row.GetInteger("AccessUserAddress_Commission");
+		var skypeAccountOpenBets = row.GetString("AccessUserAddress_Open_Bets");
+		//var skypeAccountAvailableToBet = skypeAccountStartingBalance /	(1 + (skypeAccountCommission/100));
+		var commissionToBeDisplayed = skypeAccountCommission.ToString() + "%";
+		var skypeAccountCurrency = row.GetString("AccessUserAddress_Currency");
+		var skypeAccountId = row.GetInteger("AccessUserAddressId");
+		var isSkypeAccount = row.GetString("AccessUserAddress_Bookmaker");
+
+		
+		if(loopCounter == rowsCounterToDisplay){
+
+			<text>
+			   {
+				"userId": "@skypeAccountUserId",
+				"SkypeAccountUserName": "@skypeAccountUserName",
+              	"SkypeAccountPassword" : "@skypeAccountPassword",
+              	"SkypeAccountStartingBalance" : "@skypeAccountStartingBalance",
+              	"SkypeAccountCommission" : "@skypeAccountCommission",
+              	"SkypeAccountOpenBets" : "@skypeAccountOpenBets",
+              	"CommissionToBeDisplayed" : "@commissionToBeDisplayed",
+              	"SkypeAccountCurrency" : "@skypeAccountCurrency",
+                "SkypeAccountID" : "@skypeAccountId"
+              	}
+			</text>
+		}else{
+              <text>
+              {
+				"userId": "@skypeAccountUserId",
+				"SkypeAccountUserName": "@skypeAccountUserName",
+              	"SkypeAccountPassword" : "@skypeAccountPassword",
+              	"SkypeAccountStartingBalance" : "@skypeAccountStartingBalance",
+              	"SkypeAccountCommission" : "@skypeAccountCommission",
+              	"SkypeAccountOpenBets" : "@skypeAccountOpenBets",
+              	"CommissionToBeDisplayed" : "@commissionToBeDisplayed",
+              	"SkypeAccountCurrency" : "@skypeAccountCurrency",
+                "SkypeAccountID" : "@skypeAccountId"
+                
+              	},
+              </text>
+            }
+
+loopCounter ++;
+}
+
+
+]

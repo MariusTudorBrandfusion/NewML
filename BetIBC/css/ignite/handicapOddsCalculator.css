@@ -1,0 +1,396 @@
+﻿#ds-calculator {
+  font-family: Arial;
+  font-size: 12px;
+  background: #267abc;
+  padding-bottom: 8px;
+  margin: 0 auto;
+  width: 630px;
+}
+#ds-wrapper {
+  width: 631px;
+  margin: 0 auto;
+  background: #267abc;
+  margin-bottom: 20px;
+}
+#ds-form-table {
+  margin: 0px;
+  width: 100%;
+}
+#ds-form-table td {
+  background: #b1ddff;
+  color: black;
+  padding: 0px;
+  border-color: #267abc;
+  border-style: solid;
+  line-height: 20px;
+  vertical-align: middle;
+  height: 34px;
+}
+#ds-form-table td:first-child {
+text-align: center;
+font-weight: bold;
+font-size: 13px;
+/* text-shadow: 1px 1px 2px rgba(150, 150, 150, 1); */
+width: 220px;
+border-width: 11px 0px 8px 8px;
+border-right: 1px solid rgba(128, 128, 128, 0.3);
+}
+#ds-form-table td:last-child {
+color: #44749a;
+background: white;
+border-width: 11px 8px 8px 0px;
+text-align: right;
+padding-right:4px;
+}
+#ds-result-table-single {
+width: auto;
+}
+#ds-result-table-single td:first-child {
+font-weight: bold;
+font-size: 13px;
+/* text-shadow: 1px 1px 2px rgba(150, 150, 150, 1); */
+padding: 0px 30px;
+}
+#ds-result-table-single td {
+color: black;
+padding: 0px 20px;
+border-color: #267abc;
+border-style: solid;
+background: white;
+border: 1px solid black;
+text-align: center;
+}
+
+#ds-result-table-split {
+width: 90%;
+}
+#ds-result-table-split td {
+color: black;
+padding: 0px 20px;
+border-color: #267abc;
+border-style: solid;
+background: white;
+border: 1px solid black;
+text-align: center;
+}
+#ds-result-table-split td:first-child {
+font-weight: bold;
+font-size: 13px;
+/* text-shadow: 1px 1px 2px rgba(150, 150, 150, 1); */
+padding: 0px 30px;
+background: #b1ddff;
+}
+#ds-result-table-split tr:nth-child(2) td, #ds-result-table-split tr:first-child td{
+text-align: center;
+font-weight: bold;
+font-size: 13px;
+/* text-shadow: 1px 1px 2px rgba(150, 150, 150, 1); */
+color: black;
+background: #b1ddff;
+}
+#buttons{
+float: right;
+margin-right: 6px;
+}
+.clear{
+clear: both;
+}
+#result{
+height: auto;
+background: #b1ddff;
+margin: 8px;
+margin-bottom: 0px;
+padding: 20px;
+}
+#stake_error, #odds_error{
+display: inline-block;
+color: red;
+}
+.result-title {
+font-size: 14px;
+font-weight: bold;
+}
+#ds-calculator input[type="radio"] {
+  display:none;
+}
+#ds-calculator input[type="radio"] + label span {
+  display:inline-block;
+  width:14px;
+  height:13px;
+  margin: -3px 2px 0px 4px;
+  vertical-align:middle;
+  cursor:pointer;
+  background:url(radio_button.png);
+}
+#ds-calculator input[type="radio"]:checked + label span {
+  background-position: 0px -13px;
+}
+#ds-calculator span:hover {
+  background-position: 0px -26px !important;
+}
+#ds-calculator label span:active {
+  background-position: 0px -39px !important;
+}
+#selection_cell select, .ds-select select {
+  margin: 0px;
+  background: transparent;
+  -webkit-appearance: none;
+  border: none;
+  width: 182px;
+  height: 19px;
+  outline: none;
+  margin-left: -1px;
+}
+#selection_cell, .ds-select {
+  width: 160px;
+  height: 20px;
+  background: url(select_button.png) no-repeat right;
+  border: 1px solid red;
+  float: right;
+  border-color: #267abc;
+  overflow: hidden;
+  background-position: right 0px;
+}
+#selection_cell:hover, .ds-select:hover {
+  background-position: right -20px;
+}
+#selection_cell:active, .ds-select:active {
+  background-position: right -40px;
+}
+.ds-select.small select {
+  width: 82px;
+}
+.ds-select.small {
+  width: 60px;
+  float: left;
+}
+
+#ds-calculator input[type="text"] {
+  color: #004275;
+  border-radius: 0px;
+  padding: 2px;
+  text-align: right;
+  border-color: #267abc;
+  width: 156px;
+}
+#score-home, #score-away {
+  float: left;
+}
+#scores {
+  display: inline-block;
+  vertical-align: middle;
+}
+#ds-wrapper button {
+  border-radius: 0px !important;
+  border-color: #2e2e2e !important;
+  background-image: linear-gradient(bottom, rgb(30,30,30) 0%, rgb(67,67,67) 100%);
+  background-image: -o-linear-gradient(bottom, rgb(30,30,30) 0%, rgb(67,67,67) 100%);
+  background-image: -moz-linear-gradient(bottom, rgb(30,30,30) 0%, rgb(67,67,67) 100%);
+  background-image: -webkit-linear-gradient(bottom, rgb(30,30,30) 0%, rgb(67,67,67) 100%);
+  background-image: -ms-linear-gradient(bottom, rgb(30,30,30) 0%, rgb(67,67,67) 100%);
+  background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(30,30,30)), color-stop(1, rgb(67,67,67)) );
+  color: white;
+  font-size: 16px;
+  padding: 6px;
+}
+#ds-wrapper button:hover {
+  background-image: linear-gradient(bottom, rgb(40,40,40) 0%, rgb(77,77,77) 100%) !important;
+  background-image: -o-linear-gradient(bottom, rgb(40,40,40) 0%, rgb(77,77,77) 100%) !important;
+  background-image: -moz-linear-gradient(bottom, rgb(40,40,40) 0%, rgb(77,77,77) 100%) !important;
+  background-image: -webkit-linear-gradient(bottom, rgb(40,40,40) 0%, rgb(77,77,77) 100%) !important;
+  background-image: -ms-linear-gradient(bottom, rgb(40,40,40) 0%, rgb(77,77,77) 100%) !important;
+  background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(40,40,40)), color-stop(1, rgb(77,77,77)) ) !important;
+  color: white !important;
+}
+#ds-wrapper button:active {
+  box-shadow: none !important;
+  background-image: linear-gradient(bottom, rgb(20,20,20) 0%, rgb(57,57,57) 100%) !important;
+  background-image: -o-linear-gradient(bottom, rgb(20,20,20) 0%, rgb(57,57,57) 100%) !important;
+  background-image: -moz-linear-gradient(bottom, rgb(20,20,20) 0%, rgb(57,57,57) 100%) !important;
+  background-image: -webkit-linear-gradient(bottom, rgb(20,20,20) 0%, rgb(57,57,57) 100%) !important;
+  background-image: -ms-linear-gradient(bottom, rgb(20,20,20) 0%, rgb(57,57,57) 100%) !important;
+  background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(20,20,20)), color-stop(1, rgb(57,57,57)) ) !important;
+  font-size: 15px;
+  padding: 7px;
+  padding-left: 9px;
+}
+#ds-wrapper form {
+  border: 1px solid #267abc;
+}
+#ds-result-table-single td:last-child {
+  width: 70px;
+}
+/********* LANGUAGES *********/
+#ds-language {
+  padding-top:1em;
+}
+#ds-l-eng:hover, #ds-l-ger:hover, #ds-l-pol:hover, #ds-l-rus:hover, #ds-l-rom:hover {
+  cursor: pointer;
+}
+#ds-l-eng {
+  padding: 0.5em;
+  background-color: white;
+  color: black;
+  float: left;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+#ds-l-ger {
+  padding: 0.5em;
+  background-color: white;
+  color: black;
+  float: left;
+  background-position: 0px -12px;
+  opacity: .5;
+  margin-right: 10px;
+}
+#ds-l-pol {
+  padding: 0.5em;
+  background-color: white;
+  color: black;
+  float: left;
+  background-position: 0px -24px;
+  opacity: .5;
+  margin-right: 10px;
+}
+#ds-l-rus {
+  padding: 0.5em;
+  background-color: white;
+  color: black;
+  float: left;
+  background-position: 0px -36px;
+  margin-right: 10px;
+  opacity: .5;
+}
+#ds-l-rom {
+  padding: 0.5em;
+  background-color: white;
+  color: black;
+  float: left;
+  background-position: 0px -48px;
+  margin-right: 10px;
+  opacity: .5;
+}
+.longer {
+  width: 210px;
+}
+.longer select {
+  width: 232px;
+}
+
+@media (max-width: 460px),
+@media (max-width: 360px){
+table#ds-form-table tr {
+    display: block;
+    width: 100%;height:100%;
+    background-color:#267abc;
+    border-color:#267abc;
+}
+
+table#ds-form-table td:first-child {
+    width: 100%!important;
+    display: inline-block;
+    height:100%;
+    padding: 6px;
+    border-right: none;
+    border-width: 11px 0px 8px 0px;
+}
+
+table#ds-form-table td:last-child {
+    width: 100%!important;
+    display:block;
+    height: 100%!important;
+    background-color:#fff;
+    border: none;
+}
+#selection_cell, .ds-select {
+    background-color: #fff;
+}
+
+label {
+    display: inline-block;
+    width: 100%;
+    /* line-height: 32px; */
+    margin: 8px 0px 8px 0px;
+    text-align: left;
+}
+
+
+#selection_cell, .ds-select {
+    /* width: 100%!important; */
+    float: left!important;
+    margin: 0px 0px 0px 0px;
+    height: 100%!important;
+}
+
+#ds-form-table td {
+    /* height: 100%!important; */
+    /* display: block; */
+}
+td.ds-select.longer {
+    /* height: 100%!important; */
+    /* margin: 8px!important; */
+}
+
+#ds-calculator input[type="text"] {
+float: left;
+}
+
+table#ds-form-table tr:nth-child(3) td:nth-child(2),
+table#ds-form-table tr:nth-child(5) td:nth-child(2){background:transparent;}
+.ds-select.small {
+    width: 26%!important;
+
+}
+
+table#ds-form-table tr:nth-child(7) td:nth-child(2){padding:8px;}
+div#scores select {
+    color: initial;
+}
+
+div#buttons {
+    display: inline-block;
+    margin: 0 auto!important;
+    margin: 10px!important;
+}
+    div#score-home, #score-away {
+    margin: 0px 6px 12px 0px;
+    text-align: left;
+    width: 50%;
+}
+}
+@media (max-width: 240px){
+table#ds-form-table tr {
+    width: 71%;
+}
+    #selection_cell, .ds-select {
+    width: 100%!important; 
+}
+    table#ds-result-table-single tr {
+    /* width: 50%!important; */
+    padding:8px;
+    margin:-2px!important;
+    display: block;
+    border:none;
+}
+
+div#result {
+    padding: 2px;
+}
+div#result  .result-title{
+    text-align: center;
+    padding:8px;
+}
+
+#ds-result-table-single td:first-child {
+    width: 100%!important;
+    display: inline-block;
+}
+
+#ds-result-table-single td:last-child {
+    width: 100%!important;
+    display: inline-block;
+}
+
+}
+

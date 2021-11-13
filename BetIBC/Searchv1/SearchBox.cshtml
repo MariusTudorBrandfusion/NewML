@@ -1,0 +1,10 @@
+﻿<form action="@GetValue("Global:Pageview.Url.Raw")" method="get" name="SearchForm1" class="search-page-form">
+<input type="hidden" name="ID" value="@GetValue("DwPageID")">
+<table>
+    <tr>
+        <td>@Translate("Search for"):</td>
+        <td><input type="text" name="q" value="@GetValue("DwSearchPhrase")" /></td>
+        <td><input type="submit" value="Search" /></td>
+    </tr>
+</table>
+</form>

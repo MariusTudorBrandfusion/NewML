@@ -1,0 +1,157 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@{
+    string cartPageId = GetPageIdByNavigationTag("CartOrderlinesFeed").ToString();
+    string cartUrl = "/Default.aspx?ID="+cartPageId;
+}
+
+<div class="paragraph-container__grid--bleed">                                                                                                                                                      
+    <div class="js-ajax-container" id="cart" data-template="CartContent" data-cart-id="@cartPageId" data-json-feed="@cartUrl" data-preloader="false"></div>
+
+    <script id="CartContent" type="text/x-template">
+        <div class="grid">
+            <div class="grid__col-md-6 grid__col-sm-6">
+                <h1>@Translate("Review order") ({{numberofproducts}})</h1>
+            </div>
+            <div class="grid__col-md-6 grid__col-sm-6">
+                <div class="grid__cell">
+                    <form method="post">
+                        <button type="submit" class="btn btn--primary dw-mod u-pull--right" name="@GetString("CartV2.NextStepButtonName")" id="@GetString("CartV2.NextStepButtonName")">@Translate("Go checkout")</button>
+                    </form>
+                </div>
+            </div>
+            <div class="grid__col-md-12 grid__col-sm-12">
+                <div class="{{isempty}}">
+                    <table class="table cart-table">
+                        <thead>
+                            <tr>
+                                <td class="cart-table__image">&nbsp;</td>
+                                <td>@Translate("Product")</td>
+                                <td class="cart-table__quantity u-ta-right">@Translate("Qty")</td>
+                                <td class="cart-table__actions"></td>
+                                <td class="cart-table__price u-ta-right">@Translate("Price")</td>
+                            </tr>
+                        </thead>
+
+                        <tbody id="OrderLines"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="grid__col-md-4 grid__col-sm-4">
+                <div class="card-header">
+                    <h3><i class="fa fa-ticket"></i> @Translate("Vouchers and giftcards")</h3>
+                </div>
+                <div class="card">
+                    <div>
+                        <input type="text" class="u-w150px" placeholder="@Translate("Voucher code")" name="EcomOrderVoucherCode" id="EcomOrderVoucherCode" value="{{vouchercode">
+                        <span>
+                            <button class="btn btn--primary dw-mod" type="submit" onclick="Cart.UpdateCart('cart', '@cartUrl', '&EcomOrderVoucherCode='+document.getElementById('EcomOrderVoucherCode').value, true)">@Translate("Apply", "Apply")</button>
+                        </span>
+                    </div>
+                    <div>
+                        <input type="text" class="u-w150px" placeholder="@Translate("Giftcard code")" name="EcomOrderGiftCardCode" id="EcomOrderGiftCardCode" value="{{giftcardcode" />
+                        <span>
+                            <button class="btn btn--primary dw-mod" type="submit" onclick="Cart.UpdateCart('cart', '@cartUrl', '&EcomOrderGiftCardCode='+document.getElementById('EcomOrderVoucherCode').value, true)">@Translate("Apply", "Apply")</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid__col-md-4 grid__col-sm-4">
+                <div class="card-header">
+                    <h3><i class="fa fa-money"></i> @Translate("Payment")</h3>
+                </div>
+                <div class="card">
+                    <div id="PaymentMethods" data-template="ShippingItem"></div>
+                </div>
+            </div>
+            <div class="grid__col-md-4 grid__col-sm-4">
+                <div class="card-header">
+                     <h3><i class="fa fa-truck"></i> @Translate("Delivery")</h3>
+                </div>
+                <div class="card">
+                    <div id="ShippingMethods" data-template="PaymentItem"></div>
+                </div>
+            </div>
+            <div class="grid__col-md-12 grid__col-sm-12">
+                <div class="grid cart-summary">
+                    <div class="grid__col-md-6 grid__col-sm-6">
+                    </div>
+                    <div class="grid__col-md-6 grid__col-sm-6">
+                        <div class="grid__cell">                            
+                            <div class="cart-summary__totals u-pull--right">{{totalprice}}</div>
+                            <div class="cart-summary__totals u-pull--left">@Translate("Total")</div>
+                        </div>
+                        <div class="grid__cell">
+                            <div class="cart-summary__info u-pull--right">{{paymentfee}}</div>
+                            <div class="cart-summary__info u-pull--left"><i class="fa fa-money"></i> {{paymentmethod}}</div>
+                        </div>
+                        <div class="grid__cell">
+                            <div class="cart-summary__info u-pull--right">{{shippingfee}}</div>
+                            <div class="cart-summary__info u-pull--left"><i class="fa fa-truck"></i> {{shippingmethod}}</div>
+                        </div>
+                        <div class="grid__cell">
+                            <div class="cart-summary__info u-pull--right">{{totalvat}}</div>
+                            <div class="cart-summary__info u-pull--left">@Translate("VAT")</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid__cell-footer">
+                    <div class="grid__cell">
+                        <button type="button" class="btn btn--secondary dw-mod u-pull--left" onclick="window.history.go(-1); return false;">@Translate("Continue shopping")</button>
+                        <form method="post">
+                            <button type="submit" class="btn btn--primary dw-mod u-pull--right" name="@GetString("CartV2.NextStepButtonName")" id="@GetString("CartV2.NextStepButtonName")">@Translate("Go to checkout")</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script id="CartOrderline" type="text/x-template">
+        <tr class="{{isempty}}">
+            <td class="cart-table__image"><div class="{{hideimage}}"><img src="/Admin/Public/GetImage.ashx?width=120&height=120&crop=5&Compression=75&image={{image}}"></div></td>
+            <td><a href="{{link}}" class="mini-cart-orderlines__name">{{name}} {{variantname}}</a></td>
+            <td><input class="cart-table__quantity u-ta-right" id="Quantity_{{orderLineId}}" type="number" min="1" onchange="Cart.UpdateCart('cart', '@cartUrl', '&CartCmd=UpdateOrderlines&QuantityOrderLine{{orderLineId}}=' + this.value, true)" name='QuantityOrderLine{{orderLineId}}' value="{{quantity}}"></td>
+            <td class="cart-table__actions u-ta-right"><button class="btn btn--clean" onclick="Cart.UpdateCart('cart', '@cartUrl', '&CartCmd=DelOrderLine&key={{orderLineId}}', true)"><i class="fa fa-times"></i></button></td>
+            <td class="cart-table__price u-ta-right">{{totalprice}}</td>
+        </tr>
+        <tbody id="OrderLineItems" data-template="CartBomItem"></tbody>
+        <tbody id="BomItems" data-template="CartBomItem"></tbody>
+        <tbody id="OrderLineItemDiscounts" data-template="CartOrderlineDiscount"></tbody>
+    </script>
+
+    <script id="CartOrderlineDiscount" type="text/x-template">
+        <tr>
+            <td class="cart-table__image">&nbsp;</td>
+            <td><div class="mini-cart-orderlines__name">{{name}}</div></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td class="cart-table__price u-ta-right">{{totalprice}}</td>
+        </tr>
+    </script>
+
+    <script id="CartBomItem" type="text/x-template">
+        <tr class="{{isempty}}">
+            <td class="cart-table__image"><img src="/Admin/Public/GetImage.ashx?width=120&height=120&crop=5&Compression=75&image={{image}}"></td>
+            <td><a href="{{link}}" class="mini-cart-orderlines__name">{{name}}</a></td>
+            <td>{{quantity}}</td>
+            <td>&nbsp;</td>
+            <td class="cart-table__price u-ta-right">{{totalprice}}</td>
+        </tr>
+    </script>
+
+    <script id="PaymentItem" type="text/x-template">
+        <label for="EcomCartPaymethodID_{{id}}">
+            <input onclick="Cart.UpdateCart('cart', '@cartUrl', '&EcomCartPaymethodID={{id}}, true')" type="radio" name="EcomCartPaymethodID" id="EcomCartPaymethodID_{{id}}" value="{{id}}" {{selected}} />
+            {{name}}
+        </label>
+    </script>
+
+    <script id="ShippingItem" type="text/x-template">
+        <label for="EcomCartShippingmethodID_{{id}}">
+            <input onclick="Cart.UpdateCart('cart', '@cartUrl', '&EcomCartShippingmethodID={{id}}, true')" type="radio" name="EcomCartShippingmethodID" id="EcomCartShippingmethodID_{{id}}" value="{{id}}" {{selected}} />
+            {{name}}
+        </label>
+    </script>
+</div>

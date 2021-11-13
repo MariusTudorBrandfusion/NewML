@@ -1,0 +1,176 @@
+// -----------------------------------------------------------------------------
+// Contains all styles related to the wireframe generator
+// -----------------------------------------------------------------------------
+
+//Wireframe
+
+.wire-image {
+    background-color: @gray-light;
+    width: 100%;
+    height: 200px;
+    text-align: left;
+}
+
+.wire-image::after {
+    font-family: "FontAwesome";
+    content: '\f030';
+    position: relative;
+    top: ~"calc(50% - 8px)";
+    left: ~"calc(50% - 8px)";
+    color: @gray;
+}
+
+.wire-image-lines {
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.3),
+      rgba(0, 0, 0, 0.3) 10px,
+      rgba(0, 0, 0, 0.4) 10px,
+      rgba(0, 0, 0, 0.4) 20px
+    );
+    height: 100%;
+}
+
+.grid__col-12, .grid__col-lg-12, .grid__col-md-12, .grid__col-sm-12, .grid__col-xs-12 {
+     .wire-image {
+        height: 300px;
+
+        &::after {
+            font-size: 28px;
+            left: ~"calc(50% - 14px)";
+        }
+    }
+}
+
+.grid__col-4, .grid__col-lg-4, .grid__col-md-4, .grid__col-sm-4, .grid__col-xs-4 {
+     .wire-image {
+        height: 160px;
+
+        &::after {
+            font-size: 22px;
+            left: ~"calc(50% - 11px)";
+        }
+    }
+}
+
+.grid__col-3, .grid__col-lg-3, .grid__col-md-3, .grid__col-sm-3, .grid__col-xs-3 {
+     .wire-image {
+        height: 120px;
+    }
+}
+
+.grid__col-2, .grid__col-lg-2, .grid__col-md-2, .grid__col-sm-2, .grid__col-xs-2 {
+     .wire-image {
+        height: 60px;
+    }
+}
+
+.logo .wire-image {
+    height: 50px;
+    width: 120px;
+
+    &::after {
+        content: 'Logo';
+        top: 13px;
+        left: 29px;
+        font-family: inherit;
+    }
+}
+
+.table .wire-image {
+    height: 20px;
+}
+
+.cart-table__image {
+    .wire-image {
+        height: 80px;
+    }
+}
+
+.dropdown__item .wire-image {
+    width: 60px;
+    height: 50px;
+}
+
+.lightbox .wire-image {
+    width: 60px;
+    height: 50px;
+}
+
+
+//Tools
+
+.wireframe-tools {
+    
+}
+
+.wireframe-tools__info {
+    color: @gray;
+    margin-bottom: @reflex-cell-spacing-lg;
+}
+
+.wireframe-tools-toggle {
+    cursor: pointer;
+}
+
+.wireframe-tools--open {
+    right: 0;
+    transition: all 0.2s ease-in;
+}
+
+.wireframe-tools-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: @z-index-1;
+    background-color: rgba(000,000,000,0.1);
+}
+
+.comment__number {
+    color: #fff;
+    padding: 0 6px;
+    text-align: center; 
+}
+
+.comment-mark {
+    border: 2px solid #333;
+    transition: all 0.3s ease-in;
+}
+
+.comment-mark__tag {
+    color: #fff;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-color: #333;
+    text-align: center;
+    z-index: @z-index-2;
+}
+
+.comment-mark--active {
+    border: 2px solid #0B85C8;
+
+    .comment-mark__tag {
+        background-color: #0B85C8;
+    }
+}
+
+.comment-mark--hover:not(.comment-mark--active) {
+    border: 2px solid #EC683B;
+
+    .comment-mark__tag {
+        background-color: #EC683B;
+    }
+}
+
+.comment-textarea {
+   border: 4px solid #0B85C8; 
+}
+
+.comment--active {
+    color: #EC683B;
+
+    .comment__number {
+        background-color: #EC683B;
+    }
+}

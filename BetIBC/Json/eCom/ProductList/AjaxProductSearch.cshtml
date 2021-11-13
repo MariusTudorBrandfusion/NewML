@@ -1,0 +1,77 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Web;
+
+@functions {
+    public class Product
+    {
+        public string template { get; set; }
+        public string id { get; set; }
+        public string productLoopCounter { get; set; }
+        public string zIndex { get; set; }
+        public string name { get; set; }
+        public string number { get; set; }
+        public string price { get; set; }
+        public string discount { get; set; }
+        public string onSale { get; set; }
+        public string stockState { get; set; }
+        public string outOfStock { get; set; }
+        public string link { get; set; }
+        public string variantid { get; set; }
+        public string description { get; set; }
+        public string image { get; set; }
+        public string noImage { get; set; }
+        public string hasVariants { get; set; }
+        public string hideViewMore { get; set; }
+        public string hideBuyOptions { get; set; }
+
+        public string groupId { get; set; }
+        public string searchParameter { get; set; }
+    }
+}
+
+@{
+    string searchParameter = !String.IsNullOrEmpty(HttpContext.Current.Request["Search"]) ? HttpContext.Current.Request.QueryString.Get("Search") : "";
+    string groupId = !String.IsNullOrEmpty(HttpContext.Current.Request["GroupID"]) ? HttpContext.Current.Request.QueryString.Get("GroupID") : "";
+    string template = !String.IsNullOrEmpty(HttpContext.Current.Request["Template"]) ? HttpContext.Current.Request.QueryString.Get("Template") : "SearchContentTemplate";
+
+    List<Product> productFeedObject = new List<Product>();
+
+    //PRODUCT
+    foreach (LoopItem product in GetLoop("Products"))
+    {
+        Product productObject = new Product();
+
+        Boolean hasVariants = product.GetLoop("VariantGroups").Any() ? true : false;
+
+        productObject.template = template;
+        productObject.id = product.GetString("Ecom:Product.ID");
+        productObject.productLoopCounter = product.GetString("Ecom:Product.LoopCounter");
+        productObject.name = product.GetString("Ecom:Product.Name");
+        productObject.number = product.GetString("Ecom:Product.Number");
+        productObject.price = product.GetString("Ecom:Product.Discount.Price.PriceWithVATFormatted") != product.GetString("Ecom:Product.Price.PriceWithVATFormatted") ? product.GetString("Ecom:Product.Discount.Price.PriceWithVATFormatted") : product.GetString("Ecom:Product.Price.PriceWithVATFormatted");
+        productObject.discount = product.GetString("Ecom:Product.Discount.Price.PriceWithVATFormatted") != product.GetString("Ecom:Product.Price.PriceWithVATFormatted") ? product.GetString("Ecom:Product.Price.PriceWithVATFormatted") : "";
+        productObject.onSale = product.GetString("Ecom:Product.Discount.Price.PriceWithVATFormatted") == product.GetString("Ecom:Product.Price.PriceWithVATFormatted") ? "u-hidden" : "";
+        productObject.stockState = product.GetInteger("Ecom:Product.Stock") > 0 ? "stock-icon--in" : "stock-icon--not";
+        productObject.outOfStock = product.GetInteger("Ecom:Product.Stock") <= 0 ? "disabled" : "";
+        productObject.link = "/" + product.GetString("Ecom:Product.LinkGroup.Clean") + (!string.IsNullOrEmpty(product.GetString("Ecom:Product.VariantID")) ? "&VariantID=" + product.GetString("Ecom:Product.VariantID") : "");
+        productObject.variantid = product.GetString("Ecom:Product.VariantID");
+        productObject.description = product.GetString("Ecom:Product.ShortDescription");
+        productObject.image = product.GetString("Ecom:Product.ImageSmall.Default.Clean");
+        productObject.noImage = string.IsNullOrEmpty(product.GetString("Ecom:Product.ImageSmall.Default.Clean")) ? "u-hidden" : "";
+        productObject.hasVariants = hasVariants ? "u-hidden" : "";
+        productObject.hideBuyOptions = hasVariants ? "u-hidden" : "";
+        productObject.hideViewMore = hasVariants ? "" : "u-hidden";
+
+        productFeedObject.Add(productObject);
+    }
+
+    Product searchMoreObject = new Product();
+    searchMoreObject.template = "SearchMore";
+    searchMoreObject.searchParameter = searchParameter;
+    searchMoreObject.groupId = groupId;
+    productFeedObject.Add(searchMoreObject);
+
+    string jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(productFeedObject);
+}
+
+@jsonFeed

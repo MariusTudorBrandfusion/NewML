@@ -1,0 +1,46 @@
+﻿@using System.Web;
+[
+@{
+    int loopCount =  GetLoop("Rows").Count() -1;
+    var rows = GetLoop("Rows");
+    int loopCounter = 0;
+}
+
+@foreach (var row in rows) {
+ var areaId = row.GetString("AreaId");
+var areaName = row.GetString("AreaName");
+areaName = HttpUtility.JavaScriptStringEncode(areaName);
+var pageId = row.GetString("PageId");
+var pageUrlRaw = Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(pageId);
+var pageUrl = pageUrlRaw.Substring(0, pageUrlRaw.IndexOf("?") );
+var areaCulture = row.GetString("AreaCulture");
+areaCulture = areaCulture.Substring(areaCulture.Length-2).ToLower();
+	
+
+    if(loopCounter == loopCount){
+	
+
+        <text>
+            {
+          	 "areaId" : "@areaId",
+          	"areaName" : "@areaName",
+          	"pageId" : "@pageId",
+          	"pageUrl" : "@pageUrl",
+          	"areaCulture" : "@areaCulture"
+            }
+        </text>
+    }else{
+        <text>
+            {
+            "areaId" : "@areaId",
+          	"areaName" : "@areaName",
+          	"pageId" : "@pageId",
+          	"pageUrl" : "@pageUrl",
+          	"areaCulture" : "@areaCulture"
+            },
+        </text>
+    }
+    loopCounter ++;
+}
+
+]

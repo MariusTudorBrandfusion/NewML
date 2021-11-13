@@ -1,0 +1,25 @@
+﻿@{
+    var storyTitle = GetString("ItemCreator:Item.Prediction_Title.Value");
+    var storyAuthorID = GetString("ItemCreator:Item.Tipster_ID");
+    DateTime storyDate = DateTime.Now;
+    var storyDateFormated = storyDate.ToString("dd / MM / yyyy");
+    var optionsLoop = GetLoop("ItemCreator:Item.Tipster_ID.Options");
+    var storyAuthor = "";
+}
+
+@foreach(var option in optionsLoop){
+var optionId = option.GetString("ItemCreator:Item.Tipster_ID.Option.Value");
+
+if(optionId == storyAuthorID){
+  storyAuthor = option.GetString("ItemCreator:Item.Tipster_ID.Option.Label");
+}
+}
+ <p>Hello @storyAuthor ,</p>
+ <br>
+ <p>Thank you for submiting the prediction @storyTitle</p>
+ <p>It was received and it's pending to be approved.</p>
+ <p>Once approved, you will receive an email confirmation.</p>
+ <p>Feel free to reply to this email in case you have any questions.</p>
+  <br>
+ <p>Kind regards,</p>
+ <p>BET-IBC Team</p>

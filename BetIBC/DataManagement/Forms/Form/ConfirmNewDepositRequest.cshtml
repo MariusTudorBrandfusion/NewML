@@ -1,0 +1,202 @@
+﻿@{
+
+  var formStart = GetString("Form.Start");
+  var formEnd = GetString("Form.End");
+  var accountID = GetGlobalValue("Global:Extranet.UserID");
+  var formHiddenFileds = GetString("Form.Hidden");
+  var nowRow = DateTime.Now;
+  var now = nowRow.ToString("dd/MM/yyyy, HH:mm");
+  var bookmakerValue = GetString("Form.Fields.deposits_Bookmaker.Value");
+  var accountCurrency = GetString("Form.Fields.deposits_Account_Currency_New.Value");
+  var initialBalance =  GetString("Form.Fields.deposits_Initial_Balance.Value");
+  var depositAmount = GetString("Form.Fields.deposits_Amount.Value");
+  var depositCurrency = GetString("Form.Fields.deposits_Deposit_Currency.Value");
+  var userId = GetGlobalValue("Global:Extranet.UserID");
+  var userEmail = GetGlobalValue("Global:Extranet.Email");
+  var userUsername = GetGlobalValue("Global:Extranet.UserName");
+  var clientName = GetString("Form.Fields.deposits_Client_Username.Value");
+  var clientId = GetString("Form.Fields.deposits_Client_Id.Value");
+  var clientEmail = GetString("Form.Fields.deposits_Client_Email.Value");
+  var paymentMethod = GetString("Form.Fields.deposits_Payment_Method.Value");
+  var transactionId = GetString("Form.Fields.deposits_Payment_TransactionID.Value");
+  var requestedDate = GetString("Form.Fields.deposits_Request_Created_on_Date.Value");
+  var commisionProcent = GetString("Form.Fields.deposits_Commision_in_procent.Value");
+  var operator1Email = GetString("Form.Fields.deposits_Operator1_Email.Value");
+  var operator1Name = GetString("Form.Fields.deposits_Operator1_Name.Value");
+  var operator1Id = GetString("Form.Fields.deposits_Operator1_Id.Value");
+  var operator1Date = GetString("Form.Fields.deposits_First_Operator_Date.Value");
+  var userAccountID = GetString("Form.Fields.deposits_User_ID.Value");
+  var firstDeposit = GetString("Form.Fields.deposits_IsFirstDeposit.Value");
+}
+
+<div class="container form-content" data-type-accontID = "@accountID">
+  <h2>Verify deposit</h2>
+	@formStart
+@formHiddenFileds
+  <div class = "form-in">
+    <span>@Translate("DepositBookmaker","Bookmaker")</span>
+    <input type="text" id="deposits_Bookmaker" name="deposits_Bookmaker" class = "readonly" readonly value="@bookmakerValue" />
+  </div>
+  <div class = "form-in">
+    <span>@Translate("DepositAccountCurrency","Account Currency")</span>
+    <input type="text" id="deposits_Account_Currency_New" class = "readonly" readonly name="deposits_Account_Currency_New" value="@accountCurrency" />
+  </div>
+<div class = "form-in hidden">
+  <span>@Translate("DepositAgentProfit","Agent Profit")</span>
+  <input type="text" id="deposits_Agent_profit" name="deposits_Agent_profit" value="" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("DepositAmmountAfterCommisions","Ammount after commisions")</span>
+  <input type="text" id="deposits_Ammount_to_be_deposited_after_commisions" name="deposits_Ammount_to_be_deposited_after_commisions" value="" />
+</div>
+<div class = "form-in">
+    <span>@Translate("DepositAmmount","Ammount")</span>
+  <input type="text" id="deposits_Amount" class = "readonly" readonly name="deposits_Amount" value="@depositAmount" />
+</div>
+
+<div class = "form-in hidden">
+  <span>@Translate("DepositClientID","Client ID")</span>
+  <input type="text" id="deposits_Client_Id" class = "readonly" readonly name="deposits_Client_Id" value="@clientId" />
+</div>
+<div class = "form-in hidden">
+    <span>@Translate("DepositClientEmail","Client Email")</span>
+  <input type="text" id="deposits_Client_Email" class = "readonly" readonly name="deposits_Client_Email" value="@clientEmail">
+</div>
+<div class = "form-in hidden">
+     <span>@Translate("DepositClientUsername","Client Username")</span>
+  <input type="text" id="deposits_Client_Username" class = "readonly" readonly name="deposits_Client_Username" value="@clientName" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("DepositCommisionAmmoun","Commision ammoun")t</span>
+  <input type="text" id="deposits_Commision_ammount" name="deposits_Commision_ammount" value="" />
+</div>
+<div class = "form-in">
+  <span>@Translate("DepositCommisionIn%","Commision in %")</span>
+  @if(commisionProcent != "0"){
+    <input type="text" id="deposits_Commision_in_procent" class = "readonly" readonly name="deposits_Commision_in_procent" value="@commisionProcent" />
+  }
+  else
+  {
+    <input type="text" id="deposits_Commision_in_procent" class = "readonly" readonly name="deposits_Commision_in_procent" value='@Pageview.Area.Item["Default_Deposit_Commission"]' />
+  }
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("DepositCommisionCurrency","Commision Currency")</span>
+  <input type="text" id="deposits_Currency" name="deposits_Currency" value="" />
+</div>
+<div class = "form-in ">
+  <span>@Translate("DepositDepositCurrency","Deposit Currency")</span>
+  <input type="text" id="deposits_Deposit_Currency" class = "readonly" required readonly name="deposits_Deposit_Currency" value="@depositCurrency" />
+   </div>
+  <div class = "form-in hidden">
+    <span>@Translate("DepositDepositStatus","Deposit Status")</span>
+    <input type="text" id="deposits_Deposit_Status" class = "readonly" readonly name="deposits_Deposit_Status" value="Completed" />
+  </div>
+  
+@if( bookmakerValue == "Skype Betting"){
+ <div class = "form-in">
+    <span>@Translate("DepositInitialbalance","InitialBalance")</span>
+<input type="text" id="deposits_Initial_Balance" class = "readonly" readonly name="deposits_Initial_Balance" value="@initialBalance" />
+  </div>
+}else{
+ <div class = "form-in">
+    <span>@Translate("DepositInitialbalance","InitialBalance")</span>
+<input type="text" id="deposits_Initial_Balance" name="deposits_Initial_Balance" value="" />
+  </div>
+}
+  <div class = "form-in">
+    <span>@Translate("DepositBalanceAfterDeposit","Balance after Deposit")</span>
+    <input type="text" id="deposits_Balance_after_Deposit" required name="deposits_Balance_after_Deposit" value="" />
+  </div>
+<div class = "form-in hidden">
+   <span>@Translate("DepositIntermediar","Intermediar")y</span>
+  <input type="text" id="deposits_Intermediary" name="deposits_Intermediary" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("DepositFirstDeposi","First Deposi")t</span>
+  <input type="text" id="deposits_IsFirstDeposit" name="deposits_IsFirstDeposit" value="@firstDeposit" />
+</div>
+
+<div class = "form-in">
+     <span>@Translate("DepositOandaExchangeRate","Oanda Exchange Rate")</span>
+  <input type="text" id="deposits_Oanda_Exchange_Rate_New" required name="deposits_Oanda_Exchange_Rate_New" value="" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("DepositOperator1Email","Operator 1 Email")</span>
+  	<input type="text" id="deposits_Operator1_Email" class = "readonly" readonly name="deposits_Operator1_Email" value="@operator1Email" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("DepositOperator1ID","Operator 1 ID")</span>
+  <input type="text" id="deposits_Operator1_Id" class = "readonly" readonly name="deposits_Operator1_Id" value="@operator1Id" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("DepositOperator1Name","Operator 1 Name")</span>
+  <input type="text" id="deposits_Operator1_Name" class = "readonly" readonly name="deposits_Operator1_Name" value="@operator1Name" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("DepositOperator1VerificationDate","Operator 1 Verification Date")<strong>: </strong></span>
+  	<input type="text" id="deposits_First_Operator_Date" class = "readonly" readonly name="deposits_First_Operator_Date" value="@operator1Date" />
+</div>
+
+<div class = "form-in hidden">
+  <span>@Translate("DepositOperator2VerificationDate","Operator 2 Verification Date")<strong>: </strong></span>
+  	<input type="text" id="deposits_Second_Operator_Date" class = "readonly" readonly name="deposits_Second_Operator_Date" value="@now" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("DepositOperator2Email","Operator 2 Email")</span>
+<input type="text" id="deposits_Operator2_Email"  name="deposits_Operator2_Email" value="@userEmail" />  
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("DepositOperator2ID","Operator 2 ID")</span>
+  <input type="text" id="deposits_Operator2_Id"  name="deposits_Operator2_Id" value="@userId" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("DepositOperator2Name","Operator 2 Name")</span>
+  <input type="text" id="deposits_Operator2_Name"  name="deposits_Operator2_Name" value="@userUsername" />
+</div>
+<div class = "form-in">
+  <span>@Translate("DepositPaymentMethod","Payment Method")</span>
+  <input type="text" id="deposits_Payment_Method" class = "readonly" readonly name="deposits_Payment_Method" value="@paymentMethod" />
+</div>
+<div class = "form-in hidden">
+    <span>@Translate("DepositPaymentMethodAvailableCurrency","Payment Method Available Currency")</span>
+  	<input type="text" id="deposits_Payment_Method_Available__Currency" name="deposits_Payment_Method_Available__Currency" value="" />
+</div>
+<div class = "form-in">
+   <span>@Translate("DepositPaymentTransactionID","Payment Transaction ID")</span>
+  <input type="text" id="deposits_Payment_TransactionID" class = "readonly" readonly name="deposits_Payment_TransactionID" value="@transactionId" />
+</div>
+<div class = "form-in">
+  <span>@Translate("DepositRequestCreatedOnDate","Request Created on Date")</span>
+  <input type="text" id="deposits_Request_Created_on_Date" class = "readonly" readonly name="deposits_Request_Created_on_Date" value="@requestedDate" />
+</div>
+ <div class = "form-in hidden">
+    <span>@Translate("DepositTransactionNumberProvided","Transaction Number provided")</span>
+  	<input type="text" id="deposits_Transaction_Number_provided" name="deposits_Transaction_Number_provided" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("DepositUserID","User ID")</span>
+  <input type="text" id="deposits_User_ID" name="deposits_User_ID" value="@userAccountID" />
+</div>
+
+<div class = "form-in">
+   <span>@Translate("DepositTransactionNumberProvidedByAdmin","Transaction Number provided by admin")</span>
+  <input type="text" id="deposits_Transaction_Number_provided_by_admin" required name="deposits_Transaction_Number_provided_by_admin" value="" />
+</div>
+<div class = "form-in">
+   <span>@Translate("DepositTransactionScreenshot","Transaction Screenshot")</span>
+  <input type="file" id="deposits_Transaction_Screenshot_by_admin" name="deposits_Transaction_Screenshot_by_admin" />
+</div>
+<div class = "form-in">
+   <span>@Translate("DepositBalanceScreenshot","Balance Screenshot")<strong>: </strong></span>
+  <input type="file" id="deposits_Balance_Screenshot" name="deposits_Balance_Screenshot" />
+</div>
+<div class = "last-submit-deposit">
+  <div class = "deposit-submit-verification">
+@GetString("Form.Button.Submit")
+  </div>
+</div>
+@formEnd
+
+</div>
+  	

@@ -1,0 +1,70 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using Dynamicweb.Core
+@using System
+@SnippetStart("BootstrapCss")
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+@SnippetEnd("BootstrapCss")
+@Include("/Files/Templates/Designs/BetIBC/DataManagement/Forms/Form/Includes/GeneralDataListFormHelpers.cshtml")
+@Include("/Files/Templates/Designs/BetIBC/DataManagement/Forms/Form/Includes/DepositFormHelpers.cshtml")
+@{
+    //Form generated fields
+    var formStart = GetString("Form.Start");
+    var formEnd = GetString("Form.End");
+    var formHiddenFileds = GetString("Form.Hidden");
+    var formSubmit = GetString("Form.Button.Submit");
+    //comission properties
+    var name = GetString("Form.Fields.EwalletCommissionsList_Name.Systemname");
+    var value = GetString("Form.Fields.EwalletCommissionsList_Value.Systemname");
+    var isProcent = GetString("Form.Fields.EwalletCommissionsList_Is_Procent.Systemname");
+    var minValue= GetString("Form.Fields.EwalletCommissionsList_Value_for_less_then_min.Systemname");
+    var minValueIsProcent = GetString("Form.Fields.EwalletCommissionsList_Value_for_less_then_min_Is_Procent.Systemname");
+    var paymentMethodSelect = GetString("Form.Fields.EwalletCommissionsList_Payment_method.Systemname");
+    var currency = GetString("Form.Fields.EwalletCommissionsList_Currency.Systemname");
+    var active = GetString("Form.Fields.EwalletCommissionsList_Active.Systemname");
+    var notes = GetString("Form.Fields.EwalletCommissionsList_Notes.Systemname");
+    //form generated fields
+    var paymentMethodCurrencySelect = GetString("Form.Fields.EwalletCommissionsList_Payment_method.Control");
+    var activeSelect = GetString("Form.Fields.EwalletCommissionsList_Active.Control");
+    //labels
+    var nameLabel = GetString("Form.Fields.EwalletCommissionsList_Name.Label");
+    var valueLabel = GetString("Form.Fields.EwalletCommissionsList_Value.Label");
+    var isProcentLabel = GetString("Form.Fields.EwalletCommissionsList_Is_Procent.Label");
+    var minValueLabel = GetString("Form.Fields.EwalletCommissionsList_Value_for_less_then_min.Label");
+    var minValueIsProcentLabel = GetString("Form.Fields.EwalletCommissionsList_Value_for_less_then_min_Is_Procent.Label");
+    var paymentMethodSelectLabel = GetString("Form.Fields.EwalletCommissionsList_Payment_method.Label");
+    var currencyLabel = GetString("Form.Fields.EwalletCommissionsList_Currency.Label");
+    var notesLabel = GetString("Form.Fields.EwalletCommissionsList_Notes.Label");
+    var paymentMethodCurrencySelectLabel = GetString("Form.Fields.EwalletCommissionsList_Payment_method.Label");
+    var applyTo = GetString("Form.Fields.EwalletCommissionsList_Used_For.Control");
+}
+<div class="container">
+    <div class="exceptions-commissions-form exception-form-wrapper create-exception-form">
+        <h1>Create E-wallet comission</h1>
+        @formStart
+        @formHiddenFileds
+        @simpleInputField("text", nameLabel, name, name, "required", string.Empty)
+        <div class="row">
+            <div class="col-xs-6">
+                @simpleInputField("number",valueLabel, value, value, "required", string.Empty)
+                @sinpleCheckboxField(isProcentLabel, isProcent, isProcent, "True", string.Empty)
+            </div>
+            <div class="col-xs-6">
+                @simpleInputField("number",minValueLabel,minValue,minValue, "required", string.Empty)
+                @sinpleCheckboxField(minValueIsProcentLabel, minValueIsProcent,minValueIsProcent, "True", string.Empty)
+            </div>
+            <div class="col-xs-12">
+                <label>@Translate("Apply to")</label>
+                @applyTo
+            </div>
+        </div>
+        @preBuiltEmlement(paymentMethodCurrencySelectLabel, string.Empty, paymentMethodCurrencySelect)
+        @SimpleSelect(currencyLabel , currency, string.Empty, string.Empty)
+        @simpleTextAreaField(notesLabel, notes, notes, string.Empty, string.Empty)
+        @activeSelect
+        @formSubmit
+        @formEnd
+    </div>
+</div>

@@ -1,0 +1,210 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+@MasterPageFile("MasterNoEcom.cshtml")
+
+@if (Model.PropertyItem.GetBoolean("ShowBreadcrumb")) {
+<div class="u-color-light-gray--bg">
+	<div class="center-container">
+       <div class="grid">
+           <div class="grid__col-md-5 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+              <h3 class="page-title">@Model.Name</h3>
+           </div></div>
+           <div class="grid__col-md-7 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+              <div class="u-pull--right">
+                @RenderNavigation(new
+                {
+                    id = "breadcrumb",
+                    template = "breadcrumb.xslt"
+                })
+               </div>
+           </div></div>
+       </div>
+	</div>
+</div>
+}
+
+<div class="grid">
+    @if (Model.PropertyItem.GetBoolean("LeftMenu"))
+    {
+        <nav class="grid__col-md-3 grid__col-sm-12 grid__col-xs-12">
+           @RenderNavigation(new
+           {
+               id = "leftnav",
+               cssclass = "menu dwnavigation",
+               expandmode = "All",
+               template = "LeftNavigation.xslt"
+           })
+        </nav>
+    }
+    <div class="grid__col-auto grid__col--bleed">
+        <div class="grid">
+            @Model.Placeholder("dwcontent", "content", "default:true;sort:1")
+
+
+            <!-- Skype main -->
+            <div class="center-container skype-bets">
+	            <div class="grid"> 
+	            	<div class="grid__col-md-4 grid__col-sm-12 grid__col-xs-12">
+	            		<div class="blue-box"><h3>Settled Skype bets</h3></div>
+	            	</div>
+	            	<div class="grid__col-md-4 grid__col-sm-12 grid__col-xs-12">
+	            		<div class="blue-box"><h3>Open Skype bets</h3></div>
+	            	</div>
+	            	<div class="grid__col-md-4 grid__col-sm-12 grid__col-xs-12">
+	            		<div class="blue-box"><h3>New Skype bet</h3></div>
+	            	</div>
+	            </div>
+
+	            <div class="grid"> 
+	            	<div class="grid__col-md-12 grid__col-sm-12 grid__col-xs-12">
+	            		<h2>Settled Skype bets</h2>
+	            	</div>
+	            	<div class="grid__col-md-3 grid__col-sm-12 grid__col-xs-12">
+	            		Skype betting clients:<br />
+	            		<select>
+	            			<option value="">-Choose the client-</option>
+	            			<option value="">client</option>
+	            			<option value="">client</option>
+	            		</select>
+	            	</div>
+	            	<div class="grid__col-md-3 grid__col-sm-12 grid__col-xs-12">
+	            		Sports:<br />
+	            		<select>
+	            			<option value="">-Choose the sport-</option>
+	            			<option value="">sport</option>
+	            			<option value="">sport</option>
+	            		</select>
+	            	</div>
+	            	<div class="grid__col-md-4 grid__col-sm-12 grid__col-xs-12">
+	            		&nbsp;
+	            	</div>
+	            	<div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12">
+	            		<a href="#" class="btn btn--primary dw-mod">New Skype bet</a>
+	            	</div>
+	            </div>
+
+	            <div class="grid">
+		            <table cellpadding="0" cellspacing="0" class="table-skype">
+		            	<thead>
+		            		<tr>
+		            			<th>ID</th>
+		            			<th>SELECTION</th> 
+		            			<th>BET DETAILS</th> 
+		            			<th>ODD min</th>
+		            			<th>ODD Asia</th>
+		            			<th>ODD final</th>
+		            			<th>STAKE</th>
+		            			<th>STATUS</th>
+		            			<th>PROFIT/LOSS<br /> account currency<br /> bet currency</th>
+		            			<th>COMMISION<br /> % | EUR</th>
+								<th>EARNING EUR</th>
+								<th>OPERATORS</th>
+		            		</tr>
+		            	</thead>
+		            	<tbody>
+		            		<tr>
+		            			<td>19238<br /> A:86329</td>
+		            			<td>FTHDP<br /> FTHDP [0-1]</td> 
+		            			<td>
+		            				Bidvest Wits -0.25<br />
+									Bidvest Withs - Celtic<br />
+									South Africa Premiership<br />
+									PREMATCH<br />
+									1.19.2018 | 4:32:22 PM
+		            			</td> 
+		            			<td>1.83 EURO</td>
+		            			<td>1.94 EURO</td>
+		            			<td>1.83 EURO</td>
+		            			<td>500.00 EURO</td>
+		            			<td>HT: 1-0 FT: 1-</td>
+		            			<td>470.00 EUR<br /> 470.00 EUR</td>
+		            			<td>3%<br /> 15 EURO</td>
+								<td>43.5<br /> EURO</td>
+								<td>
+									1. Operator X<br />
+									<small>1.19.2018 |4:32:22 PM</small><br />
+									2. Operator Y<br />
+									<small>1.19.2018 |4:32:22 PM</small><br />
+									3. Operator Z<br />
+									<small>1.19.2018 |4:32:22 PM</small><br />
+									4. Operator Z<br />
+									<small>1.19.2018 |4:32:22 PM</small>
+								</td>
+		            		</tr>
+		            		<tr>
+		            			<td>19238<br /> A:86329</td>
+		            			<td>FTHDP<br /> FTHDP [0-1]</td> 
+		            			<td>
+		            				Bidvest Wits -0.25<br />
+									Bidvest Withs - Celtic<br />
+									South Africa Premiership<br />
+									PREMATCH<br />
+									1.19.2018 | 4:32:22 PM
+		            			</td> 
+		            			<td>1.83 EURO</td>
+		            			<td>1.94 EURO</td>
+		            			<td>1.83 EURO</td>
+		            			<td>500.00 EURO</td>
+		            			<td>HT: 1-0 FT: 1-</td>
+		            			<td>470.00 EUR<br /> 470.00 EUR</td>
+		            			<td>3%<br /> 15 EURO</td>
+								<td>43.5<br /> EURO</td>
+								<td>
+									1. Operator X<br />
+									<small>1.19.2018 |4:32:22 PM</small><br />
+									2. Operator Y<br />
+									<small>1.19.2018 |4:32:22 PM</small><br />
+									3. Operator Z<br />
+									<small>1.19.2018 |4:32:22 PM</small><br />
+									4. Operator Z<br />
+									<small>1.19.2018 |4:32:22 PM</small>
+								</td>
+		            		</tr>
+		            	</tbody>
+		            </table>
+	            </div>
+
+	            <div class="grid">
+	            <div class="grid__col-md-12 grid__col-sm-12 grid__col-xs-12">
+	            	<div id="accordion">
+                        <div class="faq-item">
+                            <div class="faq__question">1. REQUESTED BETS</div>
+                            <section class="faq__answer">
+                                <div class="faq__body">
+                                    <p>a1</p>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq__question">2. CONFIRMED BETS</div>
+                            <section class="faq__answer">
+                                <div class="faq__body">
+                                    <p>a2</p>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq__question">3. SETTLED BETS</div>
+                            <section class="faq__answer">
+                                <div class="faq__body">
+                                    <p>a1</p>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq__question">4. CROSSCHECKED BETS</div>
+                            <section class="faq__answer">
+                                <div class="faq__body">
+                                    <p>a2</p>
+                                </div>
+                            </section>
+                        </div>
+              		</div>
+              	</div>	
+	            </div>
+
+	        </div>
+	        
+
+        </div>
+    </div>
+</div>   

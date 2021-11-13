@@ -1,0 +1,65 @@
+// -----------------------------------------------------------------------------
+// Contains all styles related to the left navigation part of the site/application.
+// -----------------------------------------------------------------------------
+
+.menu-left {
+    list-style: none;
+    margin: 0;
+}
+
+.menu-left__item {
+    margin: 0;
+    width: 100%;
+    font-size: @font-size;
+    color: @gray;
+}
+
+.menu-left__item--top-level {
+    color: inherit;
+}
+
+.menu-left__link {
+    color: inherit;
+    width: 100%;
+    display: block;
+    padding: @reflex-cell-spacing-md;
+    padding-left: @reflex-cell-spacing-lg;
+    transition: border 0.2s ease-out;
+}
+
+.menu-left__link:hover, .menu-left__link.active {
+    background-color: @gray-lightest;
+    color: inherit;
+}
+
+.menu-left__link--top-level {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: @reflex-cell-spacing-md;
+    border-bottom: 1px solid @gray-light;
+    padding-left: @reflex-cell-spacing-md;
+}
+
+.menu-left__link--top-level:not(:first-child) {
+    border-top: 1px solid @gray-light;
+}
+
+.menu-left__link--top-level:hover, .menu-left__link--top-level.active {
+    background-color: transparent;
+}
+
+.menu-left__link--level-4 {
+    padding-left: @reflex-cell-spacing-md;
+}
+
+.menu-left__link--level-4:hover, .menu-left__link--level-4.active {
+    padding-left: @reflex-cell-spacing-md - @reflex-cell-spacing-sm;
+}
+
+.menu-left__link--level-5 {
+    padding-left: @reflex-cell-spacing-lg;
+}
+
+.menu-left__link--level-5:hover, .menu-left__link--level-6.active {
+    padding-left: @reflex-cell-spacing-lg - @reflex-cell-spacing-sm;
+}

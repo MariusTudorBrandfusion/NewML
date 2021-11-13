@@ -1,0 +1,35 @@
+﻿[
+@{
+    int loopCount = GetLoop("QueryResultItem").Count() - 1;
+    var loopPages = GetLoop("QueryResultItem");
+	int loopCounter = 0;
+}
+@foreach( var page in loopPages ){ 
+
+        var bookmakerName = page.GetString("PageMenuText");
+        var bookmakerID = page.GetString("PageId");
+		
+		if(loopCounter == loopCount){
+
+			<text>
+			   {
+            
+				"bookmakerName": "@bookmakerName",
+                "bookmakerID": "@bookmakerID"
+        
+                }
+			</text>
+		}else{
+              <text>
+              {
+	            "bookmakerName": "@bookmakerName",
+                "bookmakerID": "@bookmakerID"
+        
+              	},
+              </text>
+            }
+
+loopCounter ++;
+
+}
+]

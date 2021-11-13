@@ -1,0 +1,1041 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using System.Web.Script.Serialization
+@using Dynamicweb.Frontend
+@using Dynamicweb.Forms
+@helper ListHeaderHistory()
+{
+    var requestedDepositsPage = GetPageIdByNavigationTag("AdminRequestedDeposits").ToString();
+    var currentPage = GetGlobalValue("Global:Page.ID").ToString();
+    <thead>
+    <tr>
+    
+        <th>@Translate("Express", "Express")</th>
+        <th>@Translate("Status", "Status")</th>
+        <th>@Translate("RequestDate", "Date/Time of request")</th>
+        <th>@Translate("Amount", "Amount")</th>
+        <th>@Translate("Username", "Username")</th>
+        <th>@Translate("Bookmaker", "Bookmaker")</th>
+        <th>@Translate("Payment method", "Payment method")</th>
+       
+     
+    </tr>
+    </thead>
+}
+
+@helper ListHeader()
+{
+    var requestedDepositsPage = GetPageIdByNavigationTag("AdminRequestedDeposits").ToString();
+    var currentPage = GetGlobalValue("Global:Page.ID").ToString();
+    <thead>
+    <tr>
+        <th>@Translate("Deposit ID", "Deposit ID")</th>
+        <th>@Translate("Express", "Express")</th>
+        <th>@Translate("Status", "Status")</th>
+        <th>@Translate("RequestDate", "Date/Time of request")</th>
+        <th>@Translate("Amount", "Amount")</th>
+        <th>@Translate("Username", "Username")</th>
+        <th>@Translate("Bookmaker", "Bookmaker")</th>
+        <th>@Translate("Payment method", "Payment method")</th>
+        @if (requestedDepositsPage != currentPage)
+        {
+            <th>@Translate("Done By", "Done by")</th>
+        }
+        <th>@Translate("MoreDetails", "More Details")</th>
+        <th>@Translate("Verify", "Verify")</th>
+    </tr>
+    </thead>
+}
+
+@helper ListHeaderProcessed()
+{
+    <thead>
+    <tr>
+        <th>@Translate("Deposit ID", "Deposit ID")</th>
+        <th>@Translate("Express", "Express")</th>
+        <th>@Translate("Status", "Status")</th>
+        <th>@Translate("RequestDate", "Date/Time of request")</th>
+        <th>@Translate("Amount", "Amount")</th>
+        <th>@Translate("Username", "Username")</th>
+        <th>@Translate("Bookmaker", "Bookmaker")</th>
+        <th>@Translate("Payment method", "Payment method")</th>
+        <th>@Translate("Done By", "Done by")</th>
+        <th>@Translate("MoreDetails", "More Details")</th>
+        <th>@Translate("Finalize", "Finalize")</th>
+    </tr>
+    </thead>
+}
+@helper ListHeaderFinalized()
+{
+    <thead>
+    <tr>
+        <th>@Translate("Deposit ID", "Deposit ID")</th>
+        <th>@Translate("Express", "Express")</th>
+        <th>@Translate("Status", "Status")</th>
+        <th>@Translate("RequestDate", "Date/Time of request")</th>
+        <th>@Translate("Amount", "Amount")</th>
+        <th>@Translate("Username", "Username")</th>
+        <th>@Translate("Bookmaker", "Bookmaker")</th>
+        <th>@Translate("Payment method", "Payment method")</th>
+        <th>@Translate("Done By", "Done by")</th>
+        <th>@Translate("MoreDetails", "More Details")</th>
+    
+    </tr>
+    </thead>
+}
+@{
+    
+}
+@helper depositListCell(string type, string value1, string value2)
+{
+
+    if(type == "regular"){
+  
+        <td>
+            <div class="p-10">
+                @value1
+            </div>
+        </td>
+    }
+    if (type == "timestamp")
+    {
+        <td>
+            <div class="p-10">
+                @value1 / @value2
+            </div>
+        </td>
+    }
+    if (type == "amount")
+    {
+        <td>
+            <div class="p-10">
+                @value1
+                @value2
+            </div>
+        </td>
+    }
+    
+}
+@helper adminTimeStamp( string admin1, string date1, string hour1, string admin2, string date2, string hour2, string admin3, string date3, string hour3)
+{
+    <td>
+        @if (admin1 != "")
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <p>Verified</p>
+                    @admin1<br/>
+                    @date1 / @hour1
+                    @if (admin2 != "")
+                    {
+                        <hr class="noMargins">
+                    }
+
+                </div>
+            </div>
+        }
+        @if (admin2 != "")
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <p>Processed</p>
+                    @admin2<br/>
+                    @date2 / @hour2 
+                    
+                    @if (admin3 != "")
+                    {
+                        <hr class="noMargins">
+                    }
+                </div>
+            </div>
+        }
+        @if (admin3 != "")
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <p>Finalized</p>
+                    @admin3<br/>
+                    @date3 / @hour3
+                </div>
+            </div>
+        }
+    </td>
+    
+}
+
+@helper depositListButton (string type, string btnUrl, string label, string customCssClass)
+{
+    <td>
+        <div class="p-10">
+            @if(type == "link")
+            {
+            <a class="@customCssClass" href="@btnUrl">@Translate(label, label)</a>
+            }
+            @if (type == "button")
+            {
+                <a class="btn @customCssClass" href="@btnUrl">@Translate(label, label)</a>
+            }
+        </div>
+    </td>
+}
+@helper userInfoDetails (string currentDeposit)
+{
+    <div class=" grid__col-md-12">
+        <h3>@Translate("User Info", "User Info")</h3>
+        <div>
+            @foreach (var detail in GetLoop("Rows").Where(x => x.GetString("deposits_finalID") == currentDeposit))
+            {
+                if (detail.GetString("deposits_final_Username") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Username", "Username") <span>:</span> @detail.GetString("deposits_final_Username")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_First_Name") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("First Name", "First Name") <span>:</span> @detail.GetString("deposits_final_First_Name")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Last_Name") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Last Name", "Last Name") <span>:</span> @detail.GetString("deposits_final_Last_Name")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Email") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Email", "Email") <span>:</span> @detail.GetString("deposits_final_Email")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_User_ID") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("User ID", "User ID") <span>:</span> @detail.GetString("deposits_final_User_ID")</p>
+                    </div>
+                }
+               if (detail.GetString("deposits_final_Express_fee") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Express", "Express") <span>:</span> @detail.GetString("deposits_final_Express_fee")</p>
+                    </div>
+                }
+               if (detail.GetString("deposits_final_Mega_Express") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Mega Express", "Mega Express") <span>:</span> @detail.GetString("deposits_final_Mega_Express")</p>
+                    </div>
+                }
+            if (detail.GetString("deposits_final_Can_use_merchant_account") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Can use merchant account", "Can use merchant account") <span>:</span> @detail.GetString("deposits_final_Can_use_merchant_account")</p>
+                    </div>
+                }
+          
+
+            }
+        </div>
+    </div>
+    
+}
+@helper bookmakerInfoDetails (string currentDeposit)
+{
+    <div class="grid__col-md-12">
+        <h3>@Translate("Bookmaker Info", "Bookmaker Info")</h3>
+        <div>
+            @foreach (var detail in GetLoop("Rows").Where(x => x.GetString("deposits_finalID") == currentDeposit))
+            {
+                if (detail.GetString("deposits_final_Bookmaker") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Bookmaker", "Bookmaker") <span>:</span> @detail.GetString("deposits_final_Bookmaker")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Bookmaker_Username") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Bookmaker Username", "Bookmaker Username") <span>:</span> @detail.GetString("deposits_final_Bookmaker_Username")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Account_currency") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Account Currency", "Account Currency") <span>:</span> @detail.GetString("deposits_final_Account_currency")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Account_ID") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Account ID", "Account ID") <span>:</span> @detail.GetString("deposits_final_Account_ID")</p>
+                    </div>
+                }
+              
+      
+            }
+        </div>
+    </div>
+}
+@helper depositInfoDetails(string currentDeposit)
+{
+    <div class="grid__col-md-12">
+        <h3>@Translate("User Added Payment Info", "User Added Payment Info")</h3>
+        <div class="grid">
+            @foreach (var detail in GetLoop("Rows").Where(x => x.GetString("deposits_finalID") == currentDeposit))
+            {
+           
+                if (detail.GetString("deposits_final_Payment_method") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Payment Method", "Payment Method") <span>:</span> @detail.GetString("deposits_final_Payment_method")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Ammount_to_be_deposited") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Amount to be deposited", "Amount to be deposited") <span>:</span> @detail.GetString("deposits_final_Ammount_to_be_deposited")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Deposit_currency") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Deposit Currency", "Deposit Currency") <span>:</span> @detail.GetString("deposits_final_Deposit_currency")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Country") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Country", "Country") <span>:</span> @detail.GetString("deposits_final_Country")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_City") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("City", "City") <span>:</span> @detail.GetString("deposits_final_City")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Bank_account") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Bank Account", "Bank Account") <span>:</span> @detail.GetString("deposits_final_Bank_account")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Bank_Account_Number") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Bank Account Number", "Bank Account Number") <span>:</span> @detail.GetString("deposits_final_Bank_Account_Number")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Bank_Name") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Bank Name", "Bank Name") <span>:</span> @detail.GetString("deposits_final_Bank_Name")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Bank_address") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Bank Address", "Bank Address") <span>:</span> @detail.GetString("deposits_final_Bank_address")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Swift") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Swift", "Swift") <span>:</span> @detail.GetString("deposits_final_Swift")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_IBAN") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("IBAN", "IBAN") <span>:</span> @detail.GetString("deposits_final_IBAN")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Payment_Email_Address") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Payment Email Address", "Payment Email Address") <span>:</span> @detail.GetString("deposits_final_Payment_Email_Address")</p>
+                    </div>
+                }
+          
+                if (detail.GetString("deposits_final_Neteller_ID") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Nettler ID", "Nettler ID") <span>:</span> @detail.GetString("deposits_final_Neteller_ID")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Ecopayz_Account_Number") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Ecopayz Account Number", "Ecopayz Account Number") <span>:</span> @detail.GetString("deposits_final_Ecopayz_Account_Number")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Ecopayz_Account_Number_Confirm") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Ecopayz Account Number Confirmation", "Ecopayz Account Number Confirmation") <span>:</span> @detail.GetString("deposits_final_Ecopayz_Account_Number_Confirm")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Crypto_currency") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Crypto Currency", "Crypto Currency") <span>:</span> @detail.GetString("deposits_final_Crypto_currency")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Crypto_Wallet_id") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Crypto Wallet ID", "Crypto Wallet ID") <span>:</span> @detail.GetString("deposits_final_Crypto_Wallet_id")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Payment_method") != " Cryptocurrency")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Crypto Transaction ID", "Crypto Transaction ID") <span>:</span> @detail.GetString("deposits_final_Transaction_ID")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Screenshot") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12 detail.GetString("deposits_final_Screenshot"">
+                        @{
+                            string image = "http://" + GetGlobalValue("Global:Request.Host") + "/Admin/Public/GetImage.ashx?width=" + "300" + "&crop=1&image=";
+                        }
+               
+                        <p>@Translate("Screenshoot of the transfer", "Screenshoot of the transfer") <span>:</span><a href='@detail.GetString("deposits_final_Screenshot")' data-lightbox="deposit-screenshot"><img src='@(image)@(detail.GetString("deposits_final_Screenshot"))'></a></p>
+                        
+                        </div>
+                }else{
+                    <div class=" grid__cell grid__col-sm-12">
+                        @{
+                            string image = "http://" + GetGlobalValue("Global:Request.Host") + "/Admin/Public/GetImage.ashx?width=" + "300" + "&crop=1&image=";
+                        }
+               
+                        <p>@Translate("Screenshoot of the transfer", "Screenshoot of the transfer") <span>:</span>Image Not Found</p>
+                        
+                        </div>
+                     }
+               
+           
+            }
+        </div>
+    </div>
+}
+@helper adminInfoDetails(string currentDeposit)
+{
+    <div class=" grid__col-md-4"> 
+        <h3>@Translate("Admin Added Payment Info", "Admin Added Payment Info")</h3>
+        <div>
+            
+            @foreach (var detail in GetLoop("Rows").Where(x => x.GetString("deposits_finalID") == currentDeposit))
+            {
+                if (detail.GetString("deposits_final_Admin_ammount_to_be_deposited") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin amount to be deposited", "Admin amount to be deposited") <span>:</span> @detail.GetString("deposits_final_Admin_ammount_to_be_deposited")</p>
+                    </div>
+                }
+              if (detail.GetString("deposits_final_Payment_Method_Admin") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Payment Method Admin", "Payment Method Admin") <span>:</span> @detail.GetString("deposits_final_Payment_Method_Admin")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Currency") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin Currency", "Admin Currency") <span>:</span> @detail.GetString("deposits_final_Admin_Currency")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_deposit_currency") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin deposit currency", "Admin deposit currency") <span>:</span> @detail.GetString("deposits_final_Admin_deposit_currency")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_country") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin country", "Admin country") <span>:</span> @detail.GetString("deposits_final_Admin_country")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_city") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin city", "Admin city") <span>:</span> @detail.GetString("deposits_final_Admin_city")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Bank_account") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin Bank account", "Admin Bank account") <span>:</span> @detail.GetString("deposits_final_Admin_Bank_account")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_bank_Name") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin bank Name", "Admin bank Name") <span>:</span> @detail.GetString("deposits_final_Admin_bank_Name")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_bank_address") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin bank address", "Admin bank address") <span>:</span> @detail.GetString("deposits_final_Admin_bank_address")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Swift") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin Swift", "Admin Swift") <span>:</span> @detail.GetString("deposits_final_Admin_Swift")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_IBAN") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin IBAN", "Admin IBAN") <span>:</span> @detail.GetString("deposits_final_Admin_IBAN")</p>
+                    </div>
+                }
+                
+               
+                if (detail.GetString("deposits_final_Admin_Payment_email_address") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin Payment email address", "Admin Payment email address") <span>:</span> @detail.GetString("deposits_final_Admin_Payment_email_address")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Confirm_payment_email_address") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin Confirm payment email address", "Admin Confirm payment email address") <span>:</span> @detail.GetString("deposits_final_Admin_Confirm_payment_email_address")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Neteller_ID") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin Neteller ID", "Admin Neteller ID") <span>:</span> @detail.GetString("deposits_final_Admin_Neteller_ID")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Ecopayz_account_number") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin Ecopayz account number", "Admin Ecopayz account number") <span>:</span> @detail.GetString("deposits_final_Admin_Ecopayz_account_number")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Confirm_Ecopayz_account_number") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin Confirm Ecopayz account number", "Admin Confirm Ecopayz account number") <span>:</span> @detail.GetString("deposits_final_Admin_Confirm_Ecopayz_account_number")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_crypto_currency") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin Crypto currency", "Admin Crypto currency") <span>:</span> @detail.GetString("deposits_final_Admin_crypto_currency")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Crypto_Wallet_ID") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin Crypto Wallet ID", "Admin Crypto Wallet ID") <span>:</span> @detail.GetString("deposits_final_Admin_Crypto_Wallet_ID")</p>
+                    </div>
+                }
+               
+                if (detail.GetString("deposits_final_Admin_Crypto_transaction_ID") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin Crypto transaction ID", "Admin Crypto transaction ID") <span>:</span> @detail.GetString("deposits_final_Admin_Crypto_transaction_ID")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Screenshot_of_the_transfer") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin Screenshot of the transfer", "Admin Screenshot of the transfer") <span>:</span> <a href='@detail.GetString("deposits_final_Admin_Screenshot_of_the_transfer")' data-lightbox="screenshot"><img src='@detail.GetString("deposits_final_Admin_Screenshot_of_the_transfer")' /></a></p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Is_first_deposit") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin Is first deposit", "Admin Is first deposit") <span>:</span> @detail.GetString("deposits_final_Admin_Is_first_deposit")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Transaction_ID") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Admin Transaction ID", "Admin Transaction ID") <span>:</span> @detail.GetString("deposits_final_Admin_Transaction_ID")</p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}
+@helper depositErrors(string currentDeposit)
+{ 
+<div class = "details-errors">
+   
+            @foreach (var detail in GetLoop("Rows").Where(x => x.GetString("deposits_finalID") == currentDeposit))
+            {
+                if (detail.GetString("deposits_final_Admin_ammount_to_be_deposited") != detail.GetString("deposits_final_Ammount_to_be_deposited"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Amount to be deposited", "Amount to be deposited") <span>:</span> @detail.GetString("deposits_final_Ammount_to_be_deposited")</p>
+                    </div>
+                }
+           
+                if (detail.GetString("deposits_final_Admin_deposit_currency") != detail.GetString("deposits_final_Deposit_currency"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Deposit currency", "Deposit currency") <span>:</span> @detail.GetString("deposits_final_Deposit_currency")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_country") != detail.GetString("deposits_final_Country"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Country", "Country") <span>:</span> @detail.GetString("deposits_final_Country")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_city") != detail.GetString("deposits_final_City"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("City", "City") <span>:</span> @detail.GetString("deposits_final_City")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Bank_account") != detail.GetString("deposits_final_Bank_account"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Bank account", "Bank account") <span>:</span> @detail.GetString("deposits_final_Bank_account")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_bank_Name") != detail.GetString("deposits_final_Bank_Name"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Admin bank Name", "Admin bank Name") <span>:</span> @detail.GetString("deposits_final_Bank_Name")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_bank_address") != detail.GetString("deposits_final_Bank_address"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Bank address", "Bank address") <span>:</span> @detail.GetString("deposits_final_Bank_address")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Swift") != detail.GetString("deposits_final_Swift"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Swift", "Swift") <span>:</span> @detail.GetString("deposits_final_Swift")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_IBAN") != detail.GetString("deposits_final_IBAN"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("IBAN", "IBAN") <span>:</span> @detail.GetString("deposits_final_IBAN")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Payment_email_address") != detail.GetString("deposits_final_Payment_Email_Address"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Payment email address", "Payment email address") <span>:</span> @detail.GetString("deposits_final_Payment_Email_Address") </p>
+                    </div>
+                }
+              
+                if (detail.GetString("deposits_final_Admin_Neteller_ID") != detail.GetString("deposits_final_Neteller_ID"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Neteller ID", "Neteller ID") <span>:</span> @detail.GetString("deposits_final_Neteller_ID")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Ecopayz_account_number") != detail.GetString("deposits_final_Ecopayz_Account_Number"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Ecopayz account number", "Ecopayz account number") <span>:</span> @detail.GetString("deposits_final_Ecopayz_Account_Number")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Confirm_Ecopayz_account_number") != detail.GetString("deposits_final_Ecopayz_Account_Number"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Confirm Ecopayz account number", "Confirm Ecopayz account number") <span>:</span> @detail.GetString("deposits_final_Ecopayz_Account_Number")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_crypto_currency") != detail.GetString("deposits_final_Crypto_currency"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Crypto currency", "Crypto currency") <span>:</span> @detail.GetString("deposits_final_Crypto_currency")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Admin_Crypto_Wallet_ID") != detail.GetString("deposits_final_Crypto_Wallet_id"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Crypto Wallet ID", "Crypto Wallet ID") <span>:</span> @detail.GetString("deposits_final_Crypto_Wallet_id")</p>
+                    </div>
+                }
+               
+                if (detail.GetString("deposits_final_Admin_Crypto_transaction_ID") != detail.GetString("deposits_final_Transaction_ID"))
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>-> @Translate("Crypto transaction ID", "Crypto transaction ID") <span>:</span> @detail.GetString("deposits_final_Transaction_ID")</p>
+                    </div>
+                }
+           
+            }
+</div>
+}
+@helper confirmationTimestamp(string currentDeposit) {
+   <div class=" grid__col-md-12">
+        <h3>Operators</h3>
+    <div>
+        @foreach (var detail in GetLoop("Rows").Where(x => x.GetString("deposits_finalID") == currentDeposit))
+   
+        { 
+             if (detail.GetString("deposits_final_Step_1_Admin_Email") != "")
+            {
+             
+                    <p>@Translate("1. Operator", "1. Operator") <span>:</span> @detail.GetString("deposits_final_Step_1_Admin_Email") | @detail.GetString("deposits_final_Step_1_Admin_Date") | @detail.GetString("deposits_final_Step_1_Admin_Hour")</p>
+             
+            } 
+            if (detail.GetString("deposits_final_Step_2_Admin_Email") != "")
+                {
+             
+                     <p>@Translate("2. Operator", "2. Operator") <span>:</span> @detail.GetString("deposits_final_Step_2_Admin_Email") | @detail.GetString("deposits_final_Step_2_Admin_Date") | @detail.GetString("deposits_final_Step_2_Admin_Hour")</p>
+             
+                }
+            if (detail.GetString("deposits_final_Step_3_Admin_Email") != "")
+                {
+             
+                     <p>@Translate("3. Operator", "3. Operator") <span>:</span> @detail.GetString("deposits_final_Step_3_Admin_Email") | @detail.GetString("deposits_final_Step_3_Admin_Date") | @detail.GetString("deposits_final_Step_3_Admin_Hour")</p>
+             
+                }
+         
+        }
+      </div>
+    </div>
+}
+
+@helper currencyConversion(string currentDeposit) {
+    <div class=" grid__col-md-4">
+        <h3>Currency Conversion</h3>
+        <div>
+            @foreach (var detail in GetLoop("Rows").Where(x => x.GetString("deposits_finalID") == currentDeposit))
+   
+            {
+                if (detail.GetString("deposits_final_Ammount_to_be_deposited") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Sent Amount", "Sent Amount") <span>:</span> @detail.GetString("deposits_final_Ammount_to_be_deposited")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Deposit_currency") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Deposit Currency", "Deposit Currency") <span>:</span> @detail.GetString("deposits_final_Deposit_currency")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Payment_method_currency") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Payment method currency", "Payment method currency") <span>:</span> @detail.GetString("deposits_final_Payment_method_currency")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Account_currency") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Bookmaker Account Currency", "Bookmaker Account Currency") <span>:</span> @detail.GetString("deposits_final_Account_currency")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Full_Processed_Amount") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Processed Amount", "Processed Amount") <span>:</span> @detail.GetString("deposits_final_Full_Processed_Amount")</p>
+                    </div>
+                }
+          
+                if (detail.GetString("deposits_final_Payment_method_Oanda_exchange_rate") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Payment Method Oanda Exchange Rate", "Payment Method Oanda Exchange Rate") <span>:</span> @detail.GetString("deposits_final_Payment_method_Oanda_exchange_rate")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Currency_after_first_Exchange") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Currency After First Exchange", "Currency After First Exchange") <span>:</span> @detail.GetString("deposits_final_Currency_after_first_Exchange")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Oanda_Exchange_Rate") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Oanda Exchange Rate", "Oanda Exchange Rate") <span>:</span> @detail.GetString("deposits_final_Oanda_Exchange_Rate")</p>
+                    </div>
+                }
+               
+                if (detail.GetString("deposits_final_Oanda_First_Screenshot") != "/Files")
+                {
+                  
+                        <div class=" grid__cell grid__col-sm-12">
+                            <p>@Translate("Oanda First Screenshot", "Oanda First Screenshot") <span>:</span> <a href="@detail.GetString("deposits_final_Oanda_First_Screenshot")" data-lightbox="oanda-screenshot"><img src="@detail.GetString("deposits_final_Oanda_First_Screenshot")" /></a></p>
+       
+                        </div>
+                    
+                }
+                if (detail.GetString("deposits_final_Oanda_Second_Screenshot") != "/Files")
+                {
+                   
+                        <div class=" grid__cell grid__col-sm-12">
+                            <p>@Translate("Oanda Second Screenshot", "Oanda Second Screenshot") <span>:</span> <a href="@detail.GetString("deposits_final_Oanda_Second_Screenshot")" data-lightbox="oanda-screenshot"><img src="@detail.GetString("deposits_final_Oanda_Second_Screenshot")" /></a></p>
+       
+                        </div>
+                    
+                }
+          
+            }
+        </div>
+    </div>
+}
+@helper currentFees(string currentDeposit) {
+    <div class=" grid__col-md-4">
+        <h3>Fees</h3>
+        <div>
+            @foreach (var detail in GetLoop("Rows").Where(x => x.GetString("deposits_finalID") == currentDeposit))
+   
+            {
+                if (detail.GetString("deposits_final_Minimum_amount_fee") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Minimum amount fee", "Payment method currency") <span>:</span> @detail.GetString("deposits_final_Minimum_amount_fee")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_payment_method_fee") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Payment method fee", "Payment method fee") <span>:</span> @detail.GetString("deposits_final_payment_method_fee")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Deposits_bookmaker_fee") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Bookmaker fee", "Bookmaker fee") <span>:</span> @detail.GetString("deposits_final_Deposits_bookmaker_fee")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Express_Fee_Calculation") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Express fee", "Express fee") <span>:</span> @detail.GetString("deposits_final_Express_Fee_Calculation")</p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}
+@helper currentExceptions(string currentDeposit) {
+    <div class=" grid__col-md-4">
+        <h3>Exceptions</h3>
+        <div>
+            @foreach (var detail in GetLoop("Rows").Where(x => x.GetString("deposits_finalID") == currentDeposit))
+   
+            {
+                if (detail.GetString("deposits_final_Exception_rule_one") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("First Exception", "First Exception") <span>:</span> @detail.GetString("deposits_final_Exception_rule_one")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Exception_rule_one_amount") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("First Exception Amount", "First Exception Amount") <span>:</span> @detail.GetString("deposits_final_Exception_rule_one_amount")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Exception_1_notes") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("First Exception Notes", "First Exception Notes") <span>:</span> @detail.GetString("deposits_final_Exception_1_notes")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Exception_rule_two") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Second Exception", "Second Exception") <span>:</span> @detail.GetString("deposits_final_Exception_rule_two")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Exception_rule_two_amount") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Second Exception Amount", "Second Exception Amount") <span>:</span> @detail.GetString("deposits_final_Exception_rule_two_amount")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Exception_2_notes") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Second Exception Notes", "Second Exception Notes") <span>:</span> @detail.GetString("deposits_final_Exception_2_notes")</p>
+                    </div>
+                }                                                                                         
+                                                                                                           
+                if (detail.GetString("deposits_final_Exception_rule_three") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Third Exception", "Third Exception") <span>:</span> @detail.GetString("deposits_final_Exception_rule_three")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Exception_rule_three_amount") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Third Exception Amount", "Third Exception Amount") <span>:</span> @detail.GetString("deposits_final_Exception_rule_three_amount")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Exception_3_notes") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Third Exception Notes", "Third Exception Notes") <span>:</span> @detail.GetString("deposits_final_Exception_3_notes")</p>
+                    </div>
+                }
+       
+                if (detail.GetString("deposits_final_Custom_penalty") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12"> 
+                        <p>@Translate("Custom penalty", "Custom penalty") <span>:</span> @detail.GetString("deposits_final_Custom_penalty")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Custom_penalty_in_procent") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Custom penalty in procent", "Custom penalty in procent") <span>:</span> @detail.GetString("deposits_final_Custom_penalty_in_procent")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Custom_penalty_value") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Custom penalty value", "Custom penalty value") <span>:</span> @detail.GetString("deposits_final_Custom_penalty_value")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Custom_penalty_reason") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Custom penalty reason", "Custom penalty reason") <span>:</span> @detail.GetString("deposits_final_Custom_penalty_reason")</p>
+                    </div>
+                }
+             
+                
+                       
+            }
+        </div>
+    </div>
+}
+@helper extraFees(string currentDeposit){
+ <div class=" grid__col-md-4">
+        <h3>Extra Fees</h3>
+        <div>
+            @foreach (var detail in GetLoop("Rows").Where(x => x.GetString("deposits_finalID") == currentDeposit))
+   
+            {
+          
+               if (detail.GetString("deposits_final_Custom_penalty_in_procent") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Extra Fee", "Extra Fee") <span>:</span> @detail.GetString("deposits_final_Custom_penalty_in_procent")</p>
+                    </div>
+                }
+               if (detail.GetString("deposits_final_Custom_penalty_value") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Amount Extra Fee", "Amount Extra Fee") <span>:</span> @detail.GetString("deposits_final_Custom_penalty_value")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Custom_penalty_reason") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Extra Fee reason", "Extra Fee reason") <span>:</span> @detail.GetString("deposits_final_Custom_penalty_reason")</p>
+                    </div>
+                }
+             
+                
+                       
+            }
+        </div>
+    </div>
+}
+@helper moneyToRecover(string currentDeposit){
+    <div class=" grid__col-md-4">
+        <h3>Money to recover</h3>
+        <div>
+         @foreach (var detail in GetLoop("Rows").Where(x => x.GetString("deposits_finalID") == currentDeposit)){
+                if (detail.GetString("deposits_final_Money_to_recover") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Money to recover", "Money to recover") <span>:</span> @detail.GetString("deposits_final_Money_to_recover")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Money_to_recover_notes") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Money to recover Notes", "Money to recover Notes") <span>:</span> @detail.GetString("deposits_final_Money_to_recover_notes")</p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}
+@helper ballanceAfterDeposit(string currentDeposit) {
+    <div class=" grid__col-md-4">
+        <h3>Ballance After Deposit</h3>
+        <div>
+            @foreach (var detail in GetLoop("Rows").Where(x => x.GetString("deposits_finalID") == currentDeposit))
+   
+            {
+               
+                if (detail.GetString("deposits_final_Amount_to_credit") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Amount to be credited", "Amount to be credited") <span>:</span> @detail.GetString("deposits_final_Amount_to_credit")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Balance_before_deposit") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Balance Before Deposit", "Balance Before Deposit") <span>:</span> @detail.GetString("deposits_final_Balance_before_deposit")</p>
+                    </div>
+                }
+                if (detail.GetString("deposits_final_Balance_after_deposit") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Balance After  Deposit", "Balance After  Deposit") <span>:</span> @detail.GetString("deposits_final_Balance_after_deposit")</p>
+                    </div>
+                }
+               
+            }
+        </div>
+    </div>
+}
+@helper agentProfit(string currentDeposit) { 
+    <div class=" grid__col-md-4">
+        <h3>Agent Profit</h3>
+        <div>
+            @foreach (var detail in GetLoop("Rows").Where(x => x.GetString("deposits_finalID") == currentDeposit))
+   
+            {
+                if (detail.GetString("deposits_final_Profit") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Agent Profit", "Agent Profit") <span>:</span> @detail.GetString("deposits_final_Profit")</p>
+                    </div>
+                }
+               
+            }
+        </div>
+    </div>
+}
+@helper currentDepositNotes(string currentDeposit) {
+    <div class=" grid__col-md-4">
+        <h3>Deposit Notes</h3>
+        <div>
+            @foreach (var detail in GetLoop("Rows").Where(x => x.GetString("deposits_finalID") == currentDeposit))
+   
+            {
+                if (detail.GetString("deposits_final_Notes") != "")
+                {
+                    <div class=" grid__cell grid__col-sm-12">
+                        <p>@Translate("Deposit Notes", "Deposit Notes") <span>:</span> @detail.GetString("deposits_final_Notes")</p>
+                    </div>
+                }
+               
+            }
+        </div>
+    </div>
+}

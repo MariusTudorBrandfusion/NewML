@@ -1,0 +1,123 @@
+@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using Dynamicweb.Core
+@using System
+@SnippetStart("BootstrapCss")
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+@SnippetEnd("BootstrapCss")
+@Include("/Files/Templates/Designs/BetIBC/DataManagement/Forms/Form/Includes/DepositFormVariables.cshtml")
+@Include("/Files/Templates/Designs/BetIBC/DataManagement/Forms/Form/Includes/DepositFormHelpers.cshtml")
+<div class = "loading-background active">
+    <div class="container form-deposits">
+        <h2>@Translate("Finalize Deposit")</h2>
+        <div class="container">
+            <button class="btn btn-default" id="Deposit_Details">@Translate("Deposit Details")</button>
+            @* user and bookmaker info, read only - Submited by Step-1-Form *@
+            <div id="UserSubmitedInfo" class="hidden">
+                @depositRenderUserInfo()
+                @depositRenderBookmakerInfo()
+                @depositUserPaymentInfo(paymentMethod)
+                @depositUserConfirmation()
+                @depositAdminPaymentInfo(paymentMethod)
+            </div>
+        </div>
+        @*Info added by admin in Step-2-Form*@
+        <div class="" id="confirmForm" data-paymentMethod='@GetString("Form.Fields.deposits_final_Payment_method.Value")' data-depositCurrency='@GetString("Form.Fields.deposits_final_Deposit_currency.Value")' data-bookmaker='@GetString("Form.Fields.deposits_final_Bookmaker.Value")' data-express='@GetString("Form.Fields.deposits_final_Express_fee.Value").ToLower()'>
+            <div class="container form-firstStep">
+                @*Previous Steps data and form fields*@
+                @formStart
+                @formhiddenFields
+                @overwriteStep0Values()
+                @overwriteStep1Values()
+                @*@depositsOandaScreenshots()*@
+                @*Calculate final amount before exceptions*@
+                <button class="btn btn-default" id="Currency_Exchange">@Translate("Currency Conversions")</button>
+                <div class="container hidden" id="exchangeFormulas">
+                    <hr>
+                    @currencyExchangeFinal()
+                    <hr>
+                </div>
+                @*Fees area*@
+                <button class="btn btn-default" id="Deposit_Fees">@Translate("Fees", "Fees")</button>
+                <div class="container hidden" id="FeesArea" data-merchant="@GetString("Form.Fields.deposits_final_Can_use_merchant_account.Value")">
+                    <hr>
+                    @depositFeesFinal()
+                    <hr>
+                </div>
+                @*Calculate Exceptions*@
+                <button class="btn btn-default" id="Deposit_Exceptions">@Translate("Exceptions", "Exceptions")</button>
+                <div class="container hidden" id="ExceptionsDeposits">
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            @Exception("firstException", "First Exception", "deposits_final_Exception_rule_one")
+                            @ExceptionNote("Exception1Note", "First Exception Explanation", "deposits_final_Exception_1_notes", GetString("Form.Fields.deposits_final_Exception_1_notes.Value"))
+                            @Exception("secondException", "Second Exception", "deposits_final_Exception_rule_two")
+                            @ExceptionNote("Exception2Note", "Second Exception Explanation", "deposits_final_Exception_2_notes",GetString("Form.Fields.deposits_final_Exception_2_notes.Value"))
+                            @Exception("thirdException", "Third Exception", "deposits_final_Exception_rule_three")
+                            @ExceptionNote("Exception3Note", "Third Exception Explanation", "deposits_final_Exception_3_notes",GetString("Form.Fields.deposits_final_Exception_3_notes.Value"))
+                            @ExceptionsOrbit()
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="col-xs-12">
+                                @previousExceptionValues()
+                            </div>
+                            <div class="col-xs-12">
+                                <h3>Account Exceptions</h3>
+                                <div id="accountExceptions"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <button class="btn btn-default" id="recoverMoney">@Translate("Money To Recover")</button>
+                <div class="container hidden" id="recoverMoneyContainer">
+                    <hr>
+                    <div class="col-xs-9">
+                        @MoneyToRecover()
+                    </div>
+                    <h3>Money to recover</h3>
+                    <div id="moneyToRecover"></div>
+                </div>
+                <button class="btn btn-default" id="ExtraFeeButton">@Translate("Extra Fee")</button>
+                <div class="container hidden" id="ExtraFeeContainer">
+                    @ExtraFeeConfirmation()
+                </div>
+                <button class="btn btn-default" id="Deposit_Calculations">@Translate("Balance After Deposit")</button>
+                <div class="container hidden" id="BalanceCalculations">
+                    <hr>
+                    @calculationsFinal()
+                    @balanceBeforeAndAfter()
+                    <hr>
+                </div>
+                <button class="btn btn-default" id="AgentProfit">@Translate("Agent Profit")</button>
+                <div class="container hidden" id="AgentProfitCalculations">
+                    <hr>
+                    @AgentProfitFinal()
+                    <hr>
+                </div>
+                <button class="btn btn-default" id="DepositNotes">@Translate("Deposit Notes")</button>
+                <div class="container hidden" id="DepositNotesInput">
+                    <hr>
+                    @NotesFinal()
+                    <hr>
+                </div>
+                <button class="btn btn-default" id="OperationStatus">@Translate("Deposit Status")</button>
+                <div class="container hidden" id="DepositStatus">
+                    <hr>
+                    @FinalStatus()
+                    <hr>
+                </div>
+                <div class="hidden">
+                    @formAdminInfoStep2(email)
+                    @formDepositTimeStamp("deposits_final_Step_3_Admin_Date","deposits_final_Step_3_Admin_Hour")
+                    @AdminProcesingTimeStanp()
+                </div>
+                <input type="submit" value="Submit"/>
+            </div>
+            @formEnd
+        </div>
+    </div>
+</div>

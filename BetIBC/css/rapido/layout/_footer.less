@@ -1,0 +1,15 @@
+﻿// -----------------------------------------------------------------------------
+// Contains all styles related to the Wbsite settings Navigation section
+// -----------------------------------------------------------------------------
+
+.footer.dw-mod {
+   .footer-mixin(); 
+}
+
+.footer-mixin() when not (@footer-background-color = none) {   
+	background-color: @footer-background-color;
+}
+
+.footer-mixin() when not (@footer-font-color = none) {   
+	color: @footer-font-color;
+}

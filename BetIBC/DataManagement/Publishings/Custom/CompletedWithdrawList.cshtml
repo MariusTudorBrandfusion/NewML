@@ -1,0 +1,366 @@
+﻿@SnippetStart("BootstrapCss")
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+@SnippetEnd("BootstrapCss")
+
+
+@SnippetStart("BootstrapJs")
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+@SnippetEnd("BootstrapJs") 
+ 
+
+@{
+var ViewId = Pageview.CurrentParagraph.ModuleProperties.get_Value("ViewID"); 
+var rowsRaw = GetLoop("Rows");
+var rows = rowsRaw.Where(row => row.GetValue("withdraw_Withdraw_Status").ToString() == "Completed");
+}
+
+     
+<div class="form_wrapper" style="width: 100%;">
+            <div class="container">
+              <h1 class="text-center">@Translate("Completed withdraw")</h1>
+                @*<div class="date_wrapper">
+                    <label for="date">Date @ViewId</label>
+                    <input type="date" name="datecalendar-from" id="datecalendar-from">
+                    <label for="date">To</label>
+                    <input type="date" name="datecalendar-to" id="datecalendar-to">
+                    <button class="button" type="">Filter</button>
+                </div>*@
+                      
+                      
+                      
+                <table class="main_table add-new-bet">
+                    <thead>
+                    <tr class="hidden">
+                        @foreach (LoopItem Column in GetLoop("Columns")){
+                            <td>
+                                @Column.GetValue("Column.Name")         
+                            </td>
+                        }
+                    </tr>
+                    <tr>
+                    <th>@Translate("WithdrawID","Withdrow ID")</th>
+                    <th>@Translate("WithdrawClientID","Client Id")</th>
+                    <th>@Translate("WithdrawClientEmail", "Client Email")</th>
+                    <th>@Translate("WithdrawClientUsername", "Client Username")</th>
+                    <th>@Translate("WithdrawDepositAt", "Deposit at:") </th>
+                    <th>@Translate("WithdrawAccountCurrency", "Account Currency") </th>
+                    <th>@Translate("WithdrawAmount", "Amount")</th>
+                    <th>@Translate("WithdrawDepositCurrenc", "Deposit Currency")</th>
+                    <th>@Translate("WithdrawPaymentMethod", "Payment Method")</th>
+                    <th>@Translate("WithdrawTransactionNumber", "Transaction Number")</th> 
+                    <th>@Translate("WithdrawRequestDate", "Request Date")</th>
+                    <th>@Translate("WithdrawOperator1ID", "Operator1 ID")</th>
+                    <th>@Translate("WithdrawOperator1Name", "Operator1 Name")</th>
+                    <th>@Translate("WithdrawOperator1Email", "Operator1 Email")</th>
+                    <th>@Translate("WithdrawOperator1Date", "Operator1 Date")</th>
+                                 <th> @Translate("WithdrawOperator2Emai", "Operator2 Email") </th>
+                        <th> @Translate("WithdrawOperator2Id", "Operator2 Id") </th>
+                        <th> @Translate("WithdrawOperator2Name", "Operator2 Name") </th>
+                              <th>@Translate("WithdrawOperator2Date", "Operator2 Date")</th>
+                    <th>@Translate("WithdrawOanda_ExchangeRate", "Oanda_Exchange Rate") </th>
+                      <th>@Translate("WithdrawInitialBalance", "Initial Balance") </th>
+                    <th>@Translate("WithdrawAgentProfit", "Agent Profit")</th>
+                    
+                    <th>@Translate("WithdrawBalanceAfterWithdraw", "Balance after Withdraw")</th>
+                    <th>@Translate("WithdrawAmmountToBeWithdrawnAfterCommisions", "Ammount to be withdrawn after commisions")</th>
+                    <th>@Translate("WithdrawCommisionAmmount", "Commision Ammount")</th>
+                    <th>@Translate("WithdrawCommisionInProcent", "Commision in Procent")</th>
+                    <th>@Translate("WithdrawConfirm", "Confirm")</th>  
+                    </tr>
+                    <tr class="hidden">
+                       <th>@Translate("WithdrawID","Withdraw ID")</th>
+                        
+                        <th>Agent Profit</th>
+                        <th>Ammount to be deposited after commisions</th>
+                        <th>Amount</th>
+                        <th>Balance after Withdraw</th>
+                        <th> Bookmaker </th>
+                        <th> Client Email </th>
+                        <th> Client Id </th>
+                        <th> Client Username </th>
+                        <th> Commision ammount </th>
+                        <th> Commision in procent </th>
+                        <th> Currency </th>
+                        <th> Deposit Currency </th>
+                        <th> Deposit Status </th>
+                        <th> First operation Date </th>
+                        <th> Fourth operation Date </th>
+                        <th> Initial Balance </th>
+                        <th> Intermediary </th>
+                        <th> IsFirstWithdraw </th>
+                        <th> Oanda_Exchange Rate </th>
+                        <th> Operator1 Email </th>
+                        <th> Operator1 Id </th>
+                        <th> Operator1 Name </th>
+                        <th> Operator2 Email </th>
+                        <th> Operator2 Id </th>
+                        <th> Operator2 Name </th>
+                        <th> Operator3 Email </th>
+                        <th> Operator3 Id </th>
+                        <th> Operator3 Name </th>
+                        <th> Operator4 Email </th>
+                        <th> Operator4 Id </th>
+                        <th> Operator4 Name </th>
+                        
+                        <th> Payment Method Available Currency </th>
+                        <th> Payment TransactionID </th>
+                        
+                        <th> Second operation Date </th>
+                        <th> Third operation Date </th>
+                        <th> Transaction Number provided </th>
+                        <th> Transaction Number provided by admin </th>
+                        <th> Transaction Screenshot by admin </th>
+                        
+                        
+                    </tr>
+                    </thead>
+                    <tbody id="all-bets">
+			
+                    @foreach (LoopItem row in rows)
+                    {
+                       
+                        var rowId = row.GetInteger("withdrawID");
+                        var rowName = "withdrawID";
+                        var paramerter = "FORM_ROW_ID=" + rowName + "%3d" + rowId + "&VIEW_ID=" + ViewId;
+                        var processingBetStatus = @row.GetValue("withdraw_Withdraw_Status").ToString();
+                        var initialBallanceImage = @row.GetValue("withdraw_Balance_Screenshot");
+                       
+                    <tr>     
+                   
+                        <td>
+                            <div class="p-10">
+                                <div>@row.GetValue("withdrawID")</div>
+                            </div>
+                        </td>
+                        <td>
+                             <div class="p-10">
+                                <div>@row.GetValue("withdraw_Client_Id")</div>
+                             </div>
+                        </td>    
+                        <td>
+                            <div class="p-10">
+                               <div>@row.GetValue("withdraw_Client_Email")</div>
+                            </div>
+                        </td>
+                            <td>
+                                <div class="p-10">
+                                    <div>@row.GetValue("withdraw_Client_Username")</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="p-10">
+                                    <div>@row.GetValue("withdraw_Bookmaker")</div>
+                                </div>
+                    </td> 
+                        <td>
+                    <div class="p-10">
+                                <div>@row.GetValue("withdraw_Account_Currency_New")</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-10">
+                                <div>@row.GetValue("withdraw_Amount")</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-10">
+                                <div>@row.GetValue("withdraw_Withdraw_Currency")</div>
+                            </div>
+                        </td>
+                        
+                        <td><div class="p-10">
+                            <div>@row.GetValue("withdraw_Payment_Method")</div>
+                        </div></td>
+                        <td><div class="p-10">
+                            <div>@row.GetValue("withdraw_Payment_Transaction_ID")</div>
+                        </div></td>
+                        <td><div class="p-10">
+                            <div>@row.GetValue("withdraw_Request_Created_on_Date")</div>
+                        </div></td>
+                       <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator1_Id")</div>
+                          </div></td>
+                          <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator1_Email")</div>
+                          </div></td>
+                       
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator1_Name")</div>
+                          </div></td>
+                          <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_First_Operator_Date")</div>
+                          </div></td>
+                           <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator2_Email")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator2_Id")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator2_Name")</div>
+                          </div></td>
+                       <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Second_Operator_Date")</div>
+                          </div></td>
+                          <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Oanda_Exchange_Rate")</div>
+                          </div></td>
+                      <td><div class="p-10">
+                            @if(initialBallanceImage.ToString() != "/Files"){
+                               <a href='@initialBallanceImage' data-lightbox="roadtrip" data-gallery="gallery" class="col-md-4 light-box-after transaction-screenshot-link">
+                            
+                                  <div>@row.GetValue("withdraw_Initial_Balance")</div>
+                         
+                              </a>
+                            }else{
+                              <div>@row.GetValue("withdraw_Initial_Balance")</div>
+                            }
+                          </div></td>
+                        <td><div class="p-10">
+                            <div>@row.GetValue("withdraw_Agent_profit")</div>
+                        </div></td>
+                         <td><div class="p-10">
+                            <div>@row.GetValue("withdraw_Balance_after_Withdraw")</div>
+                        </div></td>
+                      
+                         <td><div class="p-10">
+                            <div>@row.GetValue("withdraw_Amount_to_be_withdrawed_after_commision_New")</div>
+                        </div></td>
+                          
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Commision_ammount")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Commision_in_procent")</div>
+                          </div></td>
+                        <td><div class="p-10">COMPLETED</div></td>
+                        @*
+                      <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Agent_profit")</div>
+                           </div></td>  
+                        <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Ammount_to_be_deposited_after_commisions")</div>
+                          </div></td>  
+                          
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Balance_after_Deposit")</div>
+                          </div></td>
+                        
+                            
+                           
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Commision_ammount")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Commision_in_procent")</div>
+                          </div></td>
+                            
+                              <td><div class="p-10">
+                                <div></div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Deposit_Status")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_First_operation_Date")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Fourth_operation_Date")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Initial_Balance")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Intermediary")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_IsFirstDeposit")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Oanda_Exchange_Rate")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator1_Email")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator1_Id")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator1_Name")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator2_Email")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator2_Id")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator2_Name")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator3_Email")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator3_Id")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator3_Name")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator4_Email")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator4_Id")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Operator4_Name")</div>
+                          </div></td>
+                            
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Payment_Method_Available__Currency")</div>
+                          </div></td>
+                            
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Request_Created_on_Date")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Second_operation_Date")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Third_operation_Date")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Transaction_Number_provided")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Transaction_Number_provided_by_admin")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("withdraw_Transaction_Screenshot_by_admin")</div>
+                             
+                               
+                            </div></td>
+                           
+                        <td>
+                            <div class="p-10">
+                                <div>1.@row.GetValue("withdraw_Operator1_Name")</div>
+                                <div class="date--time"></div>
+                            </div>
+                        </td>
+                        
+                            
+                       
+                         *@
+
+                    </tr>
+                      
+                      
+                    
+  
+                    }
+                    </tbody>
+                </table>
+ 
+            </div>
+        </div>
+

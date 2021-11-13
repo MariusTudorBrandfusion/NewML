@@ -1,0 +1,53 @@
+﻿@Include("/Files/Templates/Designs/BetIBC/DataManagement/Forms/Form/Includes/GeneralDataListFormHelpers.cshtml")
+@{
+   var username = GetString("Form.Fields.user_closed_accounts_Bookmaker_Username.Value");
+   var currency = GetString("Form.Fields.user_closed_accounts_Currency.Value");
+   var openingDate = GetString("Form.Fields.user_closed_accounts_Date_of_opening.Value");
+   var closingDate = GetString("Form.Fields.user_closed_accounts_Date_of_closing.Value");
+   var reson = GetString("Form.Fields.user_closed_accounts_Reason_for_closing.Value");
+}
+
+<div class="container close-account-form">
+    <h2>Close Account Form</h2>
+    @GetString("Form.Start")
+    @GetString("Form.Hidden")
+    <div class="col-xs-12">
+        <label>Bookmaker</label>
+        @GetString("Form.Fields.user_closed_accounts_Bookmaker.Control")
+    </div>
+    <div class="col-xs-12">
+        <label>User that was allocated to</label>
+        <input type="text" readonly id="user_closed_accounts_User_that_was_allocated_to" name="user_closed_accounts_User_that_was_allocated_to" value="@GetGlobalValue("Global:Extranet.UserID")"/>
+    </div>
+    <div class="col-xs-12">
+        <label>Bookmaker Username</label>
+        <input type="text" id="user_closed_accounts_Bookmaker_Username" name="user_closed_accounts_Bookmaker_Username" value='@username'/>
+    </div>
+    <div class="col-xs-12">
+        <label>Currency</label>
+      <select id="user_closed_accounts_Currency" name="user_closed_accounts_Currency" value="">
+           @GeneralCurrencyOptionsList(@currency);
+      </select>
+    </div>
+    <label>Date of opening</label>
+    <input type="datetime-local" id="date_of_opening" name="date_of_opening" value="@openingDate"/>
+    <label>Date of closing</label>
+    <input type="datetime-local" id="date_of_closing" name="date_of_closing" value="@closingDate"/>
+    <div class="hidden">
+    <div class="col-xs-12">
+        <label>Date of opening</label>
+        <input type="text" id="user_closed_accounts_Date_of_opening" name="user_closed_accounts_Date_of_opening" value="@openingDate"/>
+    </div>
+        <div class="col-xs-12">
+            <label>Date of closing</label>
+            <input type="text" id="user_closed_accounts_Date_of_closing" name="user_closed_accounts_Date_of_closing" value="@closingDate"/>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <label>Reason for closing</label>
+        <textarea id="user_closed_accounts_Reason_for_closing" name="user_closed_accounts_Reason_for_closing" cols="50" rows="10">@reson</textarea>
+    </div>
+    @GetString("Form.Button.Submit")
+    @GetString("Form.End")
+
+</div>

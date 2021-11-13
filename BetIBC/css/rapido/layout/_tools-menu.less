@@ -1,0 +1,19 @@
+﻿// -----------------------------------------------------------------------------
+// Contains all styles related to the Wbsite settings Tools menu section
+// -----------------------------------------------------------------------------
+
+.tools-navigation.dw-mod {
+   .tools-navigation-mixin(); 
+}
+
+.tools-navigation-mixin() when not (@tools-menu-background-color = none) {   
+	background-color: @tools-menu-background-color;
+}
+
+.menu-tools__link.dw-mod {
+   .tools-navigation-link-mixin(); 
+}
+
+.tools-navigation-link-mixin() when not (@tools-menu-font-color = none) {   
+	color: @tools-menu-font-color;
+}

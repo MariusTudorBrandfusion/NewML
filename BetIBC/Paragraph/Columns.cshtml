@@ -1,0 +1,33 @@
+﻿@{
+var title = GetString("Item.Row_Title"); 
+var backgroundImage = GetString("Item.BackgoundImage.Value") ;
+var isSingle = GetString("Item.Single_Column");
+var position = GetString("Item.Single_Column_Position");
+var columns = GetLoop("Item.Columns");
+var columnsNumber = GetLoop("Item.Columns").Count();
+var columnNumber = isSingle == "True" ? 6 : 12 / columnsNumber;
+
+}
+<section style='background-image:url("@backgroundImage")' class = "columns-section">
+<div class = "container columns">
+<div class = "grid">
+
+@foreach(var column in columns){
+  var columnTitle = column.GetString("Item.Columns.Title");
+  var columnSubtitle = column.GetString("Item.Columns.Subtitle");
+  var columnText = column.GetString("Item.Columns.Text");
+  var columnButtonText = column.GetString("Item.Columns.Button_Text");
+  var columnButtonLink = column.GetString("Item.Columns.Button_Link");
+  var columnImage = column.GetString("Item.Columns.Image");
+  var buttonStyle = column.GetString("Item.Columns.Button_Style");
+  <div class = "grid__col-md-@columnNumber @position">
+  <h1>@columnTitle</h1>
+  <h2>@columnSubtitle</h2>
+  @columnText
+  <a class = "button-columns button-@buttonStyle" href = "@columnButtonLink">@columnButtonText</a>
+  </div>
+
+}
+  </div>
+</div>
+</section>

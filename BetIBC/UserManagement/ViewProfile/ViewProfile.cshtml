@@ -1,0 +1,134 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@{
+string skrillEmailValue = GetString("UserManagement:User.AccessUser_Skrill_email");
+string ecopayzAccountValue = GetString("UserManagement:User.AccessUser_ecoPayz_email");
+string netellerEmailValue = GetString("UserManagement:User.AccessUser_Neteller_email");
+string bankBicValue = GetString("UserManagement:User.AccessUser_Bank_bic");
+string bankSwiftValue = GetString("UserManagement:User.AccessUser_Bank_swift");
+string ibanValue = GetString("UserManagement:User.AccessUser_Iban");
+string bitcoinEmailValue = GetString("UserManagement:User.AccessUser_Cryptocurrency_email");
+}
+<div class="grid__col-8 grid__col--bleed">
+    <div class="grid__cell">
+        <div class="u-pull--left">
+            <h2><i class="fa fa-user"></i> @Translate("User profile")</h2>
+        </div>
+        <div class="u-pull--right">
+            <a href="/@GetString("UserManagement:User.EditUrl")" class="btn btn--primary dw-mod"><i class="fa fa-address-card-o"></i> @Translate("Edit user account")</a>
+        </div>
+    </div>
+		<div class="grid">
+
+              <div class="grid__col-5">
+                    <div class="user-image-container">
+                    @if(!string.IsNullOrEmpty(GetString("UserManagement:User.Image.Clean"))){
+                    <img src="@GetString("UserManagement:User.Image.Clean")">
+
+                    }else{
+                    <img src="/Files/Images/BetIBC/userPlaceholder.jpg">
+
+                    }
+                     </div>
+          
+          		</div>
+
+              <div class="grid__col-7">
+              <div class="grid">
+                  <p>
+                        <i class="fa fa-user" style="color:#0053cc!important;"></i>  @Translate("Name"):
+          				<strong>@GetString("UserManagement:User.FirstName") @GetString("UserManagement:User.LastName")</strong>
+                  </p>
+                </div>
+       
+             
+      
+             	<div class="grid">
+                  <p>
+                    <i class="fa fa-envelope" style="color:#0053cc!important;"></i>  @Translate("Email address") :
+                 	<strong>@GetString("UserManagement:User.Email")</strong></p>
+               	</div>
+            
+                
+	              <div class="grid">
+		              <p>
+			              <i class="fa fa-phone" style="color:#0053cc!important;"></i>  @Translate("Phone no") :
+			              <strong>@GetString("UserManagement:User.PhoneMobile")</strong>
+		              </p>
+	              </div>
+	              
+	              
+	              <div class="grid">
+		              <p>
+			              <i class="fa fa-flag" style="color:#0053cc!important;"></i>  @Translate("Country") :
+			              <strong>@GetString("UserManagement:User.Country")</strong>
+		              </p>
+	              </div>
+	              
+
+               
+	              <div class="grid">
+             	<p><i class="fa fa-address-card" style="color:#0053cc!important;"></i>  @Translate("Instant messenger"):
+                <strong>@GetString("UserManagement:User.AccessUser_Instant_Messenger")</strong></p>
+             </div>
+             
+			 <div class="grid">
+             	<p><i class="fa fa-address-card" style="color:#0053cc!important;"></i>   @Translate("Instant messenger ID") :
+                <strong>@GetString("UserManagement:User.AccessUser_Instant_Messenger_ID")</strong></p>
+             </div>
+              
+ 			<div class="grid">
+             	<p><i class="fa fa-history" style="color:#0053cc!important;"></i>  @Translate("Time zone") :
+                <strong>@GetString("UserManagement:User.AccessUser_Time_zone")</strong></p>
+             </div>   
+          
+              </div>
+                 @if (GetLoop("DWExtranetSecondaryUsers").Count > 0 || !string.IsNullOrWhiteSpace(GetGlobalValue("Global:Extranet.SecondaryUser.UserID"))){	
+	                 <div class="grid">
+		                 <h2>Payment Details</h2>
+	                 </div>
+	                 <div class="grid">
+		                 <p> Can Use Merchant :
+			                 <strong>@GetString("UserManagement:User.AccessUser_Can_use_merchant_Account")</strong></p>
+	                 </div>
+                @*<div class="grid"><h4 style="margin-bottom:-10px;"><p>Skrill INFO</p></h4></div>
+		<div class="grid">
+             	<p> Email used for skrill :
+               <strong>@skrillEmailValue</strong></p>
+        </div>
+                <div class="grid"><h4 style="margin-bottom:-10px; margin-top:10px;"><p>Neteller INFO</p></h4></div>
+        <div class="grid">
+             <p> Email used for neteller :
+             <strong>@netellerEmailValue</strong></p>
+               
+		</div>
+                <div class="grid"><h4 style="margin-bottom:-10px; margin-top:10px;"><p>ecoPayz INFO</p></h4></div>
+         <div class="grid">
+             	<p> ecoPayz user ID :
+               <strong>@ecopayzAccountValue</strong></p>
+           
+		</div>
+                <div class="grid"><h4 style="margin-bottom:-10px; margin-top:10px;"><p>Bank INFO</p></h4></div>
+		<div class="grid">
+             <p> Bank SWIFT :
+              <strong>@bankSwiftValue</strong></p>
+             
+		</div>
+		<div class="grid">
+             	<p> Bank BIC :
+                <strong>@bankBicValue</strong></p>
+               
+		</div>
+		<div class="grid">
+             <p> IBAN :
+             <strong>@ibanValue</strong></p>
+             
+		</div>
+                <div class="grid"><h4 style="margin-bottom:-10px; margin-top:10px;"><p>Cryptocurrency INFO</p></h4></div>
+		<div class="grid">
+             	<p> Email used for Cryptocurrency ewallet: 
+           <strong>@bitcoinEmailValue</strong></p>
+             
+		</div>*@
+       }
+    
+</div>

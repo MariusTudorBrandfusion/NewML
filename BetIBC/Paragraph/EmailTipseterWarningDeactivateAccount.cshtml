@@ -1,0 +1,52 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering;
+@using Dynamicweb.Extensibility
+@using Dynamicweb.Content
+@using Dynamicweb.Security;
+
+@MasterPageFile("../EmailMaster.cshtml")
+@Include("../EmailHelpers.cshtml")
+
+@{
+
+}
+
+@CreatePreheader()
+
+<table bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" width="500" id="emailBody">
+    @RenderHeaderSection()
+    @RenderMessage()
+    @RenderFooterSection()
+</table>
+
+@CreateSubscriptionFooter()
+
+@* CONTENT HELPERS *@
+
+@helper RenderHeaderSection()
+{
+    @RenderHeaderImage();
+    
+    Column info = new Column();
+    info.header = Translate("Minimum amount of prediction not completed inform deactivate!");
+    info.text.Add("");
+    info.align = "center";
+
+    @CreateRow(info);
+
+    @CreateRowDivider();
+}
+
+@helper RenderMessage()
+{ 
+
+Column message = new Column();
+message.text.Add(Translate("Hello inform deactivate") + " " + "{{Email:User.Name}}");
+message.text.Add("");
+message.text.Add(Translate("You are informed that during the period ")+"<b> {{Email:User.StartCountDate}} - {{Email:User.EndCountDate}} </b> "+Translate("you published only") +" <b> {{Email:User.NumberOfPredictionsPublished}} </b> " + Translate("predictions from minimum of") + " <b> {{Email:User.NumberOfPredictionsRequired}} </b> ");
+message.text.Add(Translate("Please publish the required predictions in order to avoid deactivation of the account."));
+message.text.Add(Translate("In order to keep your tipster account please don't forget to send us your predictions before the week ends."));
+
+@CreateRow(message);
+
+}

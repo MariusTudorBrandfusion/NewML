@@ -1,0 +1,19 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@{ int count = 0; }
+
+[
+{
+"Comment": [@foreach (LoopItem comment in GetLoop("ItemPublisher:Items.List"))
+{
+    count++;
+    if (comment.Index > 1)
+    {<text>,</text>}<text>
+        {
+        "comment": "@comment.GetString("ItemPublisher:Item.Comment")",
+        "count": "@count",
+        "targetElement": "@comment.GetString("ItemPublisher:Item.TargetElement")"
+        }</text>
+}]
+}
+]

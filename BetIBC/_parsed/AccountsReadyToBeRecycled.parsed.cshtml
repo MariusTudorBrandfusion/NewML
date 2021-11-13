@@ -1,0 +1,756 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+
+@using Dynamicweb.Frontend.Devices
+@using Dynamicweb.Extensibility
+@using Dynamicweb.Content
+@using Dynamicweb.Security;
+@using System
+@using System.Web
+@{
+    //General settings
+    string favicon = Model.Area.Item.GetFile("LogoFavicon") != null ? Model.Area.Item.GetFile("LogoFavicon").Path : "/Files/Images/favicon.png";
+    string logo = Model.Area.Item.GetFile("LogoImage") != null ? Model.Area.Item.GetFile("LogoImage").Path : "/Files/Images/logo-dynamicweb.png";
+    string logoWhite = Model.Area.Item.GetFile("LogoImageWhite") != null ? Model.Area.Item.GetFile("LogoImageWhite").Path : "/Files/Images/DWLogo.png";
+    bool megaMenu = Model.Area.Item.GetBoolean("NavigationMegaMenu");
+    bool stickyMenu = Pageview.Device.ToString() == "Mobile" ? false : Model.Area.Item.GetBoolean("NavigationStickyMenu");
+    string mobileNavigationLevels = Model.Area.Item.GetBoolean("MobileNavigationLevels") ? Model.Area.Item.GetString("MobileNavigationLevels") : "3";
+    string footerColumnOneContent = !string.IsNullOrEmpty(Model.Area.Item.GetString("FooterColumnOne")) ? Model.Area.Item.GetString("FooterColumnOne") : "";
+    string footerColumnTwoContent = !string.IsNullOrEmpty(Model.Area.Item.GetString("FooterColumnTwo")) ? Model.Area.Item.GetString("FooterColumnTwo") : "";
+    string searchPlaceholder = Translate("Search", "Search");
+    string userSignedInError = !Model.LogOnFailed ? "" : "checked";
+   	int OpenAccountUrl = GetPageIdByNavigationTag("OpenAccount");
+    string userSignedInErrorText;
+	string UsersFeedJSON = "/Default.aspx?ID=" + GetPageIdByNavigationTag("UsersFeedJSON");
+	string UsersFeedDetails = "/Default.aspx?ID=" + GetPageIdByNavigationTag("UsersFeedDetails");
+	string TipstersFeedJSON = "/Default.aspx?ID=" + GetPageIdByNavigationTag("TipstersFeedDetails");
+    string TipsterDetailsJSON = "/Default.aspx?ID=" + GetPageIdByNavigationTag("TipsterDetails");
+    string TipsterDetailsWithPageJSON = "/Default.aspx?ID=" + GetPageIdByNavigationTag("TipsterDetailsWithPages");
+    switch (Model.LogOnFailedReason)
+    {
+        case Dynamicweb.Security.UserManagement.LogOnFailedReason.PasswordLengthInvalid:
+            userSignedInErrorText = Translate("Password length is invalid");
+            break;
+        case Dynamicweb.Security.UserManagement.LogOnFailedReason.IncorrectLogin:
+            userSignedInErrorText = Translate("Invalid email or password");
+            break;
+        case Dynamicweb.Security.UserManagement.LogOnFailedReason.ExceededFailedLogOnLimit:
+            userSignedInErrorText = Translate("You have exceeded the limit of allowed login attempts. The user account is temporarily locked");
+            break;
+        case Dynamicweb.Security.UserManagement.LogOnFailedReason.LoginLocked:
+            userSignedInErrorText = Translate("The user account is temporarily locked");
+            break;
+        case Dynamicweb.Security.UserManagement.LogOnFailedReason.PasswordExpired:
+            userSignedInErrorText = Translate("The password has expired and needs to be renewed");
+            break;
+        default:
+            userSignedInErrorText = Translate("An unknown error occured");
+            break;
+    }
+    string loggedIn = Model.CurrentUser != null ? "true" : "false";
+    string wireframeMode = Model.Area.Item.GetBoolean("WireframeMode").ToString();
+
+    //Font settings
+    string navigationFont = Model.Area.Item.GetItem("NavigationFont").GetString("FontFamily").Replace(" ", "+");
+    string mobileNavigationFont = Model.Area.Item.GetItem("MobileNavigationFont").GetString("FontFamily").Replace(" ", "+");
+    string headerFont = Model.Area.Item.GetItem("ContentLayoutHeaderFont").GetString("FontFamily").Replace(" ", "+");
+    string subHeaderFont = Model.Area.Item.GetItem("ContentLayoutSubheaderFont").GetString("FontFamily").Replace(" ", "+");
+    string contentFont = Model.Area.Item.GetItem("ContentLayoutBodyText").GetString("FontFamily").Replace(" ", "+");
+
+    //Page IDs for use in the template
+    string firstPageId = Model.Area.FirstActivePage.ID.ToString();
+    string areaId = Model.Area.ID.ToString();
+    string autoCssLink = "/Files/Templates/Designs/BetIBC/css/rapido/betibc_" + @areaId + ".min.css";
+    int pageId = Model.TopPage.ID;
+    string newsletterSignUpPageId = GetPageIdByNavigationTag("NewsletterSignUp").ToString();
+    string searchPageId = "";
+
+    string stickyTop = stickyMenu ? "top-container--sticky" : "";
+    string pagePos = stickyMenu ? "js-page-pos" : "";
+    string topLayout = Model.Area.Item.GetList("LayoutTop").SelectedValue;
+    string megamenuPromotionImage = Model.Area.Item.GetFile("NavigationMegamenuPromotionImage") != null ? Model.Area.Item.GetFile("NavigationMegamenuPromotionImage").Path : "";
+    string myProfilePageId = (Model.CurrentUser.ID <= 0) ? GetPageIdByNavigationTag("SignInProfile").ToString() : GetPageIdByNavigationTag("CustomerProfile").ToString();
+    string myOrdersPageId = (Model.CurrentUser.ID <= 0) ? GetPageIdByNavigationTag("SignInOrders").ToString() : GetPageIdByNavigationTag("CustomerOrders").ToString();
+    string myFavoritesPageId = (Model.CurrentUser.ID <= 0) ? GetPageIdByNavigationTag("SignInFavorites").ToString() : GetPageIdByNavigationTag("CustomerFavorites").ToString();
+    int createAccountPageId = GetPageIdByNavigationTag("CreateAccount");
+    int signInProfilePageId = GetPageIdByNavigationTag("SignInProfile");
+    string forgotPasswordPageId = signInProfilePageId.ToString() + "&LoginAction=Recovery";
+    int myDashboardPageId = GetPageIdByNavigationTag("CustomerDashboard");
+ 	int ImpersonationPageId = GetPageIdByNavigationTag("Impersonation");
+	var articlesFeedsjson ="/Default.aspx?ID=" + GetPageIdByNavigationTag("ArticlesFeedsJson").ToString();
+	var allValidAccontsjson ="/Default.aspx?ID=" + GetPageIdByNavigationTag("AllValidAcconts").ToString();
+	var depositsHistoryjson ="/Default.aspx?ID=" + GetPageIdByNavigationTag("DepositsHistoryFeed").ToString();
+    var withdrawHistoryjson ="/Default.aspx?ID=" + GetPageIdByNavigationTag("WithdrawHistoryFeed").ToString();
+    var transferHistoryjson ="/Default.aspx?ID=" + GetPageIdByNavigationTag("TransferHistoryFeed").ToString();
+    var tipsterFeedByLanguage ="/Default.aspx?ID=" + GetPageIdByNavigationTag("TipstersFeedDetailsByLanguage").ToString();
+    var newPredictionsFeed = "/Default.aspx?ID=" + GetPageIdByNavigationTag("NewPredictionsByLanguage").ToString();
+    var bookmakersFeed = "/Default.aspx?ID=" + GetPageIdByNavigationTag("BookmakersOpenAccount").ToString();
+    var countPredictionsFeed = "/Default.aspx?ID=" + GetPageIdByNavigationTag("PredictionCount").ToString();
+    var allUserAccountsFeed = "/Default.aspx?ID=" + GetPageIdByNavigationTag("AllAccountsUsers").ToString();
+    var login = "/Default.aspx?ID=" + GetPageIdByNavigationTag("SignInProfile").ToString();
+    var allExceptionforUser = "/Default.aspx?ID=" + GetPageIdByNavigationTag("ExceptionsFeedFilterdById").ToString();
+	var EwalletComissionsjson ="/Default.aspx?ID=" + GetPageIdByNavigationTag("EwalletCommissionsFeed").ToString();
+    var BookmakersComissionsjson ="/Default.aspx?ID=" + GetPageIdByNavigationTag("BookmakersCommissionsFeed").ToString();
+    var exceptionForTransactionsjson ="/Default.aspx?ID=" + GetPageIdByNavigationTag("ExceptionsFeed").ToString();
+    var areaLanguage = Model.Area.Languages.First(l => l.IsCurrent);
+    var areaLanguageCulture = areaLanguage.Culture.Substring(areaLanguage.Culture.Length-2).ToLower();
+	var areaLanguageCultureFull = areaLanguage.Culture.ToLower();
+}
+<!DOCTYPE html>
+
+<html lang="@areaLanguageCultureFull">
+<head>
+  @RenderMasterMetadata()
+    <meta charset="utf-8" />
+    <title>@Model.Name</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link href="@favicon" rel="icon" type="image/png">
+
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+
+    <!-- Base (Default, wireframe) styles -->
+    <link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/base/base.css" type="text/css">
+
+    <!-- Rapido Css from Website Settings -->
+    <link id="rapidoCss" rel="stylesheet" href="@autoCssLink" type="text/css">
+
+    <!-- Ignite Css (Custom site specific styles) -->
+    <link id="igniteCss" type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/ignite.min.css" rel="stylesheet">
+    
+    @RenderSnippet("BootstrapCss")   
+      
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick-theme.min.css">
+    <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/pagination.css" rel="stylesheet">
+    <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/lightbox.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+    <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/flag-icon.min.css" rel="stylesheet">
+    <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/jquery.datetimepicker.css" rel="stylesheet">
+    <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/main.css" rel="stylesheet">
+    <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/adi.css" rel="stylesheet">
+ <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/bootstrap-datetimepicker.min.css" rel="stylesheet">
+ 
+
+    <!-- Google fonts -->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=@navigationFont:100,200,300,400,500,600,700,800,900">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=@mobileNavigationFont:100,200,300,400,500,600,700,800,900">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=@headerFont:100,200,300,400,500,600,700,800,900">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=@subHeaderFont:100,200,300,400,500,600,700,800,900">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=@contentFont:100,200,300,400,500,600,700,800,900">
+</head>
+
+<body data-users-feed="@UsersFeedJSON" data-user-new-predictions = "@newPredictionsFeed" data-users-valid-acconts="@allValidAccontsjson" data-users-deposits-history="@depositsHistoryjson" data-users-transfer-history="@transferHistoryjson" data-users-withdraw-history="@withdrawHistoryjson" data-users-feed-details="@UsersFeedDetails" data-articles-feeds="@articlesFeedsjson" data-tipsters-feed="@TipstersFeedJSON" data-tipsters-details="@TipsterDetailsJSON" data-tipster-feed-by-language="@tipsterFeedByLanguage&PageNum=1" data-predictions-count="@countPredictionsFeed" data-all-user-accounts = "@allUserAccountsFeed" data-bookmakers-feed = "@bookmakersFeed" data-exceptions-for-user-feed = "@allExceptionforUser" data-ewallet-comissions = "@EwalletComissionsjson" data-exceptions-transactions = "@exceptionForTransactionsjson" data-booknaker-commisions-transactions = "@BookmakersComissionsjson" data-tipster-sort-by-pages = "@TipsterDetailsWithPageJSON">
+<div class="overlay-master active"><img src="/Files/Images/BetIBC/loader.gif" alt="xno-american" /></div>
+
+    @if (Pageview.Device.ToString() == "Mobile")
+    {
+        <!-- Trigger for mobile navigation -->
+        <input type="checkbox" id="mobile-nav-trigger" class="mobile-nav-trigger" />
+
+        <!-- Mobile navigation -->
+        <nav class="mobile-navigation dw-mod">
+            @RenderNavigation(new
+            {
+               id = "mobilenavigation",
+               cssclass = "menu menu-mobile dwnavigation",
+               startLevel = 1,
+               endlevel = @mobileNavigationLevels,
+               expandmode = "all",
+               template = "BaseMenuForMobile.xslt"
+            })
+        </nav>
+    }
+     
+    <main class="site dw-mod">
+        <header class="top-container @stickyTop" id="top">
+      
+            @if (topLayout == "normal")
+            {
+                <!-- Tools menu -->
+                <div class="tools-navigation dw-mod">
+                    <div class="center-container dw-mod">
+                        <div class="grid">
+                            <div class="grid__col-12 grid__col--bleed-y">
+                                <div class="grid-cell">
+                                    <ul class="menu menu-tools dw-mod u-pull--right" >
+                                        @if (Model.Languages.Count > 0)
+                                        {
+                                            <li class="menu__item">
+                                                <input type="checkbox" id="Languages" class="dropdown-trigger" />
+                                                <div class="dropdown menu__item">
+                                                    <span class="flag-icon flag-icon-@areaLanguageCulture"></span> @areaLanguage.Name
+                                                    <div class="dropdown__content">
+                                                        @foreach (var lang in Model.Languages)
+                                                        { 
+                                                            @* <a href="/Default.aspx?ID=@lang.FirstActivePage.ID" class="menu-dropdown__link dw-mod"> @lang.Name</a> *@
+                                                            string langInfo = "<span class=\"flag-icon flag-icon-" + lang.Culture.Substring(lang.Culture.Length-2).ToLower() + " u-margin-right\"></span>" + lang.Name;
+                                                            
+                                                            langInfo = "<span class=\"flag-icon flag-icon-" + lang.Culture.Substring(lang.Culture.Length-2).ToLower() + "\"></span>";
+
+                                                            <a href="/Default.aspx?AreaID=@Dynamicweb.Services.Pages.GetPage(lang.Page.ID).Area.ID" class="menu-dropdown__item menu-dropdown__item--link dw-mod">@langInfo @lang.Name</a>
+                                                        }
+                                                    </div>
+                                                    <label class="dropdown-trigger-off" for="Languages"></label>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Header -->
+                <div class="header">
+                    <div class="center-container dw-mod">
+                        <div class="grid">
+                            <div class="grid__col-3 grid__col--bleed-y">
+                                <div class="logo dw-mod">
+                                    <a href="/Default.aspx?ID=@firstPageId">
+                                        <img src="@logo" alt="Logo" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main navigation -->
+                <nav class="main-navigation dw-mod">
+                    <div class="center-container dw-mod">
+                        <div class="grid">
+                            <div class="grid__col-12 grid--align-self-center grid__col--bleed-y">
+                                @if (Pageview.Device.ToString() == "Mobile")
+                                {
+                                <div class="menu dw-mod">
+                                    <div class="menu__item dw-mod">
+                                        <label for="mobile-nav-trigger" class="mobile-nav-trigger-button menu__link dw-mod"></label>
+                                    </div>
+                                </div>
+                                }
+                                else
+                                {
+                                if (!megaMenu)
+                                {
+                                @RenderNavigation(new
+                                   {
+                                       id = "topnavigation",
+                                       cssclass = "menu dw-mod dwnavigation",
+                                       startLevel = 1,
+                                       endlevel = 4,
+                                       expandmode = "All",
+                                       template = "BaseMenuWithDropdown.xslt"
+                                });
+                                    }
+                                    else
+                                    {
+                                    @RenderNavigation(new
+                                {
+                                       id = "topnavigation",
+                                       cssclass = "menu dw-mod dwnavigation",
+                                       startLevel = 1,
+                                       endlevel = 3,
+                                       template = "BaseMegaMenu.xslt"
+                                   });
+                                    }
+                                }
+                          
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            }
+            @if (topLayout == "condensed")
+            {
+                <!-- Tools menu -->
+                <div class="tools-navigation dw-mod">
+                    <div class="center-container dw-mod">
+                        <div class="grid">
+                            <div class="grid__col-12 grid__col--bleed-y">
+                                <div class="grid-cell">
+                                    <ul class="menu menu-tools dw-mod u-pull--right">
+                                        @if (Model.Languages.Count > 0)
+                                        {
+                                            <li class="menu__item u-pull--left">
+                                                <input type="checkbox" id="Languages" class="dropdown-trigger" />
+                                                <div class="dropdown menu__item">
+                                                    <span class="flag-icon flag-icon-@areaLanguageCulture"></span> @areaLanguage.Name
+                                                    <div class="dropdown__content">
+                                                        @foreach (var lang in Model.Languages)
+                                                        { 
+                                                            @* <a href="/Default.aspx?ID=@lang.FirstActivePage.ID" class="menu-dropdown__link dw-mod"> @lang.Name</a> *@
+                                                            string langInfo = "<span class=\"flag-icon flag-icon-" + lang.Culture.Substring(lang.Culture.Length-2).ToLower() + " u-margin-right\"></span>" + lang.Name;
+                                                            
+                                                            langInfo = "<span class=\"flag-icon flag-icon-" + lang.Culture.Substring(lang.Culture.Length-2).ToLower() + "\"></span>";
+
+                                                            <a href="/Default.aspx?AreaID=@Dynamicweb.Services.Pages.GetPage(lang.Page.ID).Area.ID" class="menu-dropdown__item menu-dropdown__item--link dw-mod">@langInfo @lang.Name</a>
+                                                        }
+                                                    </div>
+                                                    <label class="dropdown-trigger-off" for="Languages"></label>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main navigation -->
+                <nav class="main-navigation dw-mod">
+                    <div class="center-container dw-mod">
+                        <div class="grid">
+                            <div class="grid__col-md-12 grid__col-sm-9 grid__col-md-12 grid--align-self-center grid__col--bleed-y">
+                                <div class="grid__cell grid__cell--align-middle-left">
+                                    <div class="logo dw-mod u-pull--left">
+                                        <a href="/Default.aspx?ID=@firstPageId">
+                                            <img src="/Admin/Public/GetImage.ashx?width=180&crop=1&Compression=100&image=@logoWhite" alt="Logo" />
+                                        </a>
+                                    </div>
+                                    <div class="u-pull--left">
+                                        @if (Pageview.Device.ToString() == "Mobile")
+                                        {
+                                        <div class="menu dw-mod">
+                                            <div class="menu__item dw-mod">
+                                                <label for="mobile-nav-trigger" class="mobile-nav-trigger-button menu__link dw-mod"></label>
+                                            </div>
+                                        </div>
+                                        }
+                                        else
+                                        {
+                                            if (!megaMenu)
+                                            {
+                                            @RenderNavigation(new
+                                               {
+                                                   id = "topnavigation",
+                                                   cssclass = "menu dw-mod dwnavigation",
+                                                   startLevel = 1,
+                                                   endlevel = 4,
+                                                   expandmode = "All",
+                                                   template = "BaseMenuWithDropdown.xslt"
+                                               });
+                                            }
+                                            else
+                                            {
+                                            @RenderNavigation(new
+                                               {
+                                                   id = "topnavigation",
+                                                   cssclass = "menu dw-mod dwnavigation",
+                                                   startLevel = 1,
+                                                   endlevel = 3,
+                                                   promotionImage = megamenuPromotionImage,
+                                                   promotionLink = Model.Area.Item.GetString("NavigationMegamenuPromotionLink"),
+                                                   template = "BaseMegaMenu.xslt"
+                                               });
+                                            }
+                                        }
+                                         
+                                    </div>
+                               
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            }
+            @if (topLayout == "minimal")
+            {
+                <div class="tools-navigation dw-mod header-top">
+                    <div class="center-container dw-mod">
+                        <div class="grid">
+                            <div class="grid__col-12 grid__col--bleed-y">
+                                <div class="grid-cell">
+                           <div class="tools-navigation-container u-pull--right">
+                                    @RenderNavigation(new
+                                    {
+                                       id = "second-navigation",
+                                       cssclass = "menu dw-mod secondary-menu ",
+                                       startLevel = 1,
+                                       endlevel = 4,
+                                       parenttag = "header-menu",
+                                       expandmode = "all",
+                                       template = "BaseMenuWithDropdown.xslt"
+                                    })
+                                       @if (Model.Languages.Count > 0)
+                                        {
+                                        
+                                                <div class="menu__link is-dropdown is-dropdown--no-icon language-tools dw-mod" data-navigation-feed ="/Default.aspx?ID=179957&PageMaster=554">
+                                                    <span class="flag-icon flag-icon-@areaLanguageCulture"></span> @areaLanguage.Name <i class="fa fa-chevron-down"></i>
+                                                    <div class="menu menu--dropdown languages">
+                                                        @foreach (var lang in Model.Languages)
+                                                        { 
+                                                      var languageClass = lang.Culture.Substring(lang.Culture.Length-2).ToLower();
+                                                      if(areaLanguageCulture != languageClass){
+                                                            string langInfo = "<span class=\"flag-icon flag-icon-" + lang.Culture.Substring(lang.Culture.Length-2).ToLower() + " u-margin-right\"></span>" + lang.Name;
+                                                            
+                                                            langInfo = "<span class=\"flag-icon flag-icon-" + lang.Culture.Substring(lang.Culture.Length-2).ToLower() + "\"></span>";
+
+                                                            <a href="/Default.aspx?AreaID=@Dynamicweb.Services.Pages.GetPage(lang.Page.ID).Area.ID" class='menu-dropdown__item menu-dropdown__item--link dw-mod @languageClass'>@langInfo @lang.Name</a>
+                                                        }
+                              }
+                                                    </div>
+                                                </div>
+                                     
+                                        }
+                                </div>
+                     </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main navigation -->
+                <nav class="main-navigation dw-mod">
+                    <div class="center-container top-container__center-container dw-mod">
+                        <div class="grid">
+                            <div class="grid__col-md-12 grid__col-sm-9 grid__col-md-12 grid--align-self-center grid__col--bleed-y">
+                                <div class="grid__cell">
+                                    @if (Pageview.Device.ToString() == "Mobile")
+                                    {
+                                    <div class="menu mobile-menu-margin dw-mod u-pull--left">
+                                        <div class="menu__item dw-mod">
+                                            <label for="mobile-nav-trigger" class="mobile-nav-trigger-button menu__link dw-mod"></label>
+                                        </div>
+                                    </div>
+                                    }
+                                    <div class="logo dw-mod u-pull--left">
+                                        <a href="/Default.aspx?ID=@firstPageId">
+                                            <img src="/Admin/Public/GetImage.ashx?width=180&crop=1&Compression=100&image=@logoWhite" alt="Logo" />
+                                        </a>
+                                    </div>
+                                    
+
+                                   
+                                    <div class="u-pull--right">
+                                      
+                                        @if (Pageview.Device.ToString() != "Mobile")
+                                        {
+                                            if (!megaMenu)
+                                            {
+                                            @RenderNavigation(new
+                                       {
+                                           id = "topnavigation",
+                                           cssclass = "menu dw-mod dwnavigation",
+                                           startLevel = 1,
+                                           endlevel = 4,
+                                           expandmode = "All",
+                                           template = "BaseMenuWithDropdown.xslt"
+                                       });
+                                            }
+                                            else
+                                            {
+                                            @RenderNavigation(new
+                                       {
+                                           id = "topnavigation",
+                                           cssclass = "menu dw-mod dwnavigation",
+                                           startLevel = 1,
+                                           endlevel = 3,
+                                           promotionImage = megamenuPromotionImage,
+                                           promotionLink = Model.Area.Item.GetString("NavigationMegamenuPromotionLink"),
+                                           template = "BaseMegaMenu.xslt"
+                                       });
+                                            }
+                                        }
+                                       <a class = "nav-open-account" href = "@login">@Translate("Login", "Login")</a>
+                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            }
+    @* Impersonation bar *@
+            @if (Model.CurrentUser.ID > 0 && Model.SecondaryUsers.Count > 0)
+            {
+                <div class="u-color-warning--bg">
+                    <div class="center-container top-container__center-container dw-mod">
+                        @*Impersonation*@
+                        <div class="grid">
+                            <div class="grid--align-self-center grid__col-x">
+                                @if (Model.CurrentSecondaryUser != null && Model.CurrentSecondaryUser.ID > 0)
+                                {
+                                    string stopImpersonateTranslation = Translate("Stop impersonation");
+                                    <div class="grid-cell">
+                                        <div class="u-pull--left u-bold u-margin-top">
+                                            <i class="fa fa-user-secret"></i>
+                                           @Pageview.User.UserName <text>&nbsp;</text>@Translate("is impersonated by")<text>&nbsp;</text> @Model.CurrentSecondaryUser.Name
+                                        </div>
+                                        <form method="post" class="u-pull--right u-no-margin">
+                                            <input type="submit" class="btn btn--secondary dw-mod u-no-margin" name="DwExtranetRemoveSecondaryUser" value="@stopImpersonateTranslation">
+                                        </form>
+                                    </div>
+                                }
+                                else
+                                {
+                                    string viewListTranslation = Translate("Click here to access the management area");
+                                    <div class="grid-cell u-bold">
+                                        <i class="fa fa-user-secret"></i>
+                                        <a href="/Default.aspx?ID=@ImpersonationPageId" title="@viewListTranslation" class="u-color-font-black">@viewListTranslation</a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </header>
+
+        <!-- Render the content -->
+        <div id="page" class="page @pagePos">
+            <section class="content-container dw-mod" id="content">
+                @inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+
+
+@if (Model.PropertyItem.GetBoolean("ShowBreadcrumb")) {
+<div class="u-color-light-gray--bg">
+	<div class="center-container">
+       <div class="grid">
+           <div class="grid__col-md-5 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+              <h3 class="page-title">@Model.Name</h3>
+           </div></div>
+           <div class="grid__col-md-7 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+              <div class="u-pull--right">
+                @RenderNavigation(new
+                {
+                    id = "breadcrumb",
+                    template = "breadcrumb.xslt"
+                })
+               </div>
+           </div></div>
+       </div>
+	</div>
+</div>
+}
+
+
+<div class="grid">
+    @if (Model.PropertyItem.GetBoolean("LeftMenu"))
+    {
+        <nav class="grid__col-md-3 grid__col-sm-12 grid__col-xs-12">
+           @RenderNavigation(new
+           {
+               id = "leftnav",
+               cssclass = "menu dwnavigation",
+               expandmode = "All",
+               template = "LeftNavigation.xslt"
+           })
+        </nav>
+    }
+  <div class="center-container" id="AccountContainer" data-pageid="@Model.ID">
+<div class="u-color-light-gray--bg">
+
+   <div class="grid__col-auto grid__col--bleed">
+     
+     	<div class="grid">
+          
+          <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12">
+            <select id="AccountBookmaker">
+              <option value="">All bookmakers</option>
+              <option value="Maxbet">Maxbet</option>
+              <option value="SBOBET">SBOBET</option>
+              <option value="Pinnacle">Pinnacle</option>
+              <option value="VIP">VIP</option>
+              <option value="Turf7">Turf7</option>
+              <option value="Matchbook">Matchbook</option>
+              <option value="BETISN">BETISN</option>
+              <option value="Betfair">Betfair</option>
+              <option value="9Wickets">9Wickets</option>
+            </select>
+          </div>
+           
+          <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12">
+            <input type="text" placeholder="Search" id="AccountSearch">
+          </div>
+            
+          <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12">
+            <button class="btn btn--primary dw-mod" id="AccountFilter" >Filter</button>
+          </div>  
+            
+          <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12">
+            <button class="btn btn--primary dw-mod" id="AccountReset" >Reset</button>
+          </div>   
+            
+        </div>
+     
+        <div class="grid">
+          <div class="grid__col-md-1 grid__col-sm-12 grid__col-xs-12"><strong>Bookmaker</strong></div>
+           <div class="grid__col-md-1 grid__col-sm-12 grid__col-xs-12"><strong>Currency</strong></div>
+           <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12"><strong>Username</strong></div>
+          <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12"><strong>Password</strong></div>
+          <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12"><strong>Security Question</strong></div>
+          <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12"><strong>Answer</strong></div>
+          <div class="grid__col-md-2 grid__col-sm-12 grid__col-xs-12"><strong>Edit</strong></div>
+        </div>
+   		<div id="AllocatedAccounts">
+          
+         </div>
+    </div>
+    </div>
+  </div>
+</div>   
+@*Model.Placeholder("dwcontent", "content", "default:true;sort:1")*@
+            </section>
+        </div>
+		<div class="grid__col-md-2 grid__col-xs-12">
+                  @RenderSocialShare()
+        </div>
+    </main>
+
+    <!-- Footer section -->
+<footer class="footer dw-mod">
+    <div class="center-container dw-mod">
+          	
+        <div class="grid">
+            <div class="grid__col-md-12 grid__col-xs-12 navigation"><div class="grid__cell">
+                @RenderNavigation(new
+                {
+                     id = "footernavigation",
+                     cssclass = "menu dw-mod dwnavigation",
+                     startLevel = 1,
+                     endlevel = 2,
+                     expandmode = "All",
+                     template = "BaseMenuWithDropdown.xslt"
+                })		  
+            </div></div>
+            <div class="grid__col-md-8 grid__col-xs-12 mobile-footer-navigation"><div class="grid__cell">
+                @RenderNavigation(new
+                {
+                    id = "bottom-navigation-two",
+                    cssclass = "menu dw-mod u-pull--left",
+                    startLevel = 1,
+                    endlevel = 4,
+                    parenttag = "bottom-navigation-two",
+                    expandmode = "all",
+                    template = "BottomNavigation.xslt"
+                })		  
+            </div></div>
+            <div class="grid__col-md-12 grid__col-xs-12"><div class="grid">
+                  
+                @if (Model.Area.Item.GetItems("FooterSocialLinks").Count > 0)
+                {
+         
+                        <div class="collection grid__col-md-6">
+                            @foreach (var socialitem in Model.Area.Item.GetItems("FooterSocialLinks"))
+                            {
+                                var socialIcon = ((Dynamicweb.Frontend.ListViewModel)socialitem.GetValue("Icon")).SelectedValue;
+                                string socialLink = socialitem.GetString("Link");
+
+                                <a href="@socialLink" target="_blank"><i class="fa @socialIcon u-color-light"></i></a>
+                            }
+                        </div>
+
+                }
+         
+                <div class="u-pull--right grid__col-md-6 colection-images">  
+                  <div>
+                       <img src="/Files/Images/BetIBC/CuracaoEgaming-Logo.png" alt="E-Gambling Curacao dynamic seal" style="margin: 0 auto;" />
+                    <img src="/Files/Images/BetIBC/xgamblewear.jpg" alt="xgamblewear" />
+                    <img src="/Files/Images/BetIBC/x18-48x48.png" alt="x18" />
+                    <img src="/Files/Images/BetIBC/xno-american-flag-48x48.png" alt="xno-american" />
+                  </div>
+                </div>
+              </div>
+           </div>
+        </div>
+</div>
+
+        <div class="grid ">
+            <div class="grid__col-md-12 grid__col-xs-12 second-navigation"><div class="grid__cell">
+               <div class="center-container dw-mod">
+                @RenderNavigation(new
+                {
+                    id = "bottom-navigation-two",
+                    cssclass = "menu dw-mod ",
+                    startLevel = 1,
+                    endlevel = 8,
+                    parenttag = "bottom-navigation-two",
+                    expandmode = "all",
+                    template = "BottomNavigation.xslt"
+                })		  
+            </div>
+              </div>
+		</div>       
+        </div>
+    
+</div>
+           <div class="center-container dw-mod">
+        <div class="grid">        
+            <div class="grid__col-md-12 grid__col-xs-12 grid--align-center copyright"><div class="grid__cell">
+                @if (!String.IsNullOrEmpty(footerColumnOneContent))
+                {
+                    <div class="grid__col-md-auto">
+                        @footerColumnOneContent
+                    </div>
+                }
+                <p>@Model.Area.Item.GetString("FooterCopyrightText")</p>
+            </div>
+		</div>     
+     </div>               
+    </div>
+</footer>
+    <!-- Javascript -->
+    <script src="/Files/Templates/Designs/BetIBC/js/DynamoConfig.js"></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/Dynamo.js"></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/RememberState.js"></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/Scroll.js"></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/Wireframe.js"></script>
+	 <script src="/Files/Templates/Designs/BetIBC/js/lightbox-plus-jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+   	 <script src="/Files/Templates/Designs/BetIBC/js/jquery.mask.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick.min.js" type="text/javascript"></script>
+	<script src="/Files/Templates/Designs/BetIBC/js/transition.min.js"></script>
+	<script src="/Files/Templates/Designs/BetIBC/js/collapse.js"></script>
+	<script src="/Files/Templates/Designs/BetIBC/js/moment.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+	<script src="/Files/Templates/Designs/BetIBC/js/jquery.datetimepicker.full.js"></script>
+	<script src="/Files/Templates/Designs/BetIBC/js/pagination.js"></script>
+	<script src="/Files/Templates/Designs/BetIBC/js/latinize.js"></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/Main.js"></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/Custom.js"></script>
+    @RenderSnippet("BootstrapJs")
+    <script>
+        Wireframe.Init(@wireframeMode.ToLower(), "productList", @loggedIn);
+    </script>
+	</body>
+</html>
+@helper RenderSocialShare() {
+	<div id="dsSocialShare">
+                    <!-- <div class=txt></div> -->
+                    <a class="fb" href="#" title="Facebook" onclick="javascript:window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href), 'facebook-share-dialog', 'width=626,height=436'); return false;"></a>
+                    <a class="li" href="#" title="LinkedIn" onclick="window.open('https://www.linkedin.com/cws/share?url='+encodeURIComponent(location.href), 'width=626,height=436'); return false;"></a>
+                    <a class="tw" href="#" title="Twitter" onclick="javascript:(function(){window.twttr=window.twttr||{};var D=550,A=450,C=screen.height,B=screen.width,H=Math.round((B/2)-(D/2)),G=0,F=document,E;if(C&gt;A){G=Math.round((C/2)-(A/2))}window.twttr.shareWin=window.open('http://twitter.com/share','','left='+H+',top='+G+',width='+D+',height='+A+',personalbar=0,toolbar=0,scrollbars=1,resizable=1');E=F.createElement('script');E.src='http://platform.twitter.com/bookmarklets/share.js?v=1';F.getElementsByTagName('head')[0].appendChild(E)}());"></a>
+                    <a class="gp" href="#" title="Google+" onclick="window.open('http://www.google.com/bookmarks/mark?op=add&amp;hl=en&amp;bkmk='+encodeURIComponent(location.href)+'&amp;annotation=&amp;labels=&amp;title='+encodeURIComponent(document.title));return false;"></a>
+                    <div id="dsSS">
+                      <a class="pi" href="#" title="Pinterest" onclick="window.open('http://pinterest.com/pin/create/button/?url=' + encodeURIComponent(location.href) + '&description=' + encodeURIComponent(document.title));return false;"></a>
+                      <a class="st" href="#" title="Stumbleupon" onclick="window.open('http://www.stumbleupon.com/submit?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title));return false;"></a>
+                      <a class="my" href="#" title="MySpace" onclick="window.open('http://www.myspace.com/index.cfm?fuseaction=postto&t=' + encodeURIComponent(document.title) + '&c=' + encodeURIComponent(document.title) + '&u='+encodeURIComponent(location.href)+'&l=')"></a>
+                      <a class="lj" href="#" title="LiveJournal" onclick="window.open('http://www.livejournal.com/update.bml?event=%3Ca%20href=%22'+encodeURIComponent(location.href)+'%3E' + encodeURIComponent(document.title) + '%3C/a%3E&prop_taglist=expange&subject='+encodeURIComponent(document.title));return false;"></a>
+                      <a class="re" href="#" title="Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(window.location)); return false"></a>
+                      <a class="di" href="#" title="Digg" onclick="window.open('http://digg.com/submit?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title));return false;"></a>
+                      <a class="be" href="#" title="Bebo" onclick="window.open('http://www.bebo.com/c/share?Url='+encodeURIComponent(location.href)+'&Title='+encodeURIComponent(document.title));return false;"></a>
+                      <a class="fa" href="#" title="Fark" onclick="window.open('http://www.fark.com/cgi/submit.pl?new_url='+encodeURIComponent(location.href))"></a>
+                      <a class="or" href="#" title="Orkut" onclick="window.open('http://promote.orkut.com/preview?nt=orkut.com&du='+encodeURIComponent(location.href)+'&tt='+encodeURIComponent(document.title));"></a>
+                      <a class="de" href="#" title="Delicious" onclick="window.open('http://del.icio.us/post?url='+encodeURIComponent(location.href))"></a>
+                    </div>
+                    <div id="dsP"></div>
+                  </div>
+}
+@helper RenderMasterMetadata() { 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+if (!Model.MetaTags.Contains("og:image")) {
+        Pageview.Meta.AddTag("og:image", string.Format("{0}://{1}{2}", Dynamicweb.Context.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Host, Model.PropertyItem.GetFile("OpenGraphImage")));
+        <meta name="image" property="og:image" content='@string.Format("{0}://{1}{2}", Dynamicweb.Context.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Host, Model.PropertyItem.GetFile("OpenGraphImage"))'>
+        <meta name="image:alt" property="og:image:alt"  content="@Model.Title">
+    }
+    @Model.MetaTags
+}
+

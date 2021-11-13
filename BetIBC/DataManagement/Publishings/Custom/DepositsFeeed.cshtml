@@ -1,0 +1,38 @@
+﻿[
+	@{
+   int loopCount =  GetLoop("Rows").Count() - 1;
+		var rows = GetLoop("Rows");
+		int loopCounter = 0;
+//var rowsCounter = rows.Where(row => row.GetString("AccessUserAddress_Bookmaker") == "Skype Betting");
+//var rowsCounterToDisplay = rowsCounter.Count() -1 ;
+	}
+
+	@foreach (var row in rows)
+	{
+		var depositID = row.GetString("deposits_finalID");
+		var depositStatus = row.GetString("deposits_final_Status");
+	 
+		if(loopCounter == loopCount){
+
+			<text>
+			   {
+			   "depositID" : "@depositID",
+			   "depositStatus" :"@depositStatus"
+              
+              	}
+			</text>
+		}else{
+              <text>
+              {
+              "depositID" : "@depositID",
+              "depositStatus" :"@depositStatus"
+                
+              	},
+              </text>
+            }
+
+loopCounter ++;
+}
+
+
+]

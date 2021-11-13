@@ -1,0 +1,190 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using BrandFusion.Dw.BetIbc.TipstersServices
+@SnippetStart("PredictionCSS")
+ <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/prediction-form-styling.css" rel="stylesheet">
+   @SnippetEnd("PredictionCSS")
+@{
+
+DateTime dueDate = GetDate("ItemCreator:Edit.Item.Date_Added.Value");
+dueDate.ToString("MM/dd/yyyy hh:mm");
+DateTime nowDate = DateTime.Now;
+DateTime nowDate24 = nowDate.AddHours(24);
+	string date24 = nowDate24.ToString("yyyy-MM-ddTHH:mm");
+
+
+DateTime gmtDate = DateTime.UtcNow;
+	var predictionTitle = GetString("ItemCreator:Edit.Item.Prediction_Title.Name");
+    var predictionDescription = GetString("ItemCreator:Edit.Item.Description.Control");
+	var tipsterName = GetGlobalValue("Global:Extranet.Name");
+	var tipsterLastName = GetGlobalValue("Global:Extranet.LastName");
+	var tipsterFullNameToDisplay = "";
+	var tipsterFullName = tipsterName + tipsterLastName;
+	var tipsterEmail = GetGlobalValue("Global:Extranet.Email");
+	var stake = GetString("ItemCreator:Edit.Item.Stake.Name");
+	var odds = GetString("ItemCreator:Edit.Item.Odds.Name");
+	var league = GetString("ItemCreator:Edit.Item.League.Name");
+	var tournament = GetString("ItemCreator:Edit.Item.Tournament.Name");
+	var category = GetString("ItemCreator:Edit.Item.Category.Name");
+	var bookmakerLoop = GetLoop("ItemCreator:Edit.Item.Bookmaker_Name.Options");
+	var bookmakerLogoLoop = GetLoop("ItemCreator:Edit.Item.Bookmaker.Files");
+	var bettingPredictionName = GetString("ItemCreator:Edit.Item.BettingPrediction.Name");
+	var dateAddedName = GetString("ItemCreator:Edit.Item.Date_Added.Name");
+	var startGMT = GetString("ItemCreator:Edit.Item.Start_GMT.Name");
+	var formStart = GetString("ItemCreator:Edit.Form.Begin");
+	var formEnd = GetString("ItemCreator:Edit.Form.End");
+	var sessionStatus = GetString("ItemCreator:Edit.Status");
+	var bookmakerImageFile = GetString("ItemCreator:Edit.Item.Bookmaker.Control");
+	var bookmakerUrl = GetString("ItemCreator:Edit.Item.BookmakerUrl.Control");
+	var tipsterNameOptions = GetLoop("ItemCreator:Edit.Item.Tipster_ID.Options");
+    int nRequiredPredictions = 0;
+    int nrOfPredictions = 0;
+    var areaID = GetGlobalValue("Global:Area.ID");
+ 
+	bool b1 = string.IsNullOrEmpty(tipsterLastName);
+
+
+if (b1 == true)
+{
+	tipsterFullNameToDisplay = tipsterName;	
+}
+else
+{
+	tipsterFullNameToDisplay = tipsterName + " " + tipsterLastName;
+}
+   var tipsterStatus = TipstersServices.WeeklyGetNumberOfPredictions(tipsterFullNameToDisplay, ref nRequiredPredictions, ref nrOfPredictions);
+}
+
+<div class="overlay-tipsters-form active"></div>
+  <div class = "grid">
+ <div class="progress-wrapper">
+  <h3>You added <span id = "picks-number"></span>@nrOfPredictions<span id = "picks-number-max"></span> of minimum @nRequiredPredictions predictions this week</h3>
+  <div class=" progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+    </div>
+   </div>
+<div class="container">
+	<h2>@Translate("HelloTipster","Hello") @tipsterFullNameToDisplay</h2>
+	<h3>@Translate("PostNewPrediction","Post a new prediction")</h3>
+</div>
+
+<div class="container tipsters-form" data-tipster-name="@tipsterFullNameToDisplay">
+	
+
+	@formStart
+	<p class="hidden"> @sessionStatus </p>
+	<div class="item-edit-fields-outer" id="tipsters-prediction-form">
+		<input type="text" class="std item-field form-control " required name="Prediction_Title" placeholder='@Translate("Prediction Title", "Prediction Title")' maxlength="255" value=""/>
+
+		@predictionDescription
+		<input type="hidden" name="Tipster" id="Tipster" value="@tipsterFullName">
+		<input type="hidden" name="Tipster_Email" id="Tipster_Email" value="@tipsterEmail">
+		<input type="hidden" name="Prediction" id="Prediction_Number" value="">
+        <input type="hidden" name="Area_Id" id="Area_Id" value="@areaID">
+     
+		<div class="hidden">
+			<input value="1" type="checkbox" class="checkbox" id="Approved" name="Approved"/>
+		</div>
+		<div class="hidden">
+			<input value="" type="checkbox" class="checkbox" id="FollowOn_VIP" name="FollowOn_VIP"/><label for="FollowOn_VIP"></label>
+		</div>
+		<div class="hidden">
+			@bookmakerUrl
+		</div>
+		<div class="hidden">
+             <input type = "text" class="hidden item-field item-field-datetime" id="start_gmt" name="Start_GMT" min="@date24" value=""/>
+			<input type="text" class="std item-field form-control " name="User_ID" maxlength="255" value='@GetGlobalValue("Global:Extranet.UserID")'/>
+		</div>
+
+		<div class="hidden">
+			<select name="Tipster_ID" id="Tipster_ID" class="std ">
+				@foreach (LoopItem tipster in tipsterNameOptions)
+				{
+					var tipsterNameOptionValue = tipster.GetString("ItemCreator:Edit.Item.Tipster_ID.Option.Value");
+					var tipsterNameOption = tipster.GetString("ItemCreator:Edit.Item.Tipster_ID.Option.Label");
+					<option value="@tipsterNameOptionValue">@tipsterNameOption</option>
+				}
+
+			</select>
+		</div>
+
+		<select required name="@stake">
+			<option class="std item-field form-control " value="Stake" >Stake</option>
+			<option class="std item-field form-control " value="1" >1</option>
+			<option class="std item-field form-control " value="2" >2</option>
+			<option class="std item-field form-control " value="3" >3</option>
+			<option class="std item-field form-control " value="4" >4</option>
+			<option class="std item-field form-control " value="5" >5</option>
+			<option class="std item-field form-control " value="6" >6</option>
+			<option class="std item-field form-control " value="7" >7</option>
+			<option class="std item-field form-control " value="8" >8</option>
+			<option class="std item-field form-control " value="9" >9</option>
+			<option class="std item-field form-control " value="10" >10</option>
+		</select>
+		<input type="number" class="std item-field form-control " required autocomplete="off" id="odd-input" name="@odds" placeholder='@Translate("Odds", "Odds")' value="" step="0.001"/>
+		<div class="col-6">
+			<input type="radio" name="turnament" value="league" id="league-checkbox">@Translate("League", "League")<br>
+			<input type="text" class="hidden-input" required id="league_prediction_form" class="std item-field form-control " name="@league" placeholder="@league" maxlength="255" value="" />
+		</div>
+		<div class="col-6">
+			<input type="radio" name="turnament" value="turnament"id="turnament-checkbox">@Translate("Tournament", "Tournament")<br>
+			<input type="text" class="hidden-input" required id="tournament_prediction_form" class="std item-field form-control " name="@tournament" placeholder="@tournament" maxlength="255" value="" />
+		</div>
+		<select class="std item-field form-control" required name="@category" placeholder="@category">
+			<option value="">@Translate("Category", "Category")</option>
+			<option value="Football Prediction">Football Prediction</option>
+			<option value="Tennis Prediction">Tennis Prediction</option>
+			<option value="Basketball Prediction">Basketball Prediction</option>
+			<option value="eSports Prediction">eSports Prediction</option>
+              <option value="eSports Prediction">Ice Hockey</option>
+		</select>
+		<select name="Bookmaker_Name" required id="Bookmaker_Name" class="std item-field item-field-file selectpicker">
+			<option value="">@Translate("Bookmaker", "Bookmaker")</option>
+			
+		</select>
+	
+		
+		@* @bookmakerImageFile *@
+
+		<input required type="text" class="std item-field form-control " placeholder='@Translate("Betting Prediction", "Betting Prediction")' name="BettingPrediction" maxlength="255" value=""/>
+
+		<p>@DateTime.Now</p>
+		<div class="time hidden">
+			<label class="item-edit-field-label control-label">@dateAddedName </label>
+			<p> @nowDate </p>
+			<input type="datetime" class="item-field item-field-datetime" name="Date_Added" value="@nowDate.ToString("yyyy-MM-ddTHH:mm")"/>
+
+		</div>
+		<div class="gtmTime">
+			<label class="item-edit-field-label control-label">@Translate("Start GMT", "Start GMT")</label>
+          <div>
+          <div class = "date-time-picker-wrapper" data-date="12-02-2019">
+			<input type="text" autocomplete="off" required class="item-field item-field-datetime datetimepicker" id="date-time-tip" name="Start_GMT" min="@date24" value=""/>
+         
+          </div>
+          </div>
+         
+		</div>
+
+
+     
+	</div>
+	<div class="item-edit-submission">
+      @{
+      /*
+       <div class="overlay-button active">
+      </div>
+      */
+      }
+     
+		<input type="submit" value='@Translate("Save Changes", "Save Changes")'/>
+	</div>
+	<div class="items-clear"></div>
+	@formEnd
+</div>
+<div class = "tipsters-form-information"> 
+	<h3>@Translate("Unfortunately, the maximum number of picks added this week has been reached.", "Unfortunately, the maximum number of picks added this week has been reached.")</h3>
+</div>
+
+
+

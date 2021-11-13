@@ -1,0 +1,84 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+@MasterPageFile("MasterNoEcom.cshtml")
+
+@if (Model.PropertyItem.GetBoolean("ShowBreadcrumb")) {
+    <div class="u-color-light-gray--bg">
+        <div class="center-container">
+            <div class="grid">
+                <div class="grid__col-md-5 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+                    <h3 class="page-title">@Model.Name</h3>
+                </div></div>
+                <div class="grid__col-md-7 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+                    <div class="u-pull--right">
+                        @RenderNavigation(new
+                        {
+                            id = "breadcrumb",
+                            template = "breadcrumb.xslt"
+                        })
+                    </div>
+                </div></div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="grid">
+    @if (Model.PropertyItem.GetBoolean("LeftMenu"))
+    {
+        <nav class="grid__col-md-3 grid__col-sm-12 grid__col-xs-12">
+            @RenderNavigation(new
+            {
+                id = "leftnav",
+                cssclass = "menu dwnavigation",
+                expandmode = "All",
+                template = "LeftNavigation.xslt"
+            })
+        </nav>
+    }
+    <div class="center-container" id="AccountContainer" data-pageid="@Model.ID" data-pageid-redirect="1901">
+        <div class="u-color-light-gray--bg">
+
+            <div class="grid__col-auto grid__col--bleed">
+     
+     	
+                <div class="grid">
+                    
+                    <div class="grid__col-xs-12" id="AllowAccount">
+                        
+                        <div class="grid__col-xs-12">
+                            <label for="Username">@Translate("Username")</label>
+                            <input type="text" name="Username" id="Username"/>
+                        </div>
+
+                        <div class="grid__col-xs-12">
+                            <label for="Password">@Translate("Password")</label>
+                            <input type="password" name="Password" id="Password"/>
+                        </div>
+                        
+                        <div class="grid__col-xs-12">
+                            <label for="SecretQuestion">@Translate("Secret Question")</label>
+                            <input type="text" name="SecretQuestion" id="SecretQuestion"/>
+                        </div>
+
+                        
+                        <div class="grid__col-xs-12">
+                            <label for="SecretQuestionAnswer">@Translate("Secret Question Answer")</label>
+                            <input type="text" name="SecretQuestionAnswer" id="SecretQuestionAnswer"/>
+                        </div>
+
+
+                        <button class="btn btn-default cancel-allow-account">Cancel</button>
+                        <button class="btn btn-default continue-allow-account">Allocate</button>
+
+                    </div>
+                </div>
+       
+     
+        
+   		
+            </div>
+        </div>
+    </div>
+</div>   
+@*Model.Placeholder("dwcontent", "content", "default:true;sort:1")*@

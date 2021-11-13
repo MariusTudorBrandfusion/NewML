@@ -1,0 +1,127 @@
+﻿@*<h2>@GetValue("Form.Name")</h2>*@
+
+
+<div class="confirmation-container">
+      
+    <div class="table-wrapper-skype">
+        <h3>CROSSCHECK</h3>
+        <table class="alternate confirmation-table" cellspacing="0" cellpadding="0">
+            @* <thead>
+              <tr>
+                  <th>Field</th>
+                  <th>Field value</th>
+              </tr>
+          </thead> *@
+            <tbody>
+
+            <tr>
+                <th>BET ID</th>
+                <td>
+                    @GetValue("Form.RowID") 
+                </td>
+            </tr>
+            <tr>
+                <th>ID(asia)</th>
+                <td>
+                     @GetValue("Form.Fields.skypeBets_BetIdInAsia.Value")  
+                </td>
+            </tr>
+            <tr>
+                <th>Result</th>
+                <td>
+                    @GetValue("Form.Fields.skypeBets_BetResult.Value") 
+                </td>
+            </tr>
+            <tr>
+                <th>FT</th>
+                <td>
+                    @GetValue("Form.Fields.skypeBets_ResultAtFT.Value") 
+                </td>
+            </tr>
+            <tr>
+                <th>HT</th>
+                <td>
+                    @GetValue("Form.Fields.skypeBets_ResultAtHT.Value") 
+                </td>
+            </tr>
+            <tr>
+               <th><h4>PROFIT/LOSS</h4></th> 
+            </tr>
+            <tr>
+              <th><h5><strong>Member Profit/Loss</strong></h5></th>
+                <td>
+                    @GetValue("Form.Fields.skypeBets_MemberProfit.Value") 
+                </td>
+            </tr>
+            <tr>
+                <th>Bet currency</th>
+                <td>
+                    @GetValue("Form.Fields.skypeBets_BetCurrency.Value") 
+                </td>
+            </tr>
+
+            <tr>
+              <th><h5><strong>Agent</strong></h5></th>
+                <td>
+                    @GetValue("Form.Fields.skypeBets_AgentProfit.Value") 
+                </td>
+            </tr>
+            <tr>
+                <th>Bet currency</th>
+                <td>
+                    @GetValue("Form.Fields.skypeBets_BetCurrency.Value") 
+                </td>
+            </tr>
+            <tr>
+                <th><h4>COMISSION</h4></th>
+            </tr>
+            <tr>
+                <th>%</th>
+                <td>
+                    @GetValue("Form.Fields.skypeBets_ComissionToDisplay.Value") 
+                </td>
+            </tr>
+            <tr>
+                <th>EURO</th>
+                <td>
+                    @GetValue("Form.Fields.skypeBets_ComissionAmount.Value") 
+                </td>
+            </tr>
+             <tr>
+                <th><h4>COMISSION</h4></th>
+               <td>
+                  @GetValue("Form.Fields.skypeBets_SkypeUserComision.Value")
+               </td>
+            </tr>
+          
+           @* <tr>
+                <th>ODD</th>
+                <td>
+                    @GetValue("Form.RowID") 
+                </td>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <td>
+                    @GetValue("Form.Fields.skypeBets_MinimumOddRequestedByClient.Value") 
+                </td>
+            </tr>
+            <tr> *@
+                <th>OPERATORS</th>
+                <td>
+                    <span>1.</span>@GetValue("Form.Fields.skypeBets_FirstAdminUsername.Value")<br>
+                    <span>2.</span>@GetValue("Form.Fields.skypeBets_SecondAdminUsername.Value") <br>
+                    <span>3.</span>@GetValue("Form.Fields.skypeBets_ThirdAdminUsername.Value")<br>
+                    <span>4.</span>@GetValue("Form.Fields.skypeBets_FourthAdminUsername.Value")<br>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+
+    <!--<div class="confirmation-buttons">
+      <button class="button" type="button"> Back </button>
+      <button class="button" type="button"> Save </button>
+    </div> -->
+
+</div>

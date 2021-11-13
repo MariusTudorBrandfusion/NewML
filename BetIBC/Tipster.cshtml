@@ -1,0 +1,251 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+@MasterPageFile("MasterNoEcom.cshtml")
+
+
+
+@{
+
+	var tipsterNameRaw = Model.Item.GetString("Tipster_Name");
+    var tipsterEmail = Model.Item.GetString("Tipster_Email");
+	var tipsterName = tipsterNameRaw.Contains(" ") ? tipsterNameRaw.Replace(" ", "") : tipsterNameRaw;
+    var tipsterSignupDateRaw = Model.Item.GetString("BeenWith_Bet_ibcSince");
+    var tipsterSignupDate = !string.IsNullOrEmpty(tipsterSignupDateRaw) ? tipsterSignupDateRaw.Substring(6,4): string.Empty;
+    var tipsterNationality = Model.Item.GetString("Nationality");
+	var flagIconStart = "<i class='nationality-flag-single flag flag-icon-";
+    var flagIconEnd = "'></i>";
+	var tipsterFlag = flagIconStart + tipsterNationality + flagIconEnd;
+    var tipsterPageIdRaw = GetPageIdByNavigationTag("PredictionsSortbyTipster");
+    string tipsterID = Model.Item.Id;
+    var tipsterPageId = "/Default.aspx?ID=" + tipsterPageIdRaw + "&Tipster=" + tipsterID;
+
+
+}
+@SnippetStart("TipsterFlag")
+@tipsterFlag
+@SnippetEnd("TipsterFlag")
+
+
+
+@if (Model.PropertyItem.GetBoolean("ShowBreadcrumb")) {
+<div class="u-color-light-gray--bg breadcrumbs-wrapper">
+	<div class="center-container">
+       <div class="grid">
+           <div class="grid__col-md-5 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+              <h3 class="page-title">@Model.Name</h3>
+           </div></div>
+           <div class="grid__col-md-7 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+              <div class="u-pull--right">
+                @RenderNavigation(new
+                {
+                    id = "breadcrumb",
+                    template = "breadcrumb.xslt"
+                })
+               </div>
+           </div></div>
+       </div>
+	</div>
+</div>
+}
+
+<div class="tipster tipster-single-page" id="tipster-name" data-tipster-feed="@tipsterPageId" data-tipster-name="@tipsterNameRaw">
+<div class="center-container tipster-header">
+  <div class="grid__col-md-12">
+      <div class="tipster_values">
+        <div class="tipster-image-mobile"><img src='/Admin/Public/GetImage.ashx?width=800&amp;crop=5&amp;Compression=75&amp;DoNotUpscale=1&amp;image=@Model.Item.GetFile("Tipster_Image").Path' /></div>
+        <div id="tipster-year">@tipsterSignupDate<span class="values-headline">@Translate("Since", "Since")</span></div>
+        <div id="tipster-picks"><span class="values-headline">@Translate("Picks", "Picks")</span></div>
+        <div class="tipster-image"><img src='/Admin/Public/GetImage.ashx?width=800&amp;crop=5&amp;Compression=75&amp;DoNotUpscale=1&amp;image=@Model.Item.GetFile("Tipster_Image").Path' /><span>@tipsterFlag</span></div>
+        <div id="tipster-sum"><span class="values-headline">@Translate("Stake", "Stake")</span></div>
+        <div id="tipster-sum-percent"><span class="values-headline">ROI</span></div>
+        
+      </div>
+     <div class="grid grid-tipster-value ">
+        <div class="grid__col-md-3 average-stake-col">
+          <h3>@Translate("Average Stake", "Average Stake")</h3>
+          <div class = "grid grid--justify-center">
+           <div class="grid__col-md-4">
+          <p id = "week-stake">7 @Translate("days", "days")</p>
+            </div>
+           
+           <div class="grid__col-md-4">
+          <p id= "month-stake">30 @Translate("days", "days")</p>
+            </div>
+             <div class="grid__col-md-4">
+           <p id = "all-time-stake" class = "active-button">@Translate("all time", "all time")</p>
+             
+            </div>
+            <div class = "grid__col-md-12 average-stake-values">
+            </div>
+          </div>
+    </div>
+       <div class = "grid__col-md-6">
+        <div class = "grid__col-md-12">
+   <h2 class ="tipster-page-name">@Model.Item.GetString("Tipster_Name") </h2>
+          <div class = "text-center">@Model.Item.GetValue("ShortDescription")</div>
+        <div>
+      <div class = "grid__col-md-12">
+     @RenderSnippet("TipsterSubscription")
+        <div>
+         
+      </div> 
+        </div>
+              </div>
+           </div>
+           </div>
+        <div class="grid__col-md-3 roi-col">
+          <h3>ROI</h3>
+          <div class = "grid grid--justify-center">
+         <div class="grid__col-md-4">
+          <p id = "week-roi">7 @Translate("days", "days")</p>
+            </div>
+           
+           <div class="grid__col-md-4">
+          <p id = "month-roi">30 @Translate("days", "days")</p>
+            </div>
+             <div class="grid__col-md-4">
+          <p id = "all-time-roi" class = "active-button">@Translate("all time", "all time")</p>
+            </div>
+            <div class = "grid__col-md-12 roi-values">
+            </div>
+          </div>
+    </div>
+    </div>
+    
+          
+    
+ 
+        
+     
+  <div class = "grid grid--justify-center tipster-dropdown-buttons">
+          <div class = "grid__col-md-4 ">
+            <div class = "grid">
+               <div class="grid__col-md-12">
+        <h3 class = "text-center primary-title">@Translate("Betting Prediction", "Betting Prediction")</h3>
+             <img src = '@Model.Item.GetValue("Betting_Stats")'>
+          
+          
+             </div>
+            <div class = "grid__col-md-4 ">
+              <h3 id = "picks-button" class = "active-button">@Translate("Picks", "Picks")</h3>
+            </div>
+            <div class = "grid__col-md-4">
+              <h3 id = "description-button">@Translate("Description", "Description")</h3>
+            </div>
+            <div class = "grid__col-md-4">
+              <h3 id = "tutorials-button">@Translate("Tutorials", "Tutorials")</3h>
+            </div>
+            </div>
+          </div>
+        
+    <div class = "tipster-general-informations">
+    <div class = "grid latest-ten-tips-value active">
+         <div class = "grid__col-md-8 grid--justify-center ">
+               <p id = "predictions-max">@Translate("Last 10 predictions by", "Last 10 predictions by") @Model.Item.GetString("Tipster_Name"):<span id ="predictions-value"></span></p>
+           <p style="display:none">@Translate("Legend", "Legend"): <span style = "color: #91cc65" id="won">@Translate("W", "W")</span><span>(@Translate("Won Legend", "win"))</span>, <span style = "color: #e30f0c" id="lost">@Translate("L", "L")</span><span>(@Translate("Lost Legend", "lose"))</span>, <span style = "color: #0053cc" id="draw">@Translate("D", "D")</span><span>(@Translate("Draw Legend", "draw"))</span> , <span style = "color: #e30f0c" id="draw">@Translate("HL", "HL")</span><span>(@Translate("HALF LOST Legend", "half lost"))</span> , <span style = "color: #91cc65" id="draw">@Translate("HW", "HW")</span><span>(@Translate("HALF WON Legend", "half won"))</span> </p>
+           <div id = "predictions-value"></div>
+        </div>
+    </div>
+        <div id="desktop-tipster-tabs" >
+  	  <!-- Nav tabs -->
+    <div class ="grid nav-description">
+      <ul class="nav nav-tabs" id="ajaxTabs" role="tablist">
+        <li role="presentation" class="nav-item active noPadding grid__col-md-4 grid__col-xs-12"><a href="#about" aria-controls="about" role="tab" data-toggle="tab">@Translate("About", "About")</a></li>
+        <li role="presentation" class="nav-item noPadding grid__col-md-4 grid__col-xs-12"><a href="#bookies" aria-controls="bookies" role="tab" data-toggle="tab">@Translate("My Favourite Bookies", "My Favourite Bookies")</a></li>
+        <li role="presentation" class="nav-item noPadding grid__col-md-4 grid__col-xs-12"><a href="#sports" aria-controls="sports" role="tab" data-toggle="tab">@Translate("Leagues and types of sports", "Leagues and types of sports")</a></li>
+        <li role="presentation" class="nav-item noPadding grid__col-md-4 grid__col-xs-12"><a href="#frequency" aria-controls="frequency" role="tab" data-toggle="tab">@Translate("Stakes predictions frequency", "Stakes predictions frequency")</a></li>
+      </ul>
+
+      <!-- Tab panes -->
+    
+      <div class="tab-content" id="ajaxTabsContent">
+        <div role="tabpanel" class="tab-pane active" id="about">@Model.Item.GetString("About")</div>
+        <div role="tabpanel" class="tab-pane" id="bookies">@Model.Item.GetString("My_Favourite_Bookies")</div>
+        <div role="tabpanel" class="tab-pane" id="sports">@Model.Item.GetString("LeaguesAndTypesOfSports")</div>
+        <div role="tabpanel" class="tab-pane" id="frequency">@Model.Item.GetString("Stakes__PredictionsFrequency")</div>
+      </div>
+      </div>
+          </div>
+      <div id="mobile-tipster-tabs" >
+         	  <!-- Nav tabs -->
+
+       <ul class="nav nav-tabs" id="ajaxTabs" role="tablist">
+        <li role="presentation" class="nav-item  noPadding grid__col-md-4 grid__col-xs-12"><a href="#about" aria-controls="about" role="tab" data-toggle="tab">@Translate("About", "About")</a></li>
+      </ul>
+          <div class="tab-content" id="ajaxTabsContent">
+        <div role="tabpanel" class="tab-pane" id="about">@Model.Item.GetString("About")</div>
+ 
+      </div>
+         <ul class="nav nav-tabs" id="ajaxTabs" role="tablist">
+         <li role="presentation" class="nav-item noPadding grid__col-md-4 grid__col-xs-12"><a href="#bookies" aria-controls="bookies" role="tab" data-toggle="tab">@Translate("My Favourite Bookies", "My Favourite Bookies")</a></li>
+
+      </ul>
+          <div class="tab-content" id="ajaxTabsContent">
+        <div role="tabpanel" class="tab-pane" id="bookies">@Model.Item.GetString("My_Favourite_Bookies")</div>
+ 
+      </div>
+           <ul class="nav nav-tabs" id="ajaxTabs" role="tablist">
+                <li role="presentation" class="nav-item noPadding grid__col-md-4 grid__col-xs-12"><a href="#sports" aria-controls="sports" role="tab" data-toggle="tab">@Translate("Leagues and types of sports", "Leagues and types of sports")</a></li>
+
+      </ul>
+          <div class="tab-content" id="ajaxTabsContent">
+         <div role="tabpanel" class="tab-pane" id="sports">@Model.Item.GetString("LeaguesAndTypesOfSports")</div>
+ 
+      </div>
+           <ul class="nav nav-tabs" id="ajaxTabs" role="tablist">
+           <li role="presentation" class="nav-item noPadding grid__col-md-4 grid__col-xs-12"><a href="#frequency" aria-controls="frequency" role="tab" data-toggle="tab">@Translate("Stakes predictions frequency", "Stakes predictions frequency")</a></li>
+
+      </ul>
+          <div class="tab-content" id="ajaxTabsContent">
+    <div role="tabpanel" class="tab-pane" id="frequency">@Model.Item.GetString("Stakes__PredictionsFrequency")</div>
+ 
+      </div>
+      </div>
+      </div>
+     <div class="grid tutorial-video">
+       @if(Model.Item.GetItems("VideoTutorials").Any()){
+    
+       <h2>Tutorials</h2>
+      
+        <div class="grid tutorials-box" style="min-height: 260px;">
+
+         
+          
+     @foreach (var videoItem in Model.Item.GetItems("VideoTutorials"))
+                                  {
+                                      string videoCode =  videoItem.GetString("YoutubeEmbedCode");
+
+       <div class="grid__col-md-4">@videoCode</div>
+       
+                                  } 
+           <div class = "grid__col-md-12">
+             <a href = '@Model.Item.GetString("Advertising_Image_Link")'><img src = '@Model.Item.GetString("Advertising_Image")'><a/>
+       </div<=>
+         
+       </div>
+       }else{
+       <div class = "grid__col-md-12">
+        <h4>@Translate("No tutorials for the moment check later", "No tutorials for the moment check later")</h4>
+       </div<=>
+       }
+     </div>
+      </div>
+      </div>
+          </div>
+    <br/>
+  </div>
+        <div class="grid">
+ 
+            @Model.Placeholder("dwcontent", "content", "default:true;sort:1")
+        </div>
+
+      <div class="grid" id="tips-list" data-tipster-feed = "" >
+        <div class = "betting-tips-tipster grid">
+        	<div class="center-container">
+          <h2>@Translate("Betting Stats", "Betting Stats")</h2>
+         
+        </div>
+        </div>
+       </div>
+  </div>
+  </div>
+</div>

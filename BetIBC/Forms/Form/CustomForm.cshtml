@@ -1,0 +1,62 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+<div class="">
+
+@GetValue("Form.FormStart")
+@GetValue("Form.SystemFields")
+@{
+  int termsPageId = GetPageIdByNavigationTag("TermsConditions");
+  }
+
+@foreach (LoopItem field in GetLoop("Fields"))
+{
+  		string placeholder = field.GetString("Field.Placeholder");	
+  		string fieldName = field.GetString("Field.Name");
+  
+    if (field.GetString("Field.Type") == "TextInput")
+    {
+        string required = field.GetBoolean("Field.Required") ? "required" : "";
+
+        <div class='form__field-group @field.GetString("Field.CssClass")'>
+           @* <label for="@field.GetValue("Field.Systemname")">@field.GetValue("Field.Name")</label> *@  
+            <input type="text" name="@field.GetString("Field.SystemName")" value="@field.GetString("Field.Value")" placeholder='@Translate(string.Format("FormInputLabel.{0}", placeholder), placeholder)' @required/>
+            @field.GetValue("Field.Description")
+        </div>
+    }
+    else if (field.GetString("Field.Type") == "Textarea")
+    {
+        string required = field.GetBoolean("Field.Required") ? "required" : "";
+
+        <div class="form__field-group @field.GetString("Field.CssClass")">
+          @*  <label for="@field.GetValue("Field.Systemname")">@field.GetValue("Field.Name")</label> *@
+            <textarea name="@field.GetString("Field.Name")" value="@field.GetString("Field.Value")" placeholder='@Translate(string.Format("FormInputLabel.{0}", placeholder), placeholder)' @required ></textarea>
+            @field.GetValue("Field.Description")
+        </div>
+    }
+    else if (field.GetString("Field.Type") == "Submit")
+    {	
+		
+		<button type="submit" class="btn btn--primary dw-mod  u-no-margin" onclick="Buttons.LockButton(event)" id="@field.GetValue("Field.Name")" name="@field.GetValue("Field.Name")">@Translate("Submit")</button>
+      @*  @field.GetString("Field.Control").Replace(" id", " class=\"btn btn-primary\" onclick=\"Buttons.LockButton(event)\" id")*@
+    }
+	else if (field.GetString("Field.SystemName") == "IagreetotheTermsConditions")
+    {	
+		
+		<div class="form__field-group termsConditions">
+          <label for="@field.GetValue("Field.Systemname")"> @field.GetValue("Field.Name") <a href="/Default.aspx?ID=@termsPageId">@Translate("Terms & Conditions")</a></label>
+            @field.GetString("Field.Control")
+            @field.GetValue("Field.Description")
+        </div>
+    }
+    else
+    {
+		
+        <div class="form__field-group">
+            <label for="@field.GetValue("Field.Systemname")">@Translate(string.Format("FormInputLabel.{0}", fieldName), fieldName)</label>
+            @field.GetString("Field.Control")
+            @field.GetValue("Field.Description")
+        </div>
+    }
+}
+
+@GetValue("Form.FormEnd")
+</div>

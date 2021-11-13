@@ -1,0 +1,199 @@
+﻿@using Dynamicweb.Frontend
+@{
+    var linkToOpenAccount = GetPageIdByNavigationTag("VIP");
+	var loopNavigation = GetLoop("Item.Pages");
+	int listSize = GetLoop("Item.Pages").Count();
+	int iterationNav = 0;
+	int iterationContent = 0;
+    int rowSize = GetInteger("Item.RowSize");
+	int rowCount = listSize < rowSize || rowSize == 0 ? 1 : (listSize / rowSize) + 1;
+	int loopChange = listSize < rowSize || rowSize == 0 ? 0 : (listSize / rowSize)* rowSize + 1;
+	int newRowSize = listSize < rowSize || rowSize == 0 ? listSize : listSize - (listSize / rowSize)* rowSize;
+    string flexDisplay = listSize < rowSize || rowSize == 0 ? "flex" :"";
+	string idTabs = GetBoolean("Item.No_AJAX") ? "ajaxTabsStatic" : "ajaxTabs";
+	string idTabsContent = GetBoolean("Item.No_AJAX") ? "ajaxTabsContentStatic" : "ajaxTabsContent";
+	string customCSS =  GetString("Item.Custom_CSS_Declaration");
+   
+	string paragraphID = GetString("Item.Id");
+    string fontColor = !string.IsNullOrEmpty(GetString("Item.FontColor")) ? "u-" + GetString("Item.FontColor") : "";
+    string backgroundColor = !string.IsNullOrEmpty(GetString("Item.BackgroundColor")) ? "u-" + GetString("Item.BackgroundColor") + "--bg" : "";
+    string paragraphContainerClasses = "";
+    string containerClasses = string.IsNullOrEmpty(GetString("Item.Width")) ? "center-container dw-mod" : "";
+    string gridClasses = "";
+
+    if (GetString("Item.Width") == "center") {
+        containerClasses = fontColor + " " + backgroundColor + " center-container";
+    }
+
+    if (GetString("Item.Width") == "full")
+    {
+        containerClasses = fontColor + " " + backgroundColor;
+    }
+
+    if (GetString("Item.Width") == "combi")
+    {
+        paragraphContainerClasses = @fontColor + " " + @backgroundColor;
+        containerClasses = "center-container";
+    }
+
+    string fullBackgroundImage = "";
+    if (!string.IsNullOrEmpty(GetString("Item.BackgroundImage")))
+    {
+        containerClasses += " center-container--with-background-image";
+        gridClasses += " center-container--with-background-image";
+        fullBackgroundImage = "style='background-image:url(/Admin/Public/GetImage.ashx?width=2500&amp;height=1100&amp;crop=1&amp;Compression=90&amp;image=" + GetString("Item.BackgroundImage") + ");'";
+    } else if (string.IsNullOrEmpty(GetString("Item.BackgroundColor"))) {
+        backgroundColor = "u-color-light--bg";
+    }
+}
+
+@if (!string.IsNullOrEmpty(GetString("Item.Custom_CSS")))
+{
+    <link href="@GetString("Item.Custom_CSS")" rel="stylesheet" />
+}
+
+
+@* Escape the container and section *@ 
+@* </div>
+</section>  *@
+@* ----------------------------------- *@
+
+<section class="multiple-paragraphs-container grid__col-md-12 grid__col-xs-12 u-no-padding @paragraphContainerClasses bookmaker-tabs" @fullBackgroundImage>          
+    <div class="@containerClasses dw-mod">
+        <div class="grid @gridClasses"> 
+			@* <h2 class="section-title">@GetString("Item.ParagraphName")</h2> *@
+
+			@{
+
+				if(loopNavigation.Any()) {
+
+					<ul class="nav nav-tabs @flexDisplay @customCSS ajaxTabs" id="@idTabs" role="tablist" data-tab="tab-@(paragraphID)">
+					  @foreach(LoopItem i in GetLoop("Item.Pages")) {
+					  	iterationNav++;
+					    string URLpage = i.GetString("Item.Pages.Page");
+						string pageTitle = i.GetString("Item.Pages.PageTitle");
+					    string pageId = i.GetString("Item.Pages.Id");
+					    string pageSubtitle = i.GetString("Item.Pages.Subtitle");
+					    string pageImage = i.GetString("Item.Pages.Image");
+					    string pageLogo = i.GetString("Item.Pages.Logo");
+						string pageTitleId = pageTitle.Replace("'","").Replace(",","").Replace(" ","");
+			            string tabWidth = i.GetInteger("Item.Pages.LoopCounter") < loopChange ? GetTabWidth(rowSize.ToString()) : GetTabWidth(newRowSize.ToString());
+						
+							
+						
+				            if(iterationNav == 1) {
+				                <li class="nav-item active noPadding @tabWidth">
+				                    <a class="nav-link first-child" id="@(pageTitleId)-tab" data-toggle="tab" href='#@(pageTitleId)' role="tab" aria-controls="@(pageTitleId)" aria-expanded="true" data-href="/Default.aspx?ID=@URLpage&LayoutTemplate=Designs/BetIBC/jsonRetriever.cshtml">
+										@if(!string.IsNullOrEmpty(pageLogo)) {
+											<img src="@pageLogo" alt="" class="tabLogo" />
+										}
+										@if(!string.IsNullOrEmpty(pageImage)) {
+											<img src="@pageImage" alt="" class="tabIcon" />
+										}
+										@if(!string.IsNullOrEmpty(pageTitle)) {
+											<span class="tabTitle">@pageTitle</span>
+										}
+										@if(!string.IsNullOrEmpty(pageSubtitle)) {
+											<span class="tabSubtitle">@pageSubtitle</span>
+										}
+				                    </a>
+				                </li>
+				            } else {
+				                <li class="nav-item noPadding @tabWidth">			   
+				                    <a class="nav-link" id="@(pageTitleId)-tab" data-toggle="tab" href='#@(pageTitleId)' role="tab" aria-controls="@(pageTitleId)" aria-expanded="true" data-href="/Default.aspx?ID=@URLpage&LayoutTemplate=Designs/BetIBC/jsonRetriever.cshtml">
+				                    	@if(!string.IsNullOrEmpty(pageLogo)) {
+											<img src="@pageLogo" alt="" class="tabLogo" />
+										}
+										@if(!string.IsNullOrEmpty(pageImage)) {
+											<img src="@pageImage" alt="" class="tabIcon" />
+										}
+										@if(!string.IsNullOrEmpty(pageTitle)) {
+											<span class="tabTitle">@pageTitle</span>
+										}
+										@if(!string.IsNullOrEmpty(pageSubtitle)) {
+											<span class="tabSubtitle">@pageSubtitle</span>
+										}
+				                    </a>
+				                </li>
+				            }    
+						}
+					</ul>
+				}
+
+				
+				if(loopNavigation.Any()) {
+					<div class="tab-content ajaxTabsContainer" id="@idTabsContent" data-content="content-@(paragraphID)">
+				  
+					    @foreach(LoopItem i in GetLoop("Item.Pages")) {
+						  	iterationContent++;
+						    string URLpage = i.GetString("Item.Pages.Page");
+						    string pageTitle = i.GetString("Item.Pages.PageTitle");
+						    string pageTitleId = pageTitle.Replace("'","").Replace(",","").Replace(" ","");
+							string pageActive = iterationContent ==1 ? "active in" :"";
+						    if(!GetBoolean("Item.No_AJAX")) {
+						    	<div class="tab-pane clearfix fade @pageActive" id="@pageTitleId" role="tabpanel" aria-labelledby="@pageTitleId"><i class="fa fa-spinner fa-spin fa-fw"></i></div>
+						    } else {
+						    	<div class="tab-pane clearfix fade @pageActive" id="@pageTitleId" role="tabpanel" aria-labelledby="@pageTitleId">
+									@RenderPageContent(Convert.ToInt32(URLpage))
+								</div>
+						    }							
+					    }
+					<section class = "cta-section">
+  <div class = "cta-btn ">
+    <a href = "/Default.aspx?ID=@linkToOpenAccount">@Translate("Then open an account NOW!", "Then open an account NOW!")</a>
+  </div>
+</section>
+					</div>
+				}
+
+			}
+
+        </div>
+    </div>
+
+</section>
+
+@* Re-enter the container and section *@
+@* <section class="content-container center-container dw-mod">
+<div class="grid"> *@
+@* ----------------------------------- *@
+
+@functions{
+
+public string GetTabWidth(string rowSize){
+	string tabClass = "";
+    switch (rowSize){
+    
+        case "0":
+        tabClass="";
+        break;
+    
+        case "1":
+        tabClass="grid__col-md-12 grid__col-xs-12";
+        break;
+    
+        case "2":
+        tabClass="grid__col-md-6 grid__col-xs-12";
+        break;
+    
+        case "3":
+        tabClass="grid__col-md-4 grid__col-xs-12";
+        break;
+    
+        case "4":
+        tabClass="grid__col-md-3 grid__col-xs-12";
+        break;
+    
+        case "5":
+        tabClass="col-md-5ths";
+        break;
+    
+        case "6":
+        tabClass="grid__col-md-2 grid__col-xs-12";
+        break;
+    
+    }
+return tabClass;
+
+	}
+}

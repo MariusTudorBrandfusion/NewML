@@ -1,0 +1,64 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@using System.Web;
+@using System.Collections.Specialized;
+@using System.Text.RegularExpressions;
+@using System.Net;
+@using System;
+@functions{
+
+    public class SubscribedUsers
+    {   
+        public string name { get; set; }
+        public string email { get; set; }
+        public string groups { get; set; }
+     
+    }
+   
+    public class Root{
+        public List<SubscribedUsers> SubscribedUsers {get; set;}
+    }
+}
+@{
+    
+    var results = GetLoop("QueryResultItem");
+    var counterUsers = 1;
+    List<Root> feedObject = new List<Root>();
+    List<SubscribedUsers> UsersFeedObject = new List<SubscribedUsers>();
+    Root feedRoot = new Root();
+    feedRoot.SubscribedUsers = new List<SubscribedUsers>();
+
+
+    foreach (var result in results)
+    {
+
+        var name = result.GetString("UserName");
+        var email = result.GetString("UserEmail");
+        var groups = result.GetString("GroupNames");
+
+    
+        SubscribedUsers SubscribedUsers = new SubscribedUsers();
+        SubscribedUsers.name = name;
+        SubscribedUsers.email = email;
+        SubscribedUsers.groups = groups;
+      
+ 
+        counterUsers++;
+        feedRoot.SubscribedUsers.Add(SubscribedUsers);
+
+    }
+    feedObject.Add(feedRoot);
+    
+    string jsonFeed = "";
+    
+    if (results.Count == 0)
+    {
+    jsonFeed = "[]";
+    }
+    else
+    {
+    jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+    }
+}
+
+@jsonFeed

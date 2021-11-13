@@ -1,0 +1,33 @@
+﻿@{
+var title = GetString("Item.Title");
+var subtitle = GetString("Item.Subtitle");
+var text = GetString("Item.Text");
+var button = GetString("Item.Button_Text");
+var buttonLink = GetString("Item.Button_Link");
+var backgroundColor = GetString("Item.Background_Color");
+var isBackgroundImage = GetString("Item.Is_Image_Background");
+var image = GetString("Item.Image");
+var backgrondImage = isBackgroundImage == "True" ? image: "";
+}
+<section class = "simple-paragraph" style = 'background-image: url("@backgrondImage"); background-color:@backgroundColor'>
+<div class = "container">
+@if(title != ""){
+<h1>@title</h1>
+}
+@if(subtitle != ""){
+<h2>@subtitle</h2>
+}
+@if(text != ""){
+@text
+}
+  @if(button != ""){
+  <div class = "button-call-to-action">
+  <a href = "@buttonLink">@button</a>
+  </div>
+  }
+@if(isBackgroundImage != "True"){
+<img src = "@image">
+}
+
+</div>
+</section>

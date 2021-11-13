@@ -1,0 +1,37 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+<div class="grid"> 
+    @foreach (LoopItem item in GetLoop("ItemPublisher:Items.List"))
+    {
+
+        string paymentMethodName = @item.GetString("ItemPublisher:Item.Payment_Method_Name"),
+            paymentMethodLogo = @item.GetString("ItemPublisher:Item.Payment_Method_Logo"),
+            paymentMethodDescription = @item.GetString("ItemPublisher:Item.Payment_Method_Description"),
+            paymentAffiliateLink = @item.GetString("ItemPublisher:Item.Affiliate_Link"),
+            paymentMethodShortDescription = @item.GetString("ItemPublisher:Item.Payment_Method_Short_Description"),
+            paymentMethodVideoTutorial = @item.GetString("ItemPublisher:Item.Payment_Method_Video_Tutorial"),
+            paymentMethodSignUpTutorialDescription = @item.GetString("ItemPublisher:Item.Payment_Method_Sign_Up_Tutorial_Description"),
+            paymentMethodSignUpTutorial = @item.GetString("ItemPublisher:Item.Payment_Method_Sign_Up_Tutorial"),
+            paymentMethodLoginTabDescription = @item.GetString("ItemPublisher:Item.Login_Tab_Description"),
+            paymentMethodLoginAndDepositVideoTutorial = @item.GetString("ItemPublisher:Item.LoginAnd_Deposit_Video_Tutorial"),
+            paymentMethodLoginTutorialShort = @item.GetString("ItemPublisher:Item.Login_Tutorial_Short"),
+            paymentMethodLoginAndDepositTutorialFull = @item.GetString("ItemPublisher:Item.LoginAnd_Deposit_TutorialFull"),
+            paymentMethodUrl = @item.GetString("ItemPublisher:Item.Url");
+       
+
+        <div class="grid__col-md-3 grid__col-xs-12 paragraph-container">
+            <div class="grid__cell payment_box_list">
+            
+                @if(!string.IsNullOrEmpty(paymentMethodLogo)) {
+                    <div class="image-box"><img src="@paymentMethodLogo" /></div>
+                } 
+                <div class="short-description">
+                    @paymentMethodShortDescription 
+                </div>
+                <div class="btns">
+                    @if(!string.IsNullOrEmpty(paymentMethodUrl)) { <a href="@paymentMethodUrl" class="btn btn--secondary">@Translate("Read more", "Read more")</a> }
+                </div>
+            </div>
+        </div>
+    }
+</div>

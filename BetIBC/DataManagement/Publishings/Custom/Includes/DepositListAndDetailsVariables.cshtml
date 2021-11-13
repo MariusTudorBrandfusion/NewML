@@ -1,0 +1,56 @@
+@{
+    //Page Info
+    var depositRequestPage = GetPageIdByNavigationTag("DepositRequestForm");
+    var userDepositListPage = GetPageIdByNavigationTag("UserDepositHistory");
+    var adminRequestedDepositsPage = GetPageIdByNavigationTag("AdminRequestedDeposits");
+    var adminVerifyDepositPage = GetPageIdByNavigationTag("DepositVerifyForm");
+    var currentPage = GetGlobalValue("Global:Page.ID").ToString();
+    var currentDeposit = System.Web.HttpContext.Current.Request["deposits_finalID"];
+    var currentFilterEmailParam = System.Web.HttpContext.Current.Request["EmailAddress"];
+    var currentFilterExpressParam = System.Web.HttpContext.Current.Request["Express"];
+    string currentFilterEmail = currentFilterEmailParam != null ? currentFilterEmailParam.ToString() : "";
+    string currentFilterExpressRaw = currentFilterExpressParam != null ? currentFilterExpressParam.ToString() : "";
+    bool isStep1 = currentPage.ToString() == adminRequestedDepositsPage.ToString() ? true : false;
+    bool appliedEmailFilter = currentFilterEmail != "" ? true : false;
+    var currentFilterExpress = currentFilterExpressRaw == "true" ? "True" : currentFilterExpressRaw == "false" ? "False" : "";
+    bool appliedExpressFilter = currentFilterExpress != "" ? true : false;
+    
+    //bool isStep2 = trebuie definit
+    //bool isStep3 = trebuie definit 
+    //bool isUserView = trebuie definit
+    //var editDepositPageId = trebuie definit
+    //var editDepositBtnLabel = trebuie definit
+    
+    //form required fields
+    var formStart = GetString("Form.Start");
+    var formEnd = GetString("Form.End");
+    var formhiddenFields = GetString("Form.Hidden");
+    //date and time used for request and verifications
+    var nowRow = DateTime.Now;
+    var nowDate = nowRow.ToString("dd/MM/yyyy");
+    var nowTime = nowRow.ToString("HH:mm");
+    //user or admin info used for request and verification
+    var firstName = GetGlobalValue("Global:Extranet.FirstName");
+    var lastName = GetGlobalValue("Global:Extranet.LastName");
+    var userName = GetGlobalValue("Global:Extranet.UserName");
+    var userID = GetGlobalValue("Global:Extranet.UserID");
+    var email = GetGlobalValue("Global:Extranet.Email");
+    //Data lists 
+    var rowsRaw = GetLoop("Rows");
+    var rowHistory =  rowsRaw.Where(row => row.GetValue("deposits_final_User_ID").ToString() == @userID);
+    var rowsStep1 = rowsRaw.Where(row => row.GetValue("deposits_final_Status").ToString() == "Submited");
+    var rowsStep2 = rowsRaw.Where(row => row.GetValue("deposits_final_Status").ToString() == "Confirmed");
+    var rowsStep3 = rowsRaw.Where(row => row.GetValue("deposits_final_Status").ToString() == "Processed");
+    var rowsStep4 = rowsRaw.Where(row => row.GetValue("deposits_final_Status").ToString() == "Finalized");
+    var myList = rowsRaw.OrderBy(row => row.GetValue("Start_GMT")).ToList();
+    var rowsForUser = myList.Where(row => row.GetValue("deposits_final_User_ID").ToString() == userID);
+    //var rows = currentPage.ToString() == userDepositListPage.ToString() ? myList : rowsRaw;
+    var rowsStep1Filtered = appliedEmailFilter && appliedExpressFilter ? rowsStep1.Where(x => x.GetString("deposits_final_Username") == currentFilterEmail).Where(x => x.GetString("deposits_final_Express_fee") == currentFilterExpress) : appliedEmailFilter && !appliedExpressFilter ? rowsStep1.Where(x => x.GetString("deposits_final_Username") == currentFilterEmail) : !appliedEmailFilter && appliedExpressFilter ? rowsStep1.Where(x => x.GetString("deposits_final_Express_fee") == currentFilterExpress) : rowsStep1;
+    var rowsStep2Filtered = appliedEmailFilter && appliedExpressFilter ? rowsStep2.Where(x => x.GetString("deposits_final_Username") == currentFilterEmail).Where(x => x.GetString("deposits_final_Express_fee") == currentFilterExpress) : appliedEmailFilter && !appliedExpressFilter ? rowsStep2.Where(x => x.GetString("deposits_final_Username") == currentFilterEmail) : !appliedEmailFilter && appliedExpressFilter ? rowsStep2.Where(x => x.GetString("deposits_final_Express_fee") == currentFilterExpress) : rowsStep2;
+    var rowsStep3Filtered = appliedEmailFilter && appliedExpressFilter ? rowsStep3.Where(x => x.GetString("deposits_final_Username") == currentFilterEmail).Where(x => x.GetString("deposits_final_Express_fee") == currentFilterExpress) : appliedEmailFilter && !appliedExpressFilter ? rowsStep3.Where(x => x.GetString("deposits_final_Username") == currentFilterEmail) : !appliedEmailFilter && appliedExpressFilter ? rowsStep3.Where(x => x.GetString("deposits_final_Express_fee") == currentFilterExpress) : rowsStep3;
+    var rowsStep4Filtered = appliedEmailFilter && appliedExpressFilter ? rowsStep4.Where(x => x.GetString("deposits_final_Username") == currentFilterEmail).Where(x => x.GetString("deposits_final_Express_fee") == currentFilterExpress) : appliedEmailFilter && !appliedExpressFilter ? rowsStep4.Where(x => x.GetString("deposits_final_Username") == currentFilterEmail) : !appliedEmailFilter && appliedExpressFilter ? rowsStep4.Where(x => x.GetString("deposits_final_Express_fee") == currentFilterExpress) : rowsStep4;
+    
+    //Current view ID to be used in Edit/details Urls  isStep1 ? rowsStep1 :
+    var ViewId = Pageview.CurrentParagraph.ModuleProperties.get_Value("ViewID"); 
+
+}

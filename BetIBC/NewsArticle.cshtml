@@ -1,0 +1,58 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+@MasterPageFile("MasterNoEcom.cshtml")
+@{
+var currentPageId = HttpContext.Current.Request.QueryString.Get("ID");
+
+}
+@if (Model.PropertyItem.GetBoolean("ShowBreadcrumb")) {
+
+<div class="u-color-light-gray--bg">
+	<div class="center-container">
+       <div class="grid">
+           <div class="grid__col-md-5 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+              <h3 class="page-title">@Model.Name</h3>
+           </div></div>
+           <div class="grid__col-md-7 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+              <div class="u-pull--right">
+                @RenderNavigation(new
+                {
+                    id = "breadcrumb",
+                    template = "breadcrumb.xslt"
+                })
+               </div>
+           </div></div>
+       </div>
+	</div>
+</div>
+}
+<div class="center-container">
+<article class="grid__col-md-12 text-center">
+    <h1 class="article__header__news">@Model.Item.GetString("Title")</h1>
+
+   @* <div class="responsive-image responsive-image--16-9">
+        <img src="/Admin/Public/GetImage.ashx?width=1280&amp;height=723&amp;crop=5&amp;Compression=75&amp;DoNotUpscale=1&amp;image=@Model.Item.GetFile("Image").Path" />
+    </div>*@
+  <div class="article__content__news__container">
+    @Model.Item.GetString("Text")
+@*<!--@Global:Area.ID-->*@
+
+  </div>
+</article>
+  
+  
+  <div class="center-container_buttons-wrapper"  data-id="@currentPageId">
+    <a href="" class="prev-article button" id="prev-btn">
+      <i class="fa fa-chevron-left" style="margin-right: 10px;"></i>@Translate("Previous Article", "Previous Article")
+      <span class="prev-article-title"></span>
+  	</a>
+    <a href="" class="next-article button" id="next-btn">
+      @Translate("Next Article", "Next Article")
+      <span class="next-article-title"></span>
+      <i class="fa fa-chevron-right" style="
+    margin-left: 10px;
+	"></i>
+  	</a>
+  </div>
+  
+  
+</div>

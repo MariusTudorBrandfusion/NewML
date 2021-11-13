@@ -1,0 +1,31 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using Dynamicweb.Core
+@using System
+@Include("/Files/Templates/Designs/BetIBC/DataManagement/Forms/Form/Includes/DepositFormVariables.cshtml")
+@Include("/Files/Templates/Designs/BetIBC/DataManagement/Forms/Form/Includes/DepositFormHelpers.cshtml")
+<div class = "loading-background active " >
+    <div class="container form-deposits" data-type-accontID = "@userID" data-translate-email = "@Translate("This is not a valid Email address", "This is not a valid Email address")" data-translate-minimum = "@Translate("Minimum deposit amount or equivalent in deposit currency is", "Minimum deposit amount or equivalent in deposit currency is")" style="min-height: 800px;">
+        <h2>@Translate("DepositRequest" , "Deposit request")</h2>
+        @formStart
+        @formhiddenFields
+        @formUserInfo(userName, firstName, lastName, email, userID)
+        @formBookmakerInfo()
+        @formPaymentInfo(expressDeposit, "1")
+        @depositsOandaScreenshots()
+        @canUseMerchant()
+        <div class="m-10"></div>
+        @formConfirmPayment()
+        <div class="hidden">
+            
+            @formDepositStatus("Submited", "")
+            @formDepositTimeStamp("deposits_final_Date_of_request", "deposits_final_Hour_of_request")
+        </div>
+        <input type="submit" value="Submit" />
+    </div>
+    @formEnd
+</div>
+
+

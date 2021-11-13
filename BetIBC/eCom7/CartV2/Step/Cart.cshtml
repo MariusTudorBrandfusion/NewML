@@ -1,0 +1,446 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@using Dynamicweb.Extensibility
+@using Dynamicweb.Content
+@using Dynamicweb.Core
+@using System
+
+@{
+    string pageId = GetGlobalValue("Global:Page.ID");
+    int cartOrderlinesFeedPageId = GetPageIdByNavigationTag("CartOrderlinesFeed");       
+    int cartAddressesFeedPageId = GetPageIdByNavigationTag("CartAddressesFeed");
+    string editProfileLink = "/Default.aspx?ID=" + GetPageIdByNavigationTag("CustomerProfile").ToString();
+    string manageAddresses = "/Default.aspx?ID=" + GetPageIdByNavigationTag("CustomerProfile").ToString();
+
+    string selectedAlternativeAddressId = "0";
+}
+
+@functions {
+    string Truncate(string str, int count)
+    {
+        return str.Substring(0, Math.Min(str.Length, count));
+    }
+}
+
+<div class="paragraph-container__grid--bleed">
+    <form name="ordersubmit" id="OrderSubmit" method="post">
+        <div class="grid">
+            @* The informations *@
+            <div class="grid__col-md-4 grid__col-sm-4">
+                <div class="grid grid--direction-column">
+                    @* Address *@
+                    <div class="grid__col-12 grid__col--bleed-x">
+                        <div class="card-header">
+                            <h3><i class="fa fa-home"></i> @Translate("Billing address")</h3>
+                        </div>
+                        <div class="card">
+                            @if (!Dynamicweb.Core.Converter.ToBoolean(GetGlobalValue("Global:Extranet.UserName")) || GetLoop("ValidationErrors").Count > 0)
+                            {
+                                //When the user is not signed in, or there are form errors, give the possibility to either sign in or create address
+                                if (!Dynamicweb.Core.Converter.ToBoolean(GetGlobalValue("Global:Extranet.UserName")))
+                                {
+                                    <label class="btn btn--secondary btn--full dw-mod more" for="SignInModalTrigger">@Translate("Already a customer?")</label>
+                                }
+
+                                <label for="EcomOrderCustomerCompany">@Translate("Company")</label>
+                                <input type="text" class="u-full-width" name="EcomOrderCustomerCompany" id="EcomOrderCustomerCompany" value="@GetString("Ecom:Order.Customer.Company")" />
+
+                                <label for="EcomOrderCustomerName">@Translate("Name")</label>
+                                <input type="text" class="u-full-width" name="EcomOrderCustomerName" id="EcomOrderCustomerName" value="@GetString("Ecom:Order.Customer.Name")" />
+                                <div class="field-error">@GetString("Ecom:Cart.ValidationError.EcomOrderCustomerName.ErrorMessage")</div>
+
+                                <label for="EcomOrderCustomerPhone">@Translate("Phone")</label>
+                                <input type="tel" class="u-full-width" name="EcomOrderCustomerPhone" id="EcomOrderCustomerPhone" value="@GetString("Ecom:Order.Customer.Phone")" />
+                                <div class="field-error">@GetString("Ecom:Cart.ValidationError.EcomOrderCustomerPhone.ErrorMessage")</div>
+
+                                <label for="EcomOrderCustomerEmail">@Translate("Email")</label>
+                                <input type="email" class="u-full-width" name="EcomOrderCustomerEmail" id="EcomOrderCustomerEmail" value="@GetString("Ecom:Order.Customer.Email")" />
+                                <div class="field-error">@GetString("Ecom:Cart.ValidationError.EcomOrderCustomerEmail.ErrorMessage")</div>
+                                                                                                                                              
+                                <label for="EcomOrderCustomerAddress">@Translate("Address")</label>
+                                <input type="text" class="u-full-width" name="EcomOrderCustomerAddress" id="EcomOrderCustomerAddress" value="@GetString("Ecom:Order.Customer.Address")" />
+                                <div class="field-error">@GetString("Ecom:Cart.ValidationError.EcomOrderCustomerAddress.ErrorMessage")</div>
+
+                                <label for="EcomOrderCustomerZip">@Translate("Zip code")</label>
+                                <input type="text" class="u-full-width" name="EcomOrderCustomerZip" id="EcomOrderCustomerZip" value="@GetString("Ecom:Order.Customer.Zip")" />
+                                <div class="field-error">@GetString("Ecom:Cart.ValidationError.EcomOrderCustomerZip.ErrorMessage")</div>
+
+                                <label for="EcomOrderCustomerCity">@Translate("City")</label>
+                                <input type="text" class="u-full-width" name="EcomOrderCustomerCity" id="EcomOrderCustomerCity" value="@GetString("Ecom:Order.Customer.City")" />
+                                <div class="field-error">@GetString("Ecom:Cart.ValidationError.EcomOrderCustomerCity.ErrorMessage")</div>
+
+                                <label for="EcomOrderCustomerCountry">@Translate("Country")</label>
+                                <select class="u-full-width" name="EcomOrderCustomerCountry" id="EcomOrderCustomerCountry" onchange="document.getElementById('OrderSubmit').submit()">
+                                    @foreach (LoopItem country2 in GetLoop("Countries"))
+                                    {
+                                        string selected = !string.IsNullOrWhiteSpace(country2.GetString("Ecom:Country.IsCustomerCountryOrDefault")) ? "selected" : "";
+                                        <option value="@country2.GetString("Ecom:Country.Code2")" @selected>@country2.GetString("Ecom:Country.Name")</option>
+                                    }
+                                </select>
+                                <div class="field-error">@GetString("Ecom:Cart.ValidationError.EcomOrderCustomerCountry.ErrorMessage")</div>
+                            }
+                            else
+                            {
+                                //When the user is signed in, show static address fields
+                                <table class="table table--clean table--condensed">
+                                    @if (!String.IsNullOrEmpty(GetString("Ecom:Order.Customer.Company")))
+                                    {
+                                    <tr>
+                                        <td class="u-bold">@Translate("Company")</td>
+                                        <td><input type="text" name="EcomOrderCustomerCompany" id="EcomOrderCustomerCompany" value="@GetString("Ecom:Order.Customer.Company")" readonly /></td>
+                                    </tr>
+                                    }
+                                    <tr>
+                                        <td class="u-bold">@Translate("Name")</td>
+                                        <td><input type="text" name="EcomOrderCustomerName" id="EcomOrderCustomerName" value="@GetString("Ecom:Order.Customer.Name")" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="u-bold">@Translate("Phone")</td>
+                                        <td><input type="text" name="EcomOrderCustomerPhone" id="EcomOrderCustomerPhone" value="@GetString("Ecom:Order.Customer.Phone")" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="u-bold">@Translate("Email")</td>
+                                        <td><input type="text" name="EcomOrderCustomerEmail" id="EcomOrderCustomerEmail" value="@GetString("Ecom:Order.Customer.Email")" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="u-bold">@Translate("Address")</td>
+                                        <td><input type="text" name="EcomOrderCustomerAddress" id="EcomOrderCustomerAddress" value="@GetString("Ecom:Order.Customer.Address")" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="u-bold">@Translate("Zip code")</td>
+                                        <td><input type="text" name="EcomOrderCustomerZip" id="EcomOrderCustomerZip" value="@GetString("Ecom:Order.Customer.Zip")" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="u-bold">@Translate("City")</td>
+                                        <td><input type="text" name="EcomOrderCustomerCity" id="EcomOrderCustomerCity" value="@GetString("Ecom:Order.Customer.City")" readonly /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="u-bold">@Translate("Country")</td>
+                                        <td>
+                                            <input type="text" value="@GetString("Ecom:Order.Customer.Country")" readonly />
+
+                                            @foreach (LoopItem country in GetLoop("Countries"))
+                                            {
+                                                if (country.GetBoolean("Ecom:Country.IsCustomerCountryOrDefault"))
+                                                {
+                                                    <input type="hidden" name="EcomOrderCustomerCountry" id="EcomOrderCustomerCountry" value="@country.GetString("Ecom:Country.Code2")" />
+                                                }
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">&nbsp;</td>
+                                    </tr>
+                                </table>
+
+                                <a href="@editProfileLink" class="btn btn--secondary btn--full u-no-margin dw-mod">@Translate("Configure your addresses")</a>
+                            }
+                        </div>
+                    </div>
+
+                    @* Alternate addresses *@
+                    <div class="grid__col-12 grid__col--bleed-x">
+                        <input type="checkbox" id="AlternateAddressBlock" class="expand-trigger js-remember-state" />
+
+                        <div class="expand-container">
+                            <div class="grid__col--bleed">
+                                <div class="card-header">
+                                    <h3 class="more">
+                                        <label for="AlternateAddressBlock" class="expand-container__btn more" onclick="Dynamo.UpdateContent('DeliveryAddressFields', '/Default.aspx?ID=@cartAddressesFeedPageId&AddressId=' + @GetString("Ecom:Order.Customer.AccessUserID"))">
+                                            <i class="fa fa-map-marker"></i> @Translate("Alternative address") 
+                                        </label>
+                                    </h3>
+                                    <h3 class="less">
+                                        <label for="AlternateAddressBlock" class="expand-container__btn less" onclick="Dynamo.UpdateContent('DeliveryAddressFields', '/Default.aspx?ID=@cartAddressesFeedPageId&AddressId=-1')">
+                                            <i class="fa fa-map-marker"></i> @Translate("Shipping address") 
+                                        </label>
+                                    </h3>
+                                </div>
+                                <div class="card expand-container__content">
+                                    @if (GetLoop("UserManagement:User.UserAddresses").Count > 0)
+                                    {
+                                        <div class="grid">
+                                            <div class="grid__col-xs-10 grid__col--bleed">
+                                                <select id="AddressList_main" class="u-full-width" onchange="Dynamo.UpdateContent('DeliveryAddressFields', '/Default.aspx?ID=@cartAddressesFeedPageId&AddressId=' + this.value)">
+                                                    @foreach (LoopItem address in GetLoop("UserManagement:User.UserAddresses"))
+                                                    {
+                                                        string selected = "";
+                                                        string description = Truncate(address.GetString("UserManagement:User.UserAddress.Description"), 25);
+                                                        string userAddress = Truncate(address.GetString("UserManagement:User.UserAddress.Address"), 20);
+
+                                                        if (address.GetBoolean("UserManagement:User.UserAddress.Default"))
+                                                        {
+                                                            selected = "selected";
+                                                            selectedAlternativeAddressId = address.GetString("UserManagement:User.UserAddress.ID");
+                                                        }
+                                                        <option value="@address.GetString("UserManagement:User.UserAddress.ID")" @selected>@description (@userAddress)</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="grid__col-xs-2 grid__col--bleed">
+                                                <a href="@manageAddresses" class="btn btn--primary dw-mod btn--condensed u-no-margin" title="@Translate("Add new address", "Add new address")"><i class="fa fa-plus"></i></a>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    @if (Dynamicweb.Core.Converter.ToBoolean(GetGlobalValue("Global:Extranet.UserName")) && GetLoop("UserManagement:User.UserAddresses").Count > 0)
+                                    {
+                                        <div class="js-ajax-container" id="DeliveryAddressFields" data-template="DeliveryAddressFieldsTemplate" data-no-result-template="NoAddressTemplate" data-json-feed="/Default.aspx?ID=@cartAddressesFeedPageId&AddressId=-1"></div>
+                                    }
+                                    else
+                                    {
+                                        <label for="EcomOrderDeliveryCompany">@Translate("Company")</label>
+                                        <input type="text" class="u-full-width" name="EcomOrderDeliveryCompany" id="EcomOrderDeliveryCompany" value="@GetString("Ecom:Order.Delivery.Company")" />
+
+                                        <label for="EcomOrderDeliveryName">@Translate("Name")</label>
+                                        <input type="text" class="u-full-width" name="EcomOrderDeliveryName" id="EcomOrderDeliveryName" value="@GetString("Ecom:Order.Delivery.Name")" />
+
+                                        <label for="EcomOrderDeliveryPhone">@Translate("Phone")</label>
+                                        <input type="tel" class="u-full-width" name="EcomOrderDeliveryPhone" id="EcomOrderDeliveryPhone" value="@GetString("Ecom:Order.Delivery.Phone")" />
+
+                                        <label for="EcomOrderDeliveryEmail">@Translate("E-mail")</label>
+                                        <input type="email" class="u-full-width" name="EcomOrderDeliveryEmail" id="EcomOrderDeliveryEmail" value="@GetString("Ecom:Order.Delivery.Email")" />
+
+                                        <label for="EcomOrderDeliveryAddress">@Translate("Address")</label>
+                                        <input type="text" class="u-full-width" name="EcomOrderDeliveryAddress" id="EcomOrderDeliveryAddress" value="@GetString("Ecom:Order.Delivery.Address")" />
+
+                                        <label for="EcomOrderDeliveryZip">@Translate("Zip")</label>
+                                        <input type="text" class="u-full-width" name="EcomOrderDeliveryZip" id="EcomOrderDeliveryZip" value="@GetString("Ecom:Order.Delivery.Zip")" />
+
+                                        <label for="EcomOrderDeliveryCity">@Translate("City")</label>
+                                        <input type="text" class="u-full-width" name="EcomOrderDeliveryCity" id="EcomOrderDeliveryCity" value="@GetString("Ecom:Order.Delivery.City")" />
+
+                                        <label for="EcomOrderDeliveryCountry">@Translate("Country")</label>
+                                        <select class="u-full-width" name="EcomOrderDeliveryCountry" id="EcomOrderDeliveryCountry" onchange="document.getElementById('OrderSubmit').submit()">
+                                            @foreach (LoopItem country in GetLoop("Countries"))
+                                            {
+                                                string selected = !string.IsNullOrWhiteSpace(country.GetString("Ecom:Country.IsDeliveryCountryOrDefault")) ? "selected" : "";
+                                                <option value="@country.GetString("Ecom:Country.Code2")" @selected>@country.GetString("Ecom:Country.Name")</option>
+                                            }
+                                        </select>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Payment *@
+                    @if (!Converter.ToBoolean(Pageview.Area.Item["HidePayment"])) {
+                        <div class="grid__col-12 grid__col--bleed-x">
+                            <div class="card-header">
+                                <h3><i class="fa fa-money"></i> @Translate("Payment")</h3>
+                            </div>
+                            <div class="card">
+                                <div id="PaymentMethods" data-template="PaymentItem"></div>
+                            </div>
+                        </div>
+                    }
+                
+                    @* Shipping *@
+                    @if (!Converter.ToBoolean(Pageview.Area.Item["HideShipping"])) {
+                        <div class="grid__col-12 grid__col--bleed-x">
+                            <div class="card-header">
+                                <h3><i class="fa fa-truck"></i> @Translate("Shipping")</h3>
+                            </div>
+                            <div class="card">
+                                <div id="ShippingMethods" data-template="ShippingItem"></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            @* The cart *@
+            <div class="grid__col-md-8 grid__col-sm-8">
+                <div class="grid">
+                    <div class="grid__col-12 u-no-padding--xs">
+                        <div class="js-ajax-container" id="Cart" data-template="CartContent" data-cart-id="@cartOrderlinesFeedPageId" data-json-feed="/Default.aspx?ID=@cartOrderlinesFeedPageId" data-no-result-template="EmptyCart" data-preloader="overlay"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@* Template for when the cart is empty *@
+<script id="EmptyCart" type="text/x-template">
+    @Translate("You have no items in the cart")
+</script>
+
+@* Template for the cart *@
+<script id="CartContent" type="text/x-template">
+    <div class="card-header">
+        <h3><i class="fa fa-list-ul"></i> @Translate("Review order") ({{numberofproducts}})</h3>
+    </div>
+    <div class="card u-no-padding--xs">
+        <div class="{{isempty}}">
+            <table class="table cart-table">
+                <tbody id="OrderLines"></tbody>
+            </table>
+        </div>
+        <div class="grid grid--justify-end">
+            <div class="grid__col-sm-6 grid__col--line-bottom">
+                <div class="grid__cell">
+                    <div class="cart-summary__info u-pull--right">{{totalvat}}</div>
+                    <div class="cart-summary__info u-pull--left">@Translate("VAT")</div>
+                </div>
+                <div class="grid__cell">
+                    <div class="cart-summary__info u-pull--right">{{paymentfee}}</div>
+                    <div class="cart-summary__info u-pull--left"><i class="fa fa-money"></i> {{paymentmethod}}</div>
+                </div>
+                <div class="grid__cell">
+                    <div class="cart-summary__info u-pull--right">{{shippingfee}}</div>
+                    <div class="cart-summary__info u-pull--left"><i class="fa fa-truck"></i> {{shippingmethod}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid--justify-end">
+            <div class="grid__col-sm-6">
+                <div class="grid__cell">
+                    <div class="cart-summary__totals u-pull--right">{{totalprice}}</div>
+                    <div class="cart-summary__totals u-pull--left">@Translate("Total")</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="grid__col-12 grid__col--line-top"></div>
+        </div>
+
+        <div class="grid__cell u-padding--xs">
+            @* Comments *@
+            @if (!Converter.ToBoolean(Pageview.Area.Item["HideComment"]))
+            {
+                <textarea rows="3" class="u-full-width" placeholder="Enter comment" name="EcomOrderCustomerComment" id="EcomOrderCustomerComment"></textarea>
+            }
+            @if (GetBoolean("Ecom:Cart.UseNewsletterSubscription"))
+            {
+                <label>
+                    <input type="hidden" name="EcomOrderSubscribeToNewsletter" />
+                    <input type="checkbox" name="EcomOrderSubscribeToNewsletter" id="EcomOrderSubscribeToNewsletter">
+                    @Translate("Subscribe to newsletter")
+                </label>
+            }
+            <label>
+                <input type="checkbox" name="EcomOrderCustomerAccepted" id="EcomOrderCustomerAccepted" onchange="Cart.EnableCheckoutButton()">
+                @Translate("I accept the terms and conditions of this website")
+            </label>
+        </div>
+
+        <div class="grid">
+            <div class="grid__col-12 grid__col--line-top"></div>
+        </div>
+
+        <div class="grid__cell-footer">
+            <div class="grid__cell u-padding--xs">
+                <div class="u-pull--right">
+                    <button type="submit" class="btn btn--primary btn--condensed disabled dw-mod u-pull--right u-no-margin" name="@GetString("CartV2.NextStepButtonName")" id="@GetString("CartV2.NextStepButtonName")" disabled>@Translate("Go to checkout")</button>
+                </div>
+                <div class="u-pull--left">
+                    <button type="button" class="btn btn--secondary btn--condensed dw-mod u-pull--left u-no-margin" onclick="Cart.EmptyCart(event);location.reload();">@Translate("Empty cart")</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+@* Template for the orderlines *@
+<script id="CartOrderline" type="text/x-template">
+    <tr id="Orderline{{id}}" class="{{isempty}}">
+        <td class="cart-table__image u-hidden-xs u-hidden-xxs"><div class="{{hideimage}}"><img src="/Admin/Public/GetImage.ashx?width=60&height=60&crop=5&Compression=75&image={{image}}"></div></td>
+        <td title="{{name}} {{variantname}}">
+            <a href="{{link}}" class="u-color-inherit">{{name}}</a>
+            <div>#{{productnumber}}</div>
+            <div>{{variantname}}</div> 
+            <div>{{unitname}}</div>
+        </td>
+        <td class="u-ta-right u-hidden-xs u-hidden-xxs">{{unitprice}}</td>
+        <td class="u-ta-right" width="80"><input class="u-w80px u-no-margin" id="Quantity_{{orderLineId}}" type="number" min="1" onchange="Cart.UpdateQuantity('Cart', '/Default.aspx?ID=@cartOrderlinesFeedPageId', '&CartCmd=UpdateOrderlines&QuantityOrderLine{{orderLineId}}=' + this.value, true);" name='QuantityOrderLine{{orderLineId}}' value="{{quantity}}"></td>
+        <td class="u-ta-left"><button type="button" class="btn btn--clean btn--condensed u-no-margin" onclick="Cart.UpdateCart('Cart', '/Default.aspx?ID=@cartOrderlinesFeedPageId', '&CartCmd=DelOrderLine&key={{orderLineId}}', true);"><i class="fa fa-times"></i></button></td>
+        <td class="u-ta-right">{{totalprice}}</td>
+    </tr>
+    <tr class="{{hideBomItems}}">
+        <td colspan="6" class="u-no-padding">
+            <table class="u-no-margin"><tbody id="BomItems" data-template="CartBomItem"></tbody></table>
+        </td>
+    </tr>
+    
+</script>
+
+<script id="CartOrderlineDiscount" type="text/x-template">
+    <tr class="table__row--no-border">
+        <td class="cart-table__image u-hidden-xs u-hidden-xxs">&nbsp;</td>
+        <td>{{name}}</td>
+        <td class="u-hidden-xs u-hidden-xxs">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td class="cart-table__price u-ta-right">{{totalprice}}</td>
+    </tr>
+</script>
+
+<script id="unitOption" type="text/x-template">
+    <div class="dropdown__item" onclick="Cart.UpdateCart('Cart', '/Default.aspx?ID=@cartOrderlinesFeedPageId', '&CartCmd=UpdateOrderlines&UnitOrderLine{{orderLineId}}=' + this.value)" value="{{value}}">{{name}}</div>
+</script>
+
+<script id="CartBomItem" type="text/x-template">
+    <tr class="table__row--no-border">
+        <td class="cart-table__image u-hidden-xs u-hidden-xxs"><img src="/Admin/Public/GetImage.ashx?width=120&height=120&crop=5&Compression=75&image={{image}}"></td>
+        <td><a href="{{link}}" class="mini-cart-orderlines__name">{{name}}</a></td>
+        <td class="u-hidden-xs u-hidden-xxs">&nbsp;</td>
+        <td>{{quantity}}</td>
+        <td>&nbsp;</td>
+        <td class="cart-table__price u-ta-right">{{totalprice}}</td>
+    </tr>
+</script>
+
+<script id="PaymentItem" type="text/x-template">
+    <label for="EcomCartPaymethodID_{{id}}">
+        <input onclick="Cart.UpdateCart('Cart', '/Default.aspx?ID=@cartOrderlinesFeedPageId', '&EcomCartPaymethodID={{id}}', true)" type="radio" name="EcomCartPaymethodID" id="EcomCartPaymethodID_{{id}}" value="{{id}}" {{selected}} />
+        {{name}}
+    </label>
+</script>
+
+<script id="ShippingItem" type="text/x-template">
+    <label for="EcomCartShippingmethodID_{{id}}">
+        <input onclick="Cart.UpdateCart('Cart', '/Default.aspx?ID=@cartOrderlinesFeedPageId', '&EcomCartShippingmethodID={{id}}', true)" type="radio" name="EcomCartShippingmethodID" id="EcomCartShippingmethodID_{{id}}" value="{{id}}" {{selected}} />
+        {{name}}
+    </label>
+</script>
+
+<script id="DeliveryAddressFieldsTemplate" type="text/x-template">
+    <label for="EcomOrderDeliveryCompany">@Translate("Company")</label>
+    <input type="text" class="u-full-width" name="EcomOrderDeliveryCompany" id="EcomOrderDeliveryCompany" value="{{company}}" />
+                                
+    <label for="EcomOrderDeliveryName">@Translate("Name")</label>
+    <input type="text" class="u-full-width" name="EcomOrderDeliveryName" id="EcomOrderDeliveryName" value="{{name}}" />
+                        
+    <label for="EcomOrderDeliveryPhone">@Translate("Phone")</label>
+    <input type="tel" class="u-full-width" name="EcomOrderDeliveryPhone" id="EcomOrderDeliveryPhone" value="{{phone}}" />
+                        
+    <label for="EcomOrderDeliveryEmail">@Translate("E-mail")</label>    
+    <input type="email" class="u-full-width" name="EcomOrderDeliveryEmail" id="EcomOrderDeliveryEmail" value="{{email}}" />
+                                
+    <label for="EcomOrderDeliveryAddress">@Translate("Address")</label>
+    <input type="text" class="u-full-width" name="EcomOrderDeliveryAddress" id="EcomOrderDeliveryAddress" value="{{address}}" />
+                            
+    <label for="EcomOrderDeliveryZip">@Translate("Zip")</label>
+    <input type="text" class="u-full-width" name="EcomOrderDeliveryZip" id="EcomOrderDeliveryZip" value="{{zip}}" />
+                            
+    <label for="EcomOrderDeliveryCity">@Translate("City")</label>
+    <input type="text" class="u-full-width" name="EcomOrderDeliveryCity" id="EcomOrderDeliveryCity" value="{{city}}" />
+                   
+    <label for="EcomOrderDeliveryCountry">@Translate("Country")</label>
+    <select class="u-full-width" name="EcomOrderDeliveryCountry" id="EcomOrderDeliveryCountry" onchange="document.getElementById('OrderSubmit').submit()">
+        @foreach (LoopItem country in GetLoop("Countries"))
+        {
+            string selected = !string.IsNullOrWhiteSpace(country.GetString("Ecom:Country.IsDeliveryCountryOrDefault")) ? "selected" : "";
+            <option value="@country.GetString("Ecom:Country.Code2")" @selected>@country.GetString("Ecom:Country.Name")</option>
+        }
+    </select>
+</script>
+
+<script id="NoAddressTemplate" type="text/x-template">
+     @Translate("No address found")
+</script>

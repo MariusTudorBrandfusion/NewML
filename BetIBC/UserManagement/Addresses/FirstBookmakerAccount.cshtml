@@ -1,0 +1,38 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+string editUserInfoForm = GetString("UserManagement:User.EditUrl"); 
+if (initialAddress != "True"){
+
+
+<div class="paragraph-container__grid--bleed">
+    <div class="grid">
+        <div class="grid__col-md-8 grid__col-sm-12 grid__col-xs-12">
+             
+          
+          <i class="fa fa-spinner fa-spin" style="font-size:48px; max-width: 20px; margin: 0 auto"></i>
+
+
+      <form name="AddressForm" id="AddressForm" action="http://bet.dotfusion.ro/Default.aspx?ID=61&ObjectID=31&Action=ManageAddresses" data-edit-user-info="@editUserInfoForm" method="post" enctype="multipart/form-data" data-unique-id="FirstBookmakerAccount">
+          <input type="hidden" id="AddAddressesForm" name="AddAddressesForm" value="1" />
+          <input type="hidden" id="UserId" name="UserId" value="@userId" />
+
+            <label class="hidden" for="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker">Bookmaker</label>
+            <input type="text" class="u-full-width hidden" name="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker" id="CustomField.AccessUserAddress_AccessUserAddress_Bookmaker" value="@FirstBookmaker" />
+            <div class="field-error hidden">@GetString("UserManagement:User.UserAddress.Description.Input.Error")</div>
+
+            <label class="hidden" for="CustomField.AccessUserAddress_AccessUserAddress_Currency">Currency</label>
+            <input type="text" class="u-full-width hidden" name="CustomField.AccessUserAddress_AccessUserAddress_Currency" id="CustomField.AccessUserAddress_AccessUserAddress_Currency" value="@FirstCurrency" />
+			<input type="text" class="u-full-width hidden" id="Email" name="Email" value="@AssignedUsername"/>
+    
+                    <label for="CustomField.AccessUserAddress_AccessUserAddress_Alocated_since" class="hidden">@Translate("Allocated since"): </label>
+                    <select type="date" class="u-full-width hidden" name="CustomField.AccessUserAddress_AccessUserAddress_Alocated_since" id="CustomField.AccessUserAddress_AccessUserAddress_Alocated_since" value="@localDate">
+                    <option selected="selected">@localDate</option>
+                  	</select>              
+
+        <button type="submit"  class="btn btn--primary btn--full dw-mod hidden" id="submitter">@Translate("Save")</button>
+
+</form>
+        </div>
+    </div>
+</div>
+}

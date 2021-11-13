@@ -1,0 +1,71 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using Dynamicweb.Core
+@using System
+@SnippetStart("BootstrapCss")
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+@SnippetEnd("BootstrapCss")
+@Include("/Files/Templates/Designs/BetIBC/DataManagement/Forms/Form/Includes/DepositFormVariables.cshtml")
+@Include("/Files/Templates/Designs/BetIBC/DataManagement/Forms/Form/Includes/DepositFormHelpers.cshtml")
+
+<div class = "loading-background active deposits-loading-background">
+    <div class="container form-deposits" style="min-height:1200px!important">
+      <div class = "row">
+        <div class = "col-6">
+        @* user and bookmaker info, read only - Submited by Step-0-Form *@
+        <div id="UserSubmitedInfo">
+            <h2>@Translate("Verify Deposit", "Verify Deposit")</h2>
+            @depositRenderUserInfo()
+            @depositRenderBookmakerInfo()
+            @depositUserPaymentInfo(paymentMethod)
+            @depositUserConfirmation()
+        </div>
+          </div>
+        <div class = "col-6">
+          <div class="transaction-list-top-navigation">
+        <div class="transaction-list-top-navigation-wrapper">
+        <div>
+             <a href="/english/admin-area">Admin Area Page</a>
+        </div>
+        <div>
+            <a href="/">Profits</a>
+        </div>
+            <div>
+                <a href="/">Crosscheck Area</a>
+            </div>
+        </div>
+    </div>
+        @*Info added by admin in Step-1-Form*@
+        <div class="" id="verifyForm">
+            <div class="form-firstStep">
+                <h3>@Translate("Admin Confirmation", "Admin Confirmation")</h3>
+                @formStart
+                @formhiddenFields
+                @overwriteStep0Values()
+                @depositsOandaScreenshots()
+                @paymentMethodAdminFormFields(paymentMethod)
+                @CustomPenalty("customPenalty", Translate("Num. of extra fees applied"), "deposits_final_Custom_penalty", "ExtraFeeContainer", Translate("Extra Fee Percent"), "deposits_final_Custom_penalty_in_procent", Translate("Extra Fee Reason"), "deposits_final_Custom_penalty_reason")
+                @CustomPenalty("customPenalty1", "", "deposits_final_Custom_penalty_1", "ExtraFeeContainer1", Translate("Extra Fee 1 Percent"), "deposits_final_Custom_penalty_1_in_procent", Translate("Extra Fee 1 Reason"), "deposits_final_Custom_penalty_1_reason")
+                @CustomPenalty("customPenalty2", "", "deposits_final_Custom_penalty_2", "ExtraFeeContainer2", Translate("Extra Fee 2 Percent"), "deposits_final_Custom_penalty_2_in_procent", Translate("Extra Fee 2 Reason"), "deposits_final_Custom_penalty_2_reason")
+                @step1Status()
+            
+                <div class="hidden">
+                    @formAdminInfo(email)
+                    @formDepositTimeStamp("deposits_final_Step_1_Admin_Date","deposits_final_Step_1_Admin_Hour")
+                </div>
+               <input type="submit" value="Save"/>
+            </div>
+            @formEnd
+        </div>
+      </div>
+   </div>
+          <div id="detail-back-button">
+    <button onclick="goBack()">Back</button>
+</div>
+    </div>
+
+</div>
+
+

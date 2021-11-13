@@ -1,0 +1,68 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Web;
+
+@{ 
+    string emailAdress = HttpContext.Current.Request.QueryString.Get("NewsletterEmail");
+
+    if (String.IsNullOrEmpty(emailAdress)) {
+        emailAdress = GetString("UserManagement:User.Email");
+
+      }
+
+}
+@SnippetStart("TipsterSubscription")
+<!-- Button trigger modal -->
+<div id = "subscribe-tipster">
+<button type="button" class="btn btn--primary btn--line-height dw-mod" data-toggle="modal" data-target="#subscribe-tipster-button">
+@Translate("Inform me via email about new prediction", "Inform me via email about new prediction")
+</button>
+</div>
+<!-- Modal -->
+<div class="modal fade subscribe-modal" id="subscribe-tipster-button" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index:99999999999;">
+  <div class = "modal-overlay"></div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+  
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <div class="paragraph-container__grid--bleed">
+    <div class="grid grid--justify-center">
+        <div class="grid__col-md-6">
+            <h2>@Translate("Sign up for the newsletter")</h2>
+            @GetValue("UserManagement:User.FormStart")
+                <div class="form__field-group">
+                    <label for="UserManagement_Form_Name">@Translate("Name", "Name")</label>
+                    <input type="text" class="u-full-width" name="UserManagement_Form_Name" id="UserManagement_Form_Name" value="@GetString("UserManagement:User.Name")" required />
+                </div>
+                <div class="field-error">@GetString("UserManagement:User.Name.Input.Error")</div>
+
+                <div class="form__field-group">
+                    <label for="UserManagement_Form_Email">@Translate("Email", "Email")</label>
+                    <input type="text" class="u-full-width" name="UserManagement_Form_Email" id="UserManagement_Form_Email" value="@emailAdress" required />
+                </div>
+                <div class="field-error">@GetString("UserManagement:User.Email.Input.Error")</div>
+
+                <div class="form__field-group">
+                    <input type="checkbox" name="UserManagement_Form_EmailAllowed" id="UserManagement_Form_EmailAllowed" value="True" required />
+                    <label for="UserManagement_Form_EmailAllowed">@Translate("I want to sign up", "I want to sign up")</label>
+                </div>
+                <div class="field-error">@GetString("UserManagement:User.Email.Input.Error")</div>
+                 @GetString("UserManagement:User.EmailAllowed.Hidden.Input")
+
+                <input class="btn btn--primary dw-mod" type="submit" id="submitter" value="@Translate("Subscribe", "Subscribe")" onclick="Buttons.LockButton(event)">
+            @GetValue("UserManagement:User.FormEnd")
+        </div>
+    </div>
+  </div>
+      </div>
+  
+    </div>
+  </div>
+</div>
+@SnippetEnd("TipsterSubscription")
+
+

@@ -1,0 +1,59 @@
+﻿@{
+
+	var itemsList = GetLoop("ItemPublisher:Items.List");
+	DateTime Now = DateTime.UtcNow;
+}
+
+<section class="latest-tips-list-homepage text-center">
+    <div class="latest-tips-list-homepage-wrapper">
+		<div class="container">
+        <h1>@Translate("EURO 2020 Matches")</h1>
+        <table style="width:100%">
+            <tbody>
+            <tr class="latest-tips-table-header">
+                <th class="text-center">@Translate("Start time GMT")</th>
+                <th class="text-center">@Translate("Phase")</th>
+                <th class="text-center">@Translate("Group")</th>
+                <th class="text-center">@Translate("Match")</th>            
+                <th class="text-center">@Translate("Predictions")</th>
+                <th class="text-center">@Translate("Status")</th>
+            </tr>
+            @foreach( var item in itemsList){
+              DateTime startTimeGmt = item.GetDate("ItemPublisher:Item.StartTime_GMT");
+              var competitionPhase = item.GetString("ItemPublisher:Item.CompetitionPhase.Value");
+              var group = item.GetString("ItemPublisher:Item.CompetitionGroup");
+              var homeTeam = item.GetString("ItemPublisher:Item.Home_Team");
+              var awayTeam = item.GetString("ItemPublisher:Item.Away_Team");
+              var homeTeamCountryCode = item.GetString("ItemPublisher:Item.HomeTeamCountryCode");
+              var awayTeamCountryCode = item.GetString("ItemPublisher:Item.AwayTeamCountryCode");
+              var detailsUrlRaw = item.GetString("ItemPublisher:Item.Url");
+              var eta = Now - startTimeGmt;
+              var etaHours = eta.ToString("hh");
+              var etaMinutes = eta.ToString("mm");
+              var etaDays = eta.ToString("dd");
+              var daysElement = etaDays != "00" ? etaDays  + Translate("d") + " " : "";
+              var hoursElement = etaHours != "00" ? etaHours + Translate("h") + " " : "";
+			  var startsIn = "<span class='match-status__title'>" + Translate("Starts in") + "</span>" + " "+ daysElement + hoursElement + etaMinutes + Translate("m");
+              var status =  Now > startTimeGmt.AddMinutes(99) ? Translate("Ended") : Now < startTimeGmt ? startsIn : Translate("In play");
+            
+              
+                    <tr class="started">
+                        <td class="start-gmt-column">@startTimeGmt.ToString()</td>
+                        <td class="league-column">@competitionPhase</td>
+                      	<td class="stake-column">@group</td>
+                        <td class="match-column">
+                          <div class="row"><span class="flag-icon flag-icon-@(homeTeamCountryCode)"></span>  @homeTeam – @awayTeam <span class="flag-icon flag-icon-@(awayTeamCountryCode)"></span></div>
+                        </td>                        
+                      	<td class="odd-column"><a href="@detailsUrlRaw">@Translate("View predictions")</a></td>
+                        <td class="status-column">
+							<span class="match-status">
+								@status
+							</span>
+						</td>
+                    </tr>
+       		 }            
+            </tbody>
+        </table>
+</div>
+    </div>
+</section>

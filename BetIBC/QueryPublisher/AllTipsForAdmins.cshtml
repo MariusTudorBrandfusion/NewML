@@ -1,0 +1,230 @@
+﻿@using System
+@using System.Web
+@using System.Linq
+@{
+	DateTime _now = new DateTime();
+	_now = DateTime.UtcNow;
+	
+	var isOnTipsterPage = HttpContext.Current.Request.Params["Tipster"];
+	var _startDateParam =  HttpContext.Current.Request.Params["StartDate"];
+	DateTime _startDateRaw = _startDateParam != null && _startDateParam != "" ? DateTime.Parse(_startDateParam): _now;
+	var _startDate = _startDateRaw.ToString("yyyy-MM-ddThh:mm");
+	var _endDateParam = HttpContext.Current.Request.Params["EndDate"];
+	DateTime _endDateRaw = _endDateParam != null && _endDateParam != "" ? DateTime.Parse(_endDateParam):_now;
+	var _endDate = _endDateRaw.ToString("yyyy-MM-ddThh:mm");
+	var _tipsterName = isOnTipsterPage != "" && isOnTipsterPage != null ? isOnTipsterPage.Replace(" " , "+") : string.Empty;
+ 
+}
+
+
+
+<p>From: @_startDate To: @_endDate</p>
+
+<div id="PredictionsListForAdmins" data-tipster="@_tipsterName" data-startDate = "@_startDate" data-endDate="@_endDate">
+    @*<h4>Facet Groups @GetLoop("FacetGroups").Count()</h4>*@
+	@foreach (var facetGroup in GetLoop("FacetGroups"))
+	{
+		<div class="grid">
+            @foreach (var facet in facetGroup.GetLoop("Facets"))
+            {
+                <div class="grid__col-xs-6">
+                    Filter by: @facet.GetValue("Facet.Name")<br/>
+                    @*Facet.QueryParameter = @facet.GetValue("Facet.QueryParameter")<br />
+                        Facet.Field = @facet.GetValue("Facet.Field")<br />
+                        Facet.Type = @facet.GetValue("Facet.Type")<br />
+                        Facet.Value = @facet.GetValue("Facet.Value")<br />*@
+             
+                    <select id="TipsteSelector">
+                        <option value="">All Tipsters</option>
+                        @foreach (var opt in facet.GetLoop("FacetOptions"))
+                        {
+               
+                            var tipsterId = (string)opt.GetValue("FacetOption.Value");
+                  //var labelDecoded = labelRaw.Replace("%c3%a9", "e");
+                           //var label = labelDecoded.Replace("+", " ");
+                  Dynamicweb.Content.Items.Item tipster = Dynamicweb.Content.Items.ItemManager.Storage.GetById("Tipster", tipsterId);
+                  
+                 
+                      
+                                 <option value="@opt.GetValue("FacetOption.Value")" selected="@opt.GetValue("FacetOption.Selected")">@tipster["Tipster_Name"]</option>
+                              
+ 
+                        }
+                    </select>
+          <p>Current Tipster Status:<span id = "tipsterStatusPredictions"></span></p>
+                </div>
+            }
+			<hr>
+			@if (isOnTipsterPage != null && isOnTipsterPage != "")
+			 {
+				<div class="grid__col-xs-6">
+                     <label for="start">Start date:</label>
+                     <input type="datetime-local" id="StartAddedDateSelect" name="trip-start" value="">
+                     <label for="start">End date:</label>
+					<input type="datetime-local" id="EndAddedDateSelect" name="trip-start" value="">
+				</div>
+			 }
+		</div>
+	}
+
+	@*<h4>Parameters</h4>
+	<ul>
+		@foreach (var parameter in GetLoop("Parameters"))
+		{
+			<li>
+              
+				@parameter.GetValue("Name") = @parameter.GetValue("Value")
+			</li>
+		}
+	</ul>*@
+
+	@*<h4>QueryResult</h4>*@
+	<ul>
+		<li class="result-item">
+			<table>
+				<tr>
+					<th>Tipster</th>
+					<th>Tipster Email</th>
+					<th>Added Date</th>
+					<th>Placed on VIP</th>
+					<th>Match</th>
+					<th>Stake</th>
+					<th>Match status</th>
+					<th>Prediction status</th>
+				
+				</tr>
+				@{
+					DateTime now = new DateTime();
+					now = DateTime.UtcNow;
+				
+				foreach (var result in GetLoop("QueryResultItem"))
+				{
+					var tipsterNameRaw = result.GetString("Tips_Tipster_ID");
+					Dynamicweb.Content.Items.Item tipsterName = Dynamicweb.Content.Items.ItemManager.Storage.GetById("Tipster", tipsterNameRaw);
+					var tipsterEmail = result.GetValue("Tips_Tipster_Email");
+					var followOnVip = result.GetValue("Tips_FollowOn_VIP").ToString();
+					var predictionStake = result.GetValue("Tips_Stake");
+					var predictionStatus = result.GetValue("Tips_Prediction_Status");
+					var addedDate = result.GetValue("Tips_Date_Added");
+					var startGMT = result.GetString("Tips_Start_GMT");
+					DateTime startDate = DateTime.Parse(startGMT);
+					var endOfGameTime = startDate.AddMinutes(95);
+					var matchStatus = (now < endOfGameTime && now > startDate) ? "In Play" : now > endOfGameTime ? "Ended" : "Open for betting";
+					<tr>
+						<td>@tipsterName["Tipster_Name"]</td>
+						<td>@tipsterEmail</td>
+						<td>@addedDate</td>
+						<td>@followOnVip</td>
+						<td>@startGMT</td>
+						<td>@predictionStake</td>
+						<td>@matchStatus</td>
+						<td>@predictionStatus</td>
+						
+					</tr>
+
+
+				}
+			}
+			</table>
+		</li>
+	</ul>
+</div>
+<div id="productlistnavigation">
+    <span id="pagecount">
+        Page @GetValue("DwPaging.CurrentPage") of @GetValue("DwPaging.PageCount")
+    </span>
+    <span id="pagenavigation">
+	    @if(GetInteger("DwPaging.PageCount") > 1)
+	    {
+	    	if(GetInteger("DwPaging.CurrentPage") > 1)
+		    {
+		    	<a href="@GetValue("DwPaging.PreviousPageLink")">Previous</a>
+		    }
+		    if(GetInteger("DwPaging.CurrentPage") < GetInteger("DwPaging.PageCount"))
+		    {
+		    	<a href="@GetValue("DwPaging.NextPageLink")">Next</a>
+		    }
+	    }
+    </span>
+</div>
+
+
+@SnippetStart("ChangeUrl")
+<script type="text/javascript">
+
+  
+  
+  
+  
+  	$(function(){
+  		var _tipsterName = $("#PredictionsListForAdmins").attr("data-tipster");
+		var predictionStartDate = $("#PredictionsListForAdmins").attr("data-startDate");
+		var predictionEndDate = $("#PredictionsListForAdmins").attr("data-endDate");
+  		$("#TipsteSelector").val(_tipsterName);
+		$("#EndAddedDateSelect").val(predictionEndDate);
+		$("#StartAddedDateSelect").val(predictionStartDate);
+		})
+  
+  
+  	
+  
+        // bind change event to select
+        $('#TipsteSelector').on('change', function () {
+            var tipster = $(this).val();
+  			var updatedURL = updateQueryStringParameter(window.location.href , "Tipster" , tipster);
+  			window.location = updatedURL;
+  
+
+        });
+  
+  
+  		$("#EndAddedDateSelect").on("change" , function(){
+  			var predictionDate = $(this).val();
+			
+    		var updatedURL = updateQueryStringParameter(window.location.href , "EndDate" , predictionDate);
+  			window.location = updatedURL;
+		
+
+		  });
+  
+  
+   
+        // bind change event to select
+        $('#StartAddedDateSelect').on('change', function () {
+
+	        var predictionDate = $(this).val();
+	        
+  			var updatedURL = updateQueryStringParameter(window.location.href , "StartDate" , predictionDate);
+  			window.location = updatedURL;
+	       
+
+        });
+  
+  
+  
+function updateQueryStringParameter(uri, key, value) {
+    var re = new RegExp("([?&])" + key + "=.*?(&|#|$)", "i");
+    if( value === undefined ) {
+        if (uri.match(re)) {
+            return uri.replace(re, '$1$2');
+        } else {
+            return uri;
+        }
+    } else {
+        if (uri.match(re)) {
+            return uri.replace(re, '$1' + key + "=" + value + '$2');
+        } else {
+            var hash =  '';
+            if( uri.indexOf('#') !== -1 ){
+                hash = uri.replace(/.*#/, '#');
+                uri = uri.replace(/#.*/, '');
+            }
+            var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+            return uri + separator + key + "=" + value + hash;
+        }
+    }
+}
+  
+
+</script>
+@SnippetEnd("ChangeUrl")

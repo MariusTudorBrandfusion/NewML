@@ -1,0 +1,269 @@
+﻿@SnippetStart("BootstrapCss")
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+@SnippetEnd("BootstrapCss")
+
+
+@SnippetStart("BootstrapJs")
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+@SnippetEnd("BootstrapJs") 
+ 
+
+@{
+var ViewId = Pageview.CurrentParagraph.ModuleProperties.get_Value("ViewID"); 
+var rowsRaw = GetLoop("Rows");
+var myList = rowsRaw.OrderByDescending(row => row.GetValue("Start_GMT")).ToList();
+var rows = myList.Where(row => row.GetValue("Prediction_Title").ToString() != "");
+      var nextPage = GetString("DwPaging.NextPageLink");
+      var currentPage = GetString("DwPaging.CurrentPage"); 
+      var lastPage = GetString("DwPaging.PageCount");
+      var previousPage = GetString("DwPaging.PreviousPageLink");
+      
+}
+
+    
+<div class="form_wrapper" style="width: 100%;">
+            <div class="container">
+              <h1 class="text-center">@Translate("In Play Tips")</h1>
+                @*<div class="date_wrapper">
+                    <label for="date">Date @ViewId</label>
+                    <input type="date" name="datecalendar-from" id="datecalendar-from">
+                    <label for="date">To</label>
+                    <input type="date" name="datecalendar-to" id="datecalendar-to">
+                    <button class="button" type="">Filter</button>
+                </div>*@
+                      
+                      
+                      
+                <table class="main_table tips-in-play">
+                    <thead>
+                    <tr class="hidden">
+                        @foreach (LoopItem Column in GetLoop("Columns")){
+                            <td>
+                                @Column.GetValue("Column.Name")         
+                            </td>
+                        }
+                    </tr>
+                    <tr>
+
+                    <th>@Translate("Prediction Title","Prediction Title")</th>
+                    <th>@Translate("Description","Description")</th>
+                    <th>@Translate("Stake", "Stake")</th>
+                    <th>@Translate("Odds", "Odds")</th>
+                        <th>@Translate("Start GMT", "Start GMT") </th>
+                        <th>@Translate("League", "League")</th>
+                        <th>@Translate("Category", "Category")</th>
+                        <th>@Translate("Bookmaker Logo", "Bookmaker Logo")</th>
+                        <th>@Translate("Date Added", "Date Added")</th>
+                        <th>@Translate("Betting Prediction", "BEtting Prediction")</th>
+                        <th>@Translate("Turnament", "Turnament")</th>
+                        <th>@Translate("Tipster Email", "Tipster Email")</th>
+                        <th>@Translate("Bookmaker Name", "Bookmaker Name")</th>
+                        <th>@Translate("Follow on VIP", "Follow on VIP")</th>
+                        <th>@Translate("Mail Verification", "Mail Verification")</th>
+                        <th>@Translate("User ID", "User ID")</th>
+                        <th>@Translate("Add Final Score", "Add Final Score")</th>
+                   
+                    </tr>
+                    <tr class="hidden">
+                        <th>@Translate("Prediction Title","Prediction Title")</th>
+                        <th>@Translate("Description","Description")</th>
+                        <th>@Translate("Stake", "Stake")</th>
+                        <th>@Translate("Odds", "Odds")</th>
+                        <th>@Translate("Start GMT", "Start GMT") </th>
+                        <th>@Translate("League", "League")</th>
+                        <th>@Translate("Category", "Category")</th>
+                        <th>@Translate("Bookmaker Logo", "Bookmaker Logo")</th>
+                        <th>@Translate("Date Added", "Date Added")</th>
+                        <th>@Translate("Betting Prediction", "BEtting Prediction")</th>
+                        <th>@Translate("Turnament", "Turnament")</th>
+                        <th>@Translate("Tipster Email", "Tipster Email")</th>
+                        <th>@Translate("Bookmaker Name", "Bookmaker Name")</th>
+                        <th>@Translate("Follow on VIP", "Follow on VIP")</th>
+                        <th>@Translate("Mail Verification", "Mail Verification")</th>
+                        <th>@Translate("User ID", "User ID")</th>
+                        <th>@Translate("Add Final Score", "Add Final Score")</th>
+                        
+                    </tr>
+                    </thead>
+                    <tbody id="all-bets">
+			
+                    @foreach (LoopItem row in rows)
+                    {
+                       
+                        var rowId = row.GetInteger("Id");
+                        var rowName = "Id";
+                        var paramerter = "FORM_ROW_ID=" + rowName + "%3d" + rowId + "&VIEW_ID=" + ViewId;
+                        
+             
+                    
+                    <tr>     
+          
+                        <td>
+                            <div class="p-10">
+                                <div>@row.GetValue("Id")</div>
+                            </div>
+                        </td>
+                        <td>
+                             <div class="p-10">
+                                <div>@row.GetValue("Prediction_Title")</div>
+                             </div>
+                        </td>    
+                        <td>
+                            <div class="p-10">
+                               <div>@row.GetValue("Stake")</div>
+                            </div>
+                        </td>
+                            <td>
+                                <div class="p-10">
+                                    <div>@row.GetValue("Odds")</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="p-10">
+                                    <div>@row.GetValue("Start_GMT")</div>
+                                </div>
+                    </td> 
+                        <td>
+                    <div class="p-10">
+                                <div>@row.GetValue("League")</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-10">
+                                <div>@row.GetValue("Category")</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-10">
+                                <div><img src = '@row.GetValue("Bookmaker")'/></div>
+                            </div>
+                        </td>
+                        
+                        <td><div class="p-10">
+                            <div>@row.GetValue("Date_Added")</div>
+                        </div></td>
+                        <td><div class="p-10">
+                            <div>@row.GetValue("BettingPrediction")</div>
+                        </div></td>
+                        <td><div class="p-10">
+                            <div>@row.GetValue("Tournament")</div>
+                        </div></td>
+                       <td><div class="p-10">
+                                <div>@row.GetValue("Tipster_Email")</div>
+                          </div></td>
+                          <td><div class="p-10">
+                                <div>@row.GetValue("Bookmaker_Name")</div>
+                          </div></td>
+                       
+                            <td><div class="p-10">
+                                <div>@row.GetValue("FollowOn_VIP")</div>
+                          </div></td>
+                         <td><div class="p-10">
+                                <div>@row.GetValue("Mail_Verification")</div>
+                          </div></td>
+                          <td><div class="p-10">
+                                <div>@row.GetValue("User_ID")</div>
+                          </div></td>
+                        
+                        <td><div class="p-10"><a class="table-link" href="/Default.aspx?ID=30120&@(paramerter)">Add Final Score </a></div></td>
+                        @*
+                             <td>
+                            <div class="p-10">
+                                <div>@row.GetValue("ID")</div>
+                            </div>
+                        </td>
+                        <td>
+                             <div class="p-10">
+                                <div>@row.GetValue("Prediction_Title")</div>
+                             </div>
+                        </td>    
+                        <td>
+                            <div class="p-10">
+                               <div>@row.GetValue("Stake")</div>
+                            </div>
+                        </td>
+                            <td>
+                                <div class="p-10">
+                                    <div>@row.GetValue("Odds")</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="p-10">
+                                    <div>@row.GetValue("Start_GMT")</div>
+                                </div>
+                    </td> 
+                        <td>
+                    <div class="p-10">
+                                <div>@row.GetValue("League")</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-10">
+                                <div>@row.GetValue("Category")</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-10">
+                                <div>@row.GetValue("Bookmaker")</div>
+                            </div>
+                        </td>
+                        
+                        <td><div class="p-10">
+                            <div>@row.GetValue("Date_Added")</div>
+                        </div></td>
+                        <td><div class="p-10">
+                            <div>@row.GetValue("BettingPrediction")</div>
+                        </div></td>
+                        <td><div class="p-10">
+                            <div>@row.GetValue("Tournament")</div>
+                        </div></td>
+                       <td><div class="p-10">
+                                <div>@row.GetValue("Tipster_Email")</div>
+                          </div></td>
+                          <td><div class="p-10">
+                                <div>@row.GetValue("Bookmaker_Name")</div>
+                          </div></td>
+                       
+                            <td><div class="p-10">
+                                <div>@row.GetValue("FollowOn_VIP")</div>
+                          </div></td>
+                         <td><div class="p-10">
+                                <div>@row.GetValue("Mail_Verification")</div>
+                          </div></td>
+                          <td><div class="p-10">
+                                <div>@row.GetValue("User_ID")</div>
+                          </div></td>
+                        
+                        <td><div class="p-10"><a class="table-link" href="/Default.aspx?ID=15477&@(paramerter)">APPROVE</a></div></td>
+                       
+                         *@
+
+                    </tr>
+                      
+                      
+                    
+  
+                    }
+                       <tr class = "navigation-tips-in-play">
+                         
+                @if(currentPage != "1"){
+                         <td class = "before-page">
+                <a  href="@previousPage"><i class="fa fa-chevron-left"></i> Previous</a>
+                          </td>
+                }
+                     
+                      
+                @if(currentPage != lastPage){
+                         <td class = "after-page">
+                <a  href="@nextPage">Next <i class="fa fa-chevron-right"></i></a>
+                           </td>
+              }
+         
+              </tr>
+                     
+                    </tbody>
+                </table>
+             
+            </div>
+        </div>
+

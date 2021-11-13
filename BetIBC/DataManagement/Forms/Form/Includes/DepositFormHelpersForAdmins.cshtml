@@ -1,0 +1,181 @@
+@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using System.Web.Script.Serialization
+@using Dynamicweb.Frontend
+@using Dynamicweb.Forms
+@helper PaymentMethodsList(){
+    <option value="default" selected disabled>@Translate("Select","Select")</option>
+    <option value="Skrill" >Skrill</option>
+    <option value="Neteller">Neteller</option>
+    <option value="ecoPayz">ecoPayz</option>
+    <option value="BankTransfer">@Translate("Bank Transfer", "Bank Transfer")</option>
+    <option value="Cryptocurrency">@Translate("Cryptocurrency", "Cryptocurrency")</option>
+}
+@helper depositFormField(string inputID, string typeOfField, string inputType, string label, string fieldID, string value, string isReadOnly, string IsChecked, string MinVal, string Step, string isHidden, string isRequired)
+{
+    var isReadOnlyAttribute = isReadOnly != "" ? "readonly" : "";
+    var doNotShow = isHidden != "" ? "hidden" : "";
+    var check = IsChecked != "" ? "checked" : "";
+    //var emailInputPatern = "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/";
+    if (typeOfField == "input")
+    {
+        <div  class = "form-in @doNotShow " id="@inputID">
+            <span>@Translate(label, label)</span>
+            <input @isReadOnlyAttribute type="@inputType" id="@fieldID"  name="@fieldID" value="@value" />
+        </div>
+    }
+    if (typeOfField == "select")
+    {
+        <div class = "form-in @doNotShow" id="@inputID">
+            <span>@Translate(label, label)</span>
+            <select class="deposit-select" id="@fieldID" name="@fieldID" value="@value">
+  
+            </select>
+        </div>
+    }
+    if (typeOfField == "PaymentMethodSelect")
+    {
+        <div class = "form-in @doNotShow" id="@inputID">
+            <span>@Translate(label, label)</span>
+            <select id="@fieldID" name="@fieldID" value="" >
+               @PaymentMethodsList()
+            </select>
+        </div>
+    }
+    if (typeOfField == "number" )
+    {
+        <div class = "form-in @doNotShow" id="@inputID">
+            <span>@Translate(label, label)</span>
+            <input type="@inputType" min= @MinVal step="@Step" id=@fieldID name=@fieldID value="@value" />
+        </div>
+    }
+    if (typeOfField == "file")
+    {
+        <div class = "form-in" @doNotShow id="@inputID">
+            <span>@Translate(label, label)</span>
+            <input type="@inputType" id="@fieldID" name="@fieldID" value="" />
+        </div>
+    }
+    if (typeOfField == "checkbox")
+    {
+        <div class="form-in @doNotShow" id="@inputID">
+            <span>@Translate(label, label)</span>
+            <input type="@inputType" id="@fieldID" name="@fieldID" @check value=""/>
+        </div>
+    }
+    if (typeOfField == "email")
+    {	<div class="form-in @doNotShow" id="@inputID">
+            <span>@Translate(label, label)</span>
+            <input type="@inputType" id="@fieldID" name="@fieldID" @check value="" />
+        </div>
+        
+    }
+}
+@helper infoCell (string fieldName, string value)
+{
+    <li><span>@fieldName :</span> @GetString(value)</li>
+}
+@helper depositUserInfo()
+{
+    <section class="depositUserInfo">
+        <h3>
+         @Translate("User Info","User Info")
+         </h3>
+         <ul>
+            @infoCell("Bet-Ibc Username","Form.Fields.deposits_final_Username.Value")
+            @infoCell("First Name","Form.Fields.deposits_final_First_Name.Value")
+            <p>Trebuie adaugata toata informatia despre user</p>
+         </ul>
+     </section>
+}
+@helper depositBookmakerInfo()
+{
+    <section class="depositBookmakerInfo">
+        <h3>
+            @Translate("Bookmaker Info","Bookmaker Info")
+        </h3>
+        <ul>
+            @infoCell("Bookmaker","Form.Fields.deposits_final_Bookmaker.Value")
+            @infoCell("Username","Form.Fields.deposits_final_Bookmaker_Username.Value")
+            <p>Trebuie adaugata toata informatia despre bookmaker</p>
+        </ul>
+    </section> 
+}
+@helper paymentMethodUserFields(string paymentMethod)
+{
+     if (paymentMethod == "Skrill" || paymentMethod == "Neteller")
+     {
+      @infoCell("Payment Email Address" , "Form.Fields.deposits_final_Payment_Email_Address.Value")
+     }
+   
+    if (paymentMethod == "ecoPayz")
+    {
+        @infoCell("ecoPayz account number", "Form.Fields.deposits_final_Admin_Confirm_Ecopayz_account_number.Value")
+    }
+    if (paymentMethod == "Bank Transfer")
+    {
+        @infoCell("Bank Country","Form.Fields.deposits_final_Country.Value")
+        @infoCell("Bank City","Form.Fields.deposits_final_City.Value")
+        @infoCell("Bank Name","Form.Fields.deposits_final_Bank_Name.Value")
+        @infoCell("Bank Address", "Form.Fields.deposits_final_Bank_address.Value")
+        @infoCell("Swift", "Form.Fields.deposits_final_Swift.Value")
+        @infoCell("Iban","Form.Fields.deposits_final_IBAN.Value")
+    }
+    if (paymentMethod == "Cryptocurrency")
+    {
+        @infoCell("Cripto Wallet Id", "Form.Fields.deposits_final_Crypto_Wallet_id.Value")
+        @infoCell("Cripto Transaction Id", "Form.Fields.deposits_final_Crypto_transaction_ID.Value")
+    }
+
+}
+@helper paymentMethodAdminFields(string paymentMethod)
+{
+    if (paymentMethod == "Skrill" || paymentMethod == "Neteller")
+    {
+        @depositFormField("", "input", "email", "Payment Email Address", "deposits_final_Admin_Payment_email_address", GetString("Form.Fields.deposits_final_Payment_Email_Address.Value"), "", "", "", "", "", "")
+    }
+    if (paymentMethod == "ecoPayz")
+    {
+        @depositFormField("", "input", "text", "ecoPayz account number", "deposits_final_Admin_Ecopayz_account_number", GetString("Form.Fields.deposits_final_Ecopayz_account_number.Value"), "", "", "", "", "", "")
+    }
+    if (paymentMethod == "Bank Transfer")
+    {
+        @depositFormField("", "input", "text", "Bank Country", "deposits_final_Admin_country", GetString("Form.Fields.deposits_final_Country.Value"), "", "", "", "", "", "")
+        @depositFormField("", "input", "text", "Bank City", "deposits_final_Admin_city", GetString("Form.Fields.deposits_final_city.Value"), "", "", "", "", "", "")
+        @depositFormField("", "input", "text", "Bank Name", "deposits_final_Admin_bank_Name", GetString("Form.Fields.deposits_final_bank_Name.Value"), "", "", "", "", "", "")
+        @depositFormField("", "input", "text", "Bank Address", "deposits_final_Admin_bank_address", GetString("Form.Fields.deposits_final_bank_address.Value"), "", "", "", "", "", "")
+        @depositFormField("", "input", "text", "Swift", "deposits_final_Admin_Swift", GetString("Form.Fields.deposits_finalSwift.Value"), "", "", "", "", "", "")
+        @depositFormField("", "input", "text", "Iban", "deposits_final_Admin_IBAN", GetString("Form.Fields.deposits_final_IBAN.Value"), "", "", "", "", "", "")
+    }
+    if (paymentMethod == "Cryptocurrency")
+    {
+        @depositFormField("", "input", "text", "Cripto Wallet Id", "deposits_final_Admin_Crypto_Wallet_ID", GetString("deposits_final_Crypto_Wallet_ID.Value"), "", "", "", "", "", "")
+        @depositFormField("", "input", "text", "Cripto Transaction Id", "deposits_final_Admin_Crypto_transaction_ID", GetString("deposits_final_Crypto_transaction_ID.Value"), "", "", "", "", "", "")
+    }
+    
+}
+@helper depositUserPaymentInfo(string paymentMethod)
+{
+    <section class="depositUserPaymentInfo">
+        <h3>
+            @Translate("User added Payment Info","User Added Payment Info")
+        </h3>
+        <ul>
+            @infoCell("Payment Method","Form.Fields.deposits_final_Payment_method.Value")
+            @infoCell("Amount","Form.Fields.deposits_final_Ammount_to_be_deposited.Value")
+            @infoCell("Deposit Currency", "Form.Fields.deposits_final_Deposit_currency.Value")
+            @paymentMethodUserFields(paymentMethod)
+        </ul>
+    </section> 
+}
+@helper paymentMethodAdminFormFields(string paymentMethod)
+{
+    @infoCell("Payment Method" , "Form.Fields.deposits_final_Payment_method.Value")
+    @depositFormField("ammountToBeDepositedAdmin", "input", "number", "Ammount to be deposited", "deposits_final_Admin_ammount_to_be_deposited", GetString("Form.Fields.deposits_final_Ammount_to_be_deposited.Value"), "", "", "", "", "", "")
+    @depositFormField("", "input", "text", "Deposit currency", "deposits_final_Admin_Deposit_currency", "Trebuie creata coloana in baza de date ", "", "", "", "", "", "")
+    @paymentMethodAdminFields(paymentMethod)
+    @depositFormField("screenshot", "input", "file", "Admin Screenshot of the transfer", "deposits_final_Admin_Screenshot_of_the_transfer", "", "", "", "", "", "", "")
+    @depositFormField("screenshot", "input", "file", "Screenshot of the transfer", "deposits_final_Screenshot", GetString("Form.Fields.deposits_final_Screenshot"), "", "", "", "", "hidden", "")
+}

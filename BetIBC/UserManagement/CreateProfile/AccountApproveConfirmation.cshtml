@@ -1,0 +1,137 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+
+@using Dynamicweb.Rendering;
+@MasterPageFile("../../EmailMaster.cshtml")
+@Include("../../EmailHelpers.cshtml")
+
+<table bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" width="500" id="emailBody">
+	@RenderHeaderSection()
+	@RenderMessage()
+	@RenderFooterSection()
+</table>
+
+@* CONTENT HELPERS *@
+
+@helper RenderHeaderSection()
+{
+	@RenderHeaderImage();
+}
+
+@helper RenderMessage()
+{
+	var bookmakerName = "";
+	var currency = "";
+	if(GetString("UserManagement:User.AccessUser_Payment_Method_Bank_Transfer") == "True")
+	{
+		 bookmakerName = "Bank Transfer";
+
+	}
+	if(GetString("UserManagement:User.AccessUser_Payment_Method_Bitcoin") == "True")
+	{
+		bookmakerName = "Cryptocurrency";
+	
+	}
+	if(GetString("UserManagement:User.AccessUser_Payment_Method_EcoPayz") == "True")
+	{
+		 bookmakerName = "EcoPayz";
+
+	}
+	if(GetString("UserManagement:User.AccessUser_Payment_Method_Skrill") == "True")
+	{
+		 bookmakerName = "Skrill";
+
+	}
+	if(GetString("UserManagement:User.AccessUser_Payment_Method_Neteller") == "True")
+	{
+		 bookmakerName = "Neteller";
+  
+	}
+	if (bookmakerName == "Skrill")
+	{
+		if (GetString("UserManagement:User.Department") == "Euro")
+		{
+			currency = (string)Pageview.Area.Item["Skrill_Euro"];
+		}
+		if (GetString("UserManagement:User.Department") == "Dollar")
+		{
+currency = (string)Pageview.Area.Item["Skrill_USD"];
+			
+		}
+		if (GetString("UserManagement:User.Department") == "SGD")
+		{
+			currency = (string)Pageview.Area.Item["Skrill_SDG"];
+		}
+		if (GetString("UserManagement:User.Department") == "GBP")
+		{
+currency = (string)Pageview.Area.Item["Skrill_GBP"];
+	
+		}
+		if (GetString("UserManagement:User.Department") == "MYR")
+		{
+currency = (string)Pageview.Area.Item["Skrill_MYR"];
+			
+		}else
+		{
+currency = (string)Pageview.Area.Item["Skrill_Euro"];
+	
+		}
+	}
+	if (bookmakerName == "Neteller")
+	{
+		if (GetString("UserManagement:User.Department") == "Euro")
+		{
+currency = (string)Pageview.Area.Item["Neteller_Euro"];
+			
+		}
+		if (GetString("UserManagement:User.Department") == "Dollar")
+		{
+currency = (string)Pageview.Area.Item["Neteller_USD"];
+		
+		}
+		else
+		{
+currency = (string)Pageview.Area.Item["Neteller_Euro"];
+			
+		}
+		
+	}
+
+	Column message = new Column();
+	message.subheader = Translate("Account approve");
+	message.text.Add("");
+	message.text.Add(Translate("Dear") + " " + GetString("UserManagement:User.FirstName") + ", ");
+	message.text.Add("");
+	message.text.Add(Translate("Your BET-IBC account is now active, you can login anytime to check the status of your account(s)."));
+	message.text.Add(Translate("You signed up for a") + " " + GetString("UserManagement:User.Company") + ", " + Translate("account, in order to get started an initial deposit is required.") );
+if(GetString("UserManagement:User.Company") == "Sbobet"){
+    message.text.Add(Translate("On VIP-IBC you will be able to bet on the odds offered by the top Asian bookmakers, including " + GetString("UserManagement:User.Company") + "."));
+}
+if(GetString("UserManagement:User.Company") == "PS3838"){
+    message.text.Add(Translate("On VIP-IBC you will be able to bet on the odds offered by the top Asian bookmakers, including " + GetString("UserManagement:User.Company") + "."));
+}
+if(GetString("UserManagement:User.Company") == "Betisn"){
+    message.text.Add(Translate("On VIP-IBC you will be able to bet on the odds offered by the top Asian bookmakers, including " + GetString("UserManagement:User.Company") + "."));
+}
+if(GetString("UserManagement:User.AccessUser_Payment_Method_EcoPayz") == "True"){
+message.text.Add((string)Pageview.Area.Item["Ecopayz"]);
+}
+if(GetString("UserManagement:User.AccessUser_Payment_Method_Bank_Transfer") == "True"){
+message.text.Add((string)Pageview.Area.Item["Bank_Transfers"]);
+}
+if(GetString("UserManagement:User.Access.User_Payment_Method_Bitcoin") == "True"){
+message.text.Add((string)Pageview.Area.Item["Cryprocurrency"]);
+}
+if(currency != ""){
+       message.text.Add(Translate("Send your deposit via") + " " + bookmakerName + " to " + currency);
+}
+
+
+	
+	message.text.Add(Translate("If you have any questions, contact us via live chat, Skype: help.bet-ibc or simply reply to this email. "));
+	message.text.Add("");
+	message.text.Add(Translate("Best regards,"));
+	message.text.Add("BET-IBC");
+
+	@CreateRow(message);
+        
+}

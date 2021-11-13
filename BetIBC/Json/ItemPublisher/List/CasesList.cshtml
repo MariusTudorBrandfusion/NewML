@@ -1,0 +1,80 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Web;
+
+@{ 
+    string selectedSolutionType = HttpContext.Current.Request.QueryString.Get("SolutionType");
+}
+
+@functions {
+
+    public class Case
+    {
+        public string id { get; set; }
+        public string title { get; set; }
+        public string image { get; set; }
+        public string summary { get; set; }
+        public string link { get; set; }
+    }
+
+    public class SolutionType
+    {
+        public string id { get; set; }
+        public string title { get; set; }
+    }
+
+    public class Root
+    {
+        public List<Case> Cases { get; set; }
+        public string selectedSolutionType { get; set;  }
+        public List<SolutionType> SolutionTypes { get; set; }
+    }
+}
+
+@{
+    List<Root> feedObject = new List<Root>();
+
+    Root feedRoot = new Root();
+    feedRoot.Cases = new List<Case>();
+
+    foreach (LoopItem caseItem in GetLoop("ItemPublisher:Items.List"))
+    {
+        Case caseObject = new Case();
+        caseObject.id = caseItem.GetString("ItemPublisher:Item.Field.Id");
+        caseObject.title = caseItem.GetString("ItemPublisher:Item.Title");
+        caseObject.image = caseItem.GetString("ItemPublisher:Item.Image");
+        caseObject.summary = caseItem.GetString("ItemPublisher:Item.Summary");
+        caseObject.link = "/Default.aspx?ID=" + caseItem.GetString("ItemPublisher:Item.Field.PageId");
+
+        feedRoot.Cases.Add(caseObject);
+    }
+
+    feedRoot.selectedSolutionType = Translate("All");
+    feedRoot.SolutionTypes = new List<SolutionType>();
+
+    SolutionType solutionTypeObjectAll = new SolutionType();
+    solutionTypeObjectAll.id = "";
+    solutionTypeObjectAll.title = Translate("All");
+
+    feedRoot.SolutionTypes.Add(solutionTypeObjectAll);
+
+    var solutionFields = GetLoop("ItemPublisher:ItemType.Fields").FirstOrDefault((item) => item.GetString("ItemPublisher:ItemType.Field.SystemName") == "SolutionType");
+
+    foreach (var solutionOptions in solutionFields.GetLoop("ItemPublisher:ItemType.Field.Options"))
+    {
+        SolutionType solutionTypeObject = new SolutionType();
+        solutionTypeObject.id = solutionOptions.GetString("ItemPublisher:ItemType.Field.Option.Value");
+        solutionTypeObject.title = solutionOptions.GetString("ItemPublisher:ItemType.Field.Option.Label");
+
+        feedRoot.SolutionTypes.Add(solutionTypeObject);
+
+        if (selectedSolutionType == solutionOptions.GetString("ItemPublisher:ItemType.Field.Option.Value")) {
+            feedRoot.selectedSolutionType = solutionOptions.GetString("ItemPublisher:ItemType.Field.Option.Label");
+        }
+    }
+
+    feedObject.Add(feedRoot);
+
+    string jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+}
+
+@jsonFeed

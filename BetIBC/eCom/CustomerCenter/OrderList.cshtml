@@ -1,0 +1,175 @@
+@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@using Dynamicweb.Frontend.Devices
+@using System.Web
+
+@{
+    string pid = GetString("Ecom:CustomerCenter.PID");
+    string pageId = GetGlobalValue("Global:Page.ID");
+    string sortBy = HttpContext.Current.Request.QueryString.Get("CCOrderByField46");
+    string sortOrder = HttpContext.Current.Request.QueryString.Get("CCSortOrder46");
+    string sortSelected = "";
+    int detailsPageID = GetPageIdByNavigationTag("OrderDetails");
+}
+
+@if (string.IsNullOrWhiteSpace(GetString("Ecom:CustomerCenter.Orders.EmptyList")))
+{
+    <div class="grid__col-12 grid__col--bleed">
+        <div class="grid__cell">
+            <div class="u-pull--left">
+                <h2><i class="fa fa-list"></i> @GetGlobalValue("Global:Page.Name")</h2>
+            </div>
+            <div class="u-pull--right">
+                <a href="/Admin/Public/CustomerCenter/ExcelExport.aspx" class="btn btn--condensed dw-mod"><i class="fa fa-download"></i></a>
+                <label class="btn btn--condensed" for="SearchFormTrigger"><i class="fa fa-search"></i></label>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid__col-12 grid__col--bleed-y">
+        <input type="checkbox" id="SearchFormTrigger" class="expand-trigger" />
+
+        <div class="expand-container">
+            <div class="expand-container__content">
+                 @GetString("Ecom:CustomerCenter.Search")
+            </div>
+
+            <label class="btn btn--secondary btn--full less dw-mod" for="SearchFormTrigger">@Translate("Close search") <i class="fa fa-caret-up"></i></label>
+        </div>
+    </div>
+
+    foreach (LoopItem order in GetLoop("Orders"))
+    {
+        <div class="grid__col-12 grid__col--border grid__col--bleed-x">
+            <div class="grid">
+                <div class="grid__col-md-3 grid__col-xs-12 grid__col--bleed-y">
+                    <div><a href="#" onclick="GetSelectedOrder(this)" id="@order.GetString("Ecom:Order.ID")" class="u-bold" data-print-link="@order.GetString("Ecom:CustomerCenter.Orders.PrintOrderURL")">@Translate("Date"): @order.GetString("Ecom:Order.Date").Substring(0, 10)</a></div>
+                </div>
+                <div class="grid__col-md-4 grid__col-xs-12 grid__col--bleed-y">
+                    <div><a href="#" onclick="GetSelectedOrder(this)" id="@order.GetString("Ecom:Order.ID")" class="u-bold" data-print-link="@order.GetString("Ecom:CustomerCenter.Orders.PrintOrderURL")">@Translate("Order ID"): @order.GetString("Ecom:Order.ID")</a></div>
+                    <div>@Translate("Order state"): @order.GetString("Ecom:Order:Orderstate.Name")</div>
+                    <div>@Translate("Payment"): @order.GetString("Ecom:Order.PaymentMethod")</div>
+                    <div>@Translate("Shipping"): @order.GetString("Ecom:Order.ShippingMethod")</div>
+                </div>
+                <div class="grid__col-md-5 grid__col-xs-12 grid__col--bleed-y">
+                    <div class="grid__cell">
+                        <div class="u-pull--right">
+                            <a href="@order.GetString("Ecom:CustomerCenter.Orders.PrintOrderURL")" target="_blank" class="btn btn--secondary btn--condensed dw-mod" title="@Translate("Print")"><i class="fa fa-print"></i></a>
+                            <a href="@order.GetString("Ecom:Order.ReorderID")" class="btn btn--secondary btn--condensed dw-mod" title="@Translate("Reorder")"><i class="fa fa-cart-plus"></i></a>
+                        </div>
+                    </div>
+                    <div class="grid__cell-footer">
+                        <div class="grid__cell">
+                            <div class="u-pull--right">
+                                @Translate("Total price"): <span class="price">@order.GetString("Ecom:Order.OrderLines.Total.Price")</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    if (!string.IsNullOrWhiteSpace(GetString("Ecom:CustomerCenter.Orders.Paging.Show")))
+    {
+        <div class="u-pull--left">
+            @Translate("Page") @GetString("Ecom:CustomerCenter.Paging.CurrentPage") @Translate("of") @GetString("Ecom:CustomerCenter.Paging.NumPages")
+        </div>
+        <div class="u-pull--right">
+            <ul class="pager">
+                @if (!string.IsNullOrWhiteSpace(GetString("Ecom:CustomerCenter.Paging.Back.URL")))
+                {
+                <li class="pager__btn">
+                    <a href="@GetString("Ecom:CustomerCenter.Paging.Back.URL")"><i class="fa fa-angle-left"></i></a> 
+                </li>  
+                }
+
+                @if (!string.IsNullOrWhiteSpace(GetString("Ecom:CustomerCenter.Paging.HasPages")))
+                {
+                    foreach (LoopItem page in GetLoop("Ecom:CustomerCenter.Paging.Pages"))
+                    {
+                        string activeClass = page.GetString("Ecom:CustomerCenter.Paging.PageClass") == "currentPage" ? "pager__btn--current" : "";
+                        <li class="pager__btn @activeClass">
+                            <a class="@page.GetString("Ecom:CustomerCenter.Paging.PageClass")" href="@page.GetString("Ecom:CustomerCenter.Paging.PageIndexUrl")">
+                                @page.GetString("Ecom:CustomerCenter.Paging.PageIndex")
+                            </a>                                                                
+                        </li>
+                    }                                                                                                                                                                                                           <text></text>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(GetString("Ecom:CustomerCenter.Paging.Forward.URL")))
+                {
+                    <li class="pager__btn">
+                        <a href="@GetString("Ecom:CustomerCenter.Paging.Forward.URL")" class="pager--current"><i class="fa fa-angle-right"></i></a>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+}
+else
+{
+    <div class="grid__col-12 grid__col--bleed">
+        <div class="grid__cell">
+            <div class="u-pull--left">
+                <h2><i class="fa fa-list"></i> @GetGlobalValue("Global:Page.Name")</h2>
+                @Translate("No orders found", "No orders found")
+            </div>
+        </div>
+    </div>
+}
+
+
+@* Escape the grid, container and section *@
+</div>
+</div>
+</section>
+</div>
+@* ----------------------------------- *@
+
+<!-- Trigger for the order modal -->
+<input type="checkbox" id="order-modal-trigger" class="modal-trigger" />
+
+<div class="modal-container">
+    <div class="modal-tools">
+        <a id="orderPrintBtn" href="#" class="btn btn--clean btn--condensed u-color-light"><i class="fa fa-print"></i></a>
+        <a id="orderDownloadBtn" href="#" class="btn btn--clean btn--condensed u-color-light" download><i class="fa fa-download"></i></a>
+    </div>
+
+    <label for="order-modal-trigger" id="order-modal-overlay" class="modal-overlay"></label>
+
+    <div class="modal modal--iframe modal--lg" id="order-modal">
+        <iframe id="orderIframe" src=""></iframe>
+    </div>
+</div>
+
+@* Re-enter the grid, container and section *@
+<div class="site-container dw-mod">
+<section class="content-container page-container dw-mod">
+<div class="grid">
+<div class="grid grid--outer-bleed product">
+@* ----------------------------------- *@
+
+
+<script>
+    function GetSelectedOrder(order) {
+        event.preventDefault();
+
+        window.scroll(0, 0);
+
+        document.body.classList.add("u-overflow-hidden");
+
+        document.getElementById("orderPrintBtn").setAttribute("href", order.getAttribute("data-print-link"));
+        document.getElementById("orderDownloadBtn").setAttribute("href", "/Default.aspx?ID=@detailsPageID&CC46=Order&CC56=Order&OrderID=" + order.getAttribute("id") + "&pdf=true");
+
+        document.getElementById("orderIframe").setAttribute("src", "");
+        document.getElementById("order-modal-trigger").checked = true;
+        document.getElementById("orderIframe").setAttribute("src", "/Default.aspx?ID=@detailsPageID&CC46=Order&CC56=Order&OrderID=" + order.getAttribute("id"));
+    }
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        document.getElementById("order-modal-overlay").addEventListener('click', function (event) {
+            document.body.classList.remove("u-overflow-hidden");
+        }, false);
+    });
+</script>

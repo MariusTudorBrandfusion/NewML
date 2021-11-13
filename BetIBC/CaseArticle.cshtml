@@ -1,0 +1,223 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+@MasterPageFile("Master.cshtml")
+@using System.Text.RegularExpressions
+
+@*This is an example implementation of a Case template. 
+ You may want to re-configure the itemtype and adjust this template to the specific needs. *@
+
+@{ 
+    string fullBackgroundImage = "";
+    if (Model.Item.GetFile("Image") != null)
+    {
+        fullBackgroundImage = "background-image:url(/Admin/Public/GetImage.ashx?width=2500&amp;height=1100&amp;crop=1&amp;Compression=90&amp;image=" + Model.Item.GetFile("Image").Path + ");";
+    }
+
+    string caseListPageId = GetPageIdByNavigationTag("CasesListFeed").ToString();
+    string solutionTypes = "";
+    string solutionTypesValues = "";
+    string partnerLink = Model.Item.GetItem("PartnerLink") != null ? Model.Item.GetItem("PartnerLink").PageID.ToString() : ""; //This solution is wrong. We need the Item PageId here.
+}
+
+<div class="grid article">                                                                         
+
+    @* Escape the container and section *@
+    </div>
+    </section>
+    @* ----------------------------------- *@
+
+    <section class="multiple-paragraphs-container u-color-light" style="@fullBackgroundImage">
+        <div class="center-container center-container--with-background-image dw-mod">
+            <div class="grid center-container--with-background-image">
+                <div class="grid__col-md-12 grid__col-xs-12 paragraph-container" style="">
+                    <div class="u-ta-center u-middle">
+                        <div>
+                            <h1 class="article__header article__header--giant">@Model.Item.GetString("BannerHeading")</h1>
+                            <div class="article__subheader article__subheader--giant">@Model.Item.GetString("BannerSubheading")</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @* Re-enter the container and section *@
+    <section class="content-container center-container dw-mod">
+    <div class="grid">
+    @* ----------------------------------- *@
+
+    <div class="grid__col-12"></div>
+
+    @* The descriptions *@
+    <article class="grid__col-md-8">
+        <h2 class="article__header">@Translate("Challenge")</h2>
+        <div class="article__paragraph">@Model.Item.GetString("Challenge")</div>
+
+        <h2 class="article__header">@Translate("Dynamicweb as a solution")</h2>
+        <div class="article__paragraph">@Model.Item.GetString("Solution")</div>
+
+        <h2 class="article__header">@Translate("Results")</h2>
+        <div class="article__paragraph">@Model.Item.GetString("Results")</div>
+
+        @* Quote *@
+        @if (!String.IsNullOrEmpty(Model.Item.GetString("QuoteDescription")))
+        {
+            <div class="grid article__block">
+                <div class="grid__col-auto">
+                    @if (Model.Item.GetFile("QuoteImage") != null)
+                    {
+                        <div class="grid__cell-img grid__cell-img--centered">
+                            <img src="/Admin/Public/GetImage.ashx?width=160&amp;height=160&amp;crop=&amp;Compression=90&amp;image=@Model.Item.GetFile("QuoteImage").Path" class="article__image article__image--ball" />
+                        </div>
+                    }
+                </div>
+                <div class="grid__col-md-8">
+                    <div class="article__summary u-color-light-gray u-italic"> 
+                        "@Model.Item.GetString("QuoteDescription")"
+                    </div>
+                    <div>
+                        - @Model.Item.GetString("QuoteAuthor")
+                    </div>
+                </div>
+            </div>
+        }
+    </article>
+
+    @* Customer informations *@
+    <div class="grid__col-md-4">
+        @if (Model.Item.GetFile("CustomerLogo") != null) {
+            <img src="/Admin/Public/GetImage.ashx?width=300&amp;crop=5&amp;Compression=90&amp;image=@Model.Item.GetFile("CustomerLogo").Path" class="article-image" />
+        }
+
+        <table class="table">
+            @if (!String.IsNullOrEmpty(Model.Item.GetString("CustomerCompanyName"))) {
+                <tr>
+                    <td width="32"><i class="fa fa-user fa-2x u-brand-color-two"></i></td>
+                    <td>
+                        <div class="u-bold">@Translate("Client")</div>
+                        <div>@Model.Item.GetString("CustomerCompanyName")</div>
+                    </td>
+                </tr>
+            }
+            @if (!String.IsNullOrEmpty(Model.Item.GetString("CustomerLocation"))) {
+                <tr>
+                    <td width="32"><i class="fa fa-globe fa-2x u-brand-color-two"></i></td>
+                    <td>
+                        <div class="u-bold">@Translate("Location")</div>
+                        <div>@Model.Item.GetString("CustomerLocation")</div>
+                    </td>
+                </tr>
+            }
+            @if (!String.IsNullOrEmpty(Model.Item.GetString("CustomerIndustry"))) {
+                <tr>
+                    <td width="32"><i class="fa fa-building fa-2x u-brand-color-two"></i></td>
+                    <td>
+                        <div class="u-bold">@Translate("Industry")</div>
+                        <div>@Model.Item.GetString("CustomerIndustry")</div>
+                    </td>
+                </tr>
+            }
+            @if (Model.Item.GetList("SolutionType") != null) {
+                <tr>
+                    <td width="32"><i class="fa fa-gear fa-2x u-brand-color-two"></i></td>
+                    <td>
+                        <div class="u-bold">@Translate("Functionality")</div>
+                        <div>
+                            @{ 
+                                int count = 0;
+
+                                foreach (var type in Model.Item.GetList("SolutionType").SelectedOptions)
+                                {
+                                    if (count > 0) {
+                                        solutionTypes += ", ";
+                                        solutionTypesValues += ", ";
+                                    }
+
+                                    solutionTypes += type.Name;
+                                    solutionTypesValues += type.Value;
+
+                                    count++;
+                                }
+                            }
+                            @solutionTypes
+                        </div>
+                    </td>
+                </tr>
+            }
+            @if (!String.IsNullOrEmpty(Model.Item.GetString("CustomerWebsiteUrl"))) {
+                <tr>
+                    <td width="32"><i class="fa fa-desktop fa-2x u-brand-color-two"></i></td>
+                    <td>
+                        <div class="u-bold">@Translate("Website")</div>
+                        <a href="@Model.Item.GetString("CustomerWebsiteUrl")">@Model.Item.GetString("CustomerWebsiteUrl")</a>
+                    </td>
+                </tr>
+            }
+            
+            @if (Model.Item.GetItem("PartnerLink") != null) {
+                <tr>
+                    <td width="32"><i class="fa fa-address-card fa-2x u-brand-color-two"></i></td>
+                    <td>
+                        <div class="u-bold">@Translate("Client")</div>
+                        <a href="/Default.aspx?ID=@partnerLink">@Model.Item.GetItem("PartnerLink").GetString("PartnerName")</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    @* Images *@
+    <div class="grid__col-md-12">
+
+    </div>
+
+    @* Related cases *@
+    @* Escape the container and section *@
+    </div>
+    </section>
+    @* ----------------------------------- *@
+
+    <section class="multiple-paragraphs-container u-color-light-gray--bg">
+        <div class="center-container dw-mod">
+            <div class="grid">
+                <div class="grid__col-md-12 grid__col-xs-12 paragraph-container">
+                    <h1 class="article__header u-no-margin">@Translate("Similar cases")</h1>
+                </div>
+            </div>
+
+            <div class="js-ajax-container" id="RelatedCases" data-template="RelatedCasesTemplate" data-json-feed="/Default.aspx?ID=@caseListPageId&SolutionType=@solutionTypesValues"></div>
+    
+            <script id="RelatedCasesTemplate" type="text/x-template">
+                <div class="grid u-no-margin" id="Cases" data-template="CasesTemplate" ></div>
+            </script>
+
+            <script id="CasesTemplate" type="text/x-template">
+                <div class="grid__col-md-3 grid__col-sm-3 grid__col-xs-12">
+                    <div class="u-ta-center paragraph-card">
+                        <div class="u-margin-bottom">
+                            <a href="{{link}}">
+                                <img class="grid__cell-img grid__cell-img--centered" src="/Admin/Public/GetImage.ashx?width=992&amp;height=760&amp;crop=5&amp;Compression=75&amp;DoNotUpscale=True&amp;image={{image}}" alt="{{title}}">
+                            </a>
+                        </div>
+
+                        <a href="{{link}}">
+                            <h2 class="u-no-margin u-margin-bottom">{{title}}</h2>
+                        </a>
+
+                        <p>{{summary}}</p>
+                    </div>
+                    <div class="grid__cell-footer grid--justify-center paragraph-card-footer">
+                        <div class="u-margin-top u-margin-bottom">
+                            <a href="{{link}}" class="btn btn--secondary btn--line-height dw-mod">@Translate("Read more")</a>
+                        </div>
+                    </div>
+                </div>
+            </script>
+        </div>
+    </section>
+
+    @* Re-enter the container and section *@
+    <section class="content-container center-container dw-mod">
+    <div class="grid">
+    @* ----------------------------------- *@
+
+</div>

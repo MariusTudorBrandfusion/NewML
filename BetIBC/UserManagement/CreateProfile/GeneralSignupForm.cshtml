@@ -1,0 +1,204 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Linq;
+
+@{
+ 	int termsPageId = GetPageIdByNavigationTag("TermsConditions");
+    string pageId = GetGlobalValue("Global:Page.ID");
+	string userLanguage = GetGlobalValue("Global:Area.ID").ToString();
+
+    var errorsByFieldName = GetLoop("FormValidationErrors").GroupBy(x => x.GetString("UserManagement:User.FormValidationError.FieldName"), x => x.GetString("UserManagement:User.FormValidationError.Message"));
+	string pageName = GetGlobalValue("Global:Page.Name") == "Best Betting Exchange" ? "9Wickets" : GetGlobalValue("Global:Page.Name");
+    string pageNameToDisplay = GetGlobalValue("Global:Page.Name");
+	string CampCurrency = pageName == "Maxbet" ? "CustomField.AccessUser_AccessUser_Currency_for_Maxbet" : pageName == "PS3838" ? "CustomField.AccessUser_AccessUser_Currency_for_Pinnacle" : pageName == "Sbobet" ? "CustomField.AccessUser_AccessUser_Currency_for_SboBet" : pageName == "VIP" ? "CustomField.AccessUser_AccessUser_Currency_for_VIP" : pageName == "Matchbook" ? "CustomField.AccessUser_AccessUser_Currency_for_Matchbook": pageName == "Betisn" ? "CustomField.AccessUser_AccessUser_Currency_for_BetISN": pageName == "TURF7" ? "CustomField.AccessUser_AccessUser_Currency_for_Turf7" : pageName == "9Wickets" ? "CustomField.AccessUser_AccessUser_Currency_for_9Wickets" : pageName == "Betfair" ? "CustomField.AccessUser_AccessUser_Currency_for_Betfair" : "";
+	string  tagCurrencyRaw = pageName == "Maxbet" ? "UserManagement:User.Currency_for_Maxbet" : pageName == "PS3838" ? "UserManagement:User.Currency_for_Pinnacle" : pageName == "Sbobet" ? "UserManagement:User.Currency_for_SboBet" : pageName == "VIP" ? "UserManagement:User.Currency_for_VIP" : pageName == "Matchbook" ? "UserManagement:User.Currency_for_Matchbook" : pageName == "Betisn" ? "UserManagement:User.Currency_for_BetISN": pageName == "TURF7" ? "UserManagement:User.Currency_for_Turf7" : pageName == "9Wickets" ? "UserManagement:User.Currency_for_9Wickets" : pageName == "Betfair" ? "UserManagement:User.Currency_for_Betfair" : "";
+	string tagCurrency = GetString(tagCurrencyRaw);
+	string ListCurrency = pageName == "Maxbet" ? "<option>Euro</option><option>Dollar</option><option>SGD</option><option>MYR</option>" : pageName == "PS3838" ? "<option>Euro</option><option>GBP</option><option>USD</option>" : pageName == "Sbobet" ? " <option>Euro</option>" : pageName == "VIP" ? " <option>Euro</option><option>Dollar</option><option>GBP</option><option>MYR</option><option>SGD</option><option>CNY</option><option>HKD</option><option>TWD</option><option>KRW</option><option>IDR</option><option>AUD</option><option>NOK</option><option>SEK</option>" : pageName == "Matchbook" ? "<option>Euro</option>" : pageName == "Betisn" ? "<option>Euro</option>": pageName == "TURF7" ? "<option>Euro</option>" : pageName == "9Wickets" ? "<option>Euro</option>" : pageName == "Betfair" ? "<option>Euro</option>" : pageName == "Skype Betting" ? "<option>Euro</option><option>USD</option>":"<option>Euro</option>";
+    var IP = System.Web.HttpContext.Current.Request.UserHostAddress;
+}
+
+@helper  DisplayErrors(IEnumerable<IGrouping<string, string>> errorsByFieldName, string fieldName)
+{
+    var errors = errorsByFieldName.FirstOrDefault(x => x.Key == fieldName);
+    if (errors != null)
+    {
+        foreach (string error in errors)
+        {
+                <div class="field-error">@error</div>
+        }
+    }
+}
+
+
+<div class="paragraph-container__grid--bleed sign-up-form">
+    <div class="grid grid--justify-center">
+        <div class="grid__col-md-6 grid__col--bleed">
+            <h2 class="u-no-margin u-margin-bottom u-margin-top text-left">@Translate("Create user account") - @pageNameToDisplay</h2>
+          
+
+
+            <form name="UserManagementEditForm" id="UserManagementEditForm" method="post" action="/Default.aspx?ID=@pageId">
+                <input type="hidden" name="UserManagementForm" value="1">
+				<input type="hidden" name="UserManagement_Form_Name" id="UserManagement_Form_Name" value="@GetString("UserManagement:User.Name")"  />
+                <input type="hidden" name="UserManagement_Form_Company" id="UserManagement_Form_Company" value="@pageName"  />
+                <input type="hidden" name="CustomField.AccessUser_AccessUser_User_Culture" id="CustomField.AccessUser_AccessUser_User_Culture" value="@userLanguage">
+                <input name="UserManagement_Form_EmailAllowed_ApplyValue" type="hidden" id="UserManagement_Form_EmailAllowed_ApplyValue" value="AllowEmail">
+                <input name="UserManagement_Form_EmailAllowed" checked="true "type="checkbox" id="UserManagement_Form_EmailAllowed" value="True" style="display:none" />
+                
+                 <div class = "grid">
+                <div class="form__field-group grid__col-md-6">
+                  <label for="UserManagement_Form_FirstName">@Translate("First Name")<span>*</span></label>
+                    <input type="text" class="u-full-width" name="UserManagement_Form_FirstName" id="UserManagement_Form_FirstName" value="@GetString("UserManagement:User.FirstName")" required />
+                    @DisplayErrors(errorsByFieldName, "UserManagement_Form_Name")                   
+                </div>
+                  
+                <div class="form__field-group grid__col-md-6">
+                    <label for="UserManagement_Form_LastName">@Translate("Last Name")<span>*</span></label>
+                    <input type="text" class="u-full-width" name="UserManagement_Form_LastName" id="UserManagement_Form_LastName" value="@GetString("UserManagement:User.LastName")" required />
+                    @DisplayErrors(errorsByFieldName, "UserManagement_Form_Name")                   
+                </div>  
+
+                <div class="form__field-group grid__col-md-6">
+                    <label for="UserManagement_Form_Email">@Translate("E-mail (Username)")<span>*</span></label>
+                    <input type="email" class="u-full-width" name="UserManagement_Form_Email" id="UserManagement_Form_Email" value="@GetString("Ecom:Order.Customer.Email")" required />
+                    @DisplayErrors(errorsByFieldName, "UserManagement_Form_Email")
+                </div>
+                  
+                <div class="form__field-group grid__col-md-6">
+                    <label for="UserManagement_Form_PhoneMobile">@Translate("Phone")<span>*</span></label>
+                    <input type="text" class="u-full-width" name="UserManagement_Form_PhoneMobile" id="UserManagement_Form_PhoneMobile" value="@GetString("Ecom:Order.Customer.PhoneMobile")" required />
+                    @DisplayErrors(errorsByFieldName, "UserManagement_Form_Phone")
+                </div>  
+                   <div class="form__field-group grid__col-md-4">
+                    <label for="UserManagement_Form_Country">@Translate("Country")<span>*</span></label>
+
+
+					<select class="u-full-width" name="UserManagement_Form_Country" id="UserManagement_Form_Country">
+						<option selected="selected">@Translate("Select")</option>
+					</select>
+                    @* <input type="text" class="u-full-width" name="UserManagement_Form_Country" id="UserManagement_Form_Country" value="@GetString("Ecom:Order.Customer.Country")" required /> *@
+                    @DisplayErrors(errorsByFieldName, "UserManagement_Form_Phone")
+                </div>  
+                <div class="form__field-group grid__col-md-4">
+                    <label for="UserManagement:User.AccessUser_Language">@Translate("Language")</label>
+                    <input type="text" class="u-full-width" name="UserManagement:User.AccessUser_Language" id="UserManagement:User.AccessUser_Language" value=""  />
+                   
+                </div>  
+                <div class="form__field-group hidden">
+                    <label for="CustomField.AccessUser_AccessUser_Sign_up_date">@Translate("Date of registration") </label>
+                    <select type="date" class="u-full-width" name="CustomField.AccessUser_AccessUser_Sign_up_date" id="CustomField.AccessUser_AccessUser_Sign_up_date" value="@GetString("UserManagement:User.Sign_up_date")" />
+                    <option selected="selected">@GetString("UserManagement:User.ValidFrom")</option>
+                  </select>
+                    @DisplayErrors(errorsByFieldName, "UserManagement_Form_Phone")
+                </div>  
+                  
+                  
+                 
+                  
+                  
+ 				<div class="form__field-group grid__col-md-4">
+                  	<label for="CustomField.AccessUser_AccessUser_Time_zone">@Translate("Time zone")</label>
+        			<select type="text" class="u-full-width" name="CustomField.AccessUser_AccessUser_Time_zone" id="CustomField.AccessUser_AccessUser_Time_zone" value="@GetString("UserManagement:User.AccessUser_Time_zone")" />
+                		<option selected="selected">@Translate("Select")</option>
+                  		<option value="GMT -12:00">(GMT -12:00) Eniwetok, Kwajalein</option>
+                        <option value="GMT -11:00">(GMT -11:00) Midway Island, Samoa</option>
+                        <option value="GMT -10:00">(GMT -10:00) Hawaii</option>
+                        <option value="GMT -9:00">(GMT -9:00) Alaska</option>
+                        <option value="GMT -8:00">(GMT -8:00) Pacific Time (US &amp; Canada)</option>
+                        <option value="GMT -7:00">(GMT -7:00) Mountain Time (US &amp; Canada)</option>
+                        <option value="GMT -6:00">(GMT -6:00) Central Time (US &amp; Canada), Mexico City</option>
+                        <option value="GMT -5:00">(GMT -5:00) Eastern Time (US &amp; Canada), Bogota, Lima</option>
+                        <option value="GMT -4:00">(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz</option>
+                        <option value="GMT -3:30">(GMT -3:30) Newfoundland</option>
+                        <option value="GMT -3:00">(GMT -3:00) Brazil, Buenos Aires, Georgetown</option>
+                        <option value="GMT -2:00">(GMT -2:00) Mid-Atlantic</option>
+                        <option value="GMT -1:00">(GMT -1:00 hour) Azores, Cape Verde Islands</option>
+                        <option value="GMT 0.0">(GMT) Western Europe Time, London, Lisbon, Casablanca</option>
+                        <option value="GMT +1:00">(GMT +1:00 hour) Brussels, Copenhagen, Madrid, Paris</option>
+                        <option value="GMT +2:00">(GMT +2:00) Bucharest, Athens</option>
+                        <option value="GMT +3:00">(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg</option>
+                        <option value="GMT +3:30">(GMT +3:30) Tehran</option>
+                        <option value="GMT +4:00">(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi</option>
+                        <option value="GMT +4:30">(GMT +4:30) Kabul</option>
+                        <option value="GMT +5:00">(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
+                        <option value="GMT +5:30">(GMT +5:30) Bombay, Calcutta, Madras, New Delhi</option>
+                        <option value="GMT +5:45">(GMT +5:45) Kathmandu</option>
+                        <option value="GMT +6:00">(GMT +6:00) Almaty, Dhaka, Colombo</option>
+                        <option value="GMT +7:00">(GMT +7:00) Bangkok, Hanoi, Jakarta</option>
+                        <option value="GMT +8:00">(GMT +8:00) Beijing, Perth, Singapore, Hong Kong</option>
+                        <option value="GMT +9:00">(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk</option>
+                        <option value="GMT +9:30">(GMT +9:30) Adelaide, Darwin</option>
+                        <option value="GMT +10:00">(GMT +10:00) Eastern Australia, Guam, Vladivostok</option>
+                        <option value="GMT +11:00">(GMT +11:00) Magadan, Solomon Islands, New Caledonia</option>
+                        <option value="GMT +12:00">(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka</option>
+                  	</select>
+                </div>
+                  
+                  
+                <div class="form__field-group grid__col-md-6">
+                    <label for="UserManagement_Form_NewPassword">@Translate("Password")<span>*</span></label>
+                    @GetString("UserManagement:User.NewPassword.Input").Replace("input ", "input class=\"u-full-width\"") 
+                    @DisplayErrors(errorsByFieldName, "UserManagement_Form_NewPassword")
+                </div>
+                
+                <div class="form__field-group grid__col-md-6">
+                    <label for="UserManagement_Form_NewPasswordConfirm">@Translate("Confirm password")<span>*</span></label>
+                    @GetString("UserManagement:User.NewPasswordConfirm.Input").Replace("input ", "input class=\"u-full-width\"")
+                    @DisplayErrors(errorsByFieldName, "UserManagement_Form_NewPasswordConfirm")
+                </div>
+        
+ 					
+                 <div class="form__field-group grid__col-md-4">
+                      <label for="UserManagement_Form_Department">@Translate("Currency")</label>
+                      <select type="text" class="u-full-width" name="UserManagement_Form_Department" id="UserManagement_Form_Department" value="UserManagement_Form_Department" required />
+                          <option selected="selected">@Translate("Select")</option>
+                          @ListCurrency
+                      </select>
+                      @DisplayErrors(errorsByFieldName, "UserManagement_Form_Currency")                   
+                  </div> 
+                  <div class="form__field-group grid__col-md-12 checkboxes">
+                    <label>@Translate("PAYMENT METHOD"):</label>
+                      <label><input type="checkbox" name="CustomField.AccessUser_AccessUser_Payment_Method_Skrill" value="Skrill (Moneybookers)">Skrill (Moneybookers)</label>
+                      <label><input type="checkbox" name="CustomField.AccessUser_AccessUser_Payment_Method_Neteller" value="Neteller">Neteller</label>
+                      <label><input type="checkbox" name="CustomField.AccessUser_AccessUser_Payment_Method_Bank_Transfer" value="Bank Transfer">@Translate("BankTransfer","Bank Trasnfer")</label>
+                      <label><input type="checkbox" name="CustomField.AccessUser_AccessUser_Payment_Method_EcoPayz" value="EcoPayz">EcoPayz</label>
+                      <label><input type="checkbox" name="CustomField.AccessUser_AccessUser_Payment_Method_Bitcoin" value="Bitcoin">@Translate("Crypto","Cryptocurrency")</label>
+
+                  </div>
+               <div class="form__field-group grid__col-md-4">
+                      <label for="CustomField.AccessUser_AccessUser_Instant_Messenger">@Translate("Instant Messenger ID (OPTIONAL):")</label>
+                      <select type="text" class="u-full-width" name="CustomField.AccessUser_AccessUser_Instant_Messenger" id="AccessUser_Instant_Messenger" />
+                          <option selected="selected">@Translate("Select")</option>
+                          <option>Skype</option>
+                          <option>Windows Live</option>
+                          <option>Telegram</option>
+                      </select>
+                  	<input type="text" class="u-full-width hidden" name="CustomField.AccessUser_AccessUser_Instant_Messenger_ID" id="Instant_Messenger_ID" />	
+                                       
+                  </div>
+
+                 <div class="form__field-group grid__col-md-12 checkbox">
+                    <label><input type="checkbox" id="ageRequirement"   required />@Translate("I am over 18 years old", "I am over 18 years old")<span>*</span></label>
+                  </div>
+
+                <div class="form__field-group grid__col-md-12 checkbox">
+                    <label><input type="checkbox" id="termsRequirement"  required />@Translate("IAgreeToThe") <a href="/Default.aspx?ID=@termsPageId">@Translate("Conditions")<span>*</span></a></label>
+                </div>
+                <div class="form__field-group">
+                    <input type="text" class="u-full-width hidden" name="CustomField.AccessUser_AccessUser_userIP" id="CustomField.AccessUser_AccessUser_userIP"  value="@IP"/>
+                </div>
+                <button type="submit" class="btn btn--primary dw-mod" id="submitter" onclick="Buttons.LockButton(event)">@Translate("Create your new account")</button>
+                        </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Austria","Azerbaijan","The Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo","Costa Rica","Cote d’Ivoire","Croatia","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominican Republic","East Timor (Timor-Leste)","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Fiji","Finland","France","Gabon","The Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Korea North","Korea South","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia", "Federated States of Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar (Burma)","Namibia","Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","Norway","Oman","Pakistan","Palau","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Republic of the Congo","Romania","Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","Uruguay","Uzbekistan","Vanuatu","Vatican City (Holy See)","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"];
+    countries.map(function(str){
+        var option = document.createElement("option");
+        option.value = str;
+        option.innerHTML = str;
+        document.querySelector("#UserManagement_Form_Country").appendChild(option);
+    });
+</script>
+

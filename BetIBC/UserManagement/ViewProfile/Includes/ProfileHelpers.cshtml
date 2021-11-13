@@ -1,0 +1,40 @@
+@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using System.Web.Script.Serialization
+@using Dynamicweb.Frontend
+@using Dynamicweb.Forms
+
+@helper ProfileInformationCell(string label, string valueRaw)
+{
+    var value = GetString(@valueRaw);
+    if (value != "")
+    {
+  
+        <div class="grid">
+    
+            <span class="grid__col-3"> @label: </span> 
+            <span class="grid__col-9">  <strong>@value</strong></span>
+     
+        </div>
+    }
+}
+@helper ProfileEditCell(string type, string label, string valueRaw, string nameRaw)
+{
+    var value = GetString(@valueRaw);
+  
+ 
+    if (type == "select")
+    {
+        <label for="@valueRaw">@label</label>
+        @value
+    }
+    else
+    {
+        <label for="@valueRaw">@label</label>
+        <input type="text" class="u-full-width" id="@nameRaw" name="@nameRaw" value="@value" />
+    }
+
+
+}

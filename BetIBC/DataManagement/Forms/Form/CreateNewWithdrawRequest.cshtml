@@ -1,0 +1,201 @@
+﻿@{
+var formStart = GetString("Form.Start");
+var formEnd = GetString("Form.End");
+var formhiddenFileds = GetString("Form.Hidden");
+var now = DateTime.Now.ToString("dd/MM/yyyy, HH:mm");
+var accountID = GetGlobalValue("Global:Extranet.UserID");
+var userEmail = GetGlobalValue("Global:Extranet.Email");
+}
+<div class = "loading-background active">
+   </div>
+<div class="container" data-type-accontid = "@accountID">
+    <h2>@Translate("Withdraw request","Withdraw request")</h2>
+	@formStart
+
+
+
+@formhiddenFileds
+<div class = "form-in">
+    <span>@Translate("Bookmaker","Bookmaker")</span>
+  <select id="withdraw_Bookmaker" name="withdraw_Bookmaker">
+    <option value = "Bookmaker">Bookmaker</option>
+  </select>
+    </div>
+<div class = "form-in">
+  <span>@Translate("Account Currency","Account Currency")</span>
+  <input type="text" readonly id="withdraw_Account_Currency_New" name="withdraw_Account_Currency_New" value="" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("Agent Profit","Agent Profit")</span>
+  <input type="text" id="withdraw_Agent_profit" name="withdraw_Agent_profit" value="" />
+</div>
+
+<div class = "form-in hidden">
+  <span>@Translate("Ammount after comisions","Ammount after comisions")</span>
+  <input type="text" id="withdraw_Ammount_to_be_withdrew_after_commisions" name="withdraw_Ammount_to_be_withdrew_after_commisions" value="" />
+</div>
+<div class = "form-in">
+    <span>@Translate("Ammount","Ammount")</span>
+  <input type="text" id="withdraw_Amount" name="withdraw_Amount" value="" />
+</div>
+<div class = "form-in">
+    <span>@Translate("Initial Balance","Initial Balance")</span>
+<input type="text" id="withdraw_Initial_Balance" name="withdraw_Initial_Balance" value="" />
+</div>
+
+<div class = "form-in hidden">
+  <span>@Translate("Balance after Withdraw","Balance after Withdraw")</span>
+  <input type="text" id="withdraw_Balance_after_Withdraw" name="withdraw_Balance_after_Withdraw" value="" />
+</div>
+<div class="form-in hidden">
+  <span>@Translate("Client ID","Client ID")  </span>
+  <input type="text" id="withdraw_Client_Id" name="withdraw_Client_Id" value='@GetGlobalValue("Global:Extranet.UserID")' />
+
+</div>
+    
+
+    
+<div class="form-in hidden">
+  <span>@Translate("Client Username","Client Username")  </span>
+  <input type="text" id="withdraw_Client_Username" name="withdraw_Client_Username" value='@GetGlobalValue("Global:Extranet.UserName")' />
+
+</div>
+    
+<div class="form-in hidden">
+  <span>@Translate("Client Email","Client Email")  </span>
+  <input type="text" id="withdraw_Client_Email" name="withdraw_Client_Email" value="@userEmail" />
+
+</div>
+<div class = "form-in">
+  <span>@Translate("Withdraw Currency","Withdraw Currency")</span>
+  <select type = "text" id = "withdraw_Withdraw_Currency" name = "withdraw_Withdraw_Currency">
+    <option value = "MYR">MYR</option>
+    <option value = "SGD">SGD</option>
+    <option value = "Euro">Euro</option>
+    <option value = "GBP">GBP</option>
+    <option value = "Cryptocurrency">Cryptocurrency</option>
+  </select>
+</div>
+
+  <div class = "form-in hidden">
+   <span>@Translate("Commision ammount","Commision ammount")</span>
+  <input type="text" id="withdraw_Commision_ammount" name="withdraw_Commision_ammount" value="" />
+</div>
+  <div class = "form-in hidden">
+  <span>@Translate("Commision in Procent","Commision in Procent")</span>
+  <input type="text" id="withdraw_Commision_in_procent" name="withdraw_Commision_in_procent" value="" />
+</div>
+
+
+<div class="form-in hidden">
+  <span>@Translate("Oanda Exchange Rate","Oanda Exchange Rate") </span>
+  <input type="text" id="withdraw_Oanda_Exchange_Rate" name="withdraw_Oanda_Exchange_Rate" value="" />
+
+</div>
+
+
+
+<div class="form-in hidden">
+  <span>@Translate("Operator1 ID","Operator1 ID")  </span>
+  <input type="text" id="withdraw_Operator1_Id" name="withdraw_Operator1_Id" value="" />
+
+</div>
+
+<div class="form-in hidden">
+  <span>@Translate("Operator1 Name","Operator1 Name")  </span>
+  <input type="text" id="withdraw_Operator1_Name" name="withdraw_Operator1_Name" value="" />
+
+</div>
+
+
+
+<div class="form-in hidden">
+  <span>@Translate("Operator2 ID","Operator2 ID")  </span>
+  <input type="text" id="withdraw_Operator2_Id" name="withdraw_Operator2_Id" value="" />
+
+</div>
+
+<div class="form-in hidden">
+  <span>@Translate("Operator2 Name","Operator2 Name")  </span>
+  <input type="text" id="withdraw_Operator2_Name" name="withdraw_Operator2_Name" value="" />
+
+</div>
+
+
+
+<div class="form-in hidden">
+  <span>@Translate("Operator3 ID","Operator3 ID")  </span>
+  <input type="text" id="withdraw_Operator3_Id" name="withdraw_Operator3_Id" value="" />
+
+</div>
+
+<div class="form-in hidden">
+  <span>@Translate("Operator 3 Name","Operator 3 Name")  </span>
+  <input type="text" id="withdraw_Operator3_Name" name="withdraw_Operator3_Name" value="" />
+
+</div>
+
+
+<div class="form-in hidden">
+  <span>@Translate("Operator4 ID","Operator4 ID")  </span>
+  <input type="text" id="withdraw_Operator4_Id" name="withdraw_Operator4_Id" value="" />
+
+</div>
+
+<div class="form-in hidden">
+  <span>@Translate("Operator4 Name","Operator4 Name")  </span>
+  <input type="text" id="withdraw_Operator4_Name" name="withdraw_Operator4_Name" value="" />
+
+</div>
+  
+  <div class = "form-in">
+   <span>@Translate("Payment Method","Payment Method")</span>
+  <select id="withdraw_Payment_Method" name="withdraw_Payment_Method" >
+    <option value = "skrill">Skrill</option>
+    <option value = "neteller">Neteller</option>
+    <option value = "ecoPayz">ecoPayz</option>
+    <option value = "bankTransfer">Bank Transfer</option>
+      <option value = "Cryptocurrencies">Cryptocurrencies</option>
+              </select>
+</div>
+<div class = "form-in hidden">
+    <span>@Translate("Payment Method Available Currency","Payment Method Available Currency")</span>
+  	<input type="text" id="withdraw_Payment_Method_Available__Currency" name="withdraw_Payment_Method_Available__Currency" value="" />
+</div>
+<div class = "form-in">
+   <span>@Translate("Payment Transaction ID","Payment Transaction ID")</span>
+  <input type="text" id="withdraw_Payment_Transaction_ID" name="withdraw_Payment_Transaction_ID" value="" />
+</div>
+<div class = "form-in hidden">
+  <span>@Translate("Request Created on Date","Request Created on Date")</span>
+  <input type="text" id="withdraw_Request_Created_on_Date" name="withdraw_Request_Created_on_Date" value="@now" />
+</div>
+<div class = "form-in hidden">
+    <span>@Translate("Transaction Number provided","Transaction Number provided")</span>
+  	<input type="text" id="withdraw_Transaction_Number_provided" name="withdraw_Transaction_Number_provided" value="" />
+</div>
+<div class = "form-in hidden ">
+   <span>@Translate("User ID","User ID")</span>
+  <input type="text" id="withdraw_User_ID" name="withdraw_User_ID" value="" />
+</div>
+            <div class = "form-in hidden">
+    <span>@Translate("Withdraw Status","Withdraw Status")</span>
+  	<input type="text" id="withdraw_Withdraw_Status" name="withdraw_Withdraw_Status" value="Requested" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("Transaction Number provided by admin","Transaction Number provided by admin")</span>
+  <input type="text" id="withdraw_Transaction_Number_provided_by_admin" name="withdraw_Transaction_Number_provided_by_admin" value="" />
+</div>
+<div class = "form-in hidden">
+   <span>@Translate("Transaction Screenshot by admin","Transaction Screenshot by admin")</span>
+  <input type="file" id="withdraw_Transaction_Screenshot_by_admin" name="withdraw_Transaction_Screenshot_by_admin" />
+</div>
+<div class = "form-in hidden">
+    <span>@Translate("Balance Screenshot","Balance Screenshot") </span>
+<input type="file" id="withdraw_Balance_Screenshot" name="withdraw_Balance_Screenshot" />
+  </div>
+@GetString("Form.Button.Submit")
+@formEnd
+
+</div>
+

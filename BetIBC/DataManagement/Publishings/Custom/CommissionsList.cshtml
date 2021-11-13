@@ -1,0 +1,77 @@
+﻿@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using Dynamicweb.Core
+@using System
+@SnippetStart("BootstrapCss")
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+@SnippetEnd("BootstrapCss")
+@{
+ var ViewId = Pageview.CurrentParagraph.ModuleProperties.get_Value("ViewID"); 
+ var rows = GetLoop("Rows");
+}
+<div class="container commissions-exceptions-list">
+    <h2>Comissions List</h2>
+    <div class="divTable blueTable">
+        <div class="divTableHeading">
+            <div class="divTableRow">
+                <div class="divTableHead">Name</div>
+                <div class="divTableHead">Value</div>
+                <div class="divTableHead">Min</div>
+                <div class="divTableHead">Bookmaker</div>
+                <div class="divTableHead">Currency</div>
+                <div class="divTableHead">Notes</div>
+                <div class="divTableHead">Edit</div>
+            </div>
+        </div>
+        <div class="divTableBody">
+        @if (rows.Any())
+        {
+            foreach (var row in rows)
+            {
+                var name = row.GetString("CommissionsList_Name");
+                var currency = row.GetString("CommissionsList_Currency");
+                var valueRaw = row.GetString("CommissionsList_Value");
+                var isPercent = row.GetString("CommissionsList_Is_Procent");
+                var rowId = row.GetString("CommissionsListID");
+                var valueForLessThanMinRaw = row.GetString("CommissionsList_Value_for_less_then_min");
+                var valueforLessThanMinIsPercent = row.GetString("CommissionsList_Value_for_less_then_min_i");
+                var value = isPercent == "True" ? valueRaw + "%" : valueRaw;
+                var valueForLessThanMin = valueforLessThanMinIsPercent == "True" ? valueForLessThanMinRaw + "%" : valueForLessThanMinRaw;
+                var bookmaker = row.GetString("CommissionsList_Bookmaker");
+                var notes = row.GetString("CommissionsList_Notes");
+                var rowName = "CommissionsListID";
+                var parameter = "FORM_ROW_ID=" + rowName + "%3d" + rowId + "&VIEW_ID=" + ViewId;
+                var editUrl = "/Default.aspx?ID=" + "118499" + "&" + parameter;
+                <div class="divTableRow">
+                    <div class="divTableCell">@name</div>
+                    <div class="divTableCell">@value</div>
+                    <div class="divTableCell">@valueForLessThanMin</div>
+                    <div class="divTableCell">@bookmaker</div>
+                    <div class="divTableCell">@currency</div>
+                    <div class="divTableCell">@notes</div>
+                    <div class="divTableCell"><a href="@editUrl">Edit</a></div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="divTableRow">
+                <div class="divTableCell">No Comissions were added</div>
+            </div>
+        }
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 text-left">
+            <br/>
+            <div id="back-button">
+                <button onclick="window.location.href='/english/bookmaker-accounts-management/charges-management'" class="btn btn--primary dw-mod"><i class="fa fa-arrow-left" aria-hidden="true"></i> Go Back</button>
+                <button onclick="window.location.href='/english/bookmaker-accounts-management/charges-management/commissionsform'" class="btn btn--primary dw-mod">Add New<i class="fa fa-arrow-right" aria-hidden="true"></i> </button>
+            </div>
+        </div>
+    </div>
+</div>

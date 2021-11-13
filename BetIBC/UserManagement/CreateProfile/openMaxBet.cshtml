@@ -1,0 +1,136 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Linq;
+
+@{
+    string pageId = GetGlobalValue("Global:Page.ID");
+    var errorsByFieldName = GetLoop("FormValidationErrors").GroupBy(x => x.GetString("UserManagement:User.FormValidationError.FieldName"), x => x.GetString("UserManagement:User.FormValidationError.Message"));
+
+}
+
+@helper  DisplayErrors(IEnumerable<IGrouping<string, string>> errorsByFieldName, string fieldName)
+{
+    var errors = errorsByFieldName.FirstOrDefault(x => x.Key == fieldName);
+    if (errors != null)
+    {
+        foreach (string error in errors)
+        {
+                <div class="field-error">@error</div>
+        }
+    }
+}
+
+
+
+<div class="paragraph-container__grid--bleed">
+    <div class="grid grid--justify-center">
+        <div class="grid__col-md-6 grid__col--bleed">
+            <h2 class="u-no-margin u-margin-bottom">@Translate("Create user account")</h2>
+
+            <form name="UserManagementEditForm" id="UserManagementEditForm" method="post" action="/Default.aspx?ID=@pageId">
+                <input type="hidden" name="UserManagementForm" value="1">
+
+                <div class="open-first-step">  
+                  <div class="form__field-group">
+                      <label for="UserManagement_Form_Currency">@Translate("Currency")</label>
+                      <select type="text" class="u-full-width" name="UserManagement_Form_Currency" id="UserManagement_Form_Currency" value="@GetString("UserManagement:User.Currency")" required />
+                          <option selected="selected">Select</option>
+                          <option>Euro (€)</option>
+                          <option>Dollar ($)</option>
+                          <option>SGD</option>
+                          <option>Malaysian ringgit (MYR)</option>
+                      </select>
+                      @DisplayErrors(errorsByFieldName, "UserManagement_Form_Currency")                   
+                  </div>
+
+                  <div class="form__field-group">
+                    <label>@Translate("PAYMENT METHOD"):</label>
+                      <label><input type="radio" name="CustomField.AccessUser_AccessUser_payment_method" value="Skrill (Moneybookers)" checked="checked">Skrill (Moneybookers)</label>
+                      <label><input type="radio" name="CustomField.AccessUser_AccessUser_payment_method" value="Neteller">Neteller</label>
+                      <label><input type="radio" name="CustomField.AccessUser_AccessUser_payment_method" value="Bank Transfer">Bank Transfer</label>
+                      <label><input type="radio" name="CustomField.AccessUser_AccessUser_payment_method" value="EcoPayz">EcoPayz</label>
+                      <label><input type="radio" name="CustomField.AccessUser_AccessUser_payment_method" value="Bitcoin">Bitcoin</label>
+
+                  </div>
+                        
+                    
+
+                  <div class="form__field-group">
+                    <label><input type="checkbox" id="ageRequirement"   required />@Translate("I am over 18 years old", "I am over 18 years old")</label>
+                  </div>
+
+                  <div class="form__field-group">
+                    <label><input type="checkbox" id="termsRequirement"  required />@Translate("I agree to the", "I agree to the") <a>@Translate("Terms & Conditions", "Terms & Conditions")</a></label>
+                  </div>
+				
+                  <button class="btn btn--primary dw-mod" id="open-first-step-button">@Translate("Next step")</button>    
+                </div>     
+                    
+                <div class="open-second-step hidden">
+                  
+                    <div class="form__field-group">
+                        <label for="UserManagement_Form_FirstName">@Translate("First Name")</label>
+                        <input type="text" class="u-full-width" name="UserManagement_Form_FirstName" id="UserManagement_Form_FirstName" value="@GetString("UserManagement:User.FirstName")" required />
+                        @DisplayErrors(errorsByFieldName, "UserManagement_Form_FirstName")                   
+                    </div>
+
+                    <div class="form__field-group">
+                        <label for="UserManagement_Form_LastName">@Translate("Last Name")</label>
+                        <input type="text" class="u-full-width" name="UserManagement_Form_LastName" id="UserManagement_Form_LastName" value="@GetString("UserManagement:User.LastName")" required />
+                        @DisplayErrors(errorsByFieldName, "UserManagement_Form_LastName")                   
+                    </div>  
+                
+                   <div class="form__field-group">
+                    <label for="UserManagement_Form_NewPassword">@Translate("Password")</label>
+                    @GetString("UserManagement:User.NewPassword.Input").Replace("input ", "input class=\"u-full-width\"") 
+                    @DisplayErrors(errorsByFieldName, "UserManagement_Form_NewPassword")
+                </div>
+                
+                <div class="form__field-group">
+                    <label for="UserManagement_Form_NewPasswordConfirm">@Translate("Confirm password")</label>
+                    @GetString("UserManagement:User.NewPasswordConfirm.Input").Replace("input ", "input class=\"u-full-width\"")
+                    @DisplayErrors(errorsByFieldName, "UserManagement_Form_NewPasswordConfirm")
+                </div>
+
+
+                    <div class="form__field-group">
+                        <label for="UserManagement_Form_Email">@Translate("E-mail")</label>
+                        <input type="email" class="u-full-width" name="UserManagement_Form_Email" id="UserManagement_Form_Email" value="@GetString("Ecom:Order.Customer.Email")" required />
+                        @DisplayErrors(errorsByFieldName, "UserManagement_Form_Email")
+                    </div>
+
+                    <div class="form__field-group">
+                        <label for="UserManagement_Form_ConfirmEmail">@Translate("Confirm E-mail")</label>
+                        <input type="email" class="u-full-width" name="UserManagement_Form_ConfirmEmail" id="UserManagement_Form_ConfirmEmail" required />
+
+                    </div>
+                  
+                  <div class="form__field-group">
+                      <label for="CustomField.AccessUser_AccessUser_Instant_Messenger">@Translate("Instant Messenger ID (OPTIONAL):")</label>
+                      <select type="text" class="u-full-width" name="CustomField.AccessUser_AccessUser_Instant_Messenger" id="AccessUser_Instant_Messenger" />
+                          <option selected="selected">Select</option>
+                          <option>Skype</option>
+                          <option>Windows Live</option>
+                          <option>Yahoo</option>
+                      </select>
+                  	<input type="text" class="u-full-width hidden" name="CustomField.AccessUser_AccessUser_Instant_Messenger_ID" id="Instant_Messenger_ID" />	
+                                       
+                  </div>
+                    
+                    
+                  
+                  <button class="btn btn--primary dw-mod" id="open-second-step-button-back">@Translate("Back")</button>
+                  <button type="submit" class="btn btn--primary dw-mod" id="submitter" onclick="Buttons.LockButton(event)">@Translate("Create your new account")</button>
+                  
+                  
+                </div>
+                    
+                    
+
+                
+
+               
+                    
+            </form>
+        </div>
+    </div>
+</div>

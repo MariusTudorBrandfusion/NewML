@@ -1,0 +1,22 @@
+@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+@MasterPageFile("MasterNoEcom.cshtml")
+<div class="container">
+<div class="charges-wrapper">
+    <h1>@Translate("Charges Management", "Charges Management")</h1>
+    <div>
+        <h2>1. @Translate("Exceptions List", "Exceptions List")</h2>
+        <a href="/Default.aspx?ID=@GetPageIdByNavigationTag("ExceptionForm")">@Translate("Add New Exception", "Add New Exception")</a>
+        <a href="/Default.aspx?ID=@GetPageIdByNavigationTag("ExceptionsList")">@Translate("View the list", "View the list")</a>
+    </div>
+    <div>
+        <h2>2. @Translate("Commissions on transfers", "Commissions on transfers")</h2>
+        <a href="/Default.aspx?ID=@GetPageIdByNavigationTag("CommissionsForm")">@Translate("Add New Commision", "Add New Commision")</a>
+        <a href="/Default.aspx?ID=@GetPageIdByNavigationTag("CommissionsList")">@Translate("View the list", "View the list")</a>
+    </div>
+    <div>
+        <h2>3. @Translate("BET-IBC E-wallets commissions", "BET-IBC E-wallets commissions")</h2>
+        <a href="/Default.aspx?ID=@GetPageIdByNavigationTag("EwalletCommissionsForm")">@Translate("Add New Commision", "Add New Commision")</a>
+        <a href="/Default.aspx?ID=@GetPageIdByNavigationTag("Ewalletcommissionslist")">@Translate("View the list", "View the list")</a>
+    </div>
+</div>
+</div>

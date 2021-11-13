@@ -1,0 +1,49 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+<div class="grid contact-form-wrapper">
+
+@GetValue("Form.FormStart")
+@GetValue("Form.SystemFields")
+@{
+  int termsPageId = GetPageIdByNavigationTag("TermsConditions");
+}
+<div class="form__field-group half-column">
+    <label>@Translate("First Name", "First Name")</label> 
+    <input type="text" name="FirstName" value="" placeholder='@Translate("First Name", "First Name")' required="">
+            
+</div>
+<div class="form__field-group half-column">
+    <label>@Translate("Last Name", "Last Name")</label> 
+    <input type="text" name="LastName" value="" placeholder='@Translate("Last Name", "Last Name")' required="">
+            
+</div>
+<div class="form__field-group ">
+    <label>@Translate("Email", "Email")</label> 
+    <input type="text" name="Email" value="" placeholder='@Translate("Email", "Email")' required="">
+            
+</div>
+<div class="form__field-group ">
+    <label>@Translate("Subject", "Subject") </label> 
+    <input type="text" name="Subject" value="" placeholder='@Translate("Subject", "Subject")' required="">
+            
+</div>
+<div class="form__field-group ">
+    <label>@Translate("Message", "Message") </label> 
+    <textarea name="Message" value="" placeholder='@Translate("Message", "Message")' required=""></textarea>
+            
+</div>
+<div class="form__field-group termsConditions"> <label>  @Translate("IAgreeToThe", "I agree to the")<a href="/Default.aspx?ID=@termsPageId">@Translate("Conditions")</a></label>
+   
+    <input type="checkbox" id="IagreetotheTermsConditions" name="IagreetotheTermsConditions" required="">
+            
+</div>
+<div class="form__field-group">
+    <label>@Translate("Do you understand English, or do you require a reply in your language?", "Do you understand English, or do you require a reply in your language?")  </label>
+    <input type="radio" id="DoyouunderstandEnglish4" name="DoyouunderstandEnglish" required="" value="English"> <label for="DoyouunderstandEnglish4">@Translate("English", "English")</label><br>
+    <input type="radio" id="DoyouunderstandEnglish5" name="DoyouunderstandEnglish" required="" value='@Translate("My Language", "My Language")'> <label for="DoyouunderstandEnglish5">@Translate("My Language", "My Language")</label><br>
+
+            
+</div>
+<button type="submit" class="btn btn--primary dw-mod  u-no-margin" onclick="Buttons.LockButton(event)" id="Send" name="Send">@Translate("Submit", "Submit")</button>
+
+@GetValue("Form.FormEnd")
+</div>

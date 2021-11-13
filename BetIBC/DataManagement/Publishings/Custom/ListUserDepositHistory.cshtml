@@ -1,0 +1,62 @@
+@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using Dynamicweb.Core
+@using System
+@Include("/Files/Templates/Designs/BetIBC/DataManagement/Publishings/Custom/Includes/DepositListAndDetailsVariables.cshtml")
+@Include("/Files/Templates/Designs/BetIBC/DataManagement/Publishings/Custom/Includes/DepositListAndDetailsHelpers.cshtml")
+
+<div class="container history-details-page">
+    <div id="detail-back-button">
+        <button onclick="goBack()"><i class="fa fa-arrow-left" aria-hidden="true"></i> Go Back</button>
+    </div>
+
+        <table class="main_table">
+            @ListHeaderHistory()
+            <tbody>
+            @foreach (LoopItem row in rowsForUser.OrderByDescending(listitem => listitem.GetString("deposits_finalID")))
+            {
+              
+                var depositID = row.GetString("deposits_finalID").ToString();
+                var currentDepositStatus = row.GetString("deposits_final_Status");
+                var depositRequestDate = row.GetString("deposits_final_Date_of_request");
+                var depositRequestTime = row.GetString("deposits_final_Hour_of_request");
+                var depositRequestAmount = row.GetString("deposits_final_Ammount_to_be_deposited");
+                var depositRequestCurrency = row.GetString("deposits_final_Deposit_currency");
+                var depositUsername = row.GetString("deposits_final_Username");
+                var depositBookmaker = row.GetString("deposits_final_Bookmaker");
+                var depositPaymentMethod = row.GetString("deposits_final_Payment_method");
+                var depositExpress = row.GetString("deposits_final_Express_fee");
+                switch(currentDepositStatus) {
+                    case "Submited":
+                        currentDepositStatus = "Pending";
+                        break;
+                    case "Confirmed":
+                        currentDepositStatus = "Processing";
+                        break;
+                    case "Processed":
+                        currentDepositStatus = "Finalized";
+                        break;
+                    case "Finalized":
+                        currentDepositStatus = "Finalized";
+                        break;
+                    default:
+                        currentDepositStatus = "Pending";
+                        break;
+                }
+                <tr>
+                    
+                    @depositListCell("regular", depositExpress, "")
+                    @depositListCell("regular", currentDepositStatus, "")
+                    @depositListCell("timestamp", depositRequestDate, depositRequestTime)
+                    @depositListCell("amount", depositRequestAmount, depositRequestCurrency)
+                    @depositListCell("regular", depositUsername, "")
+                    @depositListCell("regular", depositBookmaker, "")
+                    @depositListCell("regular", depositPaymentMethod, "")
+              
+                </tr>
+            }
+            </tbody>
+        </table>
+</div>

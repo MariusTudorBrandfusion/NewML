@@ -1,0 +1,46 @@
+﻿<ul>
+  <li class="result-item">
+			<table>
+                <tr>
+                    <th>Tipster</th>
+                    <th>Tipster Email</th> 
+                    <th>Date</th>
+                    <th>Placed on VIP</th>
+                    <th>Match</th>
+                    <th>Stake</th>
+                    <th>Status of prediction</th>
+                    <th>Win lose of the prediction</th>
+                    <th>Status of the tipster profile</th>
+                 </tr>
+              @{
+             DateTime today = new DateTime();
+              today = DateTime.Now;
+             }
+              <div>@today.AddHours(-24);</div>
+	@foreach (var result in GetLoop("QueryResultItem"))
+	{
+             var tipsterName = @result.GetString("Tips_Tipster");
+             var predictionStatus = @result.GetValue("Tips_Prediction_Status");
+              var startGMT = @result.GetString("Tips_Start_GMT");
+            DateTime parsedDate = DateTime.Parse(startGMT);
+              var dateIsCorrect = DateTime.Compare (parsedDate, today.AddHours(-24));
+              <div>@dateIsCorrect </div>
+		 <tr>
+						<td>@tipsterName.Replace("+", " ")</td>
+						<td>@result.GetValue("Tips_Tipster_Email")</td>
+                      <td>@result.GetValue("Tips_Date_Added")</td>
+                      <td>@result.GetValue("Tips_FollowOn_VIP")</td>
+                      <td>@result.GetValue("Tips_Start_GMT")</td>
+                      <td>@result.GetValue("Tips_Stake")</td>
+           if(@dateIsCorrect >){
+                      <td> @startGMT </td>
+           }
+                      <td> @predictionStatus </td>
+                      <td id = "tipster-status-table">Active</td>
+					</tr>
+			
+		
+	}
+              	</table>
+		</li>
+	</ul>

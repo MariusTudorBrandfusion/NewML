@@ -1,0 +1,82 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@using System.Web;
+@using Dynamicweb.Extensibility
+@using Dynamicweb.Content
+@using System.Text.RegularExpressions
+
+@{
+    string feedType = HttpContext.Current.Request.QueryString.Get("feedtype");
+    int productCatalog = GetPageIdByNavigationTag("ProductsFeed");
+}
+
+@functions {
+    public class Country
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string selected { get; set; }
+    }
+
+    public class Address
+    {
+        public string id { get; set; }
+        public string description { get; set; }
+        public string company { get; set; }
+        public string name { get; set; }
+        public string phone { get; set; }
+        public string email { get; set; }
+        public string address { get; set; }
+        public string zip { get; set; }
+        public string city { get; set; }
+        public List<Country> Country { get; set; }
+    }
+}
+
+@{
+    string jsonFeed = "";
+    string addressId = HttpContext.Current.Request.QueryString.Get("addressId");
+
+    List<Address> feedObject = new List<Address>();
+
+    if (!String.IsNullOrEmpty(addressId))
+    {
+        foreach (LoopItem address in GetLoop("UserManagement:User.UserAddresses"))
+        {
+            if (address.GetString("UserManagement:User.UserAddress.ID") == addressId)
+            {
+                Address addressObject = new Address();
+                addressObject.id = address.GetString("UserManagement:User.UserAddress.ID");
+                addressObject.description = address.GetString("UserManagement:User.UserAddress.Company");
+                addressObject.company = address.GetString("UserManagement:User.UserAddress.Company");
+                addressObject.name = address.GetString("Ecom:Order.Delivery.Name");
+                addressObject.phone = address.GetString("UserManagement:User.UserAddress.Phone");
+                addressObject.email = address.GetString("UserManagement:User.UserAddress.Email");
+                addressObject.address = address.GetString("UserManagement:User.UserAddress.Address");
+                addressObject.zip = address.GetString("UserManagement:User.UserAddress.Zip");
+                addressObject.city = address.GetString("UserManagement:User.UserAddress.City");
+                addressObject.Country = new List<Country>();
+
+                foreach (LoopItem country in GetLoop("Countries"))
+                {
+                    string selected = !string.IsNullOrWhiteSpace(country.GetString("Ecom:Country.IsCustomerCountryOrDefault")) ? "selected" : "";
+
+                    Country countryObject = new Country();
+                    countryObject.id = country.GetString("Ecom:Country.Code2");
+                    countryObject.name = country.GetString("Ecom:Country.Name");
+                    countryObject.selected = selected;
+
+                    addressObject.Country.Add(countryObject);
+                }
+
+                feedObject.Add(addressObject);
+
+                break;
+            }
+        }
+    }
+
+    jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+
+}
+
+@jsonFeed

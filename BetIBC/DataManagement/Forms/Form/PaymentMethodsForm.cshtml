@@ -1,0 +1,71 @@
+@inherits RazorTemplateBase<RazorTemplateModel<Template>>
+@using Dynamicweb.Rendering
+@using System.Collections.Generic
+@using System.Linq
+@using Dynamicweb.Core
+@using System
+@SnippetStart("BootstrapCss")
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+@SnippetEnd("BootstrapCss")
+
+@Include("/Files/Templates/Designs/BetIBC/DataManagement/Forms/Form/Includes/GeneralDataListFormHelpers.cshtml")
+@{
+    var formStart = GetString("Form.Start");
+    var formEnd = GetString("Form.End");
+    var formHiddenFileds = GetString("Form.Hidden");
+    var formSubmit = GetString("Form.Button.Submit");
+    var user = GetGlobalValue("Global:Extranet.UserID");
+
+}
+
+<div class="container">
+    <h2>Add Payment Method</h2>
+    @formStart
+    @formHiddenFileds
+    @*@TemplateTags()*@
+<div class="payment-methods-form">
+    <div class="payment-type ">
+        <label>Type:</label>
+        @GetString("Form.Fields.Admin_Payment_Methods_Type.Control")
+    </div>
+    <div class="payment-methods-form-content">
+        <div class="payment-method-type skrill-type ">
+            @simpleInputField("text", "Skrill adress:", "Admin_Payment_Methods_Skrill_address", "Admin_Payment_Methods_Skrill_address", "", "")
+        </div>
+        <div class="payment-method-type neteller-type hidden">
+            @simpleInputField("text", "Neteller adress:", "Admin_Payment_Methods_Neteller_address", "Admin_Payment_Methods_Neteller_address", "", "")
+        </div>
+        <div class="payment-method-type ecopayz-type hidden">
+            @simpleInputField("text", "Ecopayz account name:", "Admin_Payment_Methods_Ecopayz_account_name", "Admin_Payment_Methods_Ecopayz_account_name", "", "")
+            @simpleInputField("number", "Ecopayz account number:", "Admin_Payment_Methods_Ecopayz_account_number", "Admin_Payment_Methods_Ecopayz_account_number", "", "")
+        </div>
+        <div class="payment-method-type bank-type hidden">
+            @simpleInputField("text", "Bank text:", "Admin_Payment_Methods_Bank_text", "Admin_Payment_Methods_Bank_text", "", "")
+            @simpleInputField("text", "IBAN", "Admin_Payment_Methods_IBAN", "Admin_Payment_Methods_IBAN", "", "")
+            @simpleInputField("text", "Bank street:", "Admin_Payment_Methods_Bank_street", "Admin_Payment_Methods_Bank_street", "", "")
+            @simpleInputField("text", "Bank city:", "Admin_Payment_Methods_Bank_city", "Admin_Payment_Methods_Bank_city", "", "")
+            @simpleInputField("text", "Bank country:", "Admin_Payment_Methods_Bank_country", "Admin_Payment_Methods_Bank_country", "", "")
+            @simpleInputField("text", "Bank name:", "Admin_Payment_Methods_Bank_name", "Admin_Payment_Methods_Bank_name", "", "")
+        </div>
+        <div class="payment-method-type crypto-type hidden">
+	<div>
+	<label><strong>Crypto currency:</strong></label>
+              <select id = "Admin_Payment_Methods_Crypto_currency" name = "Admin_Payment_Methods_Crypto_currency"> 
+              @GeneralCryptoCurrencyOptionsList("false");
+              </select>
+</div>
+    
+            @simpleInputField("text", "Crypto wallet ID:", "Admin_Payment_Methods_Crypto_wallet_ID", "Admin_Payment_Methods_Crypto_wallet_ID", "", "")
+
+          
+
+        </div>
+        <div class="hidden"> 
+            @simpleInputField("text", "Crypto wallet ID:", "Admin_Payment_Methods_User_ID", "Admin_Payment_Methods_User_ID", "", @user)
+        </div>
+    </div>
+        @formSubmit
+  
+</div>
+    @formEnd
+</div>

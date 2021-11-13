@@ -1,0 +1,68 @@
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+@MasterPageFile("MasterNoEcom.cshtml")
+@{
+var currentDateRaw = DateTime.Now;
+var currentDate = currentDateRaw.ToString("dd/MM/yyyy HH:mm:ss").Replace(" ", "%20");
+var youCanBetFeedByLanguage ="/Default.aspx?ID=" + GetPageIdByNavigationTag("TipstersFeedDetailsByLanguage").ToString() + "&Date=" + currentDate;
+var youCanBetPage ="/Default.aspx?ID=" + GetPageIdByNavigationTag("YouCanBetPage").ToString();
+var latestTipsPage = "/Default.aspx?ID=" + GetPageIdByNavigationTag("LatestTips").ToString();
+}
+<div class="grid" id = "youcanbet" data-you-can-bet="@youCanBetFeedByLanguage">
+       <div class="grid__col-auto grid__col--bleed">
+        <div class="grid">
+            @Model.Placeholder("dwcontent", "content", "default:true;sort:1")
+        </div>
+    </div>
+</div>   
+<section id = "latest-tips">
+
+  <div class = "center-container dw-mod">
+      <div class = "filter-latest-tips">
+        <p>@Translate("PredictionFilter","Filter") </p>
+     <a href = "@latestTipsPage">@Translate("AllTips","All Tips")</a>
+        <a href ="@youCanBetPage">@Translate("YouCanBet","You can bet")</a>
+  </div>
+    <div class = "row title-row">
+      <div class = "col col-tipster">
+        <p>@Translate("TipsterName","Tipster")</p>
+      </div>
+        <div class = "col col-game">
+          <p>@Translate("PredictionTournament","Tournament") / @Translate("League","League")</p>
+      </div>
+        <div class = "col col-match">
+          <p>@Translate("PredictionMatch","Match")</p>
+      </div>
+        <div class = "col col-stake">
+           <p>@Translate("PredictionStake","Stake")</p>
+      </div>
+        <div class = "col col-odd">
+          <p>@Translate("PredictionOdd","Odd")</p>
+      </div>
+      
+        <div class = "col col-bet">
+           <p>@Translate("PredictionBet","Bet")</p>
+      </div>
+      <div class = "col col-bookmaker">
+        <p>@Translate("PredictionBookmaker","Bookmaker")</p>
+      </div>
+      <div class = "col col-status">
+        <p>@Translate("PredictionStatus","Status")</p>
+      </div>
+    </div>
+    <div class = "message-col">
+   <h3> @Translate("There are no predictions with status open to bet at moment", "There are no predictions with status open to bet at moment");</h3>
+    </div>
+    
+  
+
+  </div>
+</section>
+<section class = "pagination-section">
+<div class = "center-container dw-mod">
+    <div id = "pagination-latest-tips" data-total-pages="">
+    </div>
+</div>
+</section>
+<div class = "latest-tips-overlay active">
+</div>
+      

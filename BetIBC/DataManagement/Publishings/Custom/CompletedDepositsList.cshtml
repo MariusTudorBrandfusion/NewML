@@ -1,0 +1,346 @@
+﻿@SnippetStart("BootstrapCss")
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+@SnippetEnd("BootstrapCss")
+
+
+@SnippetStart("BootstrapJs")
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+@SnippetEnd("BootstrapJs") 
+ 
+
+@{
+var ViewId = Pageview.CurrentParagraph.ModuleProperties.get_Value("ViewID"); 
+var rowsRaw = GetLoop("Rows");
+var rows = rowsRaw.Where(row => row.GetValue("deposits_Deposit_Status").ToString() == "Completed");
+}
+
+     
+<div class="form_wrapper" style="width: 100%;">
+            <div class="container">
+              <h1 class="text-center">@Translate("Requested Deposits")</h1>
+                @*<div class="date_wrapper">
+                    <label for="date">Date @ViewId</label>
+                    <input type="date" name="datecalendar-from" id="datecalendar-from">
+                    <label for="date">To</label>
+                    <input type="date" name="datecalendar-to" id="datecalendar-to">
+                    <button class="button" type="">Filter</button>
+                </div>*@
+                      
+                      
+                      
+                <table class="main_table add-new-bet">
+                    <thead>
+                    <tr class="hidden">
+                        @foreach (LoopItem Column in GetLoop("Columns")){
+                            <td>
+                                @Column.GetValue("Column.Name")         
+                            </td>
+                        }
+                    </tr>
+                    <tr>
+                    <th>@Translate("DepositID","Deposit ID")</th>
+                    <th>@Translate("DepositClientID","Client Id")</th>
+                    <th>@Translate("DepositClientEmail", "Client Email")</th>
+                    <th>@Translate("DepositClientUsername", "Client Username")</th>
+                    <th>@Translate("DepositDepositAt", "Deposit at:") </th>
+                    <th>@Translate("DepositAccountCurrency", "Account Currency") </th>
+                    <th>@Translate("DepositAmount", "Amount")</th>
+                    <th>@Translate("DepositDepositCurrency", "Deposit Currency")</th>
+                    <th>@Translate("DepositPaymentMethod", "Payment Method")</th>
+                    <th>@Translate("DepositTransactionNumber", "Transaction Number")</th> 
+                    <th> @Translate("DepositTransactionNumberProvidedByAdmin", "Transaction Number provided by admin") </th>
+                    <th>@Translate("DepositRequestDate", "Request Date")</th>
+                    <th>@Translate("DepositOperator1ID", "Operator1 ID")</th>
+                    <th>@Translate("DepositOperator1Name", "Operator1 Name")</th>
+                    <th>@Translate("DepositOperator1Email", "Operator1 Email")</th>
+                    <th>@Translate("DepositOperator1VerificationDate", "Operator1 Verification Date")</th>
+                    <th> @Translate("DepositOperator2Email", "Operator2 Email") </th>
+                    <th> @Translate("DepositOperator2Id", "Operator2 Id") </th>
+                    <th> @Translate("DepositOperator2Name", "Operator2 Name") </th>
+                    <th>@Translate("DepositOperator2VerificationDate", "Operator2 Verification Date")</th>
+                    <th>@Translate("DepositOanda_ExchangeRate", "Oanda_Exchange Rate") </th>
+                    <th>@Translate("DepositAgentProfit", "Agent Profit")</th>
+                    <th>@Translate("DepositBalanceBeforeDeposit", "Balance before Deposit") </th>
+                    <th>@Translate("DepositBalanceAfterDeposit", "Balance after Deposit")</th>
+                    <th>@Translate("DepositAmmountToBeDepositedAfterCommisions", "Ammount to be deposited after commisions")</th>
+                    <th>@Translate("DepositDepositsCommisionAmmount", "Deposits Commision Ammount")</th>
+                    <th>@Translate("DepositDepositsCommisionInProcent", "Deposits Commision in Procent")</th>
+                    <th> @Translate("DepositTransactionScreenshotByAdmin", "Transaction Screenshot by admin") </th>
+                    <th>@Translate("DepositConfirm", "Confirm") </th>  
+                    </tr>
+                    <tr class="hidden">
+                       <th>@Translate("DepositID","Deposit ID")</th>
+                        
+                        <th>Agent Profit</th>
+                        <th>Ammount to be deposited after commisions</th>
+                        <th>Amount</th>
+                        <th>Balance after Deposit</th>
+                        <th> Bookmaker </th>
+                        <th> Client Email </th>
+                        <th> Client Id </th>
+                        <th> Client Username </th>
+                        <th> Commision ammount </th>
+                        <th> Commision in procent </th>
+                        <th> Currency </th>
+                        <th> Deposit Currency </th>
+                        <th> Deposit Status </th>
+                        <th> Initial Balance </th>
+                        <th> Intermediary </th>
+                        <th> IsFirstDeposit </th>
+                        <th> Oanda_Exchange Rate </th>
+                        <th> Operator1 Email </th>
+                        <th> Operator1 Id </th>
+                        <th> Operator1 Name </th>
+                        <th> Operator2 Email </th>
+                        <th> Operator2 Id </th>
+                        <th> Operator2 Name </th>
+                        <th> Payment Method Available Currency </th>
+                        <th> Payment TransactionID </th>
+                        <th> Transaction Number provided </th>
+                        <th> Transaction Number provided by admin </th>
+                        <th> Transaction Screenshot by admin </th>
+                        
+                        
+                    </tr>
+                    </thead>
+                    <tbody id="all-bets">
+			
+                    @foreach (LoopItem row in rows)
+                    {
+                       
+                        var rowId = row.GetInteger("depositsID");
+                        var rowName = "depositsID";
+                        var paramerter = "FORM_ROW_ID=" + rowName + "%3d" + rowId + "&VIEW_ID=" + ViewId;
+                        var processingBetStatus = @row.GetValue("deposits_Deposit_Status").ToString();
+                        var transctionScreenshot = @row.GetValue("deposits_Transaction_Screenshot_by_admin");
+                         var initialBallanceImage = @row.GetValue("deposits_Balance_Screenshot");
+                    <tr>   
+                   
+                        <td>
+                            <div class="p-10">
+                                <div>@row.GetValue("depositsID")</div>
+                            </div>
+                        </td>
+                        <td>
+                             <div class="p-10">
+                                <div>@row.GetValue("deposits_Client_Id")</div>
+                             </div>
+                        </td>    
+                        <td>
+                            <div class="p-10">
+                               <div>@row.GetValue("deposits_Client_Email")</div>
+                            </div>
+                        </td>
+                            <td>
+                                <div class="p-10">
+                                    <div>@row.GetValue("deposits_Client_Username")</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="p-10">
+                                    <div>@row.GetValue("deposits_Bookmaker")</div>
+                                </div>
+                    </td> 
+                        <td>
+                    <div class="p-10">
+                                <div>@row.GetValue("deposits_Account_Currency_New")</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-10">
+                                <div>@row.GetValue("deposits_Amount")</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="p-10">
+                                <div>@row.GetValue("deposits_Deposit_Currency")</div>
+                            </div>
+                        </td>
+                        
+                        <td>
+                          <div class="p-10">
+                            <div>@row.GetValue("deposits_Payment_Method")</div>
+                        </div>
+                      </td>
+                        <td><div class="p-10">
+                            <div>@row.GetValue("deposits_Payment_TransactionID")</div>
+                        </div></td>
+                    
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Transaction_Number_provided_by_admin")</div>
+                          </div></td>
+                        <td><div class="p-10">
+                            <div>@row.GetValue("deposits_Request_Created_on_Date")</div>
+                        </div></td>
+                   <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Operator1_Id")</div>
+                          </div></td>
+                          <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Operator1_Email")</div>
+                          </div></td>
+                       
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Operator1_Name")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_First_Operator_Date")</div>
+                          </div></td>
+                        <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Operator2_Id")</div>
+                          </div></td>
+                          <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Operator2_Email")</div>
+                          </div></td>
+                       
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Operator2_Name")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Second_Operator_Date")</div>
+                          </div></td>
+                          <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Oanda_Exchange_Rate_New")</div>
+                          </div></td>
+                        <td><div class="p-10">
+                            <div>@row.GetValue("deposits_Agent_profit")</div>
+                        </div></td>
+                                 <td><div class="p-10">
+                            @if(initialBallanceImage.ToString() != "/Files"){
+                               <a href='@initialBallanceImage' data-lightbox="roadtrip" data-gallery="gallery" class="col-md-4 light-box-after transaction-screenshot-link">
+                            
+                                <div>@row.GetValue("deposits_Initial_Balance")</div>
+                         
+                              </a>
+                            }else{
+                            <div>@row.GetValue("deposits_Initial_Balance")</div>
+                            }
+                          </div></td>
+                         <td><div class="p-10">
+                            <div>@row.GetValue("deposits_Balance_after_Deposit")</div>
+                        </div></td>
+                      
+                         <td><div class="p-10">
+                            <div>@row.GetValue("deposits_Ammount_to_be_deposited_after_commisions")</div>
+                        </div></td>
+                          
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Commision_ammount")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Commision_in_procent")</div>
+                          </div></td>
+                               <td><div class="p-10">
+                        @if( transctionScreenshot != "/Files"){
+                            <div>
+                               <a href="@transctionScreenshot" data-lightbox="roadtrip" data-gallery="gallery" class="col-md-4 light-box-after transaction-screenshot-link">
+                                 <img class = "img-fluid rounded bookmaker-logo-col transaction-screenshot-img" src = "@transctionScreenshot">
+                               </a>        
+                            </div>     
+                           }else{
+                        <div>No Image</div>
+                        }
+                          </div></td>
+                   
+                        <td><div class="p-10">Completed</div></td>
+                        @*
+                      <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Agent_profit")</div>
+                           </div></td>  
+                        <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Ammount_to_be_deposited_after_commisions")</div>
+                          </div></td>  
+                          
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Balance_after_Deposit")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Commision_ammount")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Commision_in_procent")</div>
+                          </div></td>
+                            
+                              <td><div class="p-10">
+                                <div></div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Deposit_Status")</div>
+                          </div></td>
+                         <td><div class="p-10">
+                            @if(initialBallanceImage.ToString() != "/Files"){
+                               <a href='@initialBallanceImage' data-lightbox="roadtrip" data-gallery="gallery" class="col-md-4 light-box-after transaction-screenshot-link">
+                            
+                                <div>@row.GetValue("deposits_Initial_Balance")</div>
+                         
+                              </a>
+                            }else{
+                            <div>@row.GetValue("deposits_Initial_Balance")</div>
+                            }
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Intermediary")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_IsFirstDeposit")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Oanda_Exchange_Rate_New")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Operator1_Email")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Operator1_Id")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Operator1_Name")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Operator2_Email")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Operator2_Id")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Operator2_Name")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Payment_Method_Available__Currency")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Request_Created_on_Date")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Transaction_Number_provided")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Transaction_Number_provided_by_admin")</div>
+                          </div></td>
+                            <td><div class="p-10">
+                                <div>@row.GetValue("deposits_Transaction_Screenshot_by_admin")</div>
+                             
+                               
+                            </div></td>
+                           
+                        <td>
+                            <div class="p-10">
+                                <div>1.@row.GetValue("deposits_Operator1_Name")</div>
+                                <div class="date--time"></div>
+                            </div>
+                        </td>
+                        
+                            
+                       
+                         *@
+
+                    </tr>
+                      
+                    
+  
+                    }
+                    </tbody>
+                </table>
+ 
+            </div>
+        </div>
+

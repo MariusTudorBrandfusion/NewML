@@ -1,0 +1,305 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+
+@GetString("UserManagement:User.ManageAddresses.MakeDefault.Javascript")
+@GetString("UserManagement:User.ManageAddresses.DeleteAddress.Javascript")
+@GetString("UserManagement:User.ManageAddresses.AddAddress.Javascript")
+@GetString("UserManagement:User.ManageAddresses.UpdateAddress.Javascript")
+@{
+string FirstBookmaker = GetGlobalValue("Global:Extranet.Company");
+string FirstCurrency = GetGlobalValue("Global:Extranet.Department");
+string AssignedUsername = GetGlobalValue("Global:Extranet.UserName");
+var userId = GetGlobalValue("Global:Extranet.UserID");
+DateTime localDate = DateTime.Now;
+string initialAddress = GetGlobalValue("Global:Extranet.HouseNumber");
+
+}
+
+<div class="grid__col-12 grid__col--bleed">
+    <div class="grid__cell">
+        <div class="u-pull--left">
+            <h2><i class="fa fa-address-card-o"></i> @Translate("Bookmaker accounts")</h2>
+          
+      
+        </div>
+        <div class="u-pull--right">
+            <button type="button" onclick="addAddress()" class="btn btn--primary dw-mod"><i class="fa fa-plus"></i> @Translate("Sign-up for a new account")</button>
+        </div>
+    </div>
+</div>
+
+
+@if (GetLoop("UserManagement:User.UserAddresses").Count() > 1 ){
+
+@GetString("UserManagement:User.ManageAddresses.FormStart")
+
+foreach (LoopItem address in GetLoop("UserManagement:User.UserAddresses").OrderByDescending(address => address.GetString("UserManagement:User.UserAddress.Default")).ToList())
+{
+
+  string defaultCssClass = address.GetBoolean("UserManagement:User.UserAddress.Default") ? "u-color-light-gray--bg" : "";
+  string bookmakerName = address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Bookmaker");
+  string MaxbetLogo = "/Files/Images/BetIBC/Agents/maxbet.png";
+  string PinnacleLogo = "/Files/Images/BetIBC/Agents/pinnacle.png";
+  string BetfairLogo = "/Files/Images/BetIBC/Agents/betfair.png";
+  string SbobetLogo = "/Files/Images/BetIBC/Agents/sbobet.png";
+  string VIPLogo = "/Files/Images/BetIBC/Agents/vip.png";
+  string MatchbookLogo = "/Files/Images/BetIBC/Agents/matchbook.png";
+  string BetisnLogo = "/Files/Images/BetIBC/Agents/betisn.png";
+  string Turf7Logo = "/Files/Images/BetIBC/Agents/turf7.png";
+  string WicketsLogo = "/Files/Images/BetIBC/Agents/9Wickets.png";
+  string SkypeBettingLogo ="/Files/Images/BetIBC/Agents/skype-betting.png";
+  string OrbitXLogo = "/Files/Images/BetIBC/BookmakerLogos/OrbitX.png";
+  string MaxbetSignUp = "https://maxbet.com/";
+  string PinnacleSignUp = "https://www.ps3838.com/en/";
+  string BetfairSignUp = "https://www.betfair.com";
+  string SbobetSignUp = "https://www.sbobet.com/";
+  string VIPSignUp = "/english/customer-center/sign-in-to-profile";
+  string MatchbookSignUp = "https://www.matchbook.com/";
+  string BetisnSignUp = "";
+  string Turf7SignUp = "https://turf7.com/dist/login";
+  string WicketsSignUp = "https://www.9wickets.com/exchange/member/index.jsp";
+  string OrbitXSignUp = "https://orbitexch.com/customer/";
+string FirstDepositDateRaw = address.GetDate("UserManagement:User.UserAddress.AccessUserAddress_First_Deposit_Date").ToString("MMMM dd, yyyy");
+string FirstDepositDate = FirstDepositDateRaw == "January 01, 0001" ? "N/A" : FirstDepositDateRaw;
+string SecurityQuestion = address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Security_Question");
+string SecurityAnswer = address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Security_Question_Answer");
+string AdressDescription = address.GetString("UserManagement:User.UserAddress.Description");
+string AddressIsDefault = address.GetBoolean("UserManagement:User.UserAddress.Default.Value").ToString();
+
+
+
+  string BookmakerImage = bookmakerName == "Maxbet" ? MaxbetLogo : bookmakerName == "PS3838" ? PinnacleLogo: bookmakerName == "Betfair"? BetfairLogo : bookmakerName == "Sbobet"? SbobetLogo : bookmakerName == "VIP"? VIPLogo : bookmakerName == "Matchbook"? MatchbookLogo : bookmakerName == "Betisn"? BetisnLogo :bookmakerName == "Turf7"? Turf7Logo : bookmakerName == "9Wickets"? WicketsLogo :bookmakerName == "Skype Betting"? SkypeBettingLogo : bookmakerName == "Orbit Exchange" ? OrbitXLogo : "" ;
+
+  string BookmakerLink = bookmakerName == "Maxbet" ? MaxbetSignUp : bookmakerName == "PS3838" ? PinnacleSignUp : bookmakerName == "Betfair" ? BetfairSignUp : bookmakerName == "Sbobet" ? SbobetSignUp : bookmakerName == "VIP" ? VIPSignUp : bookmakerName == "Matchbook"? MatchbookSignUp : bookmakerName == "Betisn"? BetisnSignUp :bookmakerName == "Turf7" ? Turf7SignUp : bookmakerName == "9Wickets" ? WicketsSignUp : bookmakerName == "Orbit Exchange" ? OrbitXSignUp : "";
+  var threeExtra = address.GetString("UserManagement:User.UserAddress.AccessUserAddress_3extra").ToString();
+  var fiveExtra = address.GetString("UserManagement:User.UserAddress.AccessUserAddress_5extra").ToString();
+  var tenExtra = address.GetString("UserManagement:User.UserAddress.AccessUserAddress_10extra").ToString();
+  var twoFlat = address.GetString("UserManagement:User.UserAddress.AccessUserAddress_2flat").ToString();
+  var threeFlat = address.GetString("UserManagement:User.UserAddress.AccessUserAddress_3flat").ToString();
+  var fiveFlat = address.GetString("UserManagement:User.UserAddress.AccessUserAddress_5flat").ToString();
+  var sixFlat = address.GetString("UserManagement:User.UserAddress.AccessUserAddress_6flat").ToString();
+  var tenFlat = address.GetString("UserManagement:User.UserAddress.AccessUserAddress_10flat").ToString();
+  var megaExpress = address.GetString("UserManagement:User.UserAddress.AccessUserAddress_MegaExpressSubscription").ToString();
+  var informedAboutMerchant = address.GetString("UserManagement:User.UserAddress.AccessUserAddress_3informedAboutMerchant").ToString();
+  var depositedbeforeMerchant = address.GetString("UserManagement:User.UserAddress.AccessUserAddress_5DepositedbeforeMerchant").ToString();
+  var nintyFiveShare = address.GetString("UserManagement:User.UserAddress.AccessUserAddress_95share").ToString();
+  var ExpressSubscription = address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Express_subscription").ToString();
+  var moneyToRecover =  address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Money_to_recover").ToString();
+    
+if(!string.IsNullOrEmpty(bookmakerName) &&  AddressIsDefault !="True"){
+  <div class="grid__col-12 grid__col--border grid__col--bleed-x @defaultCssClass">
+    <div class="grid">
+      <div class="grid__col-md-3 grid__col-xs-12 grid__col--bleed-y">
+        <div>
+          <span>@Translate("Bookie Login Url")</span>
+        </div>
+        <br/>
+        <div style="text-align:center;">
+          <strong><a href="@BookmakerLink" alt="Signin link for @bookmakerName" target="_blank" rel="nofollow"  ><img src="@BookmakerImage" align="middle"></a></strong>
+        </div>
+      </div>
+      <div class="grid__col-md-3 grid__col-xs-12 grid__col--bleed-y">
+        <div>
+          <span>@Translate("Login details")</span>
+        </div>
+        <div>
+          <br/>
+        </div>
+        @if (!string.IsNullOrEmpty(@address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Username"))) {
+          <div>
+            <i class="fa fa-user"></i> <span><strong>Username:</strong> </span><span style="color: #0053cc;"> @address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Username")</span>
+          </div>
+        }
+        @if (!string.IsNullOrEmpty(@address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Password"))) {
+          <div>
+            <i class="fa fa-unlock-alt"></i> <span><strong>Password:</strong> </span> <span style="color: #0053cc;">@address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Password")</span>
+          </div>
+        }
+      </div>
+      @if (bookmakerName == "Skype Betting" || bookmakerName == "VIP"  ||  bookmakerName == "PS3838" || bookmakerName == "Orbit Exchange")
+      {
+        <div class="grid__col-md-3 grid__col-xs-12 grid__col--bleed-y">
+          <div>
+            <span>@Translate("Balance/Open Bets")</span>
+          </div>
+          <div>
+            <br/>
+          </div>
+          @if (!string.IsNullOrEmpty(@address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Balance"))) {
+            <div>
+              <i class="fa fa-balance-scale"></i> <span><strong>@Translate("Balance"): </strong> </span> <span style="color: #0053cc;">@address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Balance") @address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Currency")</span>
+            </div>
+          }
+          @if (!string.IsNullOrEmpty(@address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Open_Bets"))) {
+            <div>
+              <i class="fa fa-folder-open"></i> <span><strong>@Translate("Open Bets"):</strong> </span> <span style="color: #0053cc;">@address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Open_Bets") @address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Currency")</span>
+            </div>
+          }
+        </div>
+      }
+      <div class="grid__col-md-3 grid__col-xs-12 grid__col--bleed-y">
+        <div>
+           <span>@Translate("Account Status")</span>
+        </div>
+        <div>
+          <br/>
+        </div>
+        @if( string.IsNullOrEmpty(@address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Username")) && string.IsNullOrEmpty(@address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Password"))){
+          <div>
+            <span style="color: red;"><i class="fa fa-hourglass-half"></i> @Translate("Pending")</span>
+          </div>
+          <div>
+            <small><span style="font-size: 10px">@Translate("Account details verification in progress")</span></small>
+          </div>
+        }else{
+           <div>
+              <span style="color: green"><i class="fa fa-thumbs-up"></i> @Translate("Active")</span>
+           </div>
+           <div>
+            <i class="fa fa-clock"></i>Active since: <span style="color: #0053cc;">@address.GetDate("UserManagement:User.UserAddress.AccessUserAddress_Alocated_since").ToString("MMMM dd, yyyy")</span>
+           </div>
+        }
+      </div>
+      @if( string.IsNullOrEmpty(@address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Username")) && string.IsNullOrEmpty(@address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Password"))){
+        if(string.IsNullOrWhiteSpace(GetGlobalValue("Global:Extranet.SecondaryUser.UserID"))){
+          <button type="button" class="btn btn--secondary dw-mod btn--condensed" onclick="deleteAddress('@address.GetString("UserManagement:User.UserAddress.ID")');" title="@Translate("Cancel Request")"><i class="fa fa-remove"></i></button>
+        }
+      }
+      </div>
+      <div class="grid">
+        <div class="grid__col-12  grid__col--bleed-x">
+          @if (GetLoop("DWExtranetSecondaryUsers").Count > 0 || !string.IsNullOrWhiteSpace(GetGlobalValue("Global:Extranet.SecondaryUser.UserID")))
+          {
+           <div class="grid-cell">
+            <div class="grid__col-3 u-pull--left u-bold u-margin-top">
+            </div>
+            <div class="grid__col-4 u-pull--left u-bold u-margin-top">
+              <ul>
+                <li>@Translate("Currency"):  <strong>@address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Currency")</strong></li>
+                <li>@Translate("First Deposit Date"): <strong> @FirstDepositDate</strong></li>
+              </ul>
+              <h3>@Translate("Exceptions")</h3>
+              <ul class="exceptionsList">
+                @if (nintyFiveShare == "True" && bookmakerName == "Orbit Exchange")
+                {
+                  <li>
+                    <span>95% share</span>
+                  </li>
+                }
+                @if (threeExtra == "True")
+                {
+                  <li>
+                    <span>+3% Extra</span>
+                  </li>
+                }
+                @if (fiveExtra == "True")
+                {
+                  <li>
+                    <span>+5% Extra</span>
+                  </li>
+                }
+                @if (tenExtra == "True")
+                {
+                  <li>
+                    <span>+10% Extra :</span>
+                  </li>
+                }
+                @if (twoFlat == "True")
+                {
+                  <li>
+                    <span>2 Flat :</span>
+                  </li>
+                }
+                @if (threeFlat == "True")
+                {
+                  <li>
+                    <span>3 Flat :</span>
+                  </li>
+                }
+                @if (fiveFlat == "True")
+                {
+                  <li>
+                    <span>5 Flat :</span>
+                  </li>
+                }
+                @if (sixFlat == "True")
+                {
+                  <li>
+                    <span>6 Flat :</span>
+                  </li>
+                }
+                @if (tenFlat == "True")
+                {
+                  <li>
+                    <span>10 Flat :</span>
+                  </li>
+                }
+                @if (megaExpress == "True")
+                {
+                  <li>
+                    <span>Mega Express Subscription :</span>
+                  </li>
+                }
+                @if (informedAboutMerchant == "True")
+                {
+                  <li>
+                    <span>+3% was informed about merchat :</span>
+                  </li>
+                }
+                @if (depositedbeforeMerchant == "True")
+                {
+                  <li>
+                    <span>+5% deposited before to merchant :</span>
+                  </li>
+                }
+                @if (ExpressSubscription == "True")
+                {
+                  <li>
+                    <span>Express Subscription</span>
+                  </li>
+                }
+                @if (moneyToRecover != "" )
+                {
+                  <li>
+                    <span>Money To Recover : @moneyToRecover</span>
+                  </li>
+                }
+                
+              </ul>
+            </div>
+            <div class="grid__col-6 u-pull--left u-bold u-margin-top">
+              @if(bookmakerName == "Betfair"){
+                  <ul>
+                    <li>@Translate("Security question"): <strong>@SecurityQuestion</strong></li>
+                    <li>@Translate("Answer"): <strong>@SecurityAnswer</strong></li>
+                  </ul>
+              }
+         	</div>
+           </div>
+          <div class="grid">
+          <div class="grid__col-4 u-pull--right u-bold u-margin-top">
+          <button type="button" class="btn btn--primary dw-mod btn--condensed" onclick="updateAddress('@address.GetString("UserManagement:User.UserAddress.ID")');" title="@Translate("Edit")"><i class="fa fa-pencil"></i> @Translate("Edit Account")</button>
+          </div>
+        @if( string.IsNullOrEmpty(@address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Username")) && string.IsNullOrEmpty(@address.GetString("UserManagement:User.UserAddress.AccessUserAddress_Password"))){
+         <div class="grid__col-4 u-pull--right u-bold u-margin-top">
+          <button type="button" class="btn btn--primary dw-mod btn--condensed" onclick="deleteAddress('@address.GetString("UserManagement:User.UserAddress.ID")');" title="@Translate("Cancel Request")"><i class="fa fa-remove"></i> @Translate("Cancel Account Request")</button>
+        </div>
+        } @*
+        else{
+        <div class="grid__col-4 u-pull--right u-bold u-margin-top">
+          <button type="button" class="btn btn--primary dw-mod btn--condensed" onclick="deleteAddress('@address.GetString("UserManagement:User.UserAddress.ID")');" title="@Translate("Dealocate account")"><i class="fa fa-remove"></i> @Translate("Cancel Account Request")</button>
+        </div>
+        }*@
+</div>
+                                }
+        </div>
+      </div>
+    </div>}
+}
+@GetString("UserManagement:User.ManageAddresses.FormEnd")
+}else
+
+{
+@GetString("UserManagement:User.ManageAddresses.FormStart")
+@GetString("UserManagement:User.ManageAddresses.FormEnd")
+@Include("/Files/Templates/Designs/BetIBC/UserManagement/Addresses/FirstBookmakerAccount.cshtml")
+}

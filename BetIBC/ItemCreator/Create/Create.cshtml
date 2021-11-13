@@ -1,0 +1,86 @@
+﻿@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+@SnippetStart("PredictionCSS")
+ <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/prediction-form-styling.css" rel="stylesheet">
+   @SnippetEnd("PredictionCSS")
+@{
+
+DateTime dueDate = GetDate("ItemCreator:Edit.Item.Date_Added.Value");
+dueDate.ToString("MM/dd/yyyy hh:mm");
+DateTime nowDate = DateTime.Now;
+
+DateTime gmtDate = DateTime.UtcNow;
+
+}
+
+@GetString("ItemCreator:Edit.Form.Begin")
+<p> @GetString("ItemCreator:Edit.Status") </p>
+
+<div class="item-edit-fields-outer" id="tipsters-prediction-form">
+
+  		
+
+  		<input type="text" class="std item-field form-control" name='@GetString("ItemCreator:Edit.Item.Prediction_Title.Name")' placeholder='@GetString("ItemCreator:Edit.Item.Prediction_Title.Name")' maxlength="255" value="" />
+  		<div class="item-field item-field-rich "> <textarea id='Description' name='Description' placeholder='@GetString("ItemCreator:Edit.Item.Description.Name")'> </textarea><script src='/Admin/Editor/ckeditor/ckeditor/ckeditor.js'></script><script src='/Admin/Link.js'></script><script> CKEDITOR.dtd.$removeEmpty['span'] = false;CKEDITOR.timestamp='15.54';CKEDITOR.defaulImageFolder='/Files/Images';function resizeEditor(){ } window.onresize = resizeEditor; if (typeof CKEDITOR != 'undefined') { CKEDITOR.replace('Description', {"language":"","width":"100%","height":"300","skin":"office2013","customConfig":"/Files/System/Editor/ckeditor/config/clean.js","extraPlugins":"internallink,linktofile,etags,fontawesome,codesnippet,widget,lineutils,wordcount","baseFloatZIndex":800,"contentsCss":["/Admin/Resources/fonts/font-awesome/css/font-awesome.css",""],"allowedContent ":"true"}); CKEDITOR.instances['Description'].on('instanceReady', function(evt){ resizeEditor();if (parent.parent.right != undefined) {$(parent.parent.right.document).fire('shortcut:CKEditorLoaded'); }}); var CKEditorEtagsUserCustomFields = [["{{Email:User.AccessUser_Instant_Messenger_ID||\"FALLBACK VALUE\"}}","Instant Messenger ID","AccessUser_Instant_Messenger_ID"],["{{Email:User.AccessUser_Instant_Messenger||\"FALLBACK VALUE\"}}","Instant Messenger","AccessUser_Instant_Messenger"],["{{Email:User.AccessUser_Time_zone||\"FALLBACK VALUE\"}}","Time zone","AccessUser_Time_zone"],["{{Email:User.AccessUser_Sign_up_date||\"FALLBACK VALUE\"}}","Sign up date","AccessUser_Sign_up_date"],["{{Email:User.AccessUser_First_Deposit_date||\"FALLBACK VALUE\"}}","First Deposit date","AccessUser_First_Deposit_date"],["{{Email:User.AccessUser_Transfer_fees||\"FALLBACK VALUE\"}}","Transfer fees","AccessUser_Transfer_fees"],["{{Email:User.AccessUser_User_Culture||\"FALLBACK VALUE\"}}","User Culture","AccessUser_User_Culture"],["{{Email:User.AccessUser_Payment_Method_Skrill||\"FALLBACK VALUE\"}}","Payment Method Skrill (Moneybookers)","AccessUser_Payment_Method_Skrill"],["{{Email:User.AccessUser_Payment_Method_Neteller||\"FALLBACK VALUE\"}}","Payment Method Neteller","AccessUser_Payment_Method_Neteller"],["{{Email:User.AccessUser_Payment_Method_Bank_Transfer||\"FALLBACK VALUE\"}}","Payment Method Bank Transfer","AccessUser_Payment_Method_Bank_Transfer"],["{{Email:User.AccessUser_Payment_Method_EcoPayz||\"FALLBACK VALUE\"}}","Payment Method EcoPayz","AccessUser_Payment_Method_EcoPayz"],["{{Email:User.AccessUser_Payment_Method_Bitcoin||\"FALLBACK VALUE\"}}","Payment Method Bitcoin","AccessUser_Payment_Method_Bitcoin"],["{{Email:User.AccessUser_Skrill_email||\"FALLBACK VALUE\"}}","Skrill email ","AccessUser_Skrill_email"],["{{Email:User.AccessUser_Neteller_email||\"FALLBACK VALUE\"}}","Neteller email","AccessUser_Neteller_email"],["{{Email:User.AccessUser_ecoPayz_email||\"FALLBACK VALUE\"}}","ecoPayz email","AccessUser_ecoPayz_email"],["{{Email:User.AccessUser_Bank_swift||\"FALLBACK VALUE\"}}","Bank swift","AccessUser_Bank_swift"],["{{Email:User.AccessUser_Bank_bic||\"FALLBACK VALUE\"}}","Bank bic","AccessUser_Bank_bic"],["{{Email:User.AccessUser_Iban||\"FALLBACK VALUE\"}}","Iban","AccessUser_Iban"],["{{Email:User.AccessUser_Cryptocurrency_email||\"FALLBACK VALUE\"}}","Cryptocurrency email","AccessUser_Cryptocurrency_email"],["{{Email:User.AccessUser_Initial_Address||\"FALLBACK VALUE\"}}","Initial Address","AccessUser_Initial_Address"],["{{Email:User.AccessUser_SkypeAccount||\"FALLBACK VALUE\"}}","SkypeAccount","AccessUser_SkypeAccount"]]; CKEDITOR.on('dialogDefinition', CKEditorBrowse); }</script> </div>  
+  
+  	
+  		<input type="text" class="std item-field form-control " name='@GetString("ItemCreator:Edit.Item.Prediction.Name")' placeholder='@GetString("ItemCreator:Edit.Item.Prediction.Name")' maxlength="255" value="" />
+  
+  	
+  		<select name='@GetString("ItemCreator:Edit.Item.Tipster.Name")' placeholder='@GetString("ItemCreator:Edit.Item.Tipster.Name")' id="Tipster" class="std "> 
+  			<option value="">Select @GetString("ItemCreator:Edit.Item.Tipster.Name")</option> 
+  			@foreach(LoopItem option in GetLoop("ItemCreator:Edit.Item.Tipster.Options")) {
+  		
+  			<option value='@option.GetString("ItemCreator:Edit.Item.Tipster.Option.Label")'> @option.GetString("ItemCreator:Edit.Item.Tipster.Option.Label")</option>
+  			}
+		</select>
+
+  
+		<input type="text" class="std item-field form-control " name='@GetString("ItemCreator:Edit.Item.Stake.Name")' placeholder='@GetString("ItemCreator:Edit.Item.Stake.Name")' maxlength="255" value="" />
+  
+  		
+		<input type="text" class="std item-field form-control " name='@GetString("ItemCreator:Edit.Item.Odds.Name")' placeholder='@GetString("ItemCreator:Edit.Item.Odds.Name")' maxlength="255" value="" />  		
+  
+  		
+		<input type="text" class="std item-field form-control " name='@GetString("ItemCreator:Edit.Item.League.Name")' placeholder='@GetString("ItemCreator:Edit.Item.League.Name")' maxlength="255" value="" />
+  
+  		
+		<input type="text" class="std item-field form-control " name='@GetString("ItemCreator:Edit.Item.Tournament.Name")' placeholder='@GetString("ItemCreator:Edit.Item.Tournament.Name")' maxlength="255" value="" />
+  
+  		
+  		<input type="text" class="std item-field form-control " name='@GetString("ItemCreator:Edit.Item.Category.Name")' placeholder='@GetString("ItemCreator:Edit.Item.Category.Name")' maxlength="255" value="" />
+
+  		
+		<select name="Bookmaker_path" id="Bookmaker_path_0" class="std item-field item-field-file selectpicker">
+          <option value="">Select @GetString("ItemCreator:Edit.Item.Bookmaker.Name") </option> 
+          @foreach(LoopItem option in GetLoop("ItemCreator:Edit.Item.Bookmaker.Files")) {
+  		
+  			<option value='@option.GetString("ItemCreator:Edit.Item.Bookmaker.File.Name")'> @option.GetString("ItemCreator:Edit.Item.Bookmaker.File.Name")</option>
+  			}
+		</select>
+  
+  
+		<input type="text" class="std item-field form-control " name='@GetString("ItemCreator:Edit.Item.BettingPrediction.Name")'  placeholder='@GetString("ItemCreator:Edit.Item.BettingPrediction.Name")'maxlength="255" value="" />
+
+		<div class="time">  
+  		<label class="item-edit-field-label control-label">@GetString("ItemCreator:Edit.Item.Date_Added.Name") </label>
+		<p> @nowDate </p>
+		</div>
+
+		<div class="gtmTime">
+		<label class="item-edit-field-label control-label">@GetString("ItemCreator:Edit.Item.Start_GMT.Name") </label>
+		<p>@gmtDate</p>
+		</div> 
+
+  
+  
+</div>
+
+<div class="item-edit-submission">
+    <input type="button" value='Cancel' />
+    <input type="submit" value='Save changes' />
+</div>
+
+<div class="items-clear"></div>
+@GetString("ItemCreator:Edit.Form.End")
+
+
