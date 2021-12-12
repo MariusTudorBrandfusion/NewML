@@ -60,9 +60,9 @@
                                 @if(imageList != null) { 
                                     <div class="responsive-image responsive-image--16-9"> 
                                         @if(!string.IsNullOrEmpty(iconLink)) {
-                                            <a href="@iconLink"><img src="@imageList.Path" /></a> 
+                                            <a name="@iconText" href="@iconLink"><img title="@iconText" loading="lazy" src="/Admin/Public/GetImage.ashx?width=140&crop=5&Quality=99&Format=webP&image=@imageList.Path" /></a> 
                                         } else {
-                                            <img src="@imageList.Path" />
+                                            <img loading="lazy" src="Admin/Public/GetImage.ashx?width=140&crop=5&Quality=99&Format=webP&image=@imageList.Path" title="@iconText" />
                                         }
                                         
                                     </div> 

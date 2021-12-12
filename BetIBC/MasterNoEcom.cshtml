@@ -99,7 +99,8 @@
 	var areaLanguageCultureFull = areaLanguage.Culture.ToLower();
 	string masterPage = string.Empty;
 
-}
+}   
+@*get value for pageMasterPageId*@
 @{
 string queryString = "SELECT * FROM Page WHERE PageId = @currentPageId";
 string connectionString = @"Data Source=WIN1513\SQLEXPRESS;Initial Catalog=df_betibc;Persist Security Info=True;User ID=sa;Password=B2FepdT6ZBkvmU8H;Connect Timeout=600;";
@@ -135,46 +136,71 @@ using (SqlConnection connection = new SqlConnection(connectionString))
     <meta charset="utf-8" />
     <title>@Model.Name</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Favicon -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>     
+  <link rel="preconnect" href ="http://fonts.gstatic.com"  crossorigin>
+  <!-- Favicon -->
     <link href="@favicon" rel="icon" type="image/png">
 
-    <!-- Font awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <!-- Font awesome -->                 
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></noscript>
+  
 
-    <!-- Base (Default, wireframe) styles -->
-    <link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/base/base.css" type="text/css">
+  <!-- Base (Default, wireframe) styles -->  
+  <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/base/base.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/base/base.css"></noscript>
+ 
+  <!-- Rapido Css from Website Settings --> 
+  <link rel="preload" href="@autoCssLink" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="@autoCssLink"></noscript>
+  
 
-    <!-- Rapido Css from Website Settings -->
-    <link id="rapidoCss" rel="stylesheet" href="@autoCssLink" type="text/css">
-
-    <!-- Ignite Css (Custom site specific styles) -->
-    <link id="igniteCss" type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/ignite.min.css" rel="stylesheet">
+  <!-- Ignite Css (Custom site specific styles) --> 
+  <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/ignite.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/ignite.min.css"></noscript>
+ 
     
     @RenderSnippet("BootstrapCss")   
-      
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick-theme.min.css">
-    <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/pagination.css" rel="stylesheet">
-    <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/lightbox.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
-    <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/flag-icon.min.css" rel="stylesheet">
-    <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/jquery.datetimepicker.css" rel="stylesheet">
-    <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/main.css" rel="stylesheet">
-    <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/adi.css" rel="stylesheet">
- <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/bootstrap-datetimepicker.min.css" rel="stylesheet">
-     <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/responsive.css" rel="stylesheet">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick.min.css"></noscript>  
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick-theme.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick-theme.min.css"></noscript> 
+    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/pagination.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/pagination.css"></noscript>  
+    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/lightbox.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/lightbox.css"></noscript>  
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css"></noscript> 
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css"></noscript>  
+    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/flag-icon.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/flag-icon.min.css"></noscript> 
+    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/jquery.datetimepicker.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/jquery.datetimepicker.css"></noscript> 
+    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/main.css"></noscript> 
+    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/adi.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/adi.css"></noscript>
+    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/bootstrap-datetimepicker.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/bootstrap-datetimepicker.min.css"></noscript>
+    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/responsive.css"></noscript>
 
-    <!-- Google fonts -->
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=@navigationFont:100,200,300,400,500,600,700,800,900">
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=@mobileNavigationFont:100,200,300,400,500,600,700,800,900">
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=@headerFont:100,200,300,400,500,600,700,800,900">
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=@subHeaderFont:100,200,300,400,500,600,700,800,900">
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=@contentFont:100,200,300,400,500,600,700,800,900">
+ <!-- Google fonts -->   
+  <link rel="preload" href="//fonts.googleapis.com/css?family=@navigationFont:100,200,300,400,500,600,700,800,900" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="//fonts.googleapis.com/css?family=@navigationFont:100,200,300,400,500,600,700,800,900&display=swap"></noscript>
+  <link rel="preload" href="//fonts.googleapis.com/css?family=@mobileNavigationFont:100,200,300,400,500,600,700,800,900" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="//fonts.googleapis.com/css?family=@mobileNavigationFont:100,200,300,400,500,600,700,800,900&display=swap"></noscript> 
+  <link rel="preload" href="//fonts.googleapis.com/css?family=@headerFont:100,200,300,400,500,600,700,800,900" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="//fonts.googleapis.com/css?family=@headerFont:100,200,300,400,500,600,700,800,900&display=swap"></noscript>
+  <link rel="preload" href="//fonts.googleapis.com/css?family=@subHeaderFont:100,200,300,400,500,600,700,800,900" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="//fonts.googleapis.com/css?family=@subHeaderFont:100,200,300,400,500,600,700,800,900&display=swap"></noscript>
+  <link rel="preload" href="//fonts.googleapis.com/css?family=@contentFont:100,200,300,400,500,600,700,800,900" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="//fonts.googleapis.com/css?family=@contentFont:100,200,300,400,500,600,700,800,900&display=swap"></noscript>
 </head>
 
-<body data-users-feed="@UsersFeedJSON" data-user-new-predictions = "@newPredictionsFeed" data-users-valid-acconts="@allValidAccontsjson" data-users-deposits-history="@depositsHistoryjson" data-users-transfer-history="@transferHistoryjson" data-users-withdraw-history="@withdrawHistoryjson" data-users-feed-details="@UsersFeedDetails" data-articles-feeds="@articlesFeedsjson" data-tipsters-feed="@TipstersFeedJSON" data-tipsters-details="@TipsterDetailsJSON" data-tipster-feed-by-language="@tipsterFeedByLanguage&PageNum=1" data-predictions-count="@countPredictionsFeed" data-all-user-accounts = "@allUserAccountsFeed" data-bookmakers-feed = "@bookmakersFeed" data-exceptions-for-user-feed = "@allExceptionforUser" data-ewallet-comissions = "@EwalletComissionsjson" data-exceptions-transactions = "@exceptionForTransactionsjson" data-booknaker-commisions-transactions = "@BookmakersComissionsjson" data-tipster-sort-by-pages = "@TipsterDetailsWithPageJSON">
-<div class="overlay-master active"><img src="/Files/Images/BetIBC/loader.gif" alt="xno-american" /></div>
+<body  data-user-new-predictions = "@newPredictionsFeed"  data-articles-feeds="@articlesFeedsjson" data-tipsters-feed="@TipstersFeedJSON" data-tipsters-details="@TipsterDetailsJSON" data-tipster-feed-by-language="@tipsterFeedByLanguage&PageNum=1" data-predictions-count="@countPredictionsFeed" data-tipster-sort-by-pages = "@TipsterDetailsWithPageJSON">
+<div class="overlay-master active"><img loading="lazy" src="/Files/Images/BetIBC/loader.gif" alt="xno-american" /></div>
 
     @if (Pageview.Device.ToString() == "Mobile")
     {
@@ -200,7 +226,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
             @if (topLayout == "normal")
             {
                 <!-- Tools menu -->
-                <div class="tools-navigation dw-mod">
+                @*<div class="tools-navigation dw-mod">
                     <div class="center-container dw-mod">
                         <div class="grid">
                             <div class="grid__col-12 grid__col--bleed-y">
@@ -215,7 +241,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
                                                     <div class="dropdown__content">
                                                         @foreach (var lang in Model.Languages)
                                                         { 
-                                                            @* <a href="/Default.aspx?ID=@lang.FirstActivePage.ID" class="menu-dropdown__link dw-mod"> @lang.Name</a> *@
+                                                            $1$ <a href="/Default.aspx?ID=@lang.FirstActivePage.ID" class="menu-dropdown__link dw-mod"> @lang.Name</a> #1#
                                                             string langInfo = "<span class=\"flag-icon flag-icon-" + lang.Culture.Substring(lang.Culture.Length-2).ToLower() + " u-margin-right\"></span>" + lang.Name;
                                                             
                                                             langInfo = "<span class=\"flag-icon flag-icon-" + lang.Culture.Substring(lang.Culture.Length-2).ToLower() + "\"></span>";
@@ -232,7 +258,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*@
 
                 <!-- Header -->
                 <div class="header">
@@ -241,7 +267,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
                             <div class="grid__col-3 grid__col--bleed-y">
                                 <div class="logo dw-mod">
                                     <a href="/Default.aspx?ID=@firstPageId">
-                                        <img src="@logo" alt="Logo" />
+                                        <img loading="lazy" src="@logo" alt="Logo" />
                                     </a>
                                 </div>
                             </div>
@@ -339,7 +365,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
                                 <div class="grid__cell grid__cell--align-middle-left">
                                     <div class="logo dw-mod u-pull--left">
                                         <a href="/Default.aspx?ID=@firstPageId">
-                                            <img src="/Admin/Public/GetImage.ashx?width=180&crop=1&Compression=100&image=@logoWhite" alt="Logo" />
+                                            <img loading="lazy" src="/Admin/Public/GetImage.ashx?width=180&crop=1&Compression=100&image=@logoWhite" alt="Logo" />
                                         </a>
                                     </div>
                                     <div class="u-pull--left">
@@ -450,7 +476,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
                                     }
                                     <div class="logo dw-mod u-pull--left">
                                         <a href="/Default.aspx?ID=@firstPageId">
-                                            <img src="/Admin/Public/GetImage.ashx?width=180&crop=1&Compression=100&image=@logoWhite" alt="Logo" />
+                                            <img loading="lazy" src="/Admin/Public/GetImage.ashx?width=180&crop=1&Quality=99&Format=webP&image=@logoWhite" alt="Logo" />
                                         </a>
                                     </div>
                                     
@@ -581,8 +607,9 @@ using (SqlConnection connection = new SqlConnection(connectionString))
                             {
                                 var socialIcon = ((Dynamicweb.Frontend.ListViewModel)socialitem.GetValue("Icon")).SelectedValue;
                                 string socialLink = socialitem.GetString("Link");
+                                string socialName = socialitem.GetString("Icon");
 
-                                <a href="@socialLink" target="_blank"><i class="fa @socialIcon u-color-light"></i></a>
+                                <a name="@socialName" href="@socialLink" target="_blank"><i class="fa @socialIcon u-color-light"></i></a>
                             }
                         </div>
 
@@ -590,10 +617,10 @@ using (SqlConnection connection = new SqlConnection(connectionString))
          
                 <div class="u-pull--right grid__col-md-6 colection-images">  
                   <div>
-                       <img src="/Files/Images/BetIBC/CuracaoEgaming-Logo.png" alt="E-Gambling Curacao dynamic seal" style="margin: 0 auto;" />
-                    <img src="/Files/Images/BetIBC/xgamblewear.jpg" alt="xgamblewear" />
-                    <img src="/Files/Images/BetIBC/x18-48x48.png" alt="x18" />
-                    <img src="/Files/Images/BetIBC/xno-american-flag-48x48.png" alt="xno-american" />
+                       <img loading="lazy" src="/Files/Images/BetIBC/CuracaoEgaming-Logo.png" alt="E-Gambling Curacao dynamic seal" style="margin: 0 auto;" />
+                    <img loading="lazy" src="/Files/Images/BetIBC/xgamblewear.jpg" alt="xgamblewear" />
+                    <img loading="lazy" src="/Files/Images/BetIBC/x18-48x48.png" alt="x18" />
+                    <img loading="lazy" src="/Files/Images/BetIBC/xno-american-flag-48x48.png" alt="xno-american" />
                   </div>
                 </div>
               </div>
@@ -636,32 +663,32 @@ using (SqlConnection connection = new SqlConnection(connectionString))
     </div>
 </footer>
     <!-- Javascript -->
-    <script src="/Files/Templates/Designs/BetIBC/js/DynamoConfig.js"></script>
+@*<script src="/Files/Templates/Designs/BetIBC/js/DynamoConfig.js"></script>
     <script src="/Files/Templates/Designs/BetIBC/js/Dynamo.js"></script>
     <script src="/Files/Templates/Designs/BetIBC/js/RememberState.js"></script>
     <script src="/Files/Templates/Designs/BetIBC/js/Scroll.js"></script>
     <script src="/Files/Templates/Designs/BetIBC/js/Wireframe.js"></script>
-	 <script src="/Files/Templates/Designs/BetIBC/js/lightbox-plus-jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-   	 <script src="/Files/Templates/Designs/BetIBC/js/jquery.mask.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick.min.js" type="text/javascript"></script>
-	<script src="/Files/Templates/Designs/BetIBC/js/transition.min.js"></script>
-	<script src="/Files/Templates/Designs/BetIBC/js/collapse.js"></script>
-	<script src="/Files/Templates/Designs/BetIBC/js/moment.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
-	<script src="/Files/Templates/Designs/BetIBC/js/jquery.datetimepicker.full.js"></script>
-	<script src="/Files/Templates/Designs/BetIBC/js/pagination.js"></script>
-	<script src="/Files/Templates/Designs/BetIBC/js/latinize.js"></script>
-    <script src="/Files/Templates/Designs/BetIBC/js/Main.js"></script>
-    <script src="/Files/Templates/Designs/BetIBC/js/Custom.js"></script>
-@RenderSnippet("BootstrapJs")
+    <script src="/Files/Templates/Designs/BetIBC/js/lightbox-plus-jquery.js" defer></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/lodash.min.js" defer></script>
+    
+	<script src="/Files/Templates/Designs/BetIBC/js/jquery-ui.min.js" defer></script>
+   	 <script src="/Files/Templates/Designs/BetIBC/js/jquery.mask.js" defer></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/slick.min.js" type="text/javascript" defer></script>
+	<script src="/Files/Templates/Designs/BetIBC/js/transition.min.js" defer></script>
+	<script src="/Files/Templates/Designs/BetIBC/js/collapse.js" defer></script>
+	<script src="/Files/Templates/Designs/BetIBC/js/moment.js" defer></script>
+	<script src="/Files/Templates/Designs/BetIBC/js/bootstrap.min.js" defer></script>
+	<script src="/Files/Templates/Designs/BetIBC/js/select2.min.js" defer></script>
+	<script src="/Files/Templates/Designs/BetIBC/js/jquery.datetimepicker.full.js" defer></script>
+	<script src="/Files/Templates/Designs/BetIBC/js/pagination.js" defer></script>
+	<script src="/Files/Templates/Designs/BetIBC/js/latinize.js" defer></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/Main.js" defer></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/Custom.js" defer></script> *@ 
+<script src="/Files/Templates/Designs/BetIBC/js/jquery.min.js" defer></script>
+<script src="/Files/Templates/Designs/BetIBC/js/allJs.min.js" defer></script>
+@*@RenderSnippet("BootstrapJs")*@
 @RenderSnippet("OpenAccountFormScripts")
-<script>
-        Wireframe.Init(@wireframeMode.ToLower(), "productList", @loggedIn);
-    </script>
+
 	</body>
 </html>
 @helper RenderSocialShare() {
