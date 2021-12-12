@@ -1,0 +1,98 @@
+﻿@using System.Web;  
+@using System.Net;
+@using System.IO;
+@using System.Net.Http;  
+@using System.Web
+@inherits Dynamicweb.Rendering.RazorTemplateBase<Dynamicweb.Rendering.RazorTemplateModel<Dynamicweb.Rendering.Template>>
+ @{
+     DateTime requestDate = DateTime.Now;
+     string dateRequest = requestDate.ToString("yyyy-MM-ddTHH:mm:ssZ");
+     var userAgent = HttpContext.Current.Request.Headers["User-Agent"];
+     
+ }
+@functions {
+
+    public class AccountRequest
+    {  
+        public string ID {get; set;}
+        public string requestType {get; set;}
+        public string date {get; set;}
+        public string bookmaker { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string email { get; set; }
+        public string phone { get; set; }
+        public string country { get; set; }
+        public string preferedLanguage { get; set; }
+        public string timeZone { get; set; }
+        public string currency { get; set; }
+        public string paymentMethod { get; set; }
+        public string messengerPlatform { get; set; }
+        public string messengerId { get; set; }
+        public string iP { get; set; }
+        public string site { get; set; }
+        public string userAgent { get; set; }
+        public string referral { get; set; }
+    }
+    public class Root
+    {
+        public List<AccountRequest> Request { get; set; }
+    }
+}
+@{
+    List<Root> feedObject = new List<Root>();
+    Root feedRoot = new Root();
+    feedRoot.Request = new List<AccountRequest>();
+    AccountRequest dataObject = new AccountRequest();
+    dataObject.bookmaker = GetString("Field.Bookmaker.Value");
+    dataObject.firstName = GetString("Field.FirstName.Value");
+    dataObject.lastName = GetString("Field.LastName.Value"); 
+    dataObject.email = GetString("Field.Email.Value");
+    dataObject.phone = GetString("Field.Phone.Value");
+    dataObject.country = GetString("Field.Country.Value");
+    dataObject.preferedLanguage = GetString("Field.Language.Value");
+    dataObject.timeZone = GetString("Field.Timezone.Value");
+    dataObject.currency = GetString("Field.Currency.Value");
+    dataObject.paymentMethod = GetString("Field.PaymentMethod.Value");
+    dataObject.messengerPlatform = GetString("Field.InstantMessengerID.Value");
+    dataObject.messengerId = GetString("Field.Messengerid.Value");
+    dataObject.iP = GetString("Field.IP.Value");
+    dataObject.site = "Bet-Ibc";  
+    dataObject.ID = GetString("Form.SubmitCount"); 
+    dataObject.requestType = "OpenAccountRequest";
+    dataObject.date = dateRequest;
+    dataObject.userAgent = userAgent;
+    dataObject.referral =GetString("Field.referralUrl.Value");
+    feedRoot.Request.Add(dataObject);
+    feedObject.Add(feedRoot);
+    string jsonFeed = Newtonsoft.Json.JsonConvert.SerializeObject(feedObject);
+    var url = "https://aws-api.svc.violetvault.com/ingest-web/";
+    var httpRequest = (HttpWebRequest)WebRequest.Create(url);
+    httpRequest.Method = "POST";
+    httpRequest.Headers["x-api-key"] = "Jnte5k6WTu60MQhfqfU1o4vR4kwjFRMr5RXecQlf";
+    httpRequest.ContentType = "application/json";
+    var data = jsonFeed;
+    using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
+    {
+        streamWriter.Write(data);
+    }
+    var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+    {
+        var result = streamReader.ReadToEnd();
+    }
+    //Console.WriteLine(httpResponse.StatusCode);
+    if (httpResponse.StatusCode.ToString() == "OK")
+    {
+        <h3>
+             @Translate("Your request is being processed you will soon receive an email with more information.") 
+        </h3>
+        }
+    else
+    {
+        <h3>
+            @Translate("An error occured, please try again later") 
+        </h3>
+    }
+}
+ 

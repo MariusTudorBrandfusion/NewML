@@ -6,8 +6,11 @@
 @using Dynamicweb.Security;
 @using System
 @using System.Web
+@using System.Data
+@using System.Data.SqlClient;
 @{
-    //General settings
+    //General settings 
+	int currentPageId = Model.ID;
     string favicon = Model.Area.Item.GetFile("LogoFavicon") != null ? Model.Area.Item.GetFile("LogoFavicon").Path : "/Files/Images/favicon.png";
     string logo = Model.Area.Item.GetFile("LogoImage") != null ? Model.Area.Item.GetFile("LogoImage").Path : "/Files/Images/logo-dynamicweb.png";
     string logoWhite = Model.Area.Item.GetFile("LogoImageWhite") != null ? Model.Area.Item.GetFile("LogoImageWhite").Path : "/Files/Images/DWLogo.png";
@@ -62,7 +65,7 @@
     string autoCssLink = "/Files/Templates/Designs/BetIBC/css/rapido/betibc_" + @areaId + ".min.css";
     int pageId = Model.TopPage.ID;
     string newsletterSignUpPageId = GetPageIdByNavigationTag("NewsletterSignUp").ToString();
-    string searchPageId = "";
+   // string searchPageId = "";
 
     string stickyTop = stickyMenu ? "top-container--sticky" : "";
     string pagePos = stickyMenu ? "js-page-pos" : "";
@@ -94,9 +97,38 @@
     var areaLanguage = Model.Area.Languages.First(l => l.IsCurrent);
     var areaLanguageCulture = areaLanguage.Culture.Substring(areaLanguage.Culture.Length-2).ToLower();
 	var areaLanguageCultureFull = areaLanguage.Culture.ToLower();
-}
-<!DOCTYPE html>
+	string masterPage = string.Empty;
 
+}
+@{
+string queryString = "SELECT * FROM Page WHERE PageId = @currentPageId";
+string connectionString = @"Data Source=WIN1513\SQLEXPRESS;Initial Catalog=df_betibc;Persist Security Info=True;User ID=sa;Password=B2FepdT6ZBkvmU8H;Connect Timeout=600;";
+using (SqlConnection connection = new SqlConnection(connectionString))
+{
+    SqlCommand command = new SqlCommand(queryString, connection);
+    command.Parameters.AddWithValue("@currentPageId", SqlDbType.VarChar);
+    connection.Open();
+    SqlDataReader reader = command.ExecuteReader();
+    try
+    {
+        while (reader.Read())
+        {
+			//masterPage = reader["PageMasterPageID"].ToString();
+        
+
+            //masterPage = "suces";
+                         <h2>anotherTest</h2>
+        }
+    }
+    finally
+    {
+        reader.Close();
+
+    }
+}
+}
+
+<!DOCTYPE html>
 <html lang="@areaLanguageCultureFull">
 <head>
   @RenderMasterMetadata()
@@ -131,7 +163,7 @@
     <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/main.css" rel="stylesheet">
     <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/adi.css" rel="stylesheet">
  <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/bootstrap-datetimepicker.min.css" rel="stylesheet">
- 
+     <link type="text/css" href="/Files/Templates/Designs/BetIBC/css/ignite/responsive.css" rel="stylesheet">
 
     <!-- Google fonts -->
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=@navigationFont:100,200,300,400,500,600,700,800,900">
@@ -162,7 +194,6 @@
             })
         </nav>
     }
-     
     <main class="site dw-mod">
         <header class="top-container @stickyTop" id="top">
       
@@ -465,11 +496,11 @@
                 </nav>
             }
     @* Impersonation bar *@
-            @if (Model.CurrentUser.ID > 0 && Model.SecondaryUsers.Count > 0)
+            @*@if (Model.CurrentUser.ID > 0 && Model.SecondaryUsers.Count > 0)
             {
                 <div class="u-color-warning--bg">
                     <div class="center-container top-container__center-container dw-mod">
-                        @*Impersonation*@
+                        $1$Impersonation#1#
                         <div class="grid">
                             <div class="grid--align-self-center grid__col-x">
                                 @if (Model.CurrentSecondaryUser != null && Model.CurrentSecondaryUser.ID > 0)
@@ -497,7 +528,7 @@
                         </div>
                     </div>
                 </div>
-            }
+            }         *@
         </header>
 
         <!-- Render the content -->
@@ -507,6 +538,7 @@
             </section>
         </div>
 		<div class="grid__col-md-2 grid__col-xs-12">
+
                   @RenderSocialShare()
         </div>
     </main>
@@ -625,8 +657,9 @@
 	<script src="/Files/Templates/Designs/BetIBC/js/latinize.js"></script>
     <script src="/Files/Templates/Designs/BetIBC/js/Main.js"></script>
     <script src="/Files/Templates/Designs/BetIBC/js/Custom.js"></script>
-    @RenderSnippet("BootstrapJs")
-    <script>
+@RenderSnippet("BootstrapJs")
+@RenderSnippet("OpenAccountFormScripts")
+<script>
         Wireframe.Init(@wireframeMode.ToLower(), "productList", @loggedIn);
     </script>
 	</body>

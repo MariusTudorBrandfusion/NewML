@@ -29,7 +29,7 @@
     {
         containerClasses += " center-container--with-background-image";
         gridClasses += " center-container--with-background-image";
-        fullBackgroundImage = "style='background-image:url(/Admin/Public/GetImage.ashx?width=1900&amp;height=1100&amp;crop=1&amp;Compression=90&amp;image=" + Model.Item.GetFile("BackgroundImage").Path + ");'";
+        fullBackgroundImage = "style='background-image:url(/Admin/Public/GetImage.ashx?image=" + Model.Item.GetFile("BackgroundImage").Path + "&width=1900&height=1100&crop=0&Quality=99&Compression=99&Format=webP)'";
     } else if (string.IsNullOrEmpty(Model.Item.GetList("BackgroundColor").SelectedValue)) {
         backgroundColor = "u-color-light--bg";
     }
@@ -58,9 +58,9 @@
                 if (imageStyle == "background" && paragraph.GetFile("Image") != null)
                 {
                     columnCssClasses += " grid__col--bg";
-                    backgroundImage = "style='background-image:url(/Admin/Public/GetImage.ashx?width=1800&amp;height=800&amp;crop=5&amp;Compression=100&amp;image=" + paragraph.GetFile("Image").Path + ");'";
+                    backgroundImage = "style='background-image:url(/Admin/Public/GetImage.ashx?Image=" + paragraph.GetFile("Image").Path + "&Crop=5&DoNotUpscale=1&width=1800&height=800&crop=5&Quality=99&Format=webP);'";
                 }
-
+                   
                 <div class="@columnCssClasses paragraph-container" @backgroundImage>
                 	<div class="@containerClasses slider-main-homepage dw-mod">
                     	@RenderContent(paragraph)
