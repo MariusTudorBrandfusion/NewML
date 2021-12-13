@@ -226,39 +226,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
             @if (topLayout == "normal")
             {
                 <!-- Tools menu -->
-                @*<div class="tools-navigation dw-mod">
-                    <div class="center-container dw-mod">
-                        <div class="grid">
-                            <div class="grid__col-12 grid__col--bleed-y">
-                                <div class="grid-cell">
-                                    <ul class="menu menu-tools dw-mod u-pull--right" >
-                                        @if (Model.Languages.Count > 0)
-                                        {
-                                            <li class="menu__item">
-                                                <input type="checkbox" id="Languages" class="dropdown-trigger" />
-                                                <div class="dropdown menu__item">
-                                                    <span class="flag-icon flag-icon-@areaLanguageCulture"></span> @areaLanguage.Name
-                                                    <div class="dropdown__content">
-                                                        @foreach (var lang in Model.Languages)
-                                                        { 
-                                                            $1$ <a href="/Default.aspx?ID=@lang.FirstActivePage.ID" class="menu-dropdown__link dw-mod"> @lang.Name</a> #1#
-                                                            string langInfo = "<span class=\"flag-icon flag-icon-" + lang.Culture.Substring(lang.Culture.Length-2).ToLower() + " u-margin-right\"></span>" + lang.Name;
-                                                            
-                                                            langInfo = "<span class=\"flag-icon flag-icon-" + lang.Culture.Substring(lang.Culture.Length-2).ToLower() + "\"></span>";
-
-                                                            <a href="/Default.aspx?AreaID=@Dynamicweb.Services.Pages.GetPage(lang.Page.ID).Area.ID" class="menu-dropdown__item menu-dropdown__item--link dw-mod">@langInfo @lang.Name</a>
-                                                        }
-                                                    </div>
-                                                    <label class="dropdown-trigger-off" for="Languages"></label>
-                                                </div>
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>*@
+               
 
                 <!-- Header -->
                 <div class="header">
