@@ -107,18 +107,14 @@ string connectionString = @"Data Source=WIN1513\SQLEXPRESS;Initial Catalog=df_be
 using (SqlConnection connection = new SqlConnection(connectionString))
 {
     SqlCommand command = new SqlCommand(queryString, connection);
-    command.Parameters.AddWithValue("@currentPageId", SqlDbType.VarChar);
+    command.Parameters.AddWithValue("@currentPageId",currentPageId);
     connection.Open();
     SqlDataReader reader = command.ExecuteReader();
     try
     {
         while (reader.Read())
         {
-			//masterPage = reader["PageMasterPageID"].ToString();
-        
-
-            //masterPage = "suces";
-                         <h2>anotherTest</h2>
+			masterPage = reader["PageMasterPageID"].ToString();
         }
     }
     finally
@@ -401,9 +397,9 @@ using (SqlConnection connection = new SqlConnection(connectionString))
                                        template = "BaseMenuWithDropdown.xslt"
                                     })
                                        @if (Model.Languages.Count > 0)
-                                        {
-                                        
-                                                <div class="menu__link is-dropdown is-dropdown--no-icon language-tools dw-mod" data-navigation-feed ="/Default.aspx?ID=179957&PageMaster=554">
+                                       {
+                                           var masterPageId = Model.Area.ID == 1 ? currentPageId.ToString() : masterPage;
+                                                <div class="menu__link is-dropdown is-dropdown--no-icon language-tools dw-mod" data-navigation-feed ="/Default.aspx?ID=179957&PageMaster=@masterPageId">
                                                     <span class="flag-icon flag-icon-@areaLanguageCulture"></span> @areaLanguage.Name <i class="fa fa-chevron-down"></i>
                                                     <div class="menu menu--dropdown languages">
                                                         @foreach (var lang in Model.Languages)
@@ -444,7 +440,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
                                     }
                                     <div class="logo dw-mod u-pull--left">
                                         <a href="/Default.aspx?ID=@firstPageId">
-                                            <img loading="lazy" src="/Admin/Public/GetImage.ashx?width=180&crop=1&Quality=99&Format=webP&image=@logoWhite" alt="Logo" />
+                                            <img loading="lazy" src="/Admin/Public/GetImage.ashx?width=276&height=90&crop=1&Quality=99&Format=webP&image=@logoWhite" alt="Logo" />
                                         </a>
                                     </div>
                                     
@@ -526,8 +522,8 @@ using (SqlConnection connection = new SqlConnection(connectionString))
         </header>
 
         <!-- Render the content -->
-        <div id="page" class="page @pagePos">
-            <section class="content-container dw-mod" id="content">
+    <div id="page" class="page @pagePos">   
+     <section class="content-container dw-mod" id="content">
                 @ContentPlaceholder()
             </section>
         </div>
@@ -631,15 +627,16 @@ using (SqlConnection connection = new SqlConnection(connectionString))
     </div>
 </footer>
     <!-- Javascript -->
-@*<script src="/Files/Templates/Designs/BetIBC/js/DynamoConfig.js"></script>
+<script src="/Files/Templates/Designs/BetIBC/js/DynamoConfig.js"></script>
     <script src="/Files/Templates/Designs/BetIBC/js/Dynamo.js"></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/jquery.min.js" defer></script>
     <script src="/Files/Templates/Designs/BetIBC/js/RememberState.js"></script>
     <script src="/Files/Templates/Designs/BetIBC/js/Scroll.js"></script>
     <script src="/Files/Templates/Designs/BetIBC/js/Wireframe.js"></script>
+ 
     <script src="/Files/Templates/Designs/BetIBC/js/lightbox-plus-jquery.js" defer></script>
     <script src="/Files/Templates/Designs/BetIBC/js/lodash.min.js" defer></script>
-    
-	<script src="/Files/Templates/Designs/BetIBC/js/jquery-ui.min.js" defer></script>
+<script src="/Files/Templates/Designs/BetIBC/js/jquery-ui.min.js" defer></script>
    	 <script src="/Files/Templates/Designs/BetIBC/js/jquery.mask.js" defer></script>
     <script src="/Files/Templates/Designs/BetIBC/js/slick.min.js" type="text/javascript" defer></script>
 	<script src="/Files/Templates/Designs/BetIBC/js/transition.min.js" defer></script>
@@ -651,9 +648,11 @@ using (SqlConnection connection = new SqlConnection(connectionString))
 	<script src="/Files/Templates/Designs/BetIBC/js/pagination.js" defer></script>
 	<script src="/Files/Templates/Designs/BetIBC/js/latinize.js" defer></script>
     <script src="/Files/Templates/Designs/BetIBC/js/Main.js" defer></script>
-    <script src="/Files/Templates/Designs/BetIBC/js/Custom.js" defer></script> *@ 
-<script src="/Files/Templates/Designs/BetIBC/js/jquery.min.js" defer></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/Custom.js" defer></script> 
+
+@*
 <script src="/Files/Templates/Designs/BetIBC/js/allJs.min.js" defer></script>
+*@
 @*@RenderSnippet("BootstrapJs")*@
 @RenderSnippet("OpenAccountFormScripts")
 
