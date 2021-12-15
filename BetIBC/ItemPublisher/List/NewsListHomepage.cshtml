@@ -8,8 +8,8 @@
 		string linkImagineRaw = item.GetString("ItemPublisher:Item.Image");
 
         <div class="grid__col-md-4 grid__col-sm-4" >
-            <a href="@link" class="responsive-image responsive-image--4-3">
-                <img src="/Admin/Public/GetImage.ashx?width=412&amp;height=200&amp;crop=5&amp;Compression=75&amp;image=@linkImagineRaw" />
+            <a  href="@link" class="responsive-image responsive-image--4-3" name='Open article'>
+                <img loading="lazy" src="/Admin/Public/GetImage.ashx?width=412&amp;height=200&amp;crop=5&amp;Compression=75&amp;image=@linkImagineRaw" alt="News Image"/>
             </a>
             <div class="grid-item">
                 <h2 class="article__header">@item.GetString("ItemPublisher:Item.Title")</h2>

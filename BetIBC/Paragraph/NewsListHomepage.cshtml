@@ -61,7 +61,7 @@
                     backgroundImage = "style='background-image:url(/Admin/Public/GetImage.ashx?width=1800&amp;height=800&amp;crop=1&amp;Compression=90&amp;image=" + paragraph.GetFile("Image").Path + ");'";
                 }
 
-                <div class="@columnCssClasses paragraph-container" @backgroundImage>
+                <div class="@columnCssClasses paragraph-container " @backgroundImage>
                     @RenderContent(paragraph)
                 </div>
             }

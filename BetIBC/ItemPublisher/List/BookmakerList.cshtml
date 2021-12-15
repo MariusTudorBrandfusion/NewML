@@ -28,7 +28,7 @@
 
             <div class="u-pull--left"> 
                 @if(!string.IsNullOrEmpty(bookmakerLogo)) {
-                    <img src="@bookmakerLogo" class="img-responsive"/>
+                    <img src="Admin/Public/GetImage.ashx?width=140&height=40&crop=5&Quality=99&Format=webP&image=@bookmakerLogo" alt = "bookmaker-logo" loading="lazy" class="img-responsive"/>
                 } 
             </div>
             <div class="u-pull--right">

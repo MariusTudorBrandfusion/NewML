@@ -1,7 +1,8 @@
 ﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
+
 @MasterPageFile("MasterNoEcom.cshtml")
 @{
-var currentPageId = HttpContext.Current.Request.QueryString.Get("ID");
+var currentPageId1 = HttpContext.Current.Request.QueryString.Get("ID");
 
 }
 @if (Model.PropertyItem.GetBoolean("ShowBreadcrumb")) {
@@ -30,7 +31,7 @@ var currentPageId = HttpContext.Current.Request.QueryString.Get("ID");
     <h1 class="article__header__news">@Model.Item.GetString("Title")</h1>
 
    @* <div class="responsive-image responsive-image--16-9">
-        <img src="/Admin/Public/GetImage.ashx?width=1280&amp;height=723&amp;crop=5&amp;Compression=75&amp;DoNotUpscale=1&amp;image=@Model.Item.GetFile("Image").Path" />
+        <img src="/Admin/Public/GetImage.ashx?width=1280&amp;height=723&amp;crop=5&amp;Compression=75&amp;DoNotUpscale=1&amp;image=@Model.Item.GetFile(" image").path"="" />
     </div>*@
   <div class="article__content__news__container">
     @Model.Item.GetString("Text")
@@ -40,7 +41,7 @@ var currentPageId = HttpContext.Current.Request.QueryString.Get("ID");
 </article>
   
   
-  <div class="center-container_buttons-wrapper"  data-id="@currentPageId">
+  <div class="center-container_buttons-wrapper" data-id="@currentPageId1">
     <a href="" class="prev-article button" id="prev-btn">
       <i class="fa fa-chevron-left" style="margin-right: 10px;"></i>@Translate("Previous Article", "Previous Article")
       <span class="prev-article-title"></span>
@@ -55,4 +56,4 @@ var currentPageId = HttpContext.Current.Request.QueryString.Get("ID");
   </div>
   
   
-</div>
+</div></dynamicweb.frontend.pageviewmodel>

@@ -4081,6 +4081,11 @@ display:inline-block;
     display: none;
     
 }
+.main-navigation .logo .img{
+    height: 60px;  
+    
+}
+
 @media(max-width: 1280px){
     .odds-convertor-calculator .col-5{
         width: 40%;
@@ -5071,7 +5076,54 @@ border:0;
   width:100%;
     grid-template-columns:100%;
   }
-  
+   #latest-tips .row{
+        display: grid !important;
+grid-template-columns: 100%;
+    }
+    #latest-tips .col-4-tips-mobile{
+        width: 100%;
+       grid-row: 2; 
+    }
+    #latest-tips .col-8-tips-mobile{
+        width: 100%;
+        grid-row: 1;
+    }
+    #latest-tips .col-game-name{
+        color: #0D0A0B;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 25px;
+        padding-left: 10px;
+        margin-bottom: 15px;
+    }
+    #latest-tips .col.col-stake {
+        width: 50%;
+        font-weight: 600;
+        padding-left: 10px;
+        margin-bottom: 15px;
+    }
+    #latest-tips .col-league-name-mobile{
+        display: block;
+        width: 100%;
+        padding-left: 10px;
+        font-size: 13px;
+        color: #454955;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+    #latest-tips .col.col-odd{
+        margin-bottom: 15px;  
+        
+    }
+    #latest-tips .col-bet{
+        margin-bottom: 20px;
+        padding-left: 10px;
+
+    }
+    #latest-tips .col-bet a{
+        font-size: 16px;
+        font-weight: 700; 
+    }
 }
 
 @media(min-width: 450px){
@@ -5080,7 +5132,7 @@ border:0;
     }
 }
 
-@media(max-width: 992px){
+@media(max-width: 992px){ 
 
     .sign-in-dropdown{
         right: 0;
