@@ -175,12 +175,14 @@ using (SqlConnection connection = new SqlConnection(connectionString))
     <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/jquery.datetimepicker.css"></noscript> 
     <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/main.css"></noscript> 
-    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/adi.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/adi.css"></noscript>
-    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/bootstrap-datetimepicker.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/bootstrap-datetimepicker.min.css"></noscript>
-    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/responsive.css"></noscript>
+  <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/adi.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/adi.css"></noscript> 
+
+  <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/bootstrap-datetimepicker.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/bootstrap-datetimepicker.min.css"></noscript> 
+
+  <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/responsive.css"></noscript>
 
  <!-- Google fonts -->   
   <link rel="preload" href="//fonts.googleapis.com/css?family=@navigationFont:100,200,300,400,500,600,700,800,900" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -573,7 +575,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
                                 string socialLink = socialitem.GetString("Link");
                                 string socialName = socialitem.GetString("Icon");
 
-                                <a name="@socialName" href="@socialLink" target="_blank"><i class="fa @socialIcon u-color-light"></i></a>
+                                <a href="@socialLink" target="_blank" name="@socialName" rel="noopener"><i class="fa @socialIcon u-color-light"></i></a>
                             }
                         </div>
 
