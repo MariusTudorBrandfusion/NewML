@@ -51,10 +51,10 @@
 <div class="center-container tipster-header">
   <div class="grid__col-md-12">
       <div class="tipster_values">
-        <div class="tipster-image-mobile"><img src='/Admin/Public/GetImage.ashx?width=800&amp;crop=5&amp;Compression=75&amp;DoNotUpscale=1&amp;image=@Model.Item.GetFile("Tipster_Image").Path' /></div>
+        <div class="tipster-image-mobile"><img loading="lazy" src='/Admin/Public/GetImage.ashx?Image=@Model.Item.GetFile("Tipster_Image").Path&Crop=5&DoNotUpscale=1&width=200&height=200&Quality=99&Format=webP' height="200px" width="200px" alt="tipster-image"/></div>
         <div id="tipster-year">@tipsterSignupDate<span class="values-headline">@Translate("Since", "Since")</span></div>
         <div id="tipster-picks"><span class="values-headline">@Translate("Picks", "Picks")</span></div>
-        <div class="tipster-image"><img src='/Admin/Public/GetImage.ashx?width=800&amp;crop=5&amp;Compression=75&amp;DoNotUpscale=1&amp;image=@Model.Item.GetFile("Tipster_Image").Path' /><span>@tipsterFlag</span></div>
+        <div class="tipster-image"><img loading="lazy" src='/Admin/Public/GetImage.ashx?Image=@Model.Item.GetFile("Tipster_Image").Path&Crop=5&DoNotUpscale=1&width=200&height=200&Quality=99&Format=webP' width="200px" height="200px" alt="tipster-image" /><span>@tipsterFlag</span></div>
         <div id="tipster-sum"><span class="values-headline">@Translate("Stake", "Stake")</span></div>
         <div id="tipster-sum-percent"><span class="values-headline">ROI</span></div>
         
@@ -121,7 +121,7 @@
             <div class = "grid">
                <div class="grid__col-md-12">
         <h3 class = "text-center primary-title">@Translate("Betting Stats", "Betting Stats")</h3>
-             <img src = '@Model.Item.GetValue("Betting_Stats")'>
+        
           
           
              </div>
@@ -217,9 +217,9 @@
        <div class="grid__col-md-4">@videoCode</div>
        
                                   } 
-           <div class = "grid__col-md-12">
-             <a href = '@Model.Item.GetString("Advertising_Image_Link")'><img src = '@Model.Item.GetString("Advertising_Image")'><a/>
-       </div<=>
+     <div class = "grid__col-md-12">
+       <a href = '@Model.Item.GetString("Advertising_Image_Link")'><img src = '@Model.Item.GetString("Advertising_Image")'><a/>
+     </div>
          
        </div>
        }else{

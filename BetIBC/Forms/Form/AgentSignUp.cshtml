@@ -11,6 +11,7 @@
 
 @foreach (LoopItem field in GetLoop("Fields"))
 {
+ 
 	string fieldName = field.GetString("Field.Name");
 	string fieldControl = field.GetString("Field.Control");
 
@@ -26,8 +27,8 @@
         string required = field.GetBoolean("Field.Required") ? "required" : "";
 
         <div class="form__field-group @field.GetString("Field.CssClass")">
-            <label for="@field.GetValue("Field.Systemname")">@Translate(string.Format("FormInputLabel.{0}", fieldName), fieldName)</label>
-            <input type="text" name="@field.GetString("Field.Name")" value="@field.GetString("Field.Value")" @required/>
+            <label for="@field.GetValue("Field.SystemName")">@Translate(string.Format("FormInputLabel.{0}", fieldName), fieldName)</label>
+            <input type="text" name="@field.GetString("Field.SystemName")" value="@field.GetString("Field.Value")" @required/>
             @field.GetValue("Field.Description")
         </div>
     }
@@ -36,8 +37,8 @@
         string required = field.GetBoolean("Field.Required") ? "required" : "";
 
         <div class="form__field-group @field.GetString("Field.CssClass")">
-            <label for="@field.GetValue("Field.Systemname")">@Translate(string.Format("FormInputLabel.{0}", fieldName), fieldName)</label>
-            <textarea name="@field.GetString("Field.Name")" value="@field.GetString("Field.Value")" @required ></textarea>
+            <label for="@field.GetValue("Field.SystemName")">@Translate(string.Format("FormInputLabel.{0}", fieldName), fieldName)</label>
+            <textarea name="@field.GetString("Field.SystemName")" value="@field.GetString("Field.Value")" @required ></textarea>
             @field.GetValue("Field.Description")
         </div>
     }
@@ -50,7 +51,7 @@
     {	
 		
 		<div class="form__field-group termsConditions">
-            <label for="@field.GetValue("Field.Systemname")">@Translate(string.Format("FormInputLabel.{0}", fieldName), fieldName) <a href="/Default.aspx?ID=@termsPageId">@Translate("TermsAndConditions", "Terms &amp Conditions")</a></label>
+            <label for="@field.GetValue("Field.SystemName")">@Translate(string.Format("FormInputLabel.{0}", fieldName), fieldName) <a href="/Default.aspx?ID=@termsPageId">@Translate("TermsAndConditions", "Terms &amp Conditions")</a></label>
             @field.GetString("Field.Control")
             @field.GetValue("Field.Description")
         </div>

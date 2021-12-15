@@ -3168,7 +3168,7 @@ text-decoration:none;
 background-color:#0FBB7D;
   margin-top:70px;
 }
-#bookmaker-name-prediction-button{
+.btn--primary.dw-mod.bookmaker-name-prediction-button{
     width: 250px;
 
     font-size: 16px;
@@ -4085,7 +4085,12 @@ display:inline-block;
     height: 60px;  
     
 }
-
+.col-mobile-status{
+    display: none;
+}
+.col-league-name-mobile{
+    display: none;
+}
 @media(max-width: 1280px){
     .odds-convertor-calculator .col-5{
         width: 40%;
@@ -5123,6 +5128,41 @@ grid-template-columns: 100%;
     #latest-tips .col-bet a{
         font-size: 16px;
         font-weight: 700; 
+    }
+    #latest-tips .row.title-row{
+        display: none !important;
+    }
+    #latest-tips .col-status{
+        display: none;
+    }
+    #latest-tips .col-mobile-status{
+        display: block;
+    }
+    .col-4-tips-mobile .bookmaker-mobile{
+        display: grid;
+        grid-template-columns: 50% 50%;
+       
+    }
+    .col-4-tips-mobile .bookmaker-mobile h1{
+        font-size: 13px;
+        color: #454955;
+        font-weight: 700;
+        padding: 10px;
+        text-align: left;
+        line-height: 18px;
+    }
+    #latest-tips .row{
+        width: 90%;
+    }
+    .tipster-section-mobile{
+        display: none;
+    }
+    #latest-tips .col-tipster-name-mobile{
+        display: none;
+    }
+    #latest-tips .col-mobile-status{
+        margin-bottom: 10px;
+        padding-left: 10px;
     }
 }
 

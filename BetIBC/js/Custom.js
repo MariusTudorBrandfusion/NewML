@@ -1529,7 +1529,7 @@ $(document).ready(function () {
                     if(tips[i].vipScreenshot != ""){
                     output += "<div class = 'grid__col-md-4 grid__col-xs-12 vip-screenshot-wrapper'>";
                     output += "<a href = '" + tips[i].vipScreenshot + "' data-lightbox='vipscreenshot' data-gallery='gallery' class = 'light-box-after'>";
-                    output += "<img class = 'bookmaker-logo-col-vip-screenshot' src='" + tips[i].vipScreenshot + "'>";
+                    output += "<img class = 'bookmaker-logo-col-vip-screenshot' src='/Admin/Public/GetImage.ashx?Image=" + tips[i].vipScreenshot + "&Crop=5&DoNotUpscale=1&width=200&height=250&Quality=99&Format=webP' width='200px' height='250px' alt='result-screenshot'>";
                     output += "</a>"
                     output += "</div>"
                       }
@@ -1547,13 +1547,13 @@ $(document).ready(function () {
                     output += "<div class='grid'>";
                     output += "<div class='grid__col-md-3 grid__col-xs-12'>";
                     output += "<p><strong>Prediction: </strong>" + tips[i].predictionNumber + " </p>";
-                    output += "<p><strong>Tipster: </strong> <a href =/Default.aspx?ID=" + tips[i].TipsterPageId +">" + tips[i].tipster + "</a></p>";
+                    output += "<p><strong>Tipster: </strong> <a href =/Default.aspx?ID=" + tips[i].TipsterPageId +" title='tipste-link'>" + tips[i].tipster + "</a></p>";
                     output += "<p><strong>Category: </strong> " + tips[i].tipCategory + " </p>";
                     output += "<p><strong>League: </strong> " + tips[i].league + " </p>";
                     output += "</div>";
                     output += " <div class='grid__col-md-3 grid__col-xs-12'>";
 
-                    output += "<p><strong>Bookmaker</strong> <img class='bookmaker-logo' src = '" + tips[i].bookmakerLogo + "'> </p>";
+                    output += "<p><strong>Bookmaker</strong> <img class='bookmaker-logo' loading='lazy' src = '/Admin/Public/GetImage.ashx?Image=" + tips[i].bookmakerLogo + "&Crop=5&DoNotUpscale=1&width=90&height=30&Quality=99&Format=webP' width='90px' height='30px' alt='bookmaker-logo'> </p>";
                     output += "<p> </p>";
                     output += "<p><strong>Stake</strong> " + tips[i].stake + " </p>";
                     output += "<p><strong>Odds</strong> " + tips[i].odd + " </p>";
@@ -1577,9 +1577,7 @@ $(document).ready(function () {
 
                     }
                     output += "</div>";
-                    output += "<div class = 'grid__col-md-3 grid__col-xs-12'>";
-                    output += "<img class = 'bookmaker-logo-col' src=" + tips[i].bookmakerLogo + ">";
-                    output += "</div>"
+          
                
 
 
@@ -1589,14 +1587,12 @@ $(document).ready(function () {
                     output += "<p>Betting prediction: " + tips[i].betOn + "</p>";
                     output += "<p>Starting Time: " + tips[i].startGMT + "</p>";
                     output += "</div>";
-                    output += '<div class="grid__col-md-12 grid__col-xs-12 col-info-tips-event">'
-                    output += "<img class = '' src='" + tips[i].resultScreenshot + "'>";
-                    output += "</div>";
+    
                     output += "</div>";
                     output += '<div class="grid">';
                     output += '<div class="grid__col-md-12 grid__col-xs-12">';
                     output += '<div class="description">';
-                    output += "<p><strong>The bet was made via <a href='" + tips[i].bookmakerUrl + "'>" + tips[i].bookmakerName + "</a> at odds: " + tips[i].odd + "</strong></p>";
+                    output += "<p><strong>The bet was made via <a href='" + tips[i].bookmakerUrl + "' title='bookmaker-call-to-action' rel='noreferrer'>" + tips[i].bookmakerName + " </a> at odds: " + tips[i].odd + "</strong></p>";
                     output += "" + tips[i].tipDescriptionClean + "";
 
                     output += "</div>";
@@ -1614,8 +1610,8 @@ $(document).ready(function () {
                     output += "</div>";
                     output += "</div>";
                     output += '<div class="grid__col-md-12 grid__col-xs-12 cta-tips-list">'
-                    output += "<p class = 'center'><strong>Follow this bet and open an account at <a href='" + tips[i].bookmakerUrl + "'>" + tips[i].bookmakerName + "</a> now</strong></p>";
-                    output += '<a id="bookmaker-name-prediction-button" href="/english/open-account/vip" class="btn btn--primary btn--line-height dw-mod">SIGN UP at VIP Service</a>'
+                    output += "<p class = 'center'><strong>Follow this bet and open an account at <a href='" + tips[i].bookmakerUrl + "' title='call-to-action' rel='noreferrer' >" + tips[i].bookmakerName + "</a> now</strong></p>";
+                    output += '<a href="/english/open-account/vip" class="btn btn--primary btn--line-height dw-mod bookmaker-name-prediction-button" title="sign-up-vip" rel="noreferrer">SIGN UP at VIP Service</a>'
                     output += "</div>";
                     output += "</div>";
                     output += "</div>";
@@ -1746,8 +1742,8 @@ $(document).ready(function () {
             $('#news-pagination ').slick({
                 slidesToShow: 4,
                 slidesToScroll: 1,
-              prevArrow: '<button type="button" class="slick-prev "><i class="fa fa-chevron-left"></i></button>',
-              nextArrow: '<button type="button" class="slick-next "><i class="fa fa-chevron-right"></i></button>',
+              prevArrow: '<button type="button" class="slick-prev " name="button-previous"><i class="fa fa-chevron-left"></i></button>',
+              nextArrow: '<button type="button" class="slick-next " name="button-next"><i class="fa fa-chevron-right"></i></button>',
             });
         }
 
@@ -2286,18 +2282,31 @@ $(document).ready(function () {
                         } else {
                             var bookmakerLogo = "<a href = /" + latestTipsDetails[item].bookmakerUrl + "><img src = '" + latestTipsDetails[item].bookmakerLogo + "' alt='bookmaker-logo'></a>";
                         }
-                        console.log(dateTranslate, leagueTranslate, matchTranslate, stakeTranslate, oddTranslate, bettingTranslate, bookmakerTranslate, statusTranslate,);
+                        
                         output += "<div class = 'row " + statusClass + "'>";
                         output += "<div class = 'col-4-tips-mobile'>";
                         output += "<div class = 'bookmaker-mobile'>";
-                        output += "<h1>"+ bookmakerTranslate +"</h1>";
-                        output += latestTipsDetails[item].bookmakerName;
+                        output += "<h1 class='tipster-title-mobile'> "+ dateTranslate + ": " + latestTipsDetails[item].startGMT  +" </h1>";
+                        output += "<h1>"+ bookmakerTranslate + ": " + latestTipsDetails[item].bookmakerName +"</h1>"; 
                         output += "</div>";
-                        output += "<div class='tipster-section-mobile'>";
-                        output += "<h1 class='tipster-title-mobile'> Date & Time </h1>";
-                        output += "<img src = '" + latestTipsDetails[item].tipsterImageClean + "' alt='tipster-image'>";
-                        output += "</div>";
+                       
                         output += "<div class='col col-tipster-name col-tipster-name-mobile'><a href = '" + origin + "/Default.aspx?ID=" + latestTipsDetails[item].TipsterPageId + "'>" + latestTipsDetails[item].tipster + "</a></div>";
+                        if (latestTipsDetails[item].finalScore == "N/A") {
+
+                            //console.log(latestTipsDetails[item]);
+                            if (statGMTCorrectDate > todayDateSeconds) {
+                                output += "<div class='col col-status col-mobile-status active-event event-open'><span class='status-tip-mobile'></span>Open to bet</div>";
+
+                            } else {
+                                if (statGMTCorrectDateSeconds < todayDateSeconds) {
+                                    output += "<div class='col col-status col-mobile-status'><span class='status-tip-mobile'></span>IN PLAY</div>";
+                                } else {
+                                    output += "<div class='col col-status col-mobile-status event-started'><span class='status-tip-mobile'></span>Started</div>";
+                                }
+                            }
+                        } else {
+                            output += "<div class='col col-status col-mobile-status event-ended'><span class='status-tip-mobile'></span>Ended</div>";
+                        }
                         output += "</div>";
                         output += "<div class = 'col-8-tips-mobile'>";
                         output += "<div class='col col-tipster-name'><span class='mobile-odds'>" + dateTranslate + ":</span>" + latestTipsDetails[item].startGMT + "</div>";
@@ -2311,7 +2320,7 @@ $(document).ready(function () {
                         output += "<div class='col col-stake'><span class='mobile-odds'>" + stakeTranslate + ":</span> " + latestTipsDetails[item].stake + "</div>";
                         output += "<div class='col col-odd'><span class='mobile-odds'>"+ oddTranslate +":</span>" + latestTipsDetails[item].odd + "</div>";
                         output += " <div class='col col-league-name col-league-name-mobile'><span class='mobile-odds'>" + leagueTranslate + ":</span>" + latestTipsDetails[item].league + "</div>";
-                        output += "<div class='col col-bet'><a href = '/Default.aspx?ID=" + latestTipsDetails[item].PageId + "'><span class='mobile-odds'>" + bettingTranslate + ":</span>" + latestTipsDetails[item].betOn + "</a></div>";
+                        output += "<div class='col col-bet'><a href = '/Default.aspx?ID=" + latestTipsDetails[item].PageId + "' title='bet-link'><span class='mobile-odds'>" + bettingTranslate + ":</span>" + latestTipsDetails[item].betOn + "</a></div>";
                         output += "<div class='col col-bookmaker'>" + latestTipsDetails[item].bookmakerName + "</div>";
 
 
@@ -2368,8 +2377,8 @@ $(document).ready(function () {
                 $('#pagination-latest-tips').slick({
                     slidesToShow: 3,
                     slidesToScroll: 3,
-                    prevArrow: '<button type="button" class="slick-prev" name="previous-slider"><i class="fa fa-chevron-left"></i></button>',
-                    nextArrow: '<button type="button" class="slick-next" name="next-slider"><i class="fa fa-chevron-right"></i></button>'
+                    prevArrow: '<button type="button" class="slick-prev" name="button-previous-slider"><i class="fa fa-chevron-left"></i></button>',
+                    nextArrow: '<button type="button" class="slick-next" name="button-next-slider"><i class="fa fa-chevron-right"></i></button>'
                 });
               $("#pagination-latest-tips .page-number").removeClass("slick-active");
                $("#pagination-latest-tips .page-number.curent-page").addClass("slick-active");
