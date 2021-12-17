@@ -196,7 +196,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
 </head>
 
 <body  data-user-new-predictions = "@newPredictionsFeed"  data-articles-feeds="@articlesFeedsjson" data-tipsters-feed="@TipstersFeedJSON" data-tipsters-details="@TipsterDetailsJSON" data-tipster-feed-by-language="@tipsterFeedByLanguage&PageNum=1" data-predictions-count="@countPredictionsFeed" data-tipster-sort-by-pages = "@TipsterDetailsWithPageJSON">
-<div class="overlay-master active"><img loading="lazy" src="/Files/Images/BetIBC/loader.gif" alt="xno-american" /></div>
+<div class="overlay-master active"><img loading="lazy" src="/Admin/Public/GetImage.ashx?Image=/Files/Images/BetIBC/loader.gif&Crop=5&DoNotUpscale=1&width=200&height=200&Quality=99&Format=gif" alt="xno-american" /></div>
 
     @if (Pageview.Device.ToString() == "Mobile")
     {
@@ -655,7 +655,26 @@ using (SqlConnection connection = new SqlConnection(connectionString))
 *@
 @*@RenderSnippet("BootstrapJs")*@
 @RenderSnippet("OpenAccountFormScripts")
-
+  <script type="application/ld+json">
+  {
+      "@@context": "https://schema.org",
+      "@@type": "WebSite",
+      "url": "https://bet-ibc.com"
+      
+  }
+  </script>
+  <script type="application/ld+json">
+  { "@@context" : "https://schema.org",
+    "@@type" : "Organization",
+    "url" : "https://bet-ibc.com",
+    "contactPoint" : [
+      { "@@type" : "ContactPoint",
+        "telephone" : "+1-401-555-1212",
+        "contactType" : "customer service"
+      } ] 
+}
+  </script>
+  
 	</body>
 </html>
 @helper RenderSocialShare() {

@@ -1,0 +1,36 @@
+﻿@{
+   var Image = GetString("Item.Background_Image");
+   var title = GetString("Item.Title");
+   var questions = GetLoop("Item.FAQ");
+}
+<div class = "faq-section">
+<div class = "container">
+<div class = "grid-two-columns">
+<div class = "column">
+<img loading="lazy" src = "/Admin/Public/GetImage.ashx?Image=@Image&Crop=5&DoNotUpscale=1&width=500&height=480&Quality=99&Format=webP" alt="faq-image">
+</div>
+<div class = "column">
+
+@foreach( var question in questions){
+  var questionText = question.GetString("Item.FAQ.Question"); 
+  var answerText = question.GetString("Item.FAQ.Answer"); 
+  <div class = "question-wrapper">
+   <div class = "question">
+     <p>@questionText</p>
+  
+       </div>
+       <div class = "action-questions ">
+       <span class = "open "><i class="fa fa-plus"></i></span>
+       <span class = "close"><i class="fa fa-minus"></i></span>
+    </div>
+    <div class = "answer">
+      @answerText
+    </div>
+
+  </div>
+}
+  </div>
+</div>
+</div>
+</div>
+</div>

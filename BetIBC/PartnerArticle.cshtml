@@ -54,7 +54,7 @@
     @* Customer informations *@
     <div class="grid__col-md-4">
         @if (Model.Item.GetFile("PartnerLogo") != null) {
-            <img src="/Admin/Public/GetImage.ashx?width=300&amp;crop=5&amp;Compression=90&amp;image=@Model.Item.GetFile("PartnerLogo").Path" class="article__image" />
+            <img loading = 'lazy' src="/Admin/Public/GetImage.ashx?width=300&amp;crop=5&amp;Compression=90&amp;image=@Model.Item.GetFile("PartnerLogo").Path" class="article__image" />
         }
 
         <table class="table">

@@ -2771,7 +2771,7 @@ margin-left:0;
 .languges-bookmaker{
 margin: 0 auto;
 }
-.languages-area .lang-item h5{
+.languages-area .lang-item h3{
     color: #454955 !important;
     font-weight: 400;
     font-size: 13px !important;
@@ -3493,7 +3493,7 @@ text-align:center;
 .grid-four-columns .container .column img, .grid-three-columns .container .column img{
 margin:0 auto;
 } 
-.grid-four-columns .container .column h5, .grid-three-columns .container .column h5{
+.grid-four-columns .container .column h3, .grid-three-columns .container .column h3{
 font-size:23px;
   color: #000 !important;
   margin-top:20px;
@@ -3593,7 +3593,7 @@ width: 42px;
 left: -70px;
 
 }
-#bookmaker-slider h5{
+#bookmaker-slider h3{
 font-size:20px ;
   text-align:left !important;
   color:#000 !important;
@@ -3609,7 +3609,7 @@ padding-bottom:150px;
 .carousel-section h2{
 margin-top:75px;
 }
-.financial-section h5{
+.financial-section h3{
 float:left;
   display:inline-block;
   font-size:23px !important;
@@ -3901,7 +3901,7 @@ grid-template-columns: 1fr 1fr;
 .video-column-section{
 padding-bottom:70px;
 }
-.video-column-section h5{
+.video-column-section h3{
 font-size: 43px !important;
   line-height:50px;
   font-weight:700 !important;
@@ -3932,7 +3932,7 @@ font-size: 16px;
  height:60px;
   margin:0 auto;
 }
-.bookmaker-four-columns-carousel #bookmaker-slider h5{
+.bookmaker-four-columns-carousel #bookmaker-slider h3{
 font-size: 12px !important; 
   text-align:center !important;
 }
@@ -5040,7 +5040,7 @@ border:0;
     padding: 0 23px;
     padding-top: 10px;
   }
-  .financial-section h5{
+  .financial-section h3{
   float:none;
   }
   .financial-section .section-outro p{

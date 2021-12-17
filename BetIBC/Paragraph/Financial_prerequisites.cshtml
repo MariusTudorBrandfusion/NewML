@@ -1,0 +1,36 @@
+﻿@{
+     var rowDescription = GetString("Item.Row_Description");
+     var rowTitle = GetString("Item.Row_Title");
+     var loop = GetLoop("Item.Columns");
+     var backgroundColor = GetString("Item.Background_Color");
+     var color = GetString("Item.Color");
+      var width = GetString("Item.Paragraph_Width");
+}
+
+<div class = "columns-wrapper financial-section" style="background-color:@backgroundColor">
+<div class = "column-header">
+<div class = "container" style="color:@color">
+<h2>@rowTitle</h2>
+
+</div>
+</div>
+<div class = "grid-two-columns" >
+<div class = "container">
+@foreach(var column in loop){
+  
+    var columnsImage = column.GetString("Item.Columns.Image");
+    var columnTitle = column.GetString("Item.Columns.Title.Value");
+  var columnText = column.GetString("Item.Columns.Text.Value");
+    <div class = "column">
+      <h3>@columnTitle</h3>
+      <div class = "column-text">
+      @columnText
+        </div>
+</div>
+}
+  <div class = "section-outro">
+  @rowDescription
+    </div>
+</div>
+</div>
+</div>

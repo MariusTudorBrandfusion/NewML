@@ -85,7 +85,7 @@
                                 <div class="grid__cell">
                                     <div class="u-brand-color-one--bg about-bookmaker">
                                   
-                                        <img src= "@bLogo">
+                                        <img loading = "lazy" src= "/Admin/Public/GetImage.ashx?Image=@bLogo&Crop=5&DoNotUpscale=1&width=180&height=50&Quality=99&Format=webP">
                                         @if (!string.IsNullOrEmpty(bCompanyAndLegalForm)) { 
                                             <p><label>@Translate("Company legal form", "Company / legal form"):</label><span>@bCompanyAndLegalForm</span></p> 
                                         }

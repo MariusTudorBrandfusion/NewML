@@ -1,0 +1,48 @@
+﻿@{
+     var rowDescription = GetString("Item.Row_Description");
+     var rowTitle = GetString("Item.Row_Title");
+     var rowContentWidth = GetString("Item.Paragraph_Width");
+     var loop = GetLoop("Item.Columns");
+     var count = GetLoop("Item.Columns").Count();
+     var columns = count == 4 ? "four" : "three";
+     var backgroundColor = GetString("Item.Background_Color");
+     var backgroundImage = GetString("Item.BackgoundImage.Value") ;
+     var customClass = GetString("Item.Custom_Class");
+     var color = GetString("Item.Color");
+   
+}
+<div class = "column-wrapper @customClass" style="background-color:@backgroundColor; background-image:url('@backgroundImage')">
+<div class = "column-header">
+<div class = "container">
+  <div class = "column-header-wrapper" style= "width:@rowContentWidth; color:@color !important">
+<h2 style= "color:@color !important">@rowTitle</h2>
+@rowDescription
+  </div>
+</div>
+</div>
+<div class = "grid-@columns-columns @count">
+<div class = "container">
+@foreach(var column in loop){
+  
+    var columnsImage = column.GetString("Item.Columns.Image");
+    var columnTitle = column.GetString("Item.Columns.Title.Value");
+    var columnText = column.GetString("Item.Columns.Text.Value");
+  var video = column.GetString("Item.Columns.Video_Youtube");
+ 
+    <div class = "column">
+@if(columnsImage != ""){
+<img loading="lazy" src = "/Admin/Public/GetImage.ashx?Image=@columnsImage&Crop=5&DoNotUpscale=1&width=200&height=200&Quality=99&Format=webP" alt="Column Image">
+}
+    
+      @video
+      @if(columnTitle != ""){
+       <h3 style= "color:@color !important">@columnTitle</h3>
+      }
+      @if(columnText != ""){
+       @columnText
+      }
+</div>
+}
+</div>
+</div>
+</div>

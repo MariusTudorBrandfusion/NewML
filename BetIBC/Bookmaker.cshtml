@@ -53,15 +53,17 @@
 
     <div class="grid__col-12 u-color-gray--bg">
       <div class="center-container">
-        <div class="u-pull--right">
+     
+        <div class="u-pull--left">
+             <div class="u-pull--right bookmaker-breadcrums">
             @RenderNavigation(new
             {
                 id = "breadcrumb",
-                template = "breadcrumb.xslt"
+                template = "breadcrumb.xslt",
+                StartLevel = 2,
+                EndLevel = 3,
             })
         </div>
-        <div class="u-pull--left">
-           <h3 class="page-title">@Model.Name</h3>
         </div>
       </div>
     </div>
@@ -103,9 +105,9 @@
                                     <div class="description">@bDescription</div>
                                         @if(!string.IsNullOrEmpty(logo)){
                                         <div class="logos">
-                                            <img src="/Admin/Public/GetImage.ashx?width=180&amp;crop=1&amp;Compression=100&amp;image=/Files/Images/logobet-ibc.jpg" alt="Logo" />
+                                            <img loading="lazy" src="/Admin/Public/GetImage.ashx?width=180&amp;crop=1&amp;Compression=100&amp;image=/Files/Images/logobet-ibc.jpg" alt="Logo" />
                                         
-                                            <img src="@bLogo.Path" />
+                                            <img loading="lazy" src="/Admin/Public/GetImage.ashx?Image=@bLogo.Path&Crop=5&DoNotUpscale=1&width=175&height=50&Quality=99&Format=webP" alt="Bookmaker Logo"/>
                                         </div>
                                     }
                                 </div>
@@ -117,7 +119,7 @@
                                   
                                     <div class="u-brand-color-one--bg about-bookmaker">
                                      
-                                             <img src = "@bLogo">
+                                             <img loading="lazy" src = "/Admin/Public/GetImage.ashx?Image=@bLogo&Crop=5&DoNotUpscale=1&width=175&height=50&Quality=99&Format=webP" alt="bookmaker-logo">
                                         @if (!string.IsNullOrEmpty(bCompanyAndLegalForm))
                                         {
                                             <p><label>@Translate("Company legal form", "Company / legal form"):</label><span>@bCompanyAndLegalForm</span></p>
@@ -170,11 +172,11 @@
                                         }
                               @if (!string.IsNullOrEmpty(bWebsite))
                                         {
-                                           <a class = "bookmaker-website" href="http://@bWebsite" target="_blank">@Translate("WEBSITE", "WEBSITE")</a>
+                                           <a rel="noreferrer" class = "bookmaker-website" href="http://@bWebsite" target="_blank">@Translate("WEBSITE", "WEBSITE")</a>
                                         }
                                         @if (!string.IsNullOrEmpty(bRegisterPageLink))
                                         {
-                                            <a class = "bookmaker-open-account" href="@bRegisterPageLink" class="btn btn--primary">@Translate("Open Account", "Open Account")</a>
+                                            <a rel="noreferrer" class = "bookmaker-open-account" href="@bRegisterPageLink" class="btn btn--primary">@Translate("Open Account", "Open Account")</a>
                                         }
                                     </div>
                                     }
@@ -218,7 +220,7 @@
                                 if (sportIcon != null)
                                 {
 
-                                    <div class="sport-icon grid__col-md-1"><img style="" src="@sportIcon.Path" alt="@sportName" title="@sportName"/>
+                                    <div class="sport-icon grid__col-md-1"><img style="" loading="lazy" src="/Admin/Public/GetImage.ashx?Image=@sportIcon.Path&Crop=5&DoNotUpscale=1&width=70&height=70&Quality=99&Format=webP" alt="@sportName" title="@sportName"/>
                                         <p>@sportName</p>
                                     </div>
                                 }
@@ -275,7 +277,7 @@
                                             
                                             <div class="feature-item">
                                                 @if(featureIcon != null) { 
-                                                    <div class="feature-icon"><img src="@featureIcon.Path" /></div> 
+                                                    <div class="feature-icon"><img loading="lazy" alt="features-image" src="/Admin/Public/GetImage.ashx?Image=@featureIcon.Path&Crop=5&DoNotUpscale=1&width=70&height=70&Quality=99&Format=webP" /></div> 
                                                 }
                                                 <h4>@featureTitle</h4>
                                             </div>
@@ -310,9 +312,9 @@
                                     
                                     <div class="lang-item">
                                         @if(flag != null) { 
-                                            <div class="flag"><img src="@flag.Path" /></div> 
+                                            <div class="flag"><img loading="lazy" alt="flag-icon" src="/Admin/Public/GetImage.ashx?Image=@flag.Path&Crop=5&DoNotUpscale=1&width=35&height=35&Quality=99&Format=webP" /></div> 
                                         }
-                                        <h5>@languageAbreviation</h5>
+                                        <h3>@languageAbreviation</h3>
                                     </div>
                                 }
                             </div>
@@ -345,7 +347,7 @@
 
                                                     <div class="feature-item">
                                                         @if(customerIcon != null) { 
-                                                            <div class="feature-icon"><img src="@customerIcon.Path" /></div> 
+                                                            <div class="feature-icon"><img loading="lazy" alt="feature-icon" src="/Admin/Public/GetImage.ashx?Image=@customerIcon.Path&Crop=5&DoNotUpscale=1&width=70&height=70&Quality=99&Format=webP" /></div> 
                                                         }
                                                         <h4>@customerTitle</h4>
                                                     </div>

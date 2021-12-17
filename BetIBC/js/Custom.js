@@ -108,8 +108,8 @@ $(document).ready(function () {
         infinite: true,
         slidesToShow: 5,
         slidesToScroll: 1,
-        prevArrow: '<button type="button" class="slick-prev "><i class="fa fa-arrow-left"></i></button>',
-        nextArrow: '<button type="button" class="slick-next "><i class="fa fa-arrow-right"></i></button>',
+        prevArrow: '<button type="button" class="slick-prev " name="previous-slider"><i class="fa fa-arrow-left"></i></button>',
+        nextArrow: '<button type="button" class="slick-next " name="next-slider"><i class="fa fa-arrow-right"></i></button>',
         responsive: [
             {
                 breakpoint: 768,
