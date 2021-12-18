@@ -110,7 +110,7 @@
         }
           @if (bookmaker != null)
           {
-            <p><strong>@Translate("Bookmaker", "Bookmaker"):</strong> <a href="@bookmakerURL"><img src="@bookmaker" alt="" class="bookmaker-logo"/></a></p>
+            <p><strong>@Translate("Bookmaker", "Bookmaker"):</strong> <a href="@bookmakerURL"><img loading = 'lazy' src="@bookmaker" alt="" class="bookmaker-logo"/></a></p>
           }
                      
         @if(!string.IsNullOrEmpty(stake)) {
@@ -179,7 +179,7 @@
         </div>
         
         <div class="grid__col-md-12 grid__col-xs-12 col-info-tips-event">
-          <img src="@resultScreenshot">
+          <img loading = 'lazy' src="@resultScreenshot">
         </div>
      
       </div>

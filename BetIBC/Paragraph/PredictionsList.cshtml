@@ -4,7 +4,7 @@ var youCanBetPage ="/Default.aspx?ID=" + GetPageIdByNavigationTag("YouCanBetPage
 var latestTipsPage = "/Default.aspx?ID=" + GetPageIdByNavigationTag("LatestTips").ToString();
 }
 
-<section id = "latest-tips">
+<section id = "latest-tips" data-date-translate = '@Translate("DateandTime","Date & time")' data-league-translate='@Translate("League","League")' data-match-translate='@Translate("PredictionMatch","Match")' data-stake-translate = '@Translate("PredictionStake","Stake")' data-odd-translate = '@Translate("PredictionOdd","Odd")' data-betting-translate = '@Translate("BettingTip","Betting tip")' data-bookmaker-translate='@Translate("PredictionBookmaker","Bookmaker")' data-status-translate='@Translate("PredictionStatus","Status")'>
 
   <div class = "center-container dw-mod">
       <div class = "filter-latest-tips">

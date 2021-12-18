@@ -1,13 +1,28 @@
 ﻿var latestTipsPage = $("#latest-tips").length;
 var IsTipsterPage = $("#tipster-filter-page").length;
 var IsTipsterSinglePage = $(".tipster-single-page").length;
-var isDepositPage = $(".form-deposits").length;
 var tipsterFormPage = $(".tipsters-form").length;
 
 //formular open-account
 $(document).ready(function () {
+    // Links
+   if ($("a").length){
+      $( "a" ).each(function( index ) {
+         $( this ).attr("title", $( this ).text())
+   
+      });
+   }
+  if($("img").length){
+       $( "img" ).each(function( index ) {
+         var height = $( this ).height() + "px"; 
+          var width = $( this ).width() + "px"; 
+         $( this ).attr("height", height)
+           $( this ).attr("width", width)
+   
+      });
+     }
   
-    //Navigation languages
+    // Navigation languages
     
     if ($(".language-tools").length) {
         function getLanguageLinks(api) {
@@ -47,13 +62,13 @@ $(document).ready(function () {
         });
     }
     //Slider Tipsters
-
+ 
     $('.tipsters-slider-wrapper').slick({
         infinite: true,
         slidesToShow: 4,
         slidesToScroll: 1,
-        prevArrow: '<button type="button" class="slick-prev "><i class="fa fa-arrow-left"></i></button>',
-        nextArrow: '<button type="button" class="slick-next "><i class="fa fa-arrow-right"></i></button>',
+        prevArrow: '<button type="button" class="slick-prev test" name = "previous-slider"><i class="fa fa-arrow-left"></i></button>',
+        nextArrow: '<button type="button" class="slick-next " name = "next-slider"><i class="fa fa-arrow-right"></i></button>',
         responsive: [
             {
                 breakpoint: 768,
@@ -79,6 +94,42 @@ $(document).ready(function () {
         responsive: [
             {
                 breakpoint: 1280,
+                settings: {
+                    centerPadding: '50px',
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                }
+            }
+        ]
+    });
+   //Slider Bookmaker
+
+    $('.bookmaker-five-columns-carousel #bookmaker-slider').slick({
+        infinite: true,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        prevArrow: '<button type="button" class="slick-prev " name="previous-slider"><i class="fa fa-arrow-left"></i></button>',
+        nextArrow: '<button type="button" class="slick-next " name="next-slider"><i class="fa fa-arrow-right"></i></button>',
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    centerPadding: '50px',
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                }
+            }
+        ]
+    });
+    $('.bookmaker-four-columns-carousel #bookmaker-slider').slick({
+        infinite: true,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        prevArrow: '<button type="button" class="slick-prev "><i class="fa fa-arrow-left"></i></button>',
+        nextArrow: '<button type="button" class="slick-next "><i class="fa fa-arrow-right"></i></button>',
+        responsive: [
+            {
+                breakpoint: 768,
                 settings: {
                     centerPadding: '50px',
                     slidesToShow: 1,
@@ -1130,7 +1181,7 @@ $(document).ready(function () {
                                 output += "<span class='tipster-status'><i class='fa fa-circle ' aria-hidden=\"true\"><span class='tipster-status-text'>" + translateInactive + "</span></i></span>";
                             }
                             output += "<span class = 'nationality-icon flag flag-icon-" + newCurrentTipsters[i][0].nationality + "'></span>";
-                            output += "<div class = 'tipster-profile-image'><img src ='" + newCurrentTipsters[i][0].tipsterImage + "'></div>";
+                            output += "<div class = 'tipster-profile-image'><img src ='/Admin/Public/GetImage.ashx?width=88&height=88&crop=1&Quality=99&Format=webP&image=" + newCurrentTipsters[i][0].tipsterImage + "' alt='tipster-image' width='88px' height='88px'></div>";
                             output += "<div class = 'tipster-profile-name'> <p>" + newCurrentTipsters[i][0].tipster + "</p> </div>";
 
                             output += "<div class = 'grid'>";
@@ -1435,6 +1486,7 @@ $(document).ready(function () {
     //Approve tip form
 
     $(document).ready(function () {
+        
 
         if ($(".tipster-single-page").length != 0 ) {
 
@@ -1477,7 +1529,7 @@ $(document).ready(function () {
                     if(tips[i].vipScreenshot != ""){
                     output += "<div class = 'grid__col-md-4 grid__col-xs-12 vip-screenshot-wrapper'>";
                     output += "<a href = '" + tips[i].vipScreenshot + "' data-lightbox='vipscreenshot' data-gallery='gallery' class = 'light-box-after'>";
-                    output += "<img class = 'bookmaker-logo-col-vip-screenshot' src='" + tips[i].vipScreenshot + "'>";
+                    output += "<img class = 'bookmaker-logo-col-vip-screenshot' src='/Admin/Public/GetImage.ashx?Image=" + tips[i].vipScreenshot + "&Crop=5&DoNotUpscale=1&width=200&height=250&Quality=99&Format=webP' width='200px' height='250px' alt='result-screenshot'>";
                     output += "</a>"
                     output += "</div>"
                       }
@@ -1495,13 +1547,13 @@ $(document).ready(function () {
                     output += "<div class='grid'>";
                     output += "<div class='grid__col-md-3 grid__col-xs-12'>";
                     output += "<p><strong>Prediction: </strong>" + tips[i].predictionNumber + " </p>";
-                    output += "<p><strong>Tipster: </strong> <a href =/Default.aspx?ID=" + tips[i].TipsterPageId +">" + tips[i].tipster + "</a></p>";
+                    output += "<p><strong>Tipster: </strong> <a href =/Default.aspx?ID=" + tips[i].TipsterPageId +" title='tipste-link'>" + tips[i].tipster + "</a></p>";
                     output += "<p><strong>Category: </strong> " + tips[i].tipCategory + " </p>";
                     output += "<p><strong>League: </strong> " + tips[i].league + " </p>";
                     output += "</div>";
                     output += " <div class='grid__col-md-3 grid__col-xs-12'>";
 
-                    output += "<p><strong>Bookmaker</strong> <img class='bookmaker-logo' src = '" + tips[i].bookmakerLogo + "'> </p>";
+                    output += "<p><strong>Bookmaker</strong> <img class='bookmaker-logo' loading='lazy' src = '/Admin/Public/GetImage.ashx?Image=" + tips[i].bookmakerLogo + "&Crop=5&DoNotUpscale=1&width=90&height=30&Quality=99&Format=webP' width='90px' height='30px' alt='bookmaker-logo'> </p>";
                     output += "<p> </p>";
                     output += "<p><strong>Stake</strong> " + tips[i].stake + " </p>";
                     output += "<p><strong>Odds</strong> " + tips[i].odd + " </p>";
@@ -1525,9 +1577,7 @@ $(document).ready(function () {
 
                     }
                     output += "</div>";
-                    output += "<div class = 'grid__col-md-3 grid__col-xs-12'>";
-                    output += "<img class = 'bookmaker-logo-col' src=" + tips[i].bookmakerLogo + ">";
-                    output += "</div>"
+          
                
 
 
@@ -1537,14 +1587,12 @@ $(document).ready(function () {
                     output += "<p>Betting prediction: " + tips[i].betOn + "</p>";
                     output += "<p>Starting Time: " + tips[i].startGMT + "</p>";
                     output += "</div>";
-                    output += '<div class="grid__col-md-12 grid__col-xs-12 col-info-tips-event">'
-                    output += "<img class = '' src='" + tips[i].resultScreenshot + "'>";
-                    output += "</div>";
+    
                     output += "</div>";
                     output += '<div class="grid">';
                     output += '<div class="grid__col-md-12 grid__col-xs-12">';
                     output += '<div class="description">';
-                    output += "<p><strong>The bet was made via <a href='" + tips[i].bookmakerUrl + "'>" + tips[i].bookmakerName + "</a> at odds: " + tips[i].odd + "</strong></p>";
+                    output += "<p><strong>The bet was made via <a href='" + tips[i].bookmakerUrl + "' title='bookmaker-call-to-action' rel='noreferrer'>" + tips[i].bookmakerName + " </a> at odds: " + tips[i].odd + "</strong></p>";
                     output += "" + tips[i].tipDescriptionClean + "";
 
                     output += "</div>";
@@ -1562,8 +1610,8 @@ $(document).ready(function () {
                     output += "</div>";
                     output += "</div>";
                     output += '<div class="grid__col-md-12 grid__col-xs-12 cta-tips-list">'
-                    output += "<p class = 'center'><strong>Follow this bet and open an account at <a href='" + tips[i].bookmakerUrl + "'>" + tips[i].bookmakerName + "</a> now</strong></p>";
-                    output += '<a id="bookmaker-name-prediction-button" href="/english/open-account/vip" class="btn btn--primary btn--line-height dw-mod">SIGN UP at VIP Service</a>'
+                    output += "<p class = 'center'><strong>Follow this bet and open an account at <a href='" + tips[i].bookmakerUrl + "' title='call-to-action' rel='noreferrer' >" + tips[i].bookmakerName + "</a> now</strong></p>";
+                    output += '<a href="/english/open-account/vip" class="btn btn--primary btn--line-height dw-mod bookmaker-name-prediction-button" title="sign-up-vip" rel="noreferrer">SIGN UP at VIP Service</a>'
                     output += "</div>";
                     output += "</div>";
                     output += "</div>";
@@ -1647,17 +1695,9 @@ $(document).ready(function () {
 
 
     $(document).ready(function () {
-        $('.currencies select').each(function () {
-            $(this).select2();
-        });
-        $('.create-exception-form #EwalletCommissionsList_Currency').each(function () {
-            $(this).select2();
-        });
-        $('#CommissionsList_Currency').each(function () {
-            $(this).select2();
-        });
-        $('#deposits_final_Admin_Deposit_currency').select2();
-        /* $('#deposits_final_Payment_method_currency').select2();*/
+   
+ 
+        
         if ($("#news-pagination").length) {
             var totalPagesNumber = $("#news-pagination").attr("data-total-pages-number");
             var urlRaw = window.location.href;
@@ -1702,8 +1742,8 @@ $(document).ready(function () {
             $('#news-pagination ').slick({
                 slidesToShow: 4,
                 slidesToScroll: 1,
-              prevArrow: '<button type="button" class="slick-prev "><i class="fa fa-chevron-left"></i></button>',
-              nextArrow: '<button type="button" class="slick-next "><i class="fa fa-chevron-right"></i></button>',
+              prevArrow: '<button type="button" class="slick-prev " name="button-previous"><i class="fa fa-chevron-left"></i></button>',
+              nextArrow: '<button type="button" class="slick-next " name="button-next"><i class="fa fa-chevron-right"></i></button>',
             });
         }
 
@@ -1785,6 +1825,19 @@ $(document).ready(function () {
         });
 
     });
+    //Questions animation
+  if($(".action-questions").length > 0){
+    $(".action-questions").click(function () {
+        if($(this).hasClass("active")){
+          $(this).removeClass("active");
+            $(this).next().toggle("slow")
+           }else{
+           $(this).addClass("active");
+              $(this).next().toggle("slow")
+           }
+
+    });
+    }
     //Tipster Stats Butons animations
     $("#week-roi").click(function () {
         $(".grid-tipster-value .roi-col p").removeClass("active-button");
@@ -1923,569 +1976,18 @@ $(document).ready(function () {
                 }
             }
 
-            if ($("#deposits_final_Bookmaker").hasClass("readonly") != true) {
-
-
-                $(".loading-background").removeClass("active")
-            }
-
-            $("#deposits_final_Confirm_Payment").change(function () {
-
-                $(".payment-confirmation div").addClass("hidden");
-                if ($("#deposits_final_Confirm_Payment").val() == "Yes") {
-                    if ($("#deposits_final_Payment_method").val() == "Skrill") {
-                        $("#transaction-id").removeClass("hidden");
-                        $("#transaction-id-2").removeClass("hidden");
-                        $("#screenshot").removeClass("hidden");
-
-                    }
-                    if ($("#deposits_final_Payment_method").val() == "Neteller") {
-                        $("#transaction-id").removeClass("hidden");
-                        $("#screenshot").removeClass("hidden");
-
-                    }
-                    if ($("#deposits_final_Payment_method").val() == "ecoPayz") {
-                        $("#transaction-id").removeClass("hidden");
-                        $("#screenshot").removeClass("hidden");
-
-                    }
-                    if ($("#deposits_final_Payment_method").val() == "BankTransfer") {
-                        $("#transaction-id").removeClass("hidden");
-                        $("#screenshot").removeClass("hidden");
-
-                    }
-                    if ($("#deposits_final_Payment_method").val() == "Cryptocurrency") {
-                        $("#transaction-id").removeClass("hidden");
-                        $("#screenshot").removeClass("hidden");
-
-                    }
-                }
-            });
-            $("#deposits_final_Transaction_ID").change(function () {
-                $("#deposits_final_Transaction_ID_2").val("");
-            });
-            $("#deposits_final_Transaction_ID_2").change(function () {
-                if ($("#deposits_final_Transaction_ID").val() != $(this).val()) {
-                    $("#deposits_final_Transaction_ID_2").val("");
-                    alert("Verify Transaction ID must have the same value as Transaction ID")
-                }
-            });
-            $("#deposits_final_Payment_Email_Address").change(function () {
-
-                function isEmail(email) {
-                    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-                    return regex.test(email);
-                }
-
-                if (isEmail($("#deposits_final_Payment_Email_Address").val())) {
-
-                } else {
-                    alert($(".form-deposits").attr("data-translate-email"))
-                }
-
-
-                $("#deposits_final_Payment_Email_Address_Confirmation").val("");
-
-            });
-            $("#deposits_final_Payment_Email_Address_Confirmation").change(function () {
-
-                if ($("#deposits_final_Payment_Email_Address").val() != $(this).val()) {
-                    $("#deposits_final_Payment_Email_Address_Confirmation").val("");
-                    alert("Verify Email Address must have the same value as Email Address")
-                }
-            });
-            $("#deposits_final_Is_first_deposit").change(function () {
-                if ($(this).val() == "true") {
-                    $(this).val("false");
-                } else {
-                    $(this).val("true");
-                }
-
-            })
-            $("#deposits_final_Express_fee").change(function () {
-                if ($(this).val() == "True") {
-                    $(this).val("False");
-                } else {
-                    $(this).val("True");
-                }
-
-            })
-
-
-            $("#deposits_final_Payment_method").change(function () {
-                $('.currencies select').attr('id', "");
-                $('.currencies select').attr('name', "");
-                $('#deposits_final_Confirm_Payment').prop('selectedIndex', 0);
-                $(".payment-confirmation div").addClass("hidden");
-                $(".payment-info input").removeAttr('required');
-                $(".payment-info div").addClass("hidden");
-                if ($(this).val() == "Skrill") {
-                    $("#payment-email-address").removeClass("hidden");
-                    $("#payment-email-address input").attr("required", "true");
-                    $("#payment-email-address-confirm").removeClass("hidden");
-                    $("#payment-email-address-confirm input").attr("required", "true");
-                    $("#confirm-payment").removeClass("hidden");
-
-                }
-                if ($(this).val() == "Neteller") {
-
-                    $("#payment-email-address").removeClass("hidden");
-                    $("#payment-email-address-confirm").removeClass("hidden");
-                    $("#neteller-id").removeClass("hidden");
-                    $("#confirm-payment").removeClass("hidden");
-                }
-                if ($(this).val() == "ecoPayz") {
-                    $("#ecopayz-account-number").removeClass("hidden");
-                    $("#ecopayz-account-number-confirm").removeClass("hidden");
-                    $("#confirm-payment").removeClass("hidden");
-                }
-                if ($(this).val() == "BankTransfer") {
-                    $("#country").removeClass("hidden");
-                    $("#city").removeClass("hidden");
-                    $("#bank-name").removeClass("hidden");
-                    $("#bank-address").removeClass("hidden");
-                    $("#swift").removeClass("hidden");
-                    $("#iban").removeClass("hidden");
-                    $("#confirm-payment").removeClass("hidden");
-                }
-                if ($(this).val() == "Cryptocurrency") {
-                    $("#cryptocurrency").removeClass("hidden");
-                    $("#deposits_final_Crypto_currency").removeClass("hidden");
-                    $("#crypto-wallet-id").removeClass("hidden");
-                    $("#confirm-payment").removeClass("hidden");
-                    $(".currencies").removeClass("hidden");
-                    $('#cryptocurrency').removeClass("hidden");
-                    $('#cryptocurrency select').attr('id', "deposits_final_Deposit_currency");
-                    $('#cryptocurrency select').attr('name', "deposits_final_Deposit_currency");
-
-                } else {
-                    $(".currencies").removeClass("hidden");
-                    $("#currency").removeClass("hidden");
-                    $('#currency select').attr('id', "deposits_final_Deposit_currency");
-                    $('#currency select').attr('name', "deposits_final_Deposit_currency");
-                }
-            });
-            for (var j in currentAccount) {
-                $('#deposits_final_Bookmaker').val(currentAccount[j].AccountBookmaker);
-
-                $('#deposits_final_Bookmaker').append("<option value = '" + currentAccount[j].AccountBookmaker + "'>" + currentAccount[j].AccountBookmaker + "</option>");
-
-            }
-            if ($(".deposit-select").length) {
-                $(".deposit-select").each(function () {
-                    $(".deposit-select").prepend("<option selected disabled value='default'>Select</option>");
-                });
-            }
-            $("#deposits_final_Ammount_to_be_deposited").change(function () {
-                if ($("#deposits_final_Payment_method").find("option:selected").val() != "Cryptocurrency") {
-                    if ($("#deposits_final_Ammount_to_be_deposited").attr("data-is-first") == "true") {
-                        $("#deposits_final_Ammount_to_be_deposited").attr("min", "100");
-                    } else {
-                        $("#deposits_final_Ammount_to_be_deposited").attr("min", "30");
-                    }
-                }
-                if ($("#deposits_final_Payment_method").val() != "Cryptocurrency") {
-                    if (parseInt($("#deposits_final_Ammount_to_be_deposited").val()) < parseInt($("#deposits_final_Ammount_to_be_deposited").attr("min"))) {
-                        var minimumMessage = $(".form-deposits").attr("data-translate-minimum");
-                        var minimumValue = $("#deposits_final_Ammount_to_be_deposited").attr("min");
-                        alert(minimumMessage + " " + minimumValue + " Euro")
-                    } else {
-
-                    }
-                }
-            });
-            $("#deposits_final_Payment_method").click(function () {
-                if ($("#deposits_final_Bookmaker").val() == null) {
-                    alert("You first need to select a bookmaker")
-                }
-            });
-            $("#ammountToBeDeposited").click(function () {
-
-                if ($("#deposits_final_Payment_method").val() == null) {
-                    alert("You first need to select a payment method")
-                } else {
-
-                }
-            });
-            $("#deposits_final_Bookmaker").change(function () {
-                var Bookmaker = $('#deposits_final_Bookmaker').val();
-
-                if (Bookmaker != "Bookmaker") {
-                    var currentBookmaker = currentAccount.filter(function (object) {
-                        return object.AccountBookmaker == Bookmaker;
-                    });
-
-                    if (currentBookmaker[0].isExpress == "True") {
-                        $("#ExpressDeposit").addClass("hidden")
-                    } else {
-                        $("#ExpressDeposit").removeClass("hidden")
-                    }
-                    $('#deposits_final_Account_ID').val(currentBookmaker[0].AccountID);
-                    $('#deposits_final_Bookmaker_Username').val(currentBookmaker[0].AccountUserName);
-                    $('#deposits_final_Account_currency').val(currentBookmaker[0].AccountCurrency);
-                    $('#deposits_Commision_in_procent').val(currentBookmaker[0].AccountCommission);
-                    if ($('#deposits_Bookmaker').val() === "Skype Betting") {
-                        $('#deposits_Initial_Balance').val(currentBookmaker[0].AccountStartingBalance);
-                    }
-
-                    if (currentBookmaker[0].FirstDepositDate == "N/A") {
-                        $("#deposits_final_Ammount_to_be_deposited").attr("data-is-first", "true");
-                        $('#deposits_final_Is_first_deposit').attr("checked", "checked");
-                        $('#deposits_final_Is_first_deposit').val("true");
-                    } else {
-                        $("#deposits_final_Ammount_to_be_deposited").attr("data-is-first", "false");
-                        $("#deposits_final_Is_first_deposit").removeAttr("checked");
-                        $('#deposits_final_Is_first_deposit').val("false");
-                    }
-                } else {
-                    $("#deposits_final_Is_first_deposit").removeAttr("checked");
-                    $('#deposits_final_Client_Username').val("");
-                    $('#deposits_final_Account_Currency_New').val("");
-                    $('#deposits_Commision_in_procent').val("");
-                    $('#deposits_Initial_Balance').val("");
-                    $('#deposits_First_operation_Date').val("");
-                    $('#deposits_Balance_after_Deposit').val("");
-                    $('#deposits_Commision_ammount').val("");
-                    $('#deposits_Ammount_to_be_deposited_after_commisions').val("");
-                }
-
-
-            });
-
-            //Display Exceptions
-            if ($("#confirmForm").length) {
-                var accountID = $("#deposits_final_Account_ID").attr("value");
-                var bookmakerValue = $("#deposits_final_Bookmaker").attr("value");
-                var currentAccountDetails = accountDetails.filter(function (object) {
-                    return object.AccountID == accountID;
-                });
-
-                //Balance Before Deposit
-                if (bookmakerValue == "Skype Betting") {
-                    if ($(".confirmation-form-wrapper").length) {
-                        $(".confirmation-form-wrapper #deposits_final_Balance_before_deposit").val(currentAccountDetails[0].AccountStartingBalance);
-                        $("#deposits_final_Balance_before_deposit").attr("required", "required");
-                    }
-                }
-                //2Flat
-                if (currentAccountDetails[0].twoFlat == "True") {
-                    $("#accountExceptions").prop("<p>2Flat</p>")
-                }
-                //3Extra
-                if (currentAccountDetails[0].threeExtra == "True") {
-                    $("#accountExceptions").append("<p>3Extra</p>")
-                }
-                //3Flat
-                if (currentAccountDetails[0].threeFlat == "True") {
-                    $("#accountExceptions").append("<p>3Flat</p>")
-                }
-                //3InformedAboutMerchent
-                if (currentAccountDetails[0].threeInformedAboutMerchant == "True") {
-                    $("#accountExceptions").append("<p>3InformedAboutMerchent</p>")
-                }
-                //5DepositedBeforeMerchant
-                if (currentAccountDetails[0].fiveDepositedBeforeMerchant == "True") {
-                    $("#accountExceptions").append("<p>5DepositedBeforeMerchant</p>")
-                }
-                //5Extra
-                if (currentAccountDetails[0].fiveExtra == "True") {
-                    $("#accountExceptions").append("<p>5Extra</p>")
-                }
-                //5Extra
-                if (currentAccountDetails[0].fiveFlat == "True") {
-                    $("#accountExceptions").append("<p>5Flat</p>")
-                }
-                //6Flat
-                if (currentAccountDetails[0].sixFlat == "True") {
-                    $("#accountExceptions").append("<p>6Flat</p>")
-                }
-                //10Extra
-                if (currentAccountDetails[0].tenExtra == "True") {
-                    $("#accountExceptions").append("<p>10Extra</p>")
-                }
-                //10Flat
-                if (currentAccountDetails[0].tenFlat == "True") {
-                    $("#accountExceptions").append("<p>10Flat</p>")
-                } //Share
-                if (currentAccountDetails[0].ninetyFiveShare == "True") {
-                    $("#accountExceptions").append("<p>95%Share</p>")
-                } //Mega Subscription
-                if (currentAccountDetails[0].megaSubscription == "True") {
-                    $("#accountExceptions").append("<p>Mega Subscription</p>")
-                }
-                //moneyToRecover
-                if (currentAccountDetails[0].moneyToRecover != "") {
-                    $("#moneyToRecover").append("<p>" + currentAccountDetails[0].moneyToRecover + "</p>")
-                }
-            }
-
+       
 
         });
     }
-    $("#deposits_Oanda_Exchange_Rate_New").change(function () {
-        if ($("#deposits_Initial_Balance").val() != "") {
-            if ($("#deposits_Oanda_Exchange_Rate_New").val() != "") {
+ 
 
-                var comissionNumber = parseInt($('#deposits_Commision_in_procent').val()) / 100 * parseInt($('#deposits_Amount').val());
-                var comisionSum = parseInt($('#deposits_Amount').val()) - comissionNumber;
-
-                var finalAmount = comisionSum / parseInt($("#deposits_Oanda_Exchange_Rate_New").val())
-                var ballanceWithComission = parseInt($('#deposits_Initial_Balance').val()) + finalAmount;
-                var comissionToView = comissionNumber / parseInt($("#deposits_Oanda_Exchange_Rate_New").val());
-
-
-                if (isNaN(comissionNumber) != true) {
-                    $('#deposits_Balance_after_Deposit').val(ballanceWithComission);
-                    $('#deposits_Commision_ammount').val(comissionToView);
-                    $('#deposits_Ammount_to_be_deposited_after_commisions').val(finalAmount);
-
-                }
-            }
-        } else {
-            $('#deposits_Balance_after_Deposit').val("")
-            $('#deposits_Oanda_Exchange_Rate_New').val("")
-            alert("Please add initial ballance value then add exchange rate.");
-        }
-
-
-    });
-
-    function DepositsSendDataToService(objToSend) {
-        var deferred = $.Deferred();
-
-
-        $.ajax({
-            url: '/Services/AddressUpdate.ashx',
-            type: 'POST',
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: objToSend
-
-        }).done(function (response) {
-            deferred.resolve(response);
-            // console.log(response);
-        }).fail(function (error) {
-            deferred.reject("error posting user data to service", error);
-            // console.log(error);
-        });
-
-        return deferred.promise();
-
-    }
-
-    function DepositsSendDataToServiceExtended(objToSend) {
-        var deferred = $.Deferred();
-        $.ajax({
-            url: '/Services/AddressUpdateExtended.ashx',
-            type: 'POST',
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: objToSend
-        }).done(function (response) {
-            deferred.resolve(response);
-            // console.log(response);
-        }).fail(function (error) {
-            deferred.reject("error posting user data to service", error);
-            // console.log(error);
-        });
-        return deferred.promise();
-    }
-
-    $("#submit-deposit").on("click", function (event) {
-        if ($("#deposits_final_Bookmaker").val() == "Skype Betting") {
-
-            event.preventDefault();
-            var $that = $(this);
-            var obj = {};
-            var saveFirstDate = false;
-            obj.AddressId = parseInt($('#deposits_final_Account_ID').val());
-            if (saveFirstDate == false) {
-                obj.FieldName = "balance";
-            } else {
-                obj.FieldName = "balanceWithFirstDepositDate";
-            }
-            obj.FieldValue = parseInt($('#deposits_final_Balance_after_deposit').val());
-            //console.log(obj.FieldValue);
-            var dataToSend = JSON.stringify(obj);
-
-            $.when(DepositsSendDataToService(dataToSend)).then(function (result) {
-
-                $that.closest("form").submit();
-            });
-        }
-    });
-
-    /*
-        function getDeposits(api) {
-            var deferred = $.Deferred();
-
-            var tipstersApi = $("body").attr("data-users-deposits-history");
-
-            $.ajax({
-                url: tipstersApi,
-                type: 'GET',
-                dataType: 'json'
-            }).done(function (data) {
-                //console.log("success");
-                deferred.resolve(data);
-            }).fail(function () {
-                console.log("Error accessing User Details Endpoint...");
-                deferred.reject("Error accessing User Details Endpoint...");
-            });
-
-            return deferred.promise();
-        }
-
-        $.when(getDeposits()).then(function (depositHistory) {
-            var accountID = $(".deposit-history").attr("data-type-accont-ID");
-
-            var currentAccount = depositHistory.filter(function (object) {
-                return object.clientID == accountID;
-            });
-
-            for(i in currentAccount){
-
-
-                var output = "";
-                output += "<table>";
-                output += "<h3>Deposit Date : "+ currentAccount[i].requestDate +"</h3>";
-                output += "<tr>";
-                output += "<th> Amount </th>";
-                output += "<th> Bookmaker </th>";
-                output += "<th> Client Email </th>";
-                output += "<th> Client ID </th>";
-                output += "<th> Client Username </th>";
-                output += "<th> Currency </th>";
-                output += "<th> Deposit Currency </th>";
-                output += "<th> Deposit Status </th>";
-                output += "<th> Initial Balance </th>";
-                output += "<th> Payment Method </th>";
-                output += "<th> Transaction ID </th>";
-                output += "<th> Request Date </th>";
-
-                output += "</tr>";
-                output += "<tr>";
-                output += "<td class='amount-col'>" + currentAccount[i].amount + "</td>";
-                output += "<td>" + currentAccount[i].bookmaker + "</td>";
-                output += "<td>" + currentAccount[i].clientEmail + "</td>";
-                output += "<td>" + currentAccount[i].clientID + "</td>";
-                output += "<td>" + currentAccount[i].clientUsername + "</td>";
-                output += "<td>" + currentAccount[i].accountCurrency + "</td>";
-                output += "<td>" + currentAccount[i].depositsCurrency + "</td>";
-                if(currentAccount[i].depositstatus == "Completed"){
-                    output += "<td class='transaction-status'>" + currentAccount[i].depositstatus + "</td>";
-                }else{
-                    output += "<td>" + currentAccount[i].depositstatus + "</td>";
-                }
-                output += "<td>" + currentAccount[i].initialBalance + "</td>";
-                output += "<td>" + currentAccount[i].paymentMethod + "</td>";
-                output += "<td>" + currentAccount[i].transactionId + "</td>";
-                output += "<td>" + currentAccount[i].requestDate + "</td>";
-
-                output += "</tr>";
-                output += "</table>";
-                $('.deposit-history-content').append(output);
-            }
-        });
-
-    */
-    if($(".deposit-history").length >= 1){
-        function getWithdraw(api) {
-            var deferred = $.Deferred();
-
-            var tipstersApi = $("body").attr("data-users-withdraw-history");
-
-            $.ajax({
-                url: tipstersApi,
-                type: 'GET',
-                dataType: 'json'
-            }).done(function (data) {
-                //console.log("success");
-                deferred.resolve(data);
-            }).fail(function () {
-                console.log("Error accessing User Details Endpoint...");
-                deferred.reject("Error accessing User Details Endpoint...");
-            });
-            return deferred.promise();
-        }
-
-        $.when(getWithdraw()).then(function (withdrawHistory) {
-            var accountID = $(".deposit-history").attr("data-type-accont-ID");
-            var currentAccount = withdrawHistory.filter(function (object) {
-                return object.clientID == accountID;
-            });
-            for (i in currentAccount) {
-                var output = "";
-                output += "<table>";
-                output += "<h3>Withdrow Date : " + currentAccount[i].requestDate + "</h3>";
-                output += "<tr>";
-                output += "<th> Amount </th>";
-                output += "<th> Ballance After Withdraw </th>";
-                output += "<th> Bookmaker </th>";
-                output += "<th> Client Email </th>";
-                output += "<th> Client ID </th>";
-                output += "<th> Client Username </th>";
-                output += "<th> Withdraw Currency </th>";
-                output += "<th> Withdraw Status </th>";
-                output += "<th> Initial Balance </th>";
-                output += "<th> Payment Method </th>";
-                output += "<th> Transaction ID </th>";
-                output += "<th> Request Date </th>";
-                output += "</tr>";
-                output += "<tr>";
-                output += "<td class='amount-col-withdraw'>" + currentAccount[i].amount + "</td>";
-                output += "<td>" + currentAccount[i].ballanceAfterWithdraw + "</td>";
-                output += "<td>" + currentAccount[i].bookmaker + "</td>";
-                output += "<td>" + currentAccount[i].clientEmail + "</td>";
-                output += "<td>" + currentAccount[i].clientID + "</td>";
-                output += "<td>" + currentAccount[i].clientUsername + "</td>";
-                output += "<td>" + currentAccount[i].withdrawCurrency + "</td>";
-                if (currentAccount[i].withdrawstatus == ("Completed")) {
-                    output += "<td class='transaction-status'>" + currentAccount[i].withdrawstatus + "</td>";
-                } else {
-                    output += "<td>" + currentAccount[i].withdrawstatus + "</td>";
-                }
-                output += "<td>" + currentAccount[i].initialBalance + "</td>";
-                output += "<td>" + currentAccount[i].paymentMethod + "</td>";
-                output += "<td>" + currentAccount[i].transactionId + "</td>";
-                output += "<td>" + currentAccount[i].requestDate + "</td>";
-                output += "</tr>";
-                output += "</table>";
-                $('.withdraw-history-content').append(output);
-            }
-        });
-    }
+ 
     $("#reset-filter-button").click(function () {
         var currentURL = window.location.href;
         document.location = currentURL;
     });
-    $("#filter-button").click(function () {
-
-        var emailValue = $(".email-filter").val();
-        var expressValue = $(".express-filter").val();
-        if ($("#transaction-verified-by select").length) {
-            var verifyBy = $("#transaction-verified-by select").val();
-        } else {
-            var verifyBy = "All";
-        }
-        if ($("#transaction-processed-by select").length) {
-            var procesedBy = $("#transaction-processed-by select").val();
-        } else {
-            var procesedBy = "All";
-        }
-        if ($("#transaction-finalized-by select").length) {
-            var completedBy = $("#transaction-finalized-by select").val();
-        } else {
-            var completedBy = "All";
-        }
-        var startDate = $("#transaction-from-date").val();
-        var endDate = $("#transaction-to-date").val();
-        var currentURL = window.location.href;
-        var currentURLSplit = currentURL.split("?");
-        var url = currentURLSplit[0] + "?" + "Email=" + emailValue + "&Express=" + expressValue + "&Verified=" + verifyBy + "&Processed=" + procesedBy + "&Finalized=" + completedBy + "&StartDate=" + startDate + "&EndDate=" + endDate;
-        console.log("url", url)
-        document.location = url;
-    });
+  
     $("#reset-filter-button").click(function () {
         var currentURL = window.location.href;
         var currentURLSplit = currentURL.split("?");
@@ -2493,367 +1995,7 @@ $(document).ready(function () {
     })
 
 //All Valid Acconts json
-    if( $("#withdraw_Bookmaker").length) {
-        function getAccountsWindraw(api) {
-            var deferred = $.Deferred();
-            var tipstersApi = $("body").attr("data-users-valid-acconts");
-            $.ajax({
-                url: tipstersApi,
-                type: 'GET',
-                dataType: 'json'
-            }).done(function (data) {
-                //console.log("success");
-                deferred.resolve(data);
-            }).fail(function () {
-                console.log("Error accessing User Details Endpoint...");
-                deferred.reject("Error accessing User Details Endpoint...");
-            });
-            return deferred.promise();
-        }
 
-        var accountID = $(".container").attr("data-type-accontid");
-        $.when(getAccountsWindraw()).then(function (accountDetails) {
-            var currentAccount = accountDetails.filter(function (object) {
-                return object.userId == accountID;
-            });
-            for (var i  in currentAccount) {
-                if (currentAccount[i].isVerified == "True") {
-                    $(".form-content").removeClass("hidden");
-                } else {
-                    $(".form-accont-message").removeClass("hidden");
-                }
-            }
-            if ($("#withdraw_Bookmaker").hasClass("readonly") != true) {
-                for (var j in currentAccount) {
-                    $('#withdraw_Bookmaker').val(currentAccount[j].AccountBookmaker);
-                    if (currentAccount[j].isVerified == "True") {
-                        $('#withdraw_Bookmaker').append("<option value = '" + currentAccount[j].AccountBookmaker + "'>" + currentAccount[j].AccountBookmaker + "</option>");
-                    }
-                }
-
-                $(".loading-background").removeClass("active")
-            }
-
-            $("#withdraw_Bookmaker").change(function () {
-                var Bookmaker = $('#withdraw_Bookmaker').val();
-                if (Bookmaker != "Bookmaker") {
-                    var currentBookmaker = currentAccount.filter(function (object) {
-                        return object.AccountBookmaker == Bookmaker;
-                    });
-
-                    $('#withdraw_User_ID').val(currentBookmaker[0].AccountID);
-                    $('#withdraw_Client_Username').val(currentBookmaker[0].AccountUserName);
-                    $('#withdraw_Account_Currency_New').val(currentBookmaker[0].AccountCurrency);
-                    $('#withdraw_Commision_in_procent').val(currentBookmaker[0].AccountCommission);
-                    if ($('#withdraw_Bookmaker').val() === "Skype Betting") {
-                        $('#withdraw_Initial_Balance').val(currentBookmaker[0].AccountStartingBalance);
-                    }
-                    $('#withdraw_First_operation_Date').val(currentBookmaker[0].FirstDepositDate);
-
-                } else {
-                    $('#withdraw_Client_Username').val("");
-                    $('#withdraw_Account_Currency').val("");
-                    $('#withdraw_Commision_in_procent').val("");
-                    $('#withdraw_Initial_Balance').val("");
-                    $('#withdraw_First_operation_Date').val("");
-                    $('#withdraw_Balance_after_Deposit').val("");
-                    $('#withdraw_Commision_ammount').val("");
-                    $('#withdraw_Ammount_to_be_withdrew_after_commisions').val("");
-                }
-
-
-            });
-
-        });
-    }
-    $("#withdraw_Oanda_Exchange_Rate").mouseleave(function () {
-        if ($("#deposits_Initial_Balance").val() != "") {
-            var oandaConversion = parseInt($('#withdraw_Amount').val()) / parseInt($('#withdraw_Oanda_Exchange_Rate').val());
-            var comissionNumber = parseInt($('#withdraw_Commision_in_procent').val()) / 100 * oandaConversion;
-            var comisionSum = oandaConversion + comissionNumber;
-            var ballanceWithComission = parseInt($('#withdraw_Initial_Balance').val()) + comisionSum;
-
-            if (isNaN(comissionNumber) != true) {
-                $('#withdraw_Balance_after_Withdraw').val(ballanceWithComission);
-                $('#withdraw_Commision_ammount').val(comissionNumber);
-                $('#withdraw_Amount_to_be_withdrawed_after_commision_New').val(comisionSum);
-
-            }
-        } else {
-            $("#deposits_Initial_Balance").val("");
-            alert("Please add initial ballance value then add exchange rate.");
-        }
-
-    });
-
-
-    $(".last-submit-withdraw input[type='submit']").on("click", function (event) {
-        event.preventDefault();
-
-        var $that = $(this);
-
-
-        var obj = {};
-
-
-        obj.AddressId = parseInt($('#withdraw_Client_Id').val());
-        obj.FieldName = "balance";
-        obj.FieldValue = parseInt($('#withdraw_Amount_to_be_withdrawed_after_commision_New').val());
-        //console.log(obj.FieldValue);
-
-        var dataToSend = JSON.stringify(obj);
-
-
-        $.when(DepositsSendDataToService(dataToSend)).then(function (result) {
-
-            $that.closest("form").submit();
-        });
-
-    });
-
-    if($(".transfer-history").length){
-        function getTransfers(api) {
-            var deferred = $.Deferred();
-
-            var tipstersApi = $("body").attr("data-users-transfer-history");
-
-            $.ajax({
-                url: tipstersApi,
-                type: 'GET',
-                dataType: 'json'
-            }).done(function (data) {
-                //console.log("success");
-                deferred.resolve(data);
-            }).fail(function () {
-                console.log("Error accessing User Details Endpoint...");
-                deferred.reject("Error accessing User Details Endpoint...");
-            });
-
-            return deferred.promise();
-        }
-
-        $.when(getTransfers()).then(function (transfersHistory) {
-            var accountID = $(".transfer-history").attr("data-type-accont-ID");
-
-            var currentAccount = transfersHistory.filter(function (object) {
-                return object.clientID == accountID;
-            });
-
-            for (i in currentAccount) {
-
-                var output = "";
-                output += "<table>";
-                output += "<h3>Transfer Date : " + currentAccount[i].requestDate + "</h3>";
-                output += "<tr>";
-                output += "<th> Client Email </th>";
-                output += "<th> Client ID </th>";
-                output += "<th> Client Username </th>";
-                output += "<th> From Bookmaker </th>";
-                output += "<th> Transfer From: </th>";
-                output += "<th> Transfer from Currency </th>";
-                output += "<th> To Bookmaker </th>";
-                output += "<th> Transfer To: </th>";
-                output += "<th> Transfer to Currency </th>";
-                output += "<th> Amount </th>";
-                output += "<th> Transfer Status </th>";
-                output += "<th> Request Date </th>";
-
-                output += "</tr>";
-                output += "<tr>";
-                output += "<td>" + currentAccount[i].clientEmail + "</td>";
-                output += "<td>" + currentAccount[i].clientID + "</td>";
-                output += "<td>" + currentAccount[i].clientUsername + "</td>";
-                output += "<td>" + currentAccount[i].bookmaker + "</td>";
-                output += "<td>" + currentAccount[i].fromUsername + "</td>";
-                output += "<td>" + currentAccount[i].accountCurrency + "</td>";
-                output += "<td>" + currentAccount[i].reciverBookmaker + "</td>";
-                output += "<td>" + currentAccount[i].toUsername + "</td>";
-                output += "<td>" + currentAccount[i].toCurrency + "</td>";
-                output += "<td class='amount-col'>" + currentAccount[i].amount + "</td>";
-                if (currentAccount[i].transactionStatus == ("Completed")) {
-                    output += "<td class='transaction-status'>" + currentAccount[i].transactionStatus + "</td>";
-                } else {
-                    output += "<td>" + currentAccount[i].transactionStatus + "</td>";
-                }
-
-                output += "<td>" + currentAccount[i].requestDate + "</td>";
-                output += "</tr>";
-                output += "</table>";
-                $('.transfer-history-content').append(output);
-            }
-        });
-    }
-    if($("#transfers_Bookmaker").length){
-        function getAccountsTransfer(api) {
-            var deferred = $.Deferred();
-            var tipstersApi = $("body").attr("data-users-valid-acconts");
-            $.ajax({
-                url: tipstersApi,
-                type: 'GET',
-                dataType: 'json'
-            }).done(function (data) {
-                //console.log("success");
-                deferred.resolve(data);
-            }).fail(function () {
-                console.log("Error accessing User Details Endpoint...");
-                deferred.reject("Error accessing User Details Endpoint...");
-            });
-
-            return deferred.promise();
-        }
-
-        var accountID = $(".container").attr("data-type-accontid");
-        $.when(getAccountsTransfer()).then(function (accountDetails) {
-            var currentAccount = accountDetails.filter(function (object) {
-                return object.userId == accountID;
-            });
-
-            for (var i in currentAccount) {
-                if (currentAccount[i].isVerified == "True") {
-                    $(".form-content").removeClass("hidden");
-
-                } else {
-
-                    $(".form-accont-message").removeClass("hidden");
-                }
-            }
-            if ($("#transfers_Bookmaker").hasClass("readonly") != true) {
-                for (var j in currentAccount) {
-                    $('#transfers_Bookmaker').val(currentAccount[j].AccountBookmaker);
-                    if (currentAccount[i].isVerified == "True") {
-                        $('#transfers_Bookmaker').append("<option value = '" + currentAccount[j].AccountBookmaker + "'>" + currentAccount[j].AccountBookmaker + "</option>");
-                    }
-                }
-            }
-
-            $("#transfers_Bookmaker").change(function () {
-                var Bookmaker = $('#transfers_Bookmaker').val();
-                if (Bookmaker != "Bookmaker") {
-                    var currentBookmaker = currentAccount.filter(function (object) {
-                        return object.AccountBookmaker == Bookmaker;
-                    });
-                    for (var j in currentAccount) {
-
-                        $('#transfers_Transfer_from_Username').val(currentAccount[j].AccountUserName);
-                        if (currentAccount[j].AccountBookmaker == Bookmaker) {
-                            if (currentAccount[i].isVerified == "True") {
-                                $('#transfers_Transfer_from_Username').append("<option value = '" + currentAccount[j].AccountUserName + "'>" + currentAccount[j].AccountUserName + "</option>");
-                            }
-                        }
-                    }
-                    $('#transfers_Client_Username').val(currentBookmaker[0].AccountUserName);
-                    $('#transfers_Transfer_from_User_ID').val(currentBookmaker[0].AccountID);
-                    $('#transfers_Transfer_from_Username').val(currentBookmaker[0].AccountUserName);
-                    $('#transfers_Account_Currency').val(currentBookmaker[0].AccountCurrency);
-                    $('#transfers_Commision_in_procent').val(currentBookmaker[0].AccountCommission);
-                    if ($('#transfers_Bookmaker').val() === "Skype Betting") {
-                        $('#transfers_Initial_Balance').val(currentBookmaker[0].AccountStartingBalance);
-                    }
-                    $('#transfers_First_operation_Date').val(currentBookmaker[0].FirstDepositDate);
-
-                } else {
-                    $('#transfers_Client_Username').val("");
-                    $('#transfers_Account_Currency').val("");
-                    $('#transfers_Commision_in_procent').val("");
-                    $('#transfers_Initial_Balance').val("");
-                    $('#transfers_First_operation_Date').val("");
-                    $('#transfers_Balance_after_Deposit').val("");
-                    $('#transfers_Commision_ammount').val("");
-                    $('#transfers_Ammount_to_be_transfered_after_commisions').val("");
-                }
-
-
-            });
-            $("#transfers_Oanda_Exchange_Rate").mouseleave(function () {
-
-                var oandaConversion = parseInt($('#transfers_Amount').val()) / parseInt($('#transfers_Oanda_Exchange_Rate').val());
-                var comminsionNumber = parseInt($('#transfers_Commision_in_procent').val());
-                var commisionAmmount = (oandaConversion * comminsionNumber) / 100;
-                var ballanceWithComission = parseInt($('#transfers_Initial_Balance').val()) - parseInt($('#transfers_Amount').val());
-                var ballanceWithComissionTransfer = parseInt($('#transfers_Receiver_Bookmaker_initial_Ballance').val()) + oandaConversion - commisionAmmount;
-
-                if (isNaN(ballanceWithComission) != true) {
-                    $('#transfers_Balance_after_Transfer').val(ballanceWithComission);
-                    $('#transfers_Receiver_Bookmaker_Balance_after_Transfer').val(ballanceWithComissionTransfer);
-                    $('#transfers_Commision_ammount').val(commisionAmmount);
-                }
-
-            });
-            if ($("#transfers_Receiver_Bookmaker_New").hasClass("readonly") != true) {
-                for (var j in currentAccount) {
-                    $('#transfers_Receiver_Bookmaker_New').val(currentAccount[j].AccountBookmaker);
-                    if (currentAccount[i].isVerified == "True") {
-                        $('#transfers_Receiver_Bookmaker_New').append("<option value = '" + currentAccount[j].AccountBookmaker + "'>" + currentAccount[j].AccountBookmaker + "</option>");
-                    }
-                }
-                $(".loading-background").removeClass("active")
-            }
-
-            $("#transfers_Receiver_Bookmaker_New").change(function () {
-                var Bookmaker = $('#transfers_Receiver_Bookmaker_New').val();
-                if (Bookmaker != "Bookmaker") {
-                    var currentBookmaker = currentAccount.filter(function (object) {
-                        return object.AccountBookmaker == Bookmaker;
-                    });
-                    for (var j in currentAccount) {
-                        $('#transfers_Transfer_to_Username').val(currentAccount[j].AccountUserName);
-                        if (currentAccount[i].isVerified == "True") {
-                            $('#transfers_Transfer_to_Username').append("<option value = '" + currentAccount[j].AccountUserName + "'>" + currentAccount[j].AccountUserName + "</option>");
-                        }
-                        $('#transfers_To_Account_Currency').val(currentBookmaker[0].AccountCurrency);
-                    }
-                    $('#transfers_Transfer_to_User_ID').val(currentBookmaker[0].AccountID);
-                    if ($('#transfers_Receiver_Bookmaker_New').val() === "Skype Betting") {
-                        $('#transfers_Receiver_Bookmaker_initial_Ballance').val(currentBookmaker[0].AccountStartingBalance);
-                    }
-                    $("#transfers_Receiver_Bookmaker_New").change(function () {
-
-                        var ballanceAfterTransfer = parseInt($('#transfers_Amount').val()) + currentBookmaker[0].AccountStartingBalance;
-                        if (isNaN(ballanceAfterTransfer) != true) {
-                            $('#transfers_Receiver_Bookmaker_Balance_after_Transfer').val(ballanceAfterTransfer);
-                        }
-
-                    });
-                } else {
-                    $('#transfers_Receiver_Bookmaker_initial_Ballance').val("");
-                    $('#transfers_Receiver_Bookmaker_Balance_after_Transfer').val("");
-                }
-
-
-            });
-
-
-        });
-    }
-    $(".last-submit-transfer input[type='submit']").on("click", function (event) {
-        event.preventDefault();
-
-        var $that = $(this);
-
-
-        var obj = {};
-
-        var saveFirstDate = false;
-        obj.AddressIdSource = parseInt($('#transfers_Transfer_from_User_ID').val());
-        if (saveFirstDate == false) {
-            obj.Operation = "transfer";
-        } else {
-            obj.Operation = "transferFirstDepositDate";
-        }
-        obj.FieldValueAddressSource = parseInt($('#transfers_Balance_after_Transfer').val());
-        obj.AddressIdDestination = parseInt($('#transfers_Transfer_to_User_ID').val());
-        obj.FieldValueAddressDestination = parseInt($('#transfers_Transfer_to_User_ID').val());
-        //console.log(obj.FieldValue);
-
-        var dataToSend = JSON.stringify(obj);
-
-        $.when(DepositsSendDataToServiceExtended(dataToSend)).then(function (result) {
-            console.log("result", result);
-            console.log("submitted info to the service");
-            $that.closest("form").submit();
-        });
-
-    });
 
 
 //Get latest Tips table
@@ -3032,7 +2174,17 @@ $(document).ready(function () {
                 return toDate(dateObj.name);
             });
             arrFiltered.reverse();
-
+            if($("#latest-tips").length > 0){
+                var dateTranslate = $("#latest-tips").attr("data-date-translate")
+                var leagueTranslate = $("#latest-tips").attr("data-league-translate")
+                var matchTranslate = $("#latest-tips").attr("data-match-translate")
+                var stakeTranslate = $("#latest-tips").attr("data-stake-translate")
+                var oddTranslate = $("#latest-tips").attr("data-odd-translate")
+                var bettingTranslate = $("#latest-tips").attr("data-betting-translate")
+                var bookmakerTranslate = $("#latest-tips").attr("data-bookmaker-translate")
+                var statusTranslate = $("#latest-tips").attr("data-status-translate")
+                
+            }
 
             var i;
             for (var item in arrFiltered) {
@@ -3085,8 +2237,7 @@ $(document).ready(function () {
                 } else {
                     $("#latest-tips .center-container").append("<p class = 'ended'>" + arrFiltered[item].name + "</p>");
                 }
-
-
+         
                 var latestTipsCount = 0;
                 for (var item1 in arrFiltered[item].set) {
                     if (latestTipsCount <= 20) {
@@ -3099,7 +2250,7 @@ $(document).ready(function () {
                         var statGMTCorrectDate = new Date(toDateGMT(latestTipsDetails[item].startGMT)).setHours(new Date(toDateGMT(latestTipsDetails[item].startGMT)).getHours() - 24);
                         var statGMTCorrectDateSeconds = new Date(toDateGMT(latestTipsDetails[item].startGMT)).setHours(new Date(toDateGMT(latestTipsDetails[item].startGMT)).getHours());
                         var todayDateSeconds = new Date(today).setHours(new Date(today).getHours())
-
+                        
                         if (statGMTCorrectDate > todayDateSeconds) {
                             var statusClass = "active";
 
@@ -3127,35 +2278,49 @@ $(document).ready(function () {
                             latestTipsDetails[item].bookmakerLogo = "N/A";
                             var bookmakerLogo = "N/A";
                         } else if (latestTipsDetails[item].bookmakerUrl == "") {
-                            var bookmakerLogo = "<img src = '" + latestTipsDetails[item].bookmakerLogo + "'>";
+                            var bookmakerLogo = "<img src = '" + latestTipsDetails[item].bookmakerLogo + "' alt='bookmaker-logo'>";
                         } else {
-                            var bookmakerLogo = "<a href = /" + latestTipsDetails[item].bookmakerUrl + "><img src = '" + latestTipsDetails[item].bookmakerLogo + "'></a>";
+                            var bookmakerLogo = "<a href = /" + latestTipsDetails[item].bookmakerUrl + "><img src = '" + latestTipsDetails[item].bookmakerLogo + "' alt='bookmaker-logo'></a>";
                         }
+                        
                         output += "<div class = 'row " + statusClass + "'>";
                         output += "<div class = 'col-4-tips-mobile'>";
                         output += "<div class = 'bookmaker-mobile'>";
-                        output += "<h1> BOOKMAKER </h1>";
-                        output += bookmakerLogo;
+                        output += "<h1 class='tipster-title-mobile'> "+ dateTranslate + ": " + latestTipsDetails[item].startGMT  +" </h1>";
+                        output += "<h1>"+ bookmakerTranslate + ": " + latestTipsDetails[item].bookmakerName +"</h1>"; 
                         output += "</div>";
-                        output += "<div class='tipster-section-mobile'>";
-                        output += "<h1 class='tipster-title-mobile'> Date & Time </h1>";
-                        output += "<img src = '" + latestTipsDetails[item].tipsterImageClean + "'>";
-                        output += "</div>";
+                       
                         output += "<div class='col col-tipster-name col-tipster-name-mobile'><a href = '" + origin + "/Default.aspx?ID=" + latestTipsDetails[item].TipsterPageId + "'>" + latestTipsDetails[item].tipster + "</a></div>";
+                        if (latestTipsDetails[item].finalScore == "N/A") {
+
+                            //console.log(latestTipsDetails[item]);
+                            if (statGMTCorrectDate > todayDateSeconds) {
+                                output += "<div class='col col-status col-mobile-status active-event event-open'><span class='status-tip-mobile'></span>Open to bet</div>";
+
+                            } else {
+                                if (statGMTCorrectDateSeconds < todayDateSeconds) {
+                                    output += "<div class='col col-status col-mobile-status'><span class='status-tip-mobile'></span>IN PLAY</div>";
+                                } else {
+                                    output += "<div class='col col-status col-mobile-status event-started'><span class='status-tip-mobile'></span>Started</div>";
+                                }
+                            }
+                        } else {
+                            output += "<div class='col col-status col-mobile-status event-ended'><span class='status-tip-mobile'></span>Ended</div>";
+                        }
                         output += "</div>";
                         output += "<div class = 'col-8-tips-mobile'>";
-                        output += "<div class='col col-tipster-name'>" + latestTipsDetails[item].startGMT + "</div>";
+                        output += "<div class='col col-tipster-name'><span class='mobile-odds'>" + dateTranslate + ":</span>" + latestTipsDetails[item].startGMT + "</div>";
 
-                        output += " <div class='col col-league-name'>" + latestTipsDetails[item].league + "</div>";
-
-
-                        output += "<div class='col col-game-name'>" + latestTipsDetails[item].game + "</div>";
+                        output += " <div class='col col-league-name'><span class='mobile-odds'>" + leagueTranslate + ":</span>" + latestTipsDetails[item].league + "</div>";
 
 
-                        output += "<div class='col col-stake'><span class='mobile-odds'>Stake:</span> " + latestTipsDetails[item].stake + "</div>";
-                        output += "<div class='col col-odd'><span class='mobile-odds'>Odds:</span>" + latestTipsDetails[item].odd + "</div>";
+                        output += "<div class='col col-game-name'><span class='mobile-odds'>" + matchTranslate + ":</span>" + latestTipsDetails[item].game + "</div>";
 
-                        output += "<div class='col col-bet'><a href = '/Default.aspx?ID=" + latestTipsDetails[item].PageId + "'>" + latestTipsDetails[item].betOn + "</a></div>";
+
+                        output += "<div class='col col-stake'><span class='mobile-odds'>" + stakeTranslate + ":</span> " + latestTipsDetails[item].stake + "</div>";
+                        output += "<div class='col col-odd'><span class='mobile-odds'>"+ oddTranslate +":</span>" + latestTipsDetails[item].odd + "</div>";
+                        output += " <div class='col col-league-name col-league-name-mobile'><span class='mobile-odds'>" + leagueTranslate + ":</span>" + latestTipsDetails[item].league + "</div>";
+                        output += "<div class='col col-bet'><a href = '/Default.aspx?ID=" + latestTipsDetails[item].PageId + "' title='bet-link'><span class='mobile-odds'>" + bettingTranslate + ":</span>" + latestTipsDetails[item].betOn + "</a></div>";
                         output += "<div class='col col-bookmaker'>" + latestTipsDetails[item].bookmakerName + "</div>";
 
 
@@ -3201,7 +2366,7 @@ $(document).ready(function () {
                 } else {
                     url = urlRaw;
                 }
-              console.log(url, "url")
+        
                 for (var i = 1; i <= totalPages; i++) {
                   if(i == currentPage){
                     $("#pagination-latest-tips").append("<div class = 'page-number curent-page slick-active'><a href ='" + url + "?PageNum=" + i + "'>" + i + "</a></div>")
@@ -3212,19 +2377,18 @@ $(document).ready(function () {
                 $('#pagination-latest-tips').slick({
                     slidesToShow: 3,
                     slidesToScroll: 3,
-                    prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-chevron-left"></i></button>',
-                    nextArrow: '<button type="button" class="slick-next"><i class="fa fa-chevron-right"></i></button>'
-
+                    prevArrow: '<button type="button" class="slick-prev" name="button-previous-slider"><i class="fa fa-chevron-left"></i></button>',
+                    nextArrow: '<button type="button" class="slick-next" name="button-next-slider"><i class="fa fa-chevron-right"></i></button>'
                 });
               $("#pagination-latest-tips .page-number").removeClass("slick-active");
                $("#pagination-latest-tips .page-number.curent-page").addClass("slick-active");
-              console.log($("#pagination-latest-tips .page-number.curent-page"));
+              
               $("#pagination-latest-tips .page-number.curent-page").prev().addClass("slick-active");
               $("#pagination-latest-tips .page-number.curent-page").next().addClass("slick-active");
          
             }
 
-        });
+        }); 
     }
     $("#active-tips-list").click(function () {
         $("#latest-tips .row").removeClass("started");
@@ -3394,7 +2558,7 @@ $(document).ready(function () {
     }
 
 
-// calcule matematice
+// STERGEM?
 
     var oddWeGiveToClient = parseFloat($("#skypeBets_OddWeGiveToClient").val());
     var oddWeBetInAsia = parseFloat($("#skypeBets_OddWeBetInAsia").val());
@@ -4467,85 +3631,7 @@ $(document).ready(function () {
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
-
-// Minimum input number
-//  $('#skypeBets_BetStake').attr({"min": 1})
-// $("#skypeBets_BetStake").on("keydown", function(event){
-//   if ($(this).val().length <= 1 && event.which == 48) {
-//     event.preventDefault();
-//   return false;
-//  } else {
-//    return event.charCode == 8 || event.charCode == 0 ? null : event.charCode >= 48 && event.charCode <= 57;
-//  }
-// });
-// $("#skypeBets_BetStake").on("change", function(){
-// var value = $(this).val();
-// if(value.charCodeAt(0) == 48) {
-//   if(value.length > 1) {
-//     $(this).val(value.substring(1));
-//  } else {
-//    $(this).val(1);
-//  }
-//  }
-// });
-// filter function
-    $(function () {
-// Initialise the inputs on page load:
-
-// var today = new Date().toJSON().replace(/..(..)-(..)-(..).*/, '$2/$3/$1');
-//   $("#selectDate").datepicker({ dateFormat: 'mm/dd/yy' }).val(today).change(applyFilter);
-//  $("#selectDate2").datepicker({ dateFormat: 'mm/dd/yy' }).val(today).change(applyFilter);
-//  $("#rangeval").change(applyFilter);
-
-// $.fn.date = function () {
-//      return new Date((this.is(':input') ? this.val() : this.text()).replace(/\/(..)$/, '/20$1'));
-//  }
-
-//  function applyFilter() {
-//     var filterType = $("#rangeval").val(),
-//       start, end;
-
-// Show all: choose extreme dates
-//  if (filterType === "") {
-// Show all: choose extreme dates
-//      start = new Date('1000-01-01');
-//    end = new Date('3000-01-01');
-
-//  } else if (!parseInt(filterType)) {
-// Use data entry:
-//      start = $("#selectDate").date();
-//      end = filterType === "Custom Date Range" ? $("#selectDate2").date() : start;
-//  } else {
-// Show last X days:
-//     start = new Date();
-//   start.setHours(0,0,0,0);
-//    start.setDate(start.getDate() - parseInt(filterType));
-//   end = new Date(); // today
-//  }
-// For each row: set the visibility depending on the date range
-        /* $(".main_table tr").each(function () {
-            var date = $("td:last-child", this).date();
-            console.log("DATE" , date);
-            $(this).toggle(date >= start && date <= end);
-        }); */
-
-
-//    $(".target-dates").each(function(index,el){
-//     var datesFromAttribute = $(this).attr("dates");
-//    var dates = new Array(datesFromAttribute);
-//  var $parentRow = $(this).parent("tr");
-
-
-//     console.log(dates)
-
-//  console.log(start);
-//    console.log(end);
-
-
-// });
-//}
-// applyFilter(); // Execute also on page load
-    });
+    
     $(".overlay-master").removeClass("active");
 });
 
@@ -4567,1175 +3653,23 @@ function requestAPICreate(obj) {
     return deferred.promise();
 }
 
-//Deposits Calculations
-$(function () {
-    var currentCurrency = jQuery.trim($("#calculateAmount").attr("data-deposit-currency"));
-    var bookieAccountCurrency = jQuery.trim($("#calculateAmount").attr("data-bookie-account-currency"));
-    var paymentMethod = $("#confirmForm").attr("data-paymentmethod");
-    if (paymentMethod != "Crypto") {
-        $("#convert-fee-paid-crypto").remove();
-    } else {
-        $('#convert-fee-paid-crypto option[value="' + currentCurrency + '"]').attr("selected", "selected");
-
-
-        $("#convert-fee-paid-normal").remove();
-    }
-    $("select#deposits_final_Payment_method_currency").on("change", function () {
-
-        var selectedValueRaw = $(this).val();
-        var selectedValue = jQuery.trim(selectedValueRaw);
-        var resultRaw = $("#amountAfterFirstExchange").attr("data-initial-value");
-        var paymentMethod = $("#confirmForm").attr("data-paymentmethod");
-        var result = paymentMethod != "Cryptocurrency" ? resultRaw : resultRaw - ((resultRaw * 5) / 100);
-        $("#deposits_final_Payment_method_Oanda_exchange_rate").val("");
-        $("#deposits_final_Amount_after_first_exchange").val("");
-        $("#deposits_final_Currency_after_first_Exchange").val("");
-        $("#deposits_final_Full_Processed_Amount").val("");
-        $("#deposits_final_Oanda_Exchange_Rate").val("");
-        $("#amountAfterFirstExchangeText").empty();
-        $("#amountAfterFirstExchangeText").append("<span>Amount to convert 2st: </span>");
-
-        if (selectedValue.toLowerCase() == currentCurrency.toLowerCase()) {
-            var ammountInitialValueRaw = $("#amountAfterFirstExchange").attr("data-initial-value");
-            var ammountInitialValue = paymentMethod != "Cryptocurrency" ? ammountInitialValueRaw : ammountInitialValueRaw - ((ammountInitialValueRaw * 5) / 100);
-            $("#paymentMethodCurrencyExchange").addClass("hidden");
-
-            $("#deposits_final_Amount_after_first_exchange").val(result);
-            $("#CurrencyAfterFirstExchange").addClass("hidden");
-            $("#finalAmount").removeClass("hidden");
-
-            $("#deposits_final_Amount_after_first_exchange").val(result);
-            $("#fakeAmountAfterFirstExchange input").val(result);
-            $("#amountAfterFirstExchangeText").append(result);
-
-        } else {
-            $("#paymentMethodCurrencyExchange").removeClass("hidden");
-            $("#CurrencyAfterFirstExchange").removeClass("hidden");
-            $("#deposits_final_Currency_after_first_Exchange").val(selectedValue);
-            $("#deposits_final_Currency_after_first_Exchange").attr('readonly', true);
-
-        }
-
-        if (selectedValue.toLowerCase() == bookieAccountCurrency.toLowerCase()) {
-
-            $("#currencyExchange").addClass("hidden");
-            $("#amountAfterSecondExchange").addClass("hidden");
-            $("#screenshot-oanda-3").addClass("hidden");
-
-        } else {
-            if (selectedValueRaw != "default") {
-                if (paymentMethod != "Crypto") {
-                    $("#currencyExchange").removeClass("hidden");
-                    $("#amountAfterSecondExchange").removeClass("hidden");
-                    $("#screenshot-oanda-3").removeClass("hidden");
-                }
-            } else {
-                $("#currencyExchange").addClass("hidden");
-                $("#amountAfterSecondExchange").addClass("hidden");
-                $("#screenshot-oanda-3").addClass("hidden");
-            }
-        }
-        if ($("#convert-from-deposit-currency").length) {
-            $("#convert-from-deposit-currency").empty();
-            $("#convert-to-account-currency").empty();
-
-            if (selectedValueRaw != "default") {
-                $("#convert-from-deposit-currency").append("<span>to </span>" + selectedValueRaw + "");
-                $("#convert-to-account-currency").append("<span>Convert 2st: </span>" + selectedValueRaw + "");
-
-
-            }
-            $('#deposits_final_Convert_fee_paid_to_currency option[value="' + selectedValueRaw + '"]').attr("selected", "selected")
-        }
-    });
-
-    $("#deposits_final_Payment_method_Oanda_exchange_rate").on("change", function (event) {
-
-        var initialAmount = parseFloat($("#deposits_final_Admin_ammount_to_be_deposited").val());
-        var currentValue = parseFloat($(this).val());
-        var resultRaw = parseInt(initialAmount * currentValue);
-        var paymentMethod = $("#confirmForm").attr("data-paymentmethod");
-        var result = paymentMethod != "Cryptocurrency" ? resultRaw : resultRaw - ((resultRaw * 5) / 100);
-        var eWalletFeeValue = $("#FeeEwalletComission").attr("data-ewalet-comission-value");
-        var eWalletProcent = $("#FeeEwalletComission").attr("data-ewalet-comission-value-is-procent");
-        var eWalletFeeValueMin = $("#FeeEwalletComission").attr("data-ewalet-comission-value-min");
-        var eWalletFeeValueMinProcent = $("#FeeEwalletComission").attr("data-ewalet-comission-value-min-isprocent");
-        var feeBetIbc = "";
-        if (paymentMethod != "Crypto") {
-            if (result < 100) {
-                if (eWalletFeeValueMinProcent != "True") {
-                    feeBetIbc = initialAmount - eWalletFeeValueMin;
-                    $("#deposits_final_E_wallet_fee").val(eWalletFeeValueMin);
-                } else {
-                    feeBetIbc = (initialAmount * eWalletFeeValueMin) / 100;
-                    $("#deposits_final_E_wallet_fee").val(feeBetIbc);
-                }
-            } else {
-                if (eWalletProcent != "True") {
-                    feeBetIbc = initialAmount - eWalletFeeValue;
-                    $("#deposits_final_E_wallet_fee").val(eWalletFeeValue);
-                } else {
-                    feeBetIbc = (initialAmount * eWalletFeeValue) / 100;
-                    $("#deposits_final_E_wallet_fee").val(feeBetIbc);
-                }
-            }
-
-
-        } else {
-            console.log("TEST CRYPTO")
-            $("#deposits_final_E_wallet_fee").val(0);
-        }
-
-
-        $("#fakeAmountAfterFirstExchangeAgent input").val(result - feeBetIbc);
-        if (paymentMethod == "Crypto") {
-            $("#fakeAmountAfterFirstExchangeAgent input").val(initialAmount);
-        }
-        $("#deposits_final_Amount_after_first_exchange").val(result);
-        $("#amountAfterFirstExchangeText").empty();
-        $("#amountAfterFirstExchangeText").append("<span>Amount to convert 2st: </span> " + result + "");
-
-        $("#fakeAmountAfterFirstExchange input").val(result)
-        $("#deposits_final_Amount_after_first_exchange").attr('readonly', true);
-        $("#amountAfterFirstExchange").removeClass("hidden");
-
-
-        if ($("#deposits_final_Payment_method_currency").val().toLowerCase() == bookieAccountCurrency.toLowerCase()) {
-            $("#finalAmount").removeClass("hidden");
-            $("#deposits_final_Full_Processed_Amount").val(result);
-            $("#deposits_final_Full_Processed_Amount").attr('readonly', true);
-
-
-        }
-        if ($("#amountAfterSecondExchange").hasClass('hidden')) {
-            var finalAmount = $("#deposits_final_Amount_after_first_exchange").val();
-        } else {
-            var finalAmount = $("#deposits_final_Full_Processed_Amount").val();
-        }
-        var feeExceptionValue = $("#deposits_final_Exception_rule_one").find('option:selected').attr("data-value");
-        var feeMinValue = $("#deposits_final_Exception_rule_one").find('option:selected').attr("data-value-is-min");
-        var feePercent = $("#deposits_final_Exception_rule_one").find('option:selected').attr("data-value-is-procent");
-        var feeMinValueIsPercent = $("#deposits_final_Exception_rule_one").find('option:selected').attr("data-value-is-min-is-procent");
-        var feeValue = "";
-        if (finalAmount < 100) {
-            if (feeMinValueIsPercent != "True") {
-                feeValue = feeMinValue;
-            } else {
-                feeValue = (finalAmount / 100) * feeMinValue;
-            }
-        } else {
-            if (feePercent != "True") {
-                feeValue = firstException;
-            } else {
-                feeValue = (finalAmount / 100) * feeExceptionValue;
-            }
-
-        }
-        console.log("feeValue", feeValue, "finalAmount", finalAmount, "feeExceptionValue", feeExceptionValue);
-        $("#deposits_final_Exception_rule_one_amount").val(feeValue);
-
-
-    });
-
-    $("#deposits_final_Oanda_Exchange_Rate").on("change", function (event) {
-        if ($("#deposits_final_Amount_after_first_exchange").val() > 0) {
-            var initialAmount = parseFloat($("#deposits_final_Amount_after_first_exchange").val());
-            console.log(initialAmount, "initialAmount")
-            var currentValue = parseFloat($(this).val());
-            var result = parseInt(initialAmount * currentValue);
-            var paymentMethod = $("#confirmForm").attr("data-paymentmethod");
-            $("#finalAmount").removeClass("hidden");
-            $("#deposits_final_Full_Processed_Amount").val(result);
-
-            var eWalletFeeValue = $("#FeeEwalletComission").attr("data-ewalet-comission-value");
-            var eWalletProcent = $("#FeeEwalletComission").attr("data-ewalet-comission-value-is-procent");
-            var eWalletFeeValueMin = $("#FeeEwalletComission").attr("data-ewalet-comission-value-min");
-            var eWalletFeeValueMinProcent = $("#FeeEwalletComission").attr("data-ewalet-comission-value-min-isprocent");
-            var feeBetIbc = "";
-            if (paymentMethod != "Crypto") {
-                if (result < 100) {
-                    if (eWalletFeeValueMinProcent != "True") {
-                        feeBetIbc = initialAmount - eWalletFeeValueMin;
-                        $("#deposits_final_E_wallet_fee").val(eWalletFeeValueMin);
-                    } else {
-                        feeBetIbc = (initialAmount * eWalletFeeValueMin) / 100;
-                        $("#deposits_final_E_wallet_fee").val(feeBetIbc);
-                    }
-                } else {
-                    if (eWalletProcent != "True") {
-                        feeBetIbc = initialAmount - eWalletFeeValue;
-                        $("#deposits_final_E_wallet_fee").val(eWalletFeeValue);
-                    } else {
-                        feeBetIbc = (initialAmount * eWalletFeeValue) / 100;
-                        $("#deposits_final_E_wallet_fee").val(feeBetIbc);
-                    }
-                }
-            }
-        } else {
-            cosnole.log("TEST CRYPTO")
-            $("#deposits_final_E_wallet_fee").val(0);
-        }
-
-
-        $("#fakeAmountAfterFirstExchangeAgent input").val(initialAmount - feeBetIbc);
-        if ($("#amountAfterSecondExchange").hasClass('hidden')) {
-            var finalAmount = $("#deposits_final_Amount_after_first_exchange").val();
-        } else {
-            var finalAmount = $("#deposits_final_Full_Processed_Amount").val();
-        }
-        var feeExceptionValue = $("#deposits_final_Exception_rule_one").find('option:selected').attr("data-value");
-        var feeMinValue = $("#deposits_final_Exception_rule_one").find('option:selected').attr("data-value-is-min");
-        var feePercent = $("#deposits_final_Exception_rule_one").find('option:selected').attr("data-value-is-procent");
-        var feeMinValueIsPercent = $("#deposits_final_Exception_rule_one").find('option:selected').attr("data-value-is-min-is-procent");
-        var feeValue = "";
-        if (finalAmount < 100) {
-            if (feeMinValueIsPercent != "True") {
-                feeValue = feeMinValue;
-            } else {
-                feeValue = (finalAmount / 100) * feeMinValue;
-            }
-        } else {
-            if (feePercent != "True") {
-                feeValue = firstException;
-            } else {
-                feeValue = (finalAmount / 100) * feeExceptionValue;
-            }
-
-        }
-        console.log("feeValue", feeValue, "finalAmount", finalAmount, "feeExceptionValue", feeExceptionValue);
-        $("#deposits_final_Exception_rule_one_amount").val(feeValue);
-    });
-});
-// Fees
-$(function () {
-
-
-    var paymentMethod = $("#confirmForm").attr("data-paymentMethod");
-    var bookmaker = $("#confirmForm").attr("data-bookmaker");
-    var minAmount = paymentMethod == "BankTransfer" ? 999 : 99;
-
-
-//minimum amount fee
-    $("#calculateMinAmountFee").on("click", function (event) {
-
-        if ($("#amountAfterSecondExchange").hasClass('hidden')) {
-            var finalAmount = $("#deposits_final_Amount_after_first_exchange").val();
-        } else {
-            var finalAmount = $("#deposits_final_Full_Processed_Amount").val();
-        }
-        var feeValue = finalAmount > minAmount ? 0 : paymentMethod == "BankTransfer" ? 20 : 5;
-        event.preventDefault();
-        $("#deposits_final_Minimum_amount_fee").val(feeValue.toFixed(2));
-    });
-//payment method fee
-    $("#calculatePaymentMethodFee").on("click", function (event) {
-
-        var feeValue = "";
-        var finalAmount = "";
-        var accountCurrency = $("#calculateAmount").attr("data-bookie-account-currency")
-        if ($("#amountAfterSecondExchange").hasClass('hidden')) {
-            var finalAmount = $("#deposits_final_Amount_after_first_exchange").val();
-        } else {
-            var finalAmount = $("#deposits_final_Full_Processed_Amount").val();
-        }
-        if (accountCurrency == "Euro") {
-
-            if (paymentMethod != "Crypto") {
-                $("#deposits_final_payment_method_fee").val(0);
-            } else {
-                feeValue = (finalAmount / 100) * 5;
-                $("#deposits_final_payment_method_fee").val(feeValue.toFixed(2));
-            }
-        } else {
-            feeValue = (finalAmount / 100) * 5;
-            $("#deposits_final_payment_method_fee").val(feeValue.toFixed(2));
-        }
-        event.preventDefault();
-    });
-
-    //bookmaker method fee
-    if($("#deposits_final_Deposits_bookmaker_fee") >= 1) {
-        function getCommissionsForTransactions(api) {
-            var deferred = $.Deferred();
-            var commissionsApi = $("body").attr("data-booknaker-commisions-transactions");
-            $.ajax({
-                url: commissionsApi,
-                type: 'GET',
-                dataType: 'json'
-            }).done(function (data) {
-                //console.log("success");
-                deferred.resolve(data);
-            }).fail(function () {
-                console.log("Error accessing User Details Endpoint...");
-                deferred.reject("Error accessing User Details Endpoint...");
-            });
-            return deferred.promise();
-        }
-
-        $.when(getCommissionsForTransactions()).then(function (commissions) {
-            if ($(".filter-impersonation").length <= 0) {
-                var currentBookmaker = $(".confirmation-form-wrapper").attr("data-bookmaker");
-                var currentPaymentMethod = $(".confirmation-form-wrapper").attr("data-paymentmethod");
-                var accountCurrency = $("#calculateAmount").attr("data-bookie-account-currency").replace(/ /g, '');
-                var feeValue = "";
-            }
-
-
-            $("#calculateBookmakerFee").on("click", function (event) {
-
-                var filterCommissionApplyToByBookie = commissions.filter(function (object) {
-                    var CommissionBookmaker = object.Bookmaker;
-                    return CommissionBookmaker == currentBookmaker;
-
-                });
-                var filterCommissionApplyToByCurrency = filterCommissionApplyToByBookie.filter(function (object) {
-                    var currency = object.Currency;
-                    return currency == accountCurrency;
-
-                });
-                console.log("commissions", commissions)
-                if ($("#amountAfterSecondExchange").hasClass('hidden')) {
-
-                    var finalAmount = $("#deposits_final_Amount_after_first_exchange").val();
-                } else {
-                    var finalAmount = $("#deposits_final_Full_Processed_Amount").val();
-                }
-                if (filterCommissionApplyToByCurrency.length) {
-                    if (minAmount < finalAmount) {
-                        if (filterCommissionApplyToByCurrency[0].IsPercent != "True") {
-                            feeValue = finalAmount - filterCommissionApplyToByCurrency[0].Value;
-                        } else {
-
-                            feeValue = (finalAmount / 100) * filterCommissionApplyToByCurrency[0].Value;
-                        }
-                    } else {
-                        if (filterCommissionApplyToByCurrency[0].ValueMinIsPercent != "True") {
-                            feeValue = finalAmount - filterCommissionApplyToByCurrency[0].ValueMin;
-                        } else {
-                            feeValue = (finalAmount / 100) * filterCommissionApplyToByCurrency[0].ValueMin;
-                        }
-                    }
-                } else {
-                    feeValue = 0;
-
-                }
-
-
-                $("#deposits_final_Deposits_bookmaker_fee").val(feeValue.toFixed(2));
-
-                if (currentPaymentMethod == "Ecopayz") {
-                    if (currentBookmaker == "Matchbook") {
-                        if ($("#amountAfterSecondExchange").hasClass('hidden')) {
-
-                            var finalAmount = $("#deposits_final_Amount_after_first_exchange").val();
-                        } else {
-                            var finalAmount = $("#deposits_final_Full_Processed_Amount").val();
-                        }
-                        if (filterCommissionApplyToByCurrency.length) {
-                            if (minAmount < finalAmount) {
-                                if (filterCommissionApplyToByCurrency[0].IsPercent != "True") {
-                                    feeValue = finalAmount - filterCommissionApplyToByCurrency[0].Value;
-                                } else {
-
-                                    feeValue = (finalAmount / 100) * (parseInt(filterCommissionApplyToByCurrency[0].Value) + 5);
-                                    console.log("TEST STEFAN", parseInt(filterCommissionApplyToByCurrency[0].Value) + 5)
-                                }
-                            } else {
-                                if (filterCommissionApplyToByCurrency[0].ValueMinIsPercent != "True") {
-                                    feeValue = finalAmount - (parseInt(filterCommissionApplyToByCurrency[0].ValueMin) + 5);
-                                } else {
-                                    feeValue = (finalAmount / 100) * (parseInt(filterCommissionApplyToByCurrency[0].ValueMin) + 5);
-                                }
-                            }
-                        } else {
-                            feeValue = 0;
-
-                        }
-                    }
-
-                }
-                $("#deposits_final_Deposits_bookmaker_fee").val(feeValue.toFixed(2));
-                event.preventDefault();
-            });
-        });
-    }
-    //Express Fee
-    $("#calculateExpressFee").on("click", function (event) {
-        var finalAmount = $("#deposits_final_Full_Processed_Amount").val();
-        var isExpress = $("#confirmForm").attr("data-express");
-        var feeValueRaw = finalAmount > minAmount ? Math.ceil((finalAmount * 5) / 100) : 5;
-        var feeValue = isExpress == "true" ? feeValueRaw : 0;
-
-
-        event.preventDefault();
-        $("#deposits_final_Express_Fee_Calculation").val(feeValue);
-    });
-//Exception fees
-    $("#deposits_final_Exception_rule_one").change(function () {
-
-        if ($("#amountAfterSecondExchange").hasClass('hidden')) {
-            var finalAmount = $("#deposits_final_Amount_after_first_exchange").val();
-        } else {
-            var finalAmount = $("#deposits_final_Full_Processed_Amount").val();
-        }
-        var feeExceptionValue = $(this).find('option:selected').attr("data-value");
-        var feeMinValue = $(this).find('option:selected').attr("data-value-is-min");
-        var feePercent = $(this).find('option:selected').attr("data-value-is-procent");
-        var feeMinValueIsPercent = $(this).find('option:selected').attr("data-value-is-min-is-procent");
-        var feeValue = "";
-        if (finalAmount < 100) {
-            if (feeMinValueIsPercent != "True") {
-                feeValue = feeMinValue;
-            } else {
-                feeValue = (finalAmount / 100) * feeMinValue;
-            }
-        } else {
-            if (feePercent != "True") {
-                feeValue = firstException;
-            } else {
-                feeValue = (finalAmount / 100) * feeExceptionValue;
-            }
-
-        }
-        $(this).next().val(feeValue.toFixed(2));
-    });
-    $("#deposits_final_Exception_rule_two").change(function () {
-        if ($("#amountAfterSecondExchange").hasClass('hidden')) {
-            var finalAmount = $("#deposits_final_Amount_after_first_exchange").val();
-        } else {
-
-            var finalAmount = $("#deposits_final_Full_Processed_Amount").val();
-        }
-        var feeExceptionValue = $(this).find('option:selected').attr("data-value");
-        var feeMinValue = $(this).find('option:selected').attr("data-value-is-min");
-        var feePercent = $(this).find('option:selected').attr("data-value-is-procent");
-        var feeMinValueIsPercent = $(this).find('option:selected').attr("data-value-is-min-is-procent");
-        var feeValue = "";
-        if (finalAmount < 100) {
-            if (feeMinValueIsPercent != "True") {
-                feeValue = feeMinValue;
-            } else {
-                feeValue = (finalAmount / 100) * feeMinValue;
-            }
-        } else {
-            if (feePercent != "True") {
-                feeValue = firstException;
-            } else {
-                feeValue = (finalAmount / 100) * feeExceptionValue;
-            }
-
-        }
-        $(this).next().val(feeValue.toFixed(2));
-    });
-    $("#deposits_final_Exception_rule_three").change(function () {
-        if ($("#amountAfterSecondExchange").hasClass('hidden')) {
-            var finalAmount = $("#deposits_final_Amount_after_first_exchange").val();
-        } else {
-            var finalAmount = $("#deposits_final_Full_Processed_Amount").val();
-
-        }
-        var feeExceptionValue = $(this).find('option:selected').attr("data-value");
-        var feeMinValue = $(this).find('option:selected').attr("data-value-is-min");
-        var feePercent = $(this).find('option:selected').attr("data-value-is-procent");
-        var feeMinValueIsPercent = $(this).find('option:selected').attr("data-value-is-min-is-procent");
-        var feeValue = "";
-        if (finalAmount < 100) {
-            if (feeMinValueIsPercent != "True") {
-                feeValue = feeMinValue;
-            } else {
-                feeValue = (finalAmount / 100) * feeMinValue;
-            }
-        } else {
-            if (feePercent != "True") {
-                feeValue = firstException;
-            } else {
-                feeValue = (finalAmount / 100) * feeExceptionValue;
-            }
-
-        }
-        $(this).next().val(feeValue.toFixed(2));
-    });
-});
-//calculations
-// amount to be deposited
-$(function () {
-    $("#calculateAmountToBeCredited").on("click", function (event) {
-        var selectValue = $("#deposits_final_Custom_penalty").val();
-        if ($("#amountAfterSecondExchange").hasClass('hidden')) {
-            var finalAmount = $("#deposits_final_Amount_after_first_exchange").val();
-        } else {
-            var finalAmount = $("#deposits_final_Full_Processed_Amount").val();
-
-        }
-
-        var minAmountFee = $("#deposits_final_Minimum_amount_fee").val();
-        var bookieFee = $("#deposits_final_Deposits_bookmaker_fee").val();
-        var paymentMethodFee = $("#deposits_final_payment_method_fee").val();
-        var exception1 = $("#deposits_final_Exception_rule_one_amount").val();
-        var exception2 = $("#deposits_final_Exception_rule_two_amount").val();
-        var exception3 = $("#deposits_final_Exception_rule_three_amount").val();
-        if ($("#deposits_final_Money_to_recover").val() != "") {
-            console.log("TEST STEFAN");
-            var moneyToRecover = $("#deposits_final_Money_to_recover").val();
-        } else {
-            var moneyToRecover = 0;
-        }
-        var extraFeeRaw = parseFloat($("#deposits_final_Custom_penalty_value").val());
-        var extraFee = extraFeeRaw != "" ? extraFeeRaw : 0;
-        var extraFee1Raw = parseFloat($("#deposits_final_Custom_penalty_1_value").val());
-        var extraFee1 = Number(extraFee1Raw) != "" ? Number(extraFee1Raw) : 0;
-        var extraFee2Raw = parseFloat($("#deposits_final_Custom_penalty_2_value").val());
-        var extraFee2 = Number(extraFee2Raw) != "" ? Number(extraFee2Raw) : 0;
-        if (selectValue == 1) {
-            var sumExtraFee = extraFee;
-            $("#deposits_final_Custom_penalty_1_in_procent").val("");
-            $("#deposits_final_Custom_penalty_1_value").val("");
-            $("#deposits_final_Custom_penalty_1_reason").val("");
-            $("#deposits_final_Custom_penalty_2_in_procent").val("");
-            $("#deposits_final_Custom_penalty_2_value").val("");
-            $("#deposits_final_Custom_penalty_2_reason").val("");
-        } else {
-            if (selectValue == 2) {
-                var sumExtraFee = extraFee + extraFee1;
-                $("#deposits_final_Custom_penalty_2_in_procent").val("");
-                $("#deposits_final_Custom_penalty_2_value").val("");
-                $("#deposits_final_Custom_penalty_2_reason").val("");
-            } else {
-                if (selectValue == 3) {
-                    var sumExtraFee = extraFee + extraFee1 + extraFee2;
-                } else {
-                    var sumExtraFee = 0;
-                    $("#deposits_final_Custom_penalty_in_procent").val("");
-                    $("#deposits_final_Custom_penalty_value").val("");
-                    $("#deposits_final_Custom_penalty_reason").val("");
-                    $("#deposits_final_Custom_penalty_1_in_procent").val("");
-                    $("#deposits_final_Custom_penalty_1_value").val("");
-                    $("#deposits_final_Custom_penalty_1_reason").val("");
-                    $("#deposits_final_Custom_penalty_2_in_procent").val("");
-                    $("#deposits_final_Custom_penalty_2_value").val("");
-                    $("#deposits_final_Custom_penalty_2_reason").val("");
-                }
-            }
-        }
-
-        var amountToDepositRaw = parseFloat(finalAmount).toFixed(2) - sumExtraFee - parseFloat(bookieFee).toFixed(2) - parseFloat(paymentMethodFee).toFixed(2) - parseFloat(minAmountFee).toFixed(2) - parseFloat(moneyToRecover).toFixed(2) - parseFloat(exception1).toFixed(2) - parseFloat(exception2).toFixed(2) - parseFloat(exception3).toFixed(2);
-        console.log(finalAmount, "finalAmount")
-        console.log(sumExtraFee, "sumExtraFee")
-        console.log(bookieFee, "bookieFee")
-        console.log(paymentMethodFee, "paymentMethodFee")
-        console.log(minAmountFee, "minAmountFee")
-        console.log(moneyToRecover, "moneyToRecover")
-        console.log(exception1, "exception1")
-        console.log(exception2, "exception2")
-        console.log(exception3, "exception3")
-        event.preventDefault();
-        $("#deposits_final_Amount_To_Credit").val(Math.floor(amountToDepositRaw));
-    });
-});
-
-//balance after deposit
-$(function () {
-    $("#balanceAfter").on("click", function (event) {
-        event.preventDefault();
-        var balancebefore = $('#deposits_final_Balance_before_deposit').val();
-        var amountToBeCredited = $("#deposits_final_Amount_To_Credit").val();
-        var balanceAfter = parseInt(balancebefore) + parseInt(amountToBeCredited);
-        $("#deposits_final_Balance_after_deposit").val(balanceAfter);
-    });
-});
-// show hide deposit details in forms
-$(function () {
-    $("#Deposit_Details").on("click", function (event) {
-
-        var isHidden = $("#UserSubmitedInfo").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#UserSubmitedInfo").removeClass("hidden");
-        } else {
-            $("#UserSubmitedInfo").addClass("hidden");
-        }
-    });
-});
-//show hide currency conversion area of forms
-$(function () {
-    $("#Currency_Exchange").on("click", function (event) {
-        var isHidden = $("#exchangeFormulas").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#exchangeFormulas").removeClass("hidden");
-        } else {
-            $("#exchangeFormulas").addClass("hidden");
-        }
-    });
-});
-// show hide fees area in forms
-$(function () {
-    $("#Deposit_Fees").on("click", function (event) {
-        var isHidden = $("#FeesArea").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#FeesArea").removeClass("hidden");
-        } else {
-            $("#FeesArea").addClass("hidden");
-        }
-    });
-});
-// show hide exceptions area in forms
-$(function () {
-    $("#Deposit_Exceptions").on("click", function (event) {
-        var isHidden = $("#ExceptionsDeposits").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#ExceptionsDeposits").removeClass("hidden");
-        } else {
-            $("#ExceptionsDeposits").addClass("hidden");
-        }
-    });
-});
-// show hide Balance calculation area in forms
-$(function () {
-    $("#Deposit_Calculations").on("click", function (event) {
-        var isHidden = $("#BalanceCalculations").hasClass("hidden");
-        var output = "";
-        event.preventDefault();
-        if (isHidden) {
-            $("#BalanceCalculations").removeClass("hidden");
-        } else {
-            $("#BalanceCalculations").addClass("hidden");
-        }
-        var depositAmount = $("#deposits_final_Full_Processed_Amount").val();
-        var bookieCurrency = $("#calculateAmount").attr("data-bookie-account-currency");
-        var minAmountFee = $("#deposits_final_Minimum_amount_fee").val();
-        var minAmountFeePercent = parseInt(minAmountFee) * 100 / parseInt(depositAmount);
-        var bookmakerFee = $("#deposits_final_Deposits_bookmaker_fee").val();
-        var bookmakerFeePercent = parseInt(bookmakerFee) * 100 / parseInt(depositAmount);
-        var ExpressFee = $("#deposits_final_Express_Fee_Calculation").val();
-        var ExpressFeePercent = parseInt(ExpressFee) * 100 / parseInt(depositAmount);
-        var fistExceptionValue = $("#deposits_final_Exception_rule_one_amount").val();
-        var firstExceptionPercent = parseInt(fistExceptionValue) * 100 / parseInt(depositAmount);
-        var firsExceptionText = $("#deposits_final_Exception_rule_one :selected").text();
-        var secondExceptionValue = $("#deposits_final_Exception_rule_two_amount").val();
-        var secondExceptionPercent = parseInt(secondExceptionValue) * 100 / parseInt(depositAmount);
-        var secondExceptionText = $("#deposits_final_Exception_rule_two :selected").text();
-        var thirdExceptionValue = $("#deposits_final_Exception_rule_three_amount").val();
-        var thirdExceptionPercent = parseInt(thirdExceptionValue) * 100 / parseInt(depositAmount);
-        var thirdExceptionText = $("#deposits_final_Exception_rule_three :selected").text();
-        var moneyToRecoverRaw = $("#deposits_final_Money_to_recover").val();
-        var moneyToRecover = moneyToRecoverRaw == "" ? 0 : moneyToRecoverRaw;
-        var moneyToRecoverReason = $("#deposits_final_Money_to_recover_notes").val();
-        var extraFeeRaw = $("#deposits_final_Custom_penalty_value").val();
-        var extraFee = extraFeeRaw == "" ? 0 : extraFeeRaw;
-        var extraFeePercentRaw = $("#deposits_final_Custom_penalty_in_procent").val();
-        var extraFeePercent = extraFeePercentRaw == "" ? 0 : extraFeePercentRaw;
-        var extraFee1Raw = $("#deposits_final_Custom_penalty_1_value").val();
-        var extraFee1 = extraFee1Raw == "" ? 0 : extraFee1Raw;
-        var extraFeer1PercentRaw = $("#deposits_final_Custom_penalty_1_in_procent").val();
-        var extraFeer1Percent = extraFeer1PercentRaw == "" ? 0 : extraFeer1PercentRaw;
-        var extraFee2Raw = $("#deposits_final_Custom_penalty_2_value").val();
-        var extraFee2 = extraFee2Raw == "" ? 0 : extraFee2Raw;
-        var extraFeer2PercentRaw = $("#deposits_final_Custom_penalty_2_in_procent").val();
-        var extraFeer2Percent = extraFeer2PercentRaw == "" ? 0 : extraFeer2PercentRaw;
-        var isOrbit = $("#deposits_final_Exception_Orbit_Express").find(":selected").val();
-        var regularFormula = "<p><strong>" + "Formula : Deposit Value - Minimum amount fee - Bookmaker fee -  First exception fee - Second exception fee - Third exception fee - Extra fee - Extra fee 1 -Extra fee 2 - Money to recover" + "</strong></p>";
-        var OrbitFormula = "<p><strong>" + "Formula : ((Deposit Value - Minimum amount fee - Bookmaker fee - Express fee - First exception fee - Second exception fee - Third exception fee - Money to recover - Extra fee - Extra fee 1 -Extra fee 2 )*100)/95 -Money to recover" + "</strong></p>"
-        var regularCalculation = "<p><strong>" + depositAmount + "-" + minAmountFee + "-" + bookmakerFee + "-" + "-" + fistExceptionValue + "-" + secondExceptionValue + "-" + thirdExceptionValue + "-" + moneyToRecover + "-" + extraFee + "-" + extraFee1 + "-" + extraFee2 + "</strong></p>";
-        var orbitCalculation = "<p><strong>" + "((" + depositAmount + "-" + minAmountFee + "-" + bookmakerFee + "-" + "-" + fistExceptionValue + "-" + secondExceptionValue + "-" + thirdExceptionValue + "-" + moneyToRecover + "-" + extraFee + "-" + extraFee1 + "-" + extraFee2 + ")*100)/95" + "</strong></p>";
-        var finalCalculation = regularCalculation;
-        var finalFormula = regularFormula;
-        output += "<p>" + "Deposit value: " + depositAmount + " " + bookieCurrency + "</p>";
-        output += "<p>" + "Minimum amount fee: " + minAmountFee + " " + bookieCurrency + " " + "(" + minAmountFeePercent.toFixed(2) + "%)" + "</p>";
-        output += "<p>" + "Bookmaker fee: " + bookmakerFee + " " + bookieCurrency + " " + "(" + bookmakerFeePercent.toFixed(2) + "%)" + "</p>";
-        output += "<p>" + "First exception fee: " + fistExceptionValue + " " + bookieCurrency + " " + "(" + parseInt(firstExceptionPercent).toFixed(2) + "% " + ")" + "</p>";
-        output += "<p>" + "Second exception fee: " + secondExceptionValue + " " + bookieCurrency + " " + "(" + parseInt(secondExceptionPercent).toFixed(2) + "% " + ")" + "</p>";
-        output += "<p>" + "Third exception fee: " + thirdExceptionValue + " " + bookieCurrency + " " + "(" + parseInt(thirdExceptionPercent).toFixed(2) + "% " + ")" + "</p>";
-        output += "<p>" + "Money to recover: " + moneyToRecover + " " + bookieCurrency + "(Reason: " + moneyToRecoverReason + ")" + "</p>";
-        output += "<p>" + "Extra fee: " + extraFee + " " + bookieCurrency + " " + "(" + parseInt(extraFeePercent).toFixed(2) + "%)" + "</p>";
-        output += "<p>" + "Extra fee 1: " + extraFee1 + " " + bookieCurrency + " " + "(" + parseInt(extraFeer1Percent).toFixed(2) + "%)" + "</p>";
-        output += "<p>" + "Extra fee 2: " + extraFee2 + " " + bookieCurrency + " " + "(" + parseInt(extraFeer2Percent).toFixed(2) + "%)" + "</p>";
-        output += finalFormula;
-        output += finalCalculation;
-        $("#calculationExplanation").empty();
-        $("#calculationExplanation").append(output);
-        $("#deposits_final_Deposit_amount_explanation").empty();
-        $("#deposits_final_Deposit_amount_explanation").val(output);
-    });
-});
-// show hide agent profit calculation area in forms
-$(function () {
-    $("#AgentProfit").on("click", function (event) {
-        var isHidden = $("#AgentProfitCalculations").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#AgentProfitCalculations").removeClass("hidden");
-        } else {
-            $("#AgentProfitCalculations").addClass("hidden");
-        }
-    });
-});
-// show hide status area in forms
-$(function () {
-    $("#OperationStatus").on("click", function (event) {
-        var isHidden = $("#DepositStatus").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#DepositStatus").removeClass("hidden");
-        } else {
-            $("#DepositStatus").addClass("hidden");
-        }
-    });
-});
-// show hide Oanda Screenshots depending on how many currency changes are required
-$(function () {
-    var depositCurrency = jQuery.trim($("#calculateAmount").attr('data-deposit-currency'));
-    var bookmakerCurrency = jQuery.trim($("#calculateAmount").attr('data-bookie-account-currency'));
-    if (depositCurrency != bookmakerCurrency) {
-        $("#screenshot-oanda").removeClass("hidden");
-    }
-});
-$(function () {
-    $("#deposits_final_Payment_method_currency").on("change", function (event) {
-        var depositCurrency = jQuery.trim($("#calculateAmount").attr('data-deposit-currency'));
-        var bookmakerCurrency = jQuery.trim($("#calculateAmount").attr('data-bookie-account-currency'));
-        var paymentMethodCurrency = $("#deposits_final_Payment_method_currency").val();
-
-
-    });
-});
-// show hide notes calculation area in forms
-$(function () {
-    $("#DepositNotes").on("click", function (event) {
-        var isHidden = $("#DepositNotesInput").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#DepositNotesInput").removeClass("hidden");
-        } else {
-            $("#DepositNotesInput").addClass("hidden");
-        }
-    });
-});
-//show hide user info conversion area of forms
-$(function () {
-    $("#UserInfo").on("click", function (event) {
-        var isHidden = $("#UserInfoContainer").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#UserInfoContainer").removeClass("hidden");
-        } else {
-            $("#UserInfoContainer").addClass("hidden");
-        }
-    });
-});
-///show hide bookmaker area of details
-$(function () {
-    $("#BookmakerInfo").on("click", function (event) {
-        var isHidden = $("#BookmakerInfoContainer").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#BookmakerInfoContainer").removeClass("hidden");
-        } else {
-            $("#BookmakerInfoContainer").addClass("hidden");
-        }
-    });
-});
-///show hide deposits info area of details
-$(function () {
-    $("#DepositInfo").on("click", function (event) {
-        var isHidden = $("#DepositInfoContainer").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#DepositInfoContainer").removeClass("hidden");
-        } else {
-            $("#DepositInfoContainer").addClass("hidden");
-        }
-    });
-});
-///show hide admin info area of details
-$(function () {
-    $("#AdminInfoDetails").on("click", function (event) {
-        var isHidden = $("#AdminInfoContainer").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#AdminInfoContainer").removeClass("hidden");
-        } else {
-            $("#AdminInfoContainer").addClass("hidden");
-        }
-    });
-});
-///show hide confirmation timestamp area of details
-$(function () {
-    $("#ConfirmationTimestamp").on("click", function (event) {
-        var isHidden = $("#ConfirmationTimestampContainer").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#ConfirmationTimestampContainer").removeClass("hidden");
-        } else {
-            $("#ConfirmationTimestampContainer").addClass("hidden");
-        }
-    });
-});
-///show hide currency conversion area of details
-$(function () {
-    $("#CurrencyConversion").on("click", function (event) {
-
-        var isHidden = $("#CurrencyConversionContainer").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#CurrencyConversionContainer").removeClass("hidden");
-        } else {
-            $("#CurrencyConversionContainer").addClass("hidden");
-        }
-    });
-});
-///show hide Current Fees area of details
-$(function () {
-    $("#CurrentFees").on("click", function (event) {
-        var isHidden = $("#CurrentFeesContainer").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#CurrentFeesContainer").removeClass("hidden");
-        } else {
-            $("#CurrentFeesContainer").addClass("hidden");
-        }
-    });
-});
-///show hide exception area of details
-$(function () {
-    $("#CurrentExceptions").on("click", function (event) {
-        var isHidden = $("#CurrentExceptionsContainer").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#CurrentExceptionsContainer").removeClass("hidden");
-        } else {
-            $("#CurrentExceptionsContainer").addClass("hidden");
-        }
-    });
-});
-//show hide ballance after deposit area of details
-$(function () {
-    $("#BallanceAfterDeposit").on("click", function (event) {
-        var isHidden = $("#BallanceAfterDepositContainer").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#BallanceAfterDepositContainer").removeClass("hidden");
-        } else {
-            $("#BallanceAfterDepositContainer").addClass("hidden");
-        }
-    });
-});
-//show hide Agent Profit area of details
-$(function () {
-    $("#AgentProfit").on("click", function (event) {
-        var isHidden = $("#AgentProfitContainer").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#AgentProfitContainer").removeClass("hidden");
-        } else {
-            $("#AgentProfitContainer").addClass("hidden");
-        }
-    });
-});
-//show hide deposit notes area of details
-$(function () {
-    $("#CurrentDepositNotes").on("click", function (event) {
-        var isHidden = $("#CurrentDepositNotesContainer").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#CurrentDepositNotesContainer").removeClass("hidden");
-        } else {
-            $("#CurrentDepositNotesContainer").addClass("hidden");
-        }
-    });
-});
-//show open all
-$(function () {
-    $("#depositsAllInfo").on("click", function (event) {
-        var isHidden = $(".details-wrapper").attr("data-attribute-hidden");
-        if (isHidden == "isHidden") {
-            $(".details-wrapper").attr("data-attribute-hidden", "");
-            $(".details-wrapper .col-xs-12 .container-md-12").removeClass("hidden");
-        } else {
-            $(".details-wrapper").attr("data-attribute-hidden", "isHidden");
-            $(".details-wrapper .col-xs-12 .container-md-12").addClass("hidden");
-        }
-
-    });
-});
-
 //GO back function
 function goBack() {
     window.history.back();
 }
 
-//show hide exception notes
-//First Exception
-$(function () {
-    $("#deposits_final_Exception_rule_one").on("change", function (event) {
-
-        $("#Exception1Note").removeClass("hidden");
-    });
-});
-//Second exception
-$(function () {
-    $("#deposits_final_Exception_rule_two").on("change", function (event) {
-        $("#Exception2Note").removeClass("hidden");
-    });
-});
-//Third Exception
-$(function () {
-    $("#deposits_final_Exception_rule_three").on("change", function (event) {
-        $("#Exception3Note").removeClass("hidden");
-    });
-});
-//Show money to recover
-$(function () {
-    $("#recoverMoneySelect").on("change", function (event) {
-        var moneyToRecoverValueRaw = $("#moneyToRecover p").text();
-        var moneyToRecoverValue = moneyToRecoverValueRaw.replace(/\D/g, '');
-        $("#deposits_final_Money_to_recover").val(moneyToRecoverValue);
-        if ($("#recoverMoneyValueAndNotes").hasClass("hidden")) {
-            $("#recoverMoneyValueAndNotes").removeClass("hidden");
-        } else {
-            $("#recoverMoneyValueAndNotes").addClass("hidden");
-        }
-    });
-});
-
-//Get Value for Money to recover
-function getDepositsFeed(api) {
-    var deferred = $.Deferred();
-
-    var depositsApi = $("body").attr("data-users-deposits-history");
-
-    $.ajax({
-        url: depositsApi,
-        type: 'GET',
-        dataType: 'json'
-    }).done(function (data) {
-        //console.log("success");
-        deferred.resolve(data);
-    }).fail(function () {
-        console.log("Error accessing User Details Endpoint...");
-        deferred.reject("Error accessing User Details Endpoint...");
-    });
-    return deferred.promise();
-}
 
 $(document).ready(function () {
     $(".menu__item--horizontal a:contains('Admin Area')").addClass("showNotifications");
     $(".showNotifications").append("<span class='admin-notifications'></span>")
     $(".showNotifications").append("<span class='admin-notifications-message'></span>")
 });
-$.when(getDepositsFeed()).then(function (deposits) {
-    var requestedDeposits = deposits.filter(function (object) {
-        var depositStatusString = object.depositStatus;
-        return depositStatusString == "Submited";
 
-    });
-
-    var notificationNumberStart = $(".admin-notifications").text();
-    var notificationNumber = parseInt(notificationNumberStart) + requestedDeposits.length;
-
-    if (isNaN(notificationNumber)) {
-        notificationNumber = requestedDeposits.length;
-    }
-    if (notificationNumber == 0) {
-        $(".admin-notifications").addClass("hidden");
-    }
-    $(".admin-notifications").empty();
-    $(".admin-notifications").append("" + notificationNumber + "")
-    $(".admin-notifications-message").append("Requested Deposits: " + requestedDeposits.length + "")
-});
-//show hide extra fee on verify form
-$(function () {
-    $("#deposits_final_Custom_penalty").on("change", function (event) {
-
-
-        var selectValue = $("#deposits_final_Custom_penalty").val();
-        if ($("#confirmForm").length == 0) {
-            console.log("TEST STEFAN", selectValue);
-            if (selectValue == 1) {
-                $("#ExtraFeeContainer").removeClass("hidden");
-                $("#ExtraFeeContainer1").addClass("hidden");
-                $("#ExtraFeeContainer2").addClass("hidden");
-            } else {
-                if (selectValue == 2) {
-                    $("#ExtraFeeContainer1").removeClass("hidden");
-                    $("#ExtraFeeContainer").removeClass("hidden");
-                    $("#ExtraFeeContainer2").addClass("hidden");
-                } else {
-                    if (selectValue == 3) {
-                        $("#ExtraFeeContainer1").removeClass("hidden");
-                        $("#ExtraFeeContainer").removeClass("hidden");
-                        $("#ExtraFeeContainer2").removeClass("hidden");
-                    } else {
-                        if (selectValue == 0) {
-                            $("#ExtraFeeContainer1").addClass("hidden");
-                            $("#ExtraFeeContainer").addClass("hidden");
-                            $("#ExtraFeeContainer2").addClass("hidden");
-                        }
-
-                    }
-                }
-            }
-
-        }
-        console.log("TEST STEFAN", selectValue);
-        if (selectValue == 1) {
-            $("#calculationExtraFee").removeClass("hidden");
-            $("#calculationExtraFee1").addClass("hidden");
-            $("#calculationExtraFee2").addClass("hidden");
-        } else {
-            if (selectValue == 2) {
-                $("#calculationExtraFee").removeClass("hidden");
-                $("#calculationExtraFee1").removeClass("hidden");
-                $("#calculationExtraFee2").addClass("hidden");
-            } else {
-                if (selectValue == 3) {
-                    $("#calculationExtraFee").removeClass("hidden");
-                    $("#calculationExtraFee1").removeClass("hidden");
-                    $("#calculationExtraFee2").removeClass("hidden");
-                } else {
-                    $("#calculationExtraFee").addClass("hidden");
-                    $("#calculationExtraFee1").addClass("hidden");
-                    $("#calculationExtraFee2").addClass("hidden");
-
-                }
-            }
-        }
-
-    });
-    if ($("#confirmForm").length != 0) {
-        var selectedValue = 3 - $("#ExtraFeeContainer .hidden").length;
-        $('#deposits_final_Custom_penalty option[value="' + selectedValue + '"]').attr("selected", "selected");
-        console.log(selectedValue);
-    }
-
-});
-//show hide extra fee fields on second form
-
-//show hide extra fee calculation field
-
-//calculate extra fee value
-$(function () {
-    $("#ExtraFeeValueCalculation").on("click", function (event) {
-        if ($("#amountAfterSecondExchange").hasClass('hidden')) {
-            var finalAmount = $("#deposits_final_Amount_after_first_exchange").val();
-        } else {
-            var finalAmount = $("#deposits_final_Full_Processed_Amount").val();
-
-        }
-        var extraFeeInPercentRaw = $("#deposits_final_Custom_penalty_in_procent").val();
-        var extraFeeInPercent = extraFeeInPercentRaw != "" ? extraFeeInPercentRaw : 0;
-        var extraFee = (parseInt(finalAmount) * parseInt(extraFeeInPercent)) / 100;
-
-        $("#deposits_final_Custom_penalty_value").val(extraFee.toFixed(2));
-        event.preventDefault();
-    });
-});
-//show hide money to recover in forms
-$(function () {
-    $("#recoverMoney").on("click", function (event) {
-        var isHidden = $("#recoverMoneyContainer").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#recoverMoneyContainer").removeClass("hidden");
-        } else {
-            $("#recoverMoneyContainer").addClass("hidden");
-        }
-    });
-});
-//show hide extrafees
-$(function () {
-    $("#ExtraFeeButton").on("click", function (event) {
-        var isHidden = $("#ExtraFeeContainer").hasClass("hidden");
-        event.preventDefault();
-        if (isHidden) {
-            $("#ExtraFeeContainer").removeClass("hidden");
-        } else {
-            $("#ExtraFeeContainer").addClass("hidden");
-        }
-    });
-});
-//Get all accounts
-//Get Value for Money to recover
-if(isDepositPage >= 1){
-    function getAllGlobalAccounts(api) {
-        var deferred = $.Deferred();
-        var globalAccountsApi = $("body").attr("data-all-user-accounts");
-        $.ajax({
-            url: globalAccountsApi,
-            type: 'GET',
-            dataType: 'json'
-        }).done(function (data) {
-            //console.log("success");
-            deferred.resolve(data);
-        }).fail(function () {
-            console.log("Error accessing User Details Endpoint...");
-            deferred.reject("Error accessing User Details Endpoint...");
-        });
-        return deferred.promise();
-    }
-
-    $.when(getAllGlobalAccounts()).then(function (account) {
-        $("#deposits_final_Bookmaker").change(function () {
-            var currentUserID = $("#deposits_final_User_ID").attr("value");
-            var currentAccount = account.filter(function (object) {
-                return object.userId == currentUserID;
-            });
-            if (currentAccount[0].canUseMerchant == "True") {
-                $("#deposits_final_Can_use_merchant_account").attr("value", "true");
-                $("#deposits_final_Can_use_merchant_account").attr("checked", "checked");
-
-            }
-
-            if (currentAccount[0].express == "Yes") {
-                $("#deposits_final_Express_fee").attr("value", "true");
-                $("#deposits_final_Express_fee").attr("checked", "checked");
-
-            }
-            if (currentAccount[0].megaExpress == "Yes") {
-                $("#deposits_final_Mega_Express").attr("value", "true");
-                $("#deposits_final_Mega_Express").attr("checked", "checked");
-
-            }
-        });
-
-    });
-}
 
 //calculate extra fee 1 value
-$(function () {
-    $("#ExtraFee1ValueCalculation1").on("click", function (event) {
-        if ($("#amountAfterSecondExchange").hasClass('hidden')) {
-            var finalAmount = $("#deposits_final_Amount_after_first_exchange").val();
-        } else {
-            var finalAmount = $("#deposits_final_Full_Processed_Amount").val();
 
-        }
-        var extraFeeInPercentRaw = $("#deposits_final_Custom_penalty_1_in_procent").val();
-        var extraFeeInPercent = extraFeeInPercentRaw != "" ? extraFeeInPercentRaw : 0;
-        var extraFee = (parseInt(finalAmount) * parseInt(extraFeeInPercent)) / 100;
-        console.log("extraFeeInPercent", extraFeeInPercent)
-        event.preventDefault();
-        $("#deposits_final_Custom_penalty_1_value").val(extraFee.toFixed(2));
-    });
-});
 //calculate extra fee 2 value
-$(function () {
-    $("#ExtraFee2ValueCalculation2").on("click", function (event) {
-        if ($("#amountAfterSecondExchange").hasClass('hidden')) {
-            var finalAmount = $("#deposits_final_Amount_after_first_exchange").val();
-        } else {
-            var finalAmount = $("#deposits_final_Full_Processed_Amount").val();
 
-        }
-        var extraFeeInPercentRaw = $("#deposits_final_Custom_penalty_2_in_procent").val();
-        var extraFeeInPercent = extraFeeInPercentRaw != "" ? extraFeeInPercentRaw : 0;
-        var extraFee = (parseInt(finalAmount) * parseInt(extraFeeInPercent)) / 100;
-        event.preventDefault();
-        $("#deposits_final_Custom_penalty_2_value").val(extraFee.toFixed(2));
-    });
-});
 //Tabs Animation for user management
 $(function () {
     $(".user-profile-page .header-tabs div").on("click", function (event) {
@@ -5848,17 +3782,7 @@ $(function () {
     })
 })
 $(document).ready(function () {
-    if ($(".edit-exception-form #EwalletCommissionsList_Currency").length) {
-
-        $('#Exception_Currency_Edit').each(function () {
-            $(this).select2();
-        });
-        $("#Exception_Currency_Edit").change(function () {
-            $(".exception-fake-input #EwalletCommissionsList_Currency").val($('#Exception_Currency_Edit').select2('data')[0].id);
-            console.log($('#Exception_Currency_Edit').select2('data')[0].id);
-        });
-
-    }
+  
     if ($(".details-errors-wrapper").length) {
         var errorsNumber = $(".details-errors-wrapper .grid__col-sm-12 p").length;
         if (errorsNumber == 0) {
@@ -5870,243 +3794,10 @@ $(document).ready(function () {
             });
         });
     }
-    $("#deposits_final_Deposit_currency").change(function () {
-
-        if ($(".loading-background-process-deposit").length) {
-            var currentValue = $(this).val();
-            if ($("#convert-deposit-currency").length) {
-                $("#convert-deposit-currency").empty();
-                $("#convert-deposit-currency").append("<span>Convert 1st: </span>" + currentValue + "");
-            }
-        }
-    });
-    $("#deposits_final_Admin_ammount_to_be_deposited").keyup(function () {
-        if ($(".loading-background-process-deposit").length) {
-            var currentValue = $(this).val();
-            if ($("#amount-before-conversion-wrapper").length) {
-                $("#amount-before-conversion-wrapper li").empty();
-                $("#amount-before-conversion-wrapper li").append("<span>Amount to convert 1st: </span>" + currentValue + "");
-            }
-        }
-    });
-    if ($(".loading-background-process-deposit").length) {
-        var currentValue = $("#deposits_final_Deposit_currency").attr("data-currency-value");
-        $('#deposits_final_Deposit_currency option[value="' + currentValue + '"]').attr("selected", "selected")
-    }
-    if ($(".loading-background-process-deposit").length) {
-        var currentValue = $("#deposits_final_Account_currency").attr("data-currency-value");
-        var accountCurrecy = $("#deposits_final_Profit_Currency_Agent_Profit").attr("data-account-currency");
-        $('#deposits_final_Account_currency option[value="' + currentValue + '"]').attr("selected", "selected")
-        $('#deposits_final_Profit_Currency_Agent_Profit option[value="' + accountCurrecy + '"]').attr("selected", "selected")
-    }
-    $("#deposits_final_Account_currency").change(function () {
-        var accountCurrecy = $(this).val();
-
-        $("#deposits_final_Profit_Currency_Agent_Profit").find('option').removeAttr("selected");
-        $('#deposits_final_Profit_Currency_Agent_Profit option[value="' + accountCurrecy + '"]').attr("selected", "selected")
-    });
 
 });
 $(function () {
-    if ($("#FeeEwalletComission").length) {
-        function getEwalletComissions(api) {
-            var deferred = $.Deferred();
-            var ewalletApi = $("body").attr("data-ewallet-comissions");
-            $.ajax({
-                url: ewalletApi,
-                type: 'GET',
-                dataType: 'json'
-            }).done(function (data) {
-                //console.log("success");
-                deferred.resolve(data);
-            }).fail(function () {
-                console.log("Error accessing User Details Endpoint...");
-                deferred.reject("Error accessing User Details Endpoint...");
-            });
-            return deferred.promise();
-        }
-
-        $.when(getEwalletComissions()).then(function (comission) {
-            var typeOfTransaction = $(" .loading-background").attr("data-transaction-type");
-            if ($("#FeeEwalletComission").length) {
-                console.log(comission)
-                var paymentMethod = $(" .confirmation-form-wrapper").attr("data-paymentmethod");
-                var accountCurrency = $(" #calculateAmount").attr("data-bookie-account-currency");
-                console.log("typeOfTransaction", typeOfTransaction)
-                var filterEWalletComissionsByApplyTo = comission.filter(function (object) {
-                    var eWalletComissionsApplyTo = object.ApplyTo;
-                    return eWalletComissionsApplyTo == typeOfTransaction;
-
-                });
-                console.log("accountCurrency", accountCurrency);
-                console.log("filterEWalletComissionsByApplyTo", filterEWalletComissionsByApplyTo);
-                var filterEWalletComissionsByPaymentMethod = filterEWalletComissionsByApplyTo.filter(function (object) {
-                    var eWalletComissionsPaymentMethod = object.PaymentMethod;
-                    return eWalletComissionsPaymentMethod == paymentMethod;
-
-                });
-                var filterEWalletComissionsByCurrency = filterEWalletComissionsByApplyTo.filter(function (object) {
-                    var filterEWalletComissionsByPaymentMethod = object.Currency;
-                    return filterEWalletComissionsByPaymentMethod == accountCurrency;
-
-                });
-                console.log("filterEWalletComissionsByCurrency", filterEWalletComissionsByCurrency)
-                if (filterEWalletComissionsByCurrency.length) {
-                    $("#FeeEwalletComission").attr("data-Ewalet-Comission-Value", filterEWalletComissionsByCurrency[0].Value)
-                    $("#FeeEwalletComission").attr("data-Ewalet-Comission-Value-Is-Procent", filterEWalletComissionsByCurrency[0].IsPercent)
-                    $("#FeeEwalletComission").attr("data-Ewalet-Comission-Value-Min", filterEWalletComissionsByCurrency[0].ValueMin)
-                    $("#FeeEwalletComission").attr("data-Ewalet-Comission-Value-Min-IsProcent", filterEWalletComissionsByCurrency[0].ValueMinIsPercent)
-
-                } else {
-                    $("#FeeEwalletComission").attr("data-Ewalet-Comission-Value", 0)
-                    $("#FeeEwalletComission").attr("data-Ewalet-Comission-Value-Is-Procent", false)
-                    $("#FeeEwalletComission").attr("data-Ewalet-Comission-Value-Min", 0)
-                    $("#FeeEwalletComission").attr("data-Ewalet-Comission-Value-Min-IsProcent", false)
-                }
-            }
-        });
-    }
-    $("#deposits_final_Conversion_Rate_Agent_Profit").on("change", function (event) {
-        var currentAmount = $("#fakeAmountAfterFirstExchangeAgent input").val();
-        var fee = $("#FeeEwalletComission input").val();
-        var rate = $(this).val();
-
-        var result = (currentAmount - fee) * rate;
-        $("#amountOfConvertedFee input").val(result);
-    });
-    $("#agentProfitCalculate").click(function (event) {
-        event.preventDefault();
-        var currentAmount = $("#deposits_final_Agent_Amount_of_converted_fee").val();
-        var amountToBeCredited = $("#deposits_final_Amount_To_Credit").val();
-        var result = currentAmount - amountToBeCredited;
-        $("#deposits_final_Profit ").val(result.toFixed(2));
-    });
-    if( $("#deposits_final_Exception_rule_one").length >= 1){
-        function getExceptionsForTransactions(api) {
-            var deferred = $.Deferred();
-            var exceptionsApi = $("body").attr("data-exceptions-transactions");
-            $.ajax({
-                url: exceptionsApi,
-                type: 'GET',
-                dataType: 'json'
-            }).done(function (data) {
-                //console.log("success");
-                deferred.resolve(data);
-            }).fail(function () {
-                console.log("Error accessing User Details Endpoint...");
-                deferred.reject("Error accessing User Details Endpoint...");
-            });
-            return deferred.promise();
-        }
-
-        $.when(getExceptionsForTransactions()).then(function (exceptions) {
-            var typeOfTransaction = $(" .loading-background").attr("data-transaction-type");
-            var filterExceptionsByApplyTo = exceptions.filter(function (object) {
-                var eWalletComissionsApplyTo = object.ApplyTo;
-
-                return eWalletComissionsApplyTo == typeOfTransaction;
-
-            });
-            var express = $(" #confirmForm").attr("data-express");
-
-            if ($("#deposits_final_Exception_rule_one").length) {
-                var output = "";
-                for (var i = 0; i < filterExceptionsByApplyTo.length; i++) {
-                    console.log(filterExceptionsByApplyTo[i]);
-                    output += "<option value = '" + filterExceptionsByApplyTo[i].Name + "' data-value = '" + filterExceptionsByApplyTo[i].Value + "' data-value-is-procent = '" + filterExceptionsByApplyTo[i].IsPercent + "' data-value-is-min = '" + filterExceptionsByApplyTo[i].ValueMin + "' data-value-is-min-is-procent = '" + filterExceptionsByApplyTo[i].ValueMinIsPercent + "'>" + filterExceptionsByApplyTo[i].Name + "</option>"
-                }
-                $("#deposits_final_Exception_rule_one").append(output)
-                $("#deposits_final_Exception_rule_two").append(output)
-                $("#deposits_final_Exception_rule_three").append(output)
-                if (express == "true") {
-                    console.log("TEST STEFAN EXPRESS", $('#deposits_final_Exception_rule_one'))
-                    $('#firstException option[value="Express"]').attr("selected", "selected");
-
-
-                }
-            }
-
-        });
-    }
-    $("#deposits_final_Payment_Method_Admin").change(function () {
-        var selectedValue = $(this).val();
-        if ($("#verifyForm").length) {
-            $(".crypto-verification-admin").addClass("hidden")
-            $(".skrill-verification-admin").addClass("hidden")
-            $(".neteller-verification-admin").addClass("hidden")
-            $(".bankTransfer-verification-admin").addClass("hidden")
-            $(".ecoPayz-verification-admin").addClass("hidden")
-            console.log("currentPaymentMethod", currentPaymentMethod);
-            if (selectedValue == "Crypto") {
-                $(".crypto-verification-admin").removeClass("hidden")
-            }
-            if (selectedValue == "Skrill") {
-                $(".skrill-verification-admin ").removeClass("hidden")
-            }
-            if (selectedValue == "Private Skrill") {
-                $(".skrill-verification-admin ").removeClass("hidden")
-            }
-            if (selectedValue == "Skrill-Merchant-EEA") {
-                $(".skrill-verification-admin ").removeClass("hidden")
-            }
-            if (selectedValue == "Skrill-Merchant-ROW") {
-                $(".skrill-verification-admin ").removeClass("hidden")
-            }
-
-            if (selectedValue == "Neteller") {
-                $(".neteller-verification-admin").removeClass("hidden")
-            }
-            if (selectedValue == "Private Neteller") {
-                $(".neteller-verification-admin").removeClass("hidden")
-            }
-            if (selectedValue == "Neteller-Merchant-EEA") {
-                $(".neteller-verification-admin").removeClass("hidden")
-            }
-            if (selectedValue == "Neteller-Merchant-ROW") {
-                $(".neteller-verification-admin").removeClass("hidden")
-            }
-
-            if (selectedValue == "Bank Vallettapay") {
-                $(".bankTransfer-verification-admin").removeClass("hidden")
-            }
-
-            if (selectedValue == "Bank Global") {
-                $(".bankTransfer-verification-admin").removeClass("hidden")
-            }
-
-
-            if (selectedValue == "ecoPayz") {
-                $(".ecoPayz-verification-admin").removeClass("hidden")
-            }
-
-
-        }
-
-    });
-    if ($("#verifyForm").length) {
-        var currentPaymentMethod = $("#current-payment-method").attr("data-current-payment-method")
-        console.log("currentPaymentMethod", currentPaymentMethod);
-        if (currentPaymentMethod == "Cryptocurrency") {
-            $(".crypto-verification-admin").removeClass("hidden")
-        }
-        if (currentPaymentMethod == "Skrill") {
-            $(".skrill-verification-admin ").removeClass("hidden")
-        }
-
-        if (currentPaymentMethod == "Neteller") {
-            $(".neteller-verification-admin").removeClass("hidden")
-        }
-
-        if (currentPaymentMethod == "BankTransfer") {
-            $(".bankTransfer-verification-admin").removeClass("hidden")
-        }
-
-        if (currentPaymentMethod == "ecoPayz") {
-            $(".ecoPayz-verification-admin").removeClass("hidden")
-        }
-
-
-    }
+  
     //Articles section homepage 2 to 3 columns
     if ($(".sidebar-section-wrapper-homepage").length) {
 

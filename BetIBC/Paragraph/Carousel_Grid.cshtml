@@ -1,0 +1,40 @@
+﻿@{
+     var rowDescription = GetString("Item.Row_Description");
+     var rowTitle = GetString("Item.Row_Title");
+     var loop = GetLoop("Item.Columns");
+     var backgroundColor = GetString("Item.Background_Color");
+     var backgroundImage = GetString("Item.BackgoundImage");
+     var color = GetString("Item.Color");
+     var customClass = GetString("Item.Custom_Class");
+      var width = GetString("Item.Paragraph_Width");
+}
+
+<div class = "columns-wrapper carousel-section @customClass" style="background-color:@backgroundColor; background-image:url('@backgroundImage')">
+<div class = "column-header">
+<div class = "container" style="color:@color">
+<h2>@rowTitle</h2>
+  <div style = "width:@width">
+@rowDescription
+  </div>
+</div>
+</div>
+<div class = "grid-columns" >
+<div class = "container">
+  <div id = "bookmaker-slider">
+@foreach(var column in loop){
+  
+    var columnsImage = column.GetString("Item.Columns.Image");
+    var columnText = column.GetString("Item.Columns.Title.Value");
+  <div class="column">
+    @if (columnsImage != "")
+    {
+      <img loading="lazy" src="/Admin/Public/GetImage.ashx?Image=@columnsImage&Crop=5&DoNotUpscale=1&width=200&height=200&Quality=99&Format=webP" alt="Column Image">
+    }
+   
+    <h3>@columnText</h3>
+  </div>
+}
+</div>
+  </div>
+</div>
+</div>

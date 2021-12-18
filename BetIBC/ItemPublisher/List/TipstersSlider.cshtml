@@ -2,7 +2,7 @@
  var title = GetString("ItemPublisher:ItemType.Name");
  var tipstersList = GetLoop("ItemPublisher:Items.List");
 }
-<section class = "tipster-slider-list" style = "background-image:url('/Files/Templates/Designs/BetIBC/Images/background_grey.jpg')">
+<section class = "tipster-slider-list" style = "background-image:url('/Admin/Public/GetImage.ashx?Image=/Files/Templates/Designs/BetIBC/Images/background_grey.jpg&Crop=5&DoNotUpscale=1&width=200&height=200&Quality=99&Format=webP')">
 <div class = "container">
 <h1>@title</h1>
 
@@ -15,7 +15,7 @@ var tipsterLink = tipster.GetString("ItemPublisher:Item.Field.PageId");
 <div class = "tipster-slide"> 
 <a href = "/Default.aspx?ID=@tipsterLink">
 
-<img src = "@tipsterImage">
+<img  loading="lazy" src = "/Admin/Public/GetImage.ashx?Image=@tipsterImage&Crop=5&DoNotUpscale=1&width=200&height=200&Quality=99&Format=webP" width="200" height="200" alt="Tipster Image">
 <span>@tipsterName</span>
 </a>
 </div>

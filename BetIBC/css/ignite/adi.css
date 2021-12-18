@@ -2771,7 +2771,7 @@ margin-left:0;
 .languges-bookmaker{
 margin: 0 auto;
 }
-.languages-area .lang-item h5{
+.languages-area .lang-item h3{
     color: #454955 !important;
     font-weight: 400;
     font-size: 13px !important;
@@ -3168,7 +3168,7 @@ text-decoration:none;
 background-color:#0FBB7D;
   margin-top:70px;
 }
-#bookmaker-name-prediction-button{
+.btn--primary.dw-mod.bookmaker-name-prediction-button{
     width: 250px;
 
     font-size: 16px;
@@ -3493,7 +3493,7 @@ text-align:center;
 .grid-four-columns .container .column img, .grid-three-columns .container .column img{
 margin:0 auto;
 } 
-.grid-four-columns .container .column h5, .grid-three-columns .container .column h5{
+.grid-four-columns .container .column h3, .grid-three-columns .container .column h3{
 font-size:23px;
   color: #000 !important;
   margin-top:20px;
@@ -3593,7 +3593,7 @@ width: 42px;
 left: -70px;
 
 }
-#bookmaker-slider h5{
+#bookmaker-slider h3{
 font-size:20px ;
   text-align:left !important;
   color:#000 !important;
@@ -3609,7 +3609,7 @@ padding-bottom:150px;
 .carousel-section h2{
 margin-top:75px;
 }
-.financial-section h5{
+.financial-section h3{
 float:left;
   display:inline-block;
   font-size:23px !important;
@@ -3901,7 +3901,7 @@ grid-template-columns: 1fr 1fr;
 .video-column-section{
 padding-bottom:70px;
 }
-.video-column-section h5{
+.video-column-section h3{
 font-size: 43px !important;
   line-height:50px;
   font-weight:700 !important;
@@ -3932,7 +3932,7 @@ font-size: 16px;
  height:60px;
   margin:0 auto;
 }
-.bookmaker-four-columns-carousel #bookmaker-slider h5{
+.bookmaker-four-columns-carousel #bookmaker-slider h3{
 font-size: 12px !important; 
   text-align:center !important;
 }
@@ -4080,6 +4080,16 @@ display:inline-block;
 .agents h5{
     display: none;
     
+}
+.main-navigation .logo .img{
+    height: 60px;  
+    
+}
+.col-mobile-status{
+    display: none;
+}
+.col-league-name-mobile{
+    display: none;
 }
 @media(max-width: 1280px){
     .odds-convertor-calculator .col-5{
@@ -5030,7 +5040,7 @@ border:0;
     padding: 0 23px;
     padding-top: 10px;
   }
-  .financial-section h5{
+  .financial-section h3{
   float:none;
   }
   .financial-section .section-outro p{
@@ -5071,7 +5081,89 @@ border:0;
   width:100%;
     grid-template-columns:100%;
   }
-  
+   #latest-tips .row{
+        display: grid !important;
+grid-template-columns: 100%;
+    }
+    #latest-tips .col-4-tips-mobile{
+        width: 100%;
+       grid-row: 2; 
+    }
+    #latest-tips .col-8-tips-mobile{
+        width: 100%;
+        grid-row: 1;
+    }
+    #latest-tips .col-game-name{
+        color: #0D0A0B;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 25px;
+        padding-left: 10px;
+        margin-bottom: 15px;
+    }
+    #latest-tips .col.col-stake {
+        width: 50%;
+        font-weight: 600;
+        padding-left: 10px;
+        margin-bottom: 15px;
+    }
+    #latest-tips .col-league-name-mobile{
+        display: block;
+        width: 100%;
+        padding-left: 10px;
+        font-size: 13px;
+        color: #454955;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+    #latest-tips .col.col-odd{
+        margin-bottom: 15px;  
+        
+    }
+    #latest-tips .col-bet{
+        margin-bottom: 20px;
+        padding-left: 10px;
+
+    }
+    #latest-tips .col-bet a{
+        font-size: 16px;
+        font-weight: 700; 
+    }
+    #latest-tips .row.title-row{
+        display: none !important;
+    }
+    #latest-tips .col-status{
+        display: none;
+    }
+    #latest-tips .col-mobile-status{
+        display: block;
+    }
+    .col-4-tips-mobile .bookmaker-mobile{
+        display: grid;
+        grid-template-columns: 50% 50%;
+       
+    }
+    .col-4-tips-mobile .bookmaker-mobile h1{
+        font-size: 13px;
+        color: #454955;
+        font-weight: 700;
+        padding: 10px;
+        text-align: left;
+        line-height: 18px;
+    }
+    #latest-tips .row{
+        width: 90%;
+    }
+    .tipster-section-mobile{
+        display: none;
+    }
+    #latest-tips .col-tipster-name-mobile{
+        display: none;
+    }
+    #latest-tips .col-mobile-status{
+        margin-bottom: 10px;
+        padding-left: 10px;
+    }
 }
 
 @media(min-width: 450px){
@@ -5080,7 +5172,7 @@ border:0;
     }
 }
 
-@media(max-width: 992px){
+@media(max-width: 992px){ 
 
     .sign-in-dropdown{
         right: 0;

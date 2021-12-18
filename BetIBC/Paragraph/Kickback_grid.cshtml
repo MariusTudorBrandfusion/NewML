@@ -1,0 +1,32 @@
+﻿@{
+     var rowDescription = GetString("Item.Row_Description");
+     var rowTitle = GetString("Item.Row_Title");
+     var loop = GetLoop("Item.Columns");
+     var backgroundColor = GetString("Item.Background_Color");
+     var color = GetString("Item.Color");
+      var width = GetString("Item.Paragraph_Width");
+}
+
+<div class = "columns-wrapper kickback-section" style="background-color:@backgroundColor">
+<div class = "column-header">
+<div class = "container" style="color:@color">
+<h2>@rowTitle</h2>
+  <div style = "width:@width">
+@rowDescription
+  </div>
+</div>
+</div>
+<div class = "grid-two-columns" >
+<div class = "container">
+@foreach(var column in loop){
+  
+    var columnsImage = column.GetString("Item.Columns.Image");
+    var columnText = column.GetString("Item.Columns.Title.Value");
+    <div class = "column">
+    <img loading="lazy"  src = "/Admin/Public/GetImage.ashx?Image=@columnsImage&Crop=5&DoNotUpscale=1&width=1000&height=1000&Quality=99&Format=png" alt="kickback-image">
+   
+</div>
+}
+</div>
+</div>
+</div>

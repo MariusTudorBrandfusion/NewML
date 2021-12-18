@@ -21,7 +21,7 @@
             @* <small class="article__subheader">@Translate("Written by") @item.GetString("ItemPublisher:Item.Author") @Translate("on") @item.GetDate("ItemPublisher:Item.Date").ToShortDateString()</small> *@
            
             @if(!string.IsNullOrEmpty(bookmakerLogo)) {
-                <div class="image-box"><img src="@bookmakerLogo" /></div>
+                <div class="image-box"><img loading="lazy" src="/Admin/Public/GetImage.ashx?width=300&height=85&crop=5&Quality=99&Format=webP&image=@bookmakerLogo" alt="Bookmaker Logo"/></div>
             } 
             <div class="short-description">
                 @bookmakerShortDescription 

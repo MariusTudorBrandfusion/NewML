@@ -26,7 +26,11 @@ var backgrondImage = isBackgroundImage == "True" ? image: "";
   </div>
   }
 @if(isBackgroundImage != "True"){
-<img src = "@image">
+  if (@image != "")
+  {
+    <img src = "@image">
+  }
+  
 }
 
 </div>

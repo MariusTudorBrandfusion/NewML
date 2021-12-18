@@ -1,0 +1,23 @@
+﻿@{
+  var image = GetString("Item.BackgroundImage");
+  var customClass = GetString("Item.Custom_Class");
+  var loop = GetLoop("Item.Paragraph");
+}
+
+@foreach(var paragraf in loop){
+   var title = paragraf.GetString("Item.Paragraph.Title");
+   var text = paragraf.GetString("Item.Paragraph.Text");
+   var link = paragraf.GetString("Item.Paragraph.Link");
+   var linkText = paragraf.GetString("Item.Paragraph.LinkText");
+  <div class = "banner-grid-wrapper @customClass" style = "background-image:url('/Admin/Public/GetImage.ashx?Image=@image&Crop=5&DoNotUpscale=1&width=1920&&Quality=99&Format=webP')">
+   <div class = "container">
+      <div class = "content">
+      <h2>@title</h2>
+       @text
+        <div class = "button-wrapper">
+       <a href = "@link">@linkText</a>
+     </div>
+       </div>
+   </div>
+  </div>
+}

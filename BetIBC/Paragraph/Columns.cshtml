@@ -1,14 +1,16 @@
 ﻿@{
 var title = GetString("Item.Row_Title"); 
+var text = GetString("Item.Row_Description"); 
 var backgroundImage = GetString("Item.BackgoundImage.Value") ;
 var isSingle = GetString("Item.Single_Column");
 var position = GetString("Item.Single_Column_Position");
 var columns = GetLoop("Item.Columns");
+var customClass = GetString("Item.Custom_Class");
 var columnsNumber = GetLoop("Item.Columns").Count();
 var columnNumber = isSingle == "True" ? 6 : 12 / columnsNumber;
 
 }
-<section style='background-image:url("@backgroundImage")' class = "columns-section">
+<section style='background-image:url("/Admin/Public/GetImage.ashx?Image=@backgroundImage&Crop=5&DoNotUpscale=1&width=1800&height=800&Quality=99&Format=webP")' class = "columns-section @customClass">
 <div class = "container columns">
 <div class = "grid">
 
@@ -19,14 +21,35 @@ var columnNumber = isSingle == "True" ? 6 : 12 / columnsNumber;
   var columnButtonText = column.GetString("Item.Columns.Button_Text");
   var columnButtonLink = column.GetString("Item.Columns.Button_Link");
   var columnImage = column.GetString("Item.Columns.Image");
+  var columnIsBubble = column.GetString("Item.Columns.IsBubble");
+   var columnIsBubbleClass = column.GetString("Item.Columns.IsBubble") == "True" ? "bubble-column" : "";
   var buttonStyle = column.GetString("Item.Columns.Button_Style");
-  <div class = "grid__col-md-@columnNumber @position">
+
+  if(columnIsBubble == "True"){
+      <div class="grid__col-md-@columnNumber @position @columnIsBubbleClass">
+          @if (columnImage != "")
+          {
+              <img loading="lazy" src="/Admin/Public/GetImage.ashx?Image=@columnImage&Crop=5&DoNotUpscale=1&width=200&height=600&Quality=99&Format=webP" alt="Column Image">
+              
+          }
+         
+          <div class="bubble-wrapper">
+              <div class="bubble-content-wrapper">
+                  @columnText
+              </div>
+          </div>
+      </div>
+  }else{
+ 
+  <div class = "grid__col-md-@columnNumber @position ">
   <h1>@columnTitle</h1>
   <h2>@columnSubtitle</h2>
+
   @columnText
   <a class = "button-columns button-@buttonStyle" href = "@columnButtonLink">@columnButtonText</a>
   </div>
-
+   
+  }
 }
   </div>
 </div>
