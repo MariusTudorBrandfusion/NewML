@@ -1,0 +1,296 @@
+﻿@media(max-width: 768px){
+
+  .slider-main-homepage {
+  
+  width: 100%;
+  }
+  .columns-section .grid h1 {
+  margin-top: 30px
+  }
+  .columns-section  {
+    background-image: none !important;
+  }
+  .columns-section .grid .button-columns {
+    margin-bottom: 25px 
+  }
+  .article__summary p {
+    margin-bottom : 0px 
+  }
+  .news-list-home-wrapper h2 {
+    margin-left: 25px ;
+    margin-bottom: 55px;
+  }
+  .news-list .grid-item h2 {
+    margin-left: 0px 
+  }
+  .news-list .grid-item p {
+    margin-top: -30px 
+  }
+  .cta-allTips-button {
+    margin-right: 125px; 
+    margin-bottom: 35px;
+  }
+  .news-list .article__summary {
+    min-height: initial 
+  }
+  .news-list .grid-item h2 {
+    margin-top: 20px 
+  }
+  .testimonials {
+    margin-top: 0px; 
+  }
+  .testimonials .grid h1 {
+    font-size: 32px;
+    text-align: center; 
+  }
+  .testimonials .grid img {
+    margin: 0 auto; 
+  }
+  .multiple-paragraphs-container .payment-options {
+    margin-bottom: 0px 
+  }
+  .sidebar-section {
+    display: none; 
+  }
+ .icons-list h1 {
+    font-size: 32px !important;
+  }
+  .latest-tips-list-homepage h1 {
+    font-size: 32px 
+  }
+  .tipster-slider-list h1 {
+    font-size: 32px;
+    margin-bottom: 40px;
+    margin-top: -50px;
+  }
+  .columns-section .grid h1 {
+    font-size: 32px;
+    margin-top: 15px;
+  }
+  .mobile-footer-navigation {
+    margin-top: 0px
+  }
+  .tipster-slider-list {
+    padding-bottom: 70px 
+  }
+  .simple-paragraph p {
+    font-size: 23px 
+  }
+  .columns-section .grid .button-columns {
+    margin-bottom: 15px
+  }
+  .top-banner p {
+    font-size:18px;
+    line-height:24px;
+    text-align:center;
+    margin: 0 auto;
+    padding: 30px 0;
+    width: 50%;
+  }
+  .top-banner {
+    background-size:cover;
+    min-height:initial;
+  } 
+  .top-banner h1 {
+    margin-top: 0; 
+  }
+  .tipster-profile-description p {
+    min-height: initial;
+  }
+  
+  .page-title {
+    margin: 2.7em 0 0.5em 0
+  }
+  .tipster_values > div {
+    text-align: center;
+    width: 25%; 
+  }
+  #subscribe-tipster button {
+    font-size: 13px !important ; 
+  }
+  .latest-ten-tips-value p {
+    font-size: 17px; 
+  }
+  .latest-ten-tips-value span {
+    margin-top:15px 
+  }
+  .cta-tips-list {
+    margin: 0px 
+  }
+  #tips-list .tips-list {
+    margin-top: 0px;
+  }
+  .cta-tips-list strong {
+    font-size: 18px; 
+  }
+  #bookmaker-name-prediction-button {
+    font-size: 15px; 
+  }
+  .tips-list .tips_cell p {
+    margin-left: 15px 
+  }
+  .tips-list .tips_cell .grid__col-md-9 h3 {
+    margin-top: 15px;
+    margin-left: 15px;
+  }
+  .tips-list .tips_cell .tip-status-tipster {
+    margin-left: 15px;
+    margin-top: 20px;   
+  }
+  .tips-list .tips_cell .col-info-tips-event p {
+    margin-left: 25px; 
+  }
+  .page-title {
+    margin-left: 40px;
+    margin-top: 0;
+  }
+  .center-container--with-background-image h2 {
+    text-align: center;
+    font-size:30px;
+    margin: 20px; 
+  }
+  .center-container--with-background-image {
+    min-height:initial; 
+  }
+  .center-text-bookmaker h2 {
+    margin-top: 0px;
+    margin-bottom: 30px;
+    margin-left: 10px;
+  }
+  .center-text-bookmaker p {
+    margin-left: 10px; 
+  }
+  .center-text-bookmaker .bookmaker_box_list .btn.btn--primary {
+    height: 51px;
+    line-height: 53px; 
+  }
+  .center-text-bookmaker .bookmaker_box_list .btns {
+    padding-top: 30px; 
+  }
+  .bookmaker-container h2 {
+    margin-left: 25px; 
+  }
+  .bookmaker-container .quote p {
+    margin-left: 25px; 
+  }
+  .description {
+    margin-left: 25px 
+  }
+  .bookmaker-container .paragraph-container h3 {
+    font-size: 35px 
+  }
+  .bookmaker h3.section-title { 
+    margin-left:25px;
+    padding-bottom:25px;
+  }
+  .types ul {
+    margin-left:25px;
+    margin-top:40px;
+  }
+  .betting-portofolio-text {
+    margin-left:25px 
+  }
+  .languages-area .grid__col-md-12 {
+    margin-left:25px; 
+  }
+  .bookmaker-sports h3 {
+    margin-right: 30px; 
+  }
+  .breadcrumb__item {
+    margin-left : 25px 
+  }
+  .bookmaker-sports .grid__col-md-12 {
+    padding-bottom: 0 
+  }
+  .u-color-ghost-white--bg h3 {
+    padding-bottom:0 
+  }
+  .bookmaker .internal-links a:first-child {
+    height:51px; 
+  }
+  .sign-up-form h2 {
+    font-size:25px;
+    margin-top: 35px; 
+    margin-bottom:25px;
+  }
+  .sign-up-form .checkboxes label {
+    font-size:15px }
+   .sign-up-form .checkboxes label input {
+      height:15px 
+  }
+  .sign-up-form .checkbox input {
+    height: 15px 
+  }
+  .sign-up-form input, .sign-up-form select {
+    height:40px; 
+  }
+  .tips_cell .description {
+    text-align: justify;
+    padding-right:15px; 
+  }
+  .cta-tips-list strong {
+    padding-right:35px; 
+  }
+  .tips-list .tips_cell p {
+    margin-bottom: 2.5rem;
+  }
+  .tips_cell .bookmaker-logo {
+    margin-bottom:15px; 
+  }
+  span.lost-tip {
+    margin-left: 0;
+    margin-right:0;
+  }
+  .tips-list .tips_cell .grid__col-md-9 h3 {
+    margin-top: 0; 
+  }
+
+  .tips-list .tips_cell .grid__col-md-12 h3 {
+    margin-left:15px; 
+    margin-top: 20px; 
+  }
+  .tips-list .tips_cell #dsSocialFontIconsShare {
+    margin-top: -20px;
+    margin-right: 15px;
+    margin-bottom: 20px;
+  }
+  .tips-list .tips_cell .col-info-tips-event p {
+    width:100%;
+    letter-spacing:2px;
+    line-height:4;
+    
+  }
+  #bookmaker-name-prediction-button {
+    width:auto;
+    margin-left: 15px !important;
+    margin-right:20px; 
+  }
+    
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ 
+  
+}
