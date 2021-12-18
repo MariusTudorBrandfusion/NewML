@@ -2765,7 +2765,7 @@ margin-left:0;
     position: absolute;
     font-size: 0.4em;
     color: #0FBB7D;
-    left: 0;
+    left: 0; 
     top: 0;
 }
 .languges-bookmaker{
@@ -5163,6 +5163,13 @@ grid-template-columns: 100%;
     #latest-tips .col-mobile-status{
         margin-bottom: 10px;
         padding-left: 10px;
+    }
+    .tools-navigation-container .language-text{
+        
+        display: none;
+    }
+    .tools-navigation-container{
+        position: relative;
     }
 }
 
