@@ -175,14 +175,12 @@ using (SqlConnection connection = new SqlConnection(connectionString))
     <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/jquery.datetimepicker.css"></noscript> 
     <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/main.css"></noscript> 
-  <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/adi.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/adi.css"></noscript> 
-
-  <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/bootstrap-datetimepicker.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/bootstrap-datetimepicker.min.css"></noscript> 
-
-  <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/responsive.css"></noscript>
+    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/adi.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/adi.css"></noscript>
+    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/bootstrap-datetimepicker.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/bootstrap-datetimepicker.min.css"></noscript>
+    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/responsive.css"></noscript>
 
  <!-- Google fonts -->   
   <link rel="preload" href="//fonts.googleapis.com/css?family=@navigationFont:100,200,300,400,500,600,700,800,900" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -657,7 +655,26 @@ using (SqlConnection connection = new SqlConnection(connectionString))
 *@
 @*@RenderSnippet("BootstrapJs")*@
 @RenderSnippet("OpenAccountFormScripts")
-
+  <script type="application/ld+json">
+  {
+      "@@context": "https://schema.org",
+      "@@type": "WebSite",
+      "url": "https://bet-ibc.com"
+      
+  }
+  </script>
+  <script type="application/ld+json">
+  { "@@context" : "https://schema.org",
+    "@@type" : "Organization",
+    "url" : "https://bet-ibc.com",
+    "contactPoint" : [
+      { "@@type" : "ContactPoint",
+        "telephone" : "+1-401-555-1212",
+        "contactType" : "customer service"
+      } ] 
+}
+  </script>
+  
 	</body>
 </html>
 @helper RenderSocialShare() {
