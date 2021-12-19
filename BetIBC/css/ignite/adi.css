@@ -2501,6 +2501,7 @@ width:100%;
 #footernavigation .menu__item a.menu__link.dw-mod{
     font-size: 21px;
     color: #0D0A0B;
+    font-weight: 700;
 }
 .menu__item a.menu__link.dw-mod{
 font-size: 16px;
@@ -4091,6 +4092,15 @@ display:inline-block;
 .col-league-name-mobile{
     display: none;
 }
+.main-navigation .logo img{
+    height: 60px;
+}
+.page{
+    margin-top: 130px !important;
+}
+.footer .collection span{
+    display: none;
+}
 @media(max-width: 1280px){
     .odds-convertor-calculator .col-5{
         width: 40%;
@@ -4808,6 +4818,7 @@ grid-row-start: 2;
     margin: 0 auto;
   
   }
+   
   .footer .collection a{
       margin-bottom: 15px;
     display: inline-block;
@@ -5170,6 +5181,9 @@ grid-template-columns: 100%;
     }
     .tools-navigation-container{
         position: relative;
+    }
+    .page{
+        margin-top: 0px !important;
     }
 }
 
@@ -5969,4 +5983,7 @@ input[type="submit"] {
 
 .match-status {
   font-weight:300;
+}
+.breadcrumbs_container {
+    padding-top:15px;
 }
