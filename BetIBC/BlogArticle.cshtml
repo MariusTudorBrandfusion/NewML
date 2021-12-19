@@ -2,7 +2,7 @@
 @MasterPageFile("MasterNoEcom.cshtml")
  
 
-<div class="u-color-light-gray--bg">
+<div class="u-color-light-gray--bg breadcrumbs_container">
 	<div class="center-container">
        <div class="grid">
            <div class="grid__col-md-5 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
@@ -13,7 +13,9 @@
                 @RenderNavigation(new
                 {
                     id = "breadcrumb",
-                    template = "breadcrumb.xslt"
+                    template = "breadcrumb.xslt", 
+                    SitemapMode = true,
+                    StartLevel = 1
                 })
                </div>
            </div></div>

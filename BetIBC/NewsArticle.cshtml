@@ -2,30 +2,29 @@
 
 @MasterPageFile("MasterNoEcom.cshtml")
 @{
-var currentPageId1 = HttpContext.Current.Request.QueryString.Get("ID");
+var currentPageId1 = Model.ID;
 
 }
-@if (Model.PropertyItem.GetBoolean("ShowBreadcrumb")) {
-
-<div class="u-color-light-gray--bg">
-	<div class="center-container">
-       <div class="grid">
-           <div class="grid__col-md-5 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
-              <h3 class="page-title">@Model.Name</h3>
-           </div></div>
-           <div class="grid__col-md-7 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
-              <div class="u-pull--right">
-                @RenderNavigation(new
-                {
-                    id = "breadcrumb",
-                    template = "breadcrumb.xslt"
-                })
-               </div>
-           </div></div>
-       </div>
-	</div>
+<div class="u-color-light-gray--bg breadcrumbs_container">
+    <div class="center-container">
+        <div class="grid">
+            <div class="grid__col-md-5 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+                <h3 class="page-title">@Model.Name</h3>
+            </div></div>
+            <div class="grid__col-md-7 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+                <div class="u-pull--right">
+                    @RenderNavigation(new
+                    {
+                        id = "breadcrumb",
+                        template = "breadcrumb.xslt", 
+                        SitemapMode = true,
+                        StartLevel = 1
+                    })
+                </div>
+            </div></div>
+        </div>
+    </div>
 </div>
-}
 <div class="center-container">
 <article class="grid__col-md-12 text-center">
     <h1 class="article__header__news">@Model.Item.GetString("Title")</h1>
@@ -41,7 +40,7 @@ var currentPageId1 = HttpContext.Current.Request.QueryString.Get("ID");
 </article>
   
   
-  <div class="center-container_buttons-wrapper" data-id="@currentPageId1">
+  @*<div class="center-container_buttons-wrapper" data-id="@currentPageId1">
     <a href="" class="prev-article button" id="prev-btn">
       <i class="fa fa-chevron-left" style="margin-right: 10px;"></i>@Translate("Previous Article", "Previous Article")
       <span class="prev-article-title"></span>
@@ -53,7 +52,7 @@ var currentPageId1 = HttpContext.Current.Request.QueryString.Get("ID");
     margin-left: 10px;
 	"></i>
   	</a>
-  </div>
+  </div>*@
   
   
-</div></dynamicweb.frontend.pageviewmodel>
+</div>
