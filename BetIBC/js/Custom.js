@@ -3663,6 +3663,16 @@ $(document).ready(function () {
     $(".menu__item--horizontal a:contains('Admin Area')").addClass("showNotifications");
     $(".showNotifications").append("<span class='admin-notifications'></span>")
     $(".showNotifications").append("<span class='admin-notifications-message'></span>")
+    $( ".mobile-nav-trigger-button" ).click(function() {
+        if($(this).hasClass('active')){
+
+            $(this).removeClass("active")
+        }else{
+            $(this).addClass("active")
+        }
+      
+    });
+    
 });
 
 

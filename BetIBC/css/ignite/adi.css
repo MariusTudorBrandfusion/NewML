@@ -1223,12 +1223,16 @@ color:#0fbb7d;
     padding-right: 23px;
 }
 .bookmaker_box_list .btn{
-    font-size: 10px;
-    padding-left:0;
-    padding-right:0;
+
     width: 48%;
 
-    margin-right: 2%;
+    height: 40px;
+    display: inline-block;
+    line-height: 38px;
+    color: #fff;
+    background-color: #0FBB7D;
+    border-radius: 10px;
+    border: 2px solid #0FBB7D;
 }
 .bookmaker .ajaxTabsContainer{
     margin-bottom: 0;
@@ -1240,7 +1244,7 @@ color:#0fbb7d;
     display: none;
 }
 .odds-convertor-calculator .center-container{
-    background:#0053cc;
+    background:#0FBB7D;
 }
 .odds-convertor-calculator h2{
     color:#fff;
@@ -1259,7 +1263,7 @@ color:#0fbb7d;
     height: 270px;
 }
 .odds-convertor-calculator select.odds_format_select, #first_odds_calculator_block > div > input[type=text], #second_odds_calculator_block input[type=text]{
-    border:1px solid #0053cc;
+    border:1px solid #0FBB7D;
     margin-bottom: 20px;
     width: 100%;
 }
@@ -1334,7 +1338,7 @@ span.odds_example, #second_odds_calculator_block label{
     margin-bottom: 0;
 }
 .odds-convertor-calculator .paragraph-container{
-    padding-bottom: 2px;
+    padding-bottom: 2em;
 }
 .paragraph-container {
     padding-top: 1em;
@@ -2501,6 +2505,7 @@ width:100%;
 #footernavigation .menu__item a.menu__link.dw-mod{
     font-size: 21px;
     color: #0D0A0B;
+    font-weight: 700;
 }
 .menu__item a.menu__link.dw-mod{
 font-size: 16px;
@@ -4020,6 +4025,8 @@ margin-top: 100px;
 }
 .title-bubble-section{
 width:100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 .title-bubble-section.title-bubble-right img{
 height: 200px;
@@ -4033,6 +4040,9 @@ height: 200px;
 .title-bubble-section.title-bubble-left img{
 display:inline-block;
   float:left;
+}
+.news-list-home-wrapper{
+    padding-bottom: 40px;
 }
 .title-bubble-wrapper{
 display:block;
@@ -4090,6 +4100,75 @@ display:inline-block;
 }
 .col-league-name-mobile{
     display: none;
+}
+.main-navigation .logo img{
+    height: 60px;
+}
+.page{
+    margin-top: 130px !important;
+}
+.footer .collection span{
+    display: none;
+}
+.mobile-tools-mobile .menu-mobile__link--level-2{
+    
+    padding-left: 1em;
+}
+.mobile-tools-mobile .menu-mobile__submenu .menu-mobile__link.dw-mod{
+
+    padding-left: 2em;
+}
+.mobile-nav-trigger:checked~.site{
+    left: 0 !important;
+}
+.mobile-menu-margin .mobile-nav-trigger-button{
+    border-bottom: none;
+    margin-top: 10px !important;
+}
+.mobile-nav-trigger-button.active:before{
+    content:"\f00d";
+    
+}
+h1{
+    color: #000 !important;
+
+}
+h2{
+    color: #000 !important;
+
+}
+h3{
+    color: #000 !important;
+
+}
+h4{
+    color: #000 !important;
+
+}
+h5{
+    color: #000 !important;
+}
+
+#ds-wrapper{
+
+    background:#0fbb7d;
+}
+#ds-calculator{
+
+    background:#0fbb7d !important;
+}
+#ds-calculator form{
+
+    background:#0fbb7d !important;
+}
+#ds-calculator form table{
+
+    background:#0fbb7d !important;
+}
+.multiple-paragraphs-container .payment-options{
+
+    margin-bottom: 30px;
+
 }
 @media(max-width: 1280px){
     .odds-convertor-calculator .col-5{
@@ -4636,8 +4715,11 @@ float:left;
   margin:0;
   }
   .blog-list{
-      padding-top: 40px;
+      padding-top: 0;
   }
+    .blog-list h1{
+        font-size: 32px;
+    }
   .center-container .article-box:nth-child(1){
   width:100%;
   }
@@ -4808,6 +4890,7 @@ grid-row-start: 2;
     margin: 0 auto;
   
   }
+   
   .footer .collection a{
       margin-bottom: 15px;
     display: inline-block;
@@ -5164,12 +5247,60 @@ grid-template-columns: 100%;
         margin-bottom: 10px;
         padding-left: 10px;
     }
-    .tools-navigation-container .language-text{
-        
-        display: none;
-    }
+
     .tools-navigation-container{
         position: relative;
+    }
+    .page{
+        margin-top: 0px !important;
+    }
+    .tools-navigation-container #second-navigation{
+        display: none;
+    }
+    .tools-navigation-container .language-tools{
+        margin: 0;
+    }
+    #slider .paragraph-container{
+        min-height: 400px !important;
+        padding-top: 50px !important;
+    }
+    #slider .grid__cell, #slider .grid__cell-footer{
+        padding: 0 1em;
+    }
+    .icons-list .grid__cell img{
+        max-width: 80%;
+    }
+    .title-bubble-section h1{
+        font-size: 32px;  
+    }
+    .title-bubble-section.title-bubble-right img{
+        margin: 0 auto;
+        float: initial;
+        display: block;
+    }
+    .testimonials .testimonial-slide{
+
+        padding: 10px;
+        margin: 0 10px;
+    }
+    .bubble-column{
+        margin-top: 30px;
+        
+    }
+    .testimonials{
+        padding-top: 5px;
+    }
+    .breadcrumb{
+        display: none;
+    }
+    .page-title{
+        margin-left: 10px !important;
+    }
+    .top-banner p{
+        padding-top: 0;
+    }
+    .blog-description{
+        display: none;
     }
 }
 
@@ -5969,4 +6100,16 @@ input[type="submit"] {
 
 .match-status {
   font-weight:300;
+}
+.breadcrumbs_container {
+    padding-top:15px;
+}
+.tournament-name {
+    margin-bottom:0!important;
+}
+.bookmaker-logo-small{
+    line-height: 40px!important;
+}
+#bookmaker-name-prediction-button   {
+    width:30%!important;
 }

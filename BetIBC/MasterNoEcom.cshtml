@@ -162,20 +162,19 @@ using (SqlConnection connection = new SqlConnection(connectionString))
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick.min.css"></noscript>  
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick-theme.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick-theme.min.css"></noscript> 
-  @*
+  
     <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/pagination.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/pagination.css"></noscript>  
 
 
     <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/lightbox.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/lightbox.css"></noscript>  
-*@
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css"></noscript> 
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css"></noscript>  
+    @*<link rel="preload" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css"></noscript> *@ 
 
-  @*
+  
     <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/flag-icon.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/flag-icon.min.css"></noscript> 
 
@@ -194,10 +193,10 @@ using (SqlConnection connection = new SqlConnection(connectionString))
 
     <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/responsive.css"></noscript>
-*@
-  @* bundle js *@
- <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/dist/bundle.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/dist/bundle.css"></noscript>
+
+  @* bundle css *@
+ @*<link rel="preload" href="/Files/Templates/Designs/BetIBC/css/dist/bundle.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/dist/bundle.css"></noscript>*@
  <!-- Google fonts -->   
   <link rel="preload" href="//fonts.googleapis.com/css?family=@navigationFont:100,200,300,400,500,600,700,800,900" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="//fonts.googleapis.com/css?family=@navigationFont:100,200,300,400,500,600,700,800,900&display=swap"></noscript>
@@ -208,11 +207,30 @@ using (SqlConnection connection = new SqlConnection(connectionString))
   <link rel="preload" href="//fonts.googleapis.com/css?family=@subHeaderFont:100,200,300,400,500,600,700,800,900" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="//fonts.googleapis.com/css?family=@subHeaderFont:100,200,300,400,500,600,700,800,900&display=swap"></noscript>
   <link rel="preload" href="//fonts.googleapis.com/css?family=@contentFont:100,200,300,400,500,600,700,800,900" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="//fonts.googleapis.com/css?family=@contentFont:100,200,300,400,500,600,700,800,900&display=swap"></noscript>
+  <noscript><link rel="stylesheet" href="//fonts.googleapis.com/css?family=@contentFont:100,200,300,400,500,600,700,800,900&display=swap"></noscript>  
+    <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "WebSite",
+        "url": "https://bet-ibc.com"      
+    }
+    </script>
+  <script type="application/ld+json">
+    { "@@context" : "https://schema.org",
+      "@@type" : "Organization",
+      "url" : "https://bet-ibc.com",
+      "contactPoint" : [
+        { "@@type" : "ContactPoint",
+          "email" : "support@bet-ibc.com",
+          "contactType" : "customer service"
+        } ] 
+  }
+    </script>    
+  @RenderSnippet("SchemaOrg")
 </head>
 
 <body  data-user-new-predictions = "@newPredictionsFeed"  data-articles-feeds="@articlesFeedsjson" data-tipsters-feed="@TipstersFeedJSON" data-tipsters-details="@TipsterDetailsJSON" data-tipster-feed-by-language="@tipsterFeedByLanguage&PageNum=1" data-predictions-count="@countPredictionsFeed" data-tipster-sort-by-pages = "@TipsterDetailsWithPageJSON">
-<div class="overlay-master active"><img loading="lazy" src="/Admin/Public/GetImage.ashx?Image=/Files/Images/BetIBC/loader.gif&Crop=5&DoNotUpscale=1&width=200&height=200&Quality=99&Format=gif" alt="xno-american" /></div>
+<div class="overlay-master active"><img loading="lazy" src="/Admin/Public/GetImage.ashx?Image=/Files/Images/BetIBC/loader.gif&Crop=5&DoNotUpscale=1&width=200&height=200&Quality=99&Format=webP" alt="xno-american" /></div>
 
     @if (Pageview.Device.ToString() == "Mobile")
     {
@@ -230,6 +248,16 @@ using (SqlConnection connection = new SqlConnection(connectionString))
                expandmode = "all",
                template = "BaseMenuForMobile.xslt"
             })
+          @RenderNavigation(new
+          {
+                  id = "mobilenavigation",
+                  cssclass = "menu menu-mobile dwnavigation mobile-tools-mobile",
+                  startLevel = 1, 
+                  endlevel = 10, 
+                  parenttag = "header-menu",
+                  expandmode = "all",
+                  template = "BaseMenuForMobile.xslt"
+                                              })
         </nav>
     }
     <main class="site dw-mod">
@@ -456,7 +484,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
                                     }
                                     <div class="logo dw-mod u-pull--left">
                                         <a href="/Default.aspx?ID=@firstPageId">
-                                            <img loading="lazy" src="/Admin/Public/GetImage.ashx?width=276&height=90&crop=1&Quality=99&Format=webP&image=@logoWhite" alt="Logo" />
+                                            <img loading="lazy" src="/Admin/Public/GetImage.ashx?width=276&height=120&crop=5&Quality=99&Format=webP&image=@logoWhite" alt="Logo" />
                                         </a>
                                     </div>
                                     
@@ -468,28 +496,28 @@ using (SqlConnection connection = new SqlConnection(connectionString))
                                         {
                                             if (!megaMenu)
                                             {
-                                            @RenderNavigation(new
-                                       {
-                                           id = "topnavigation",
-                                           cssclass = "menu dw-mod dwnavigation",
-                                           startLevel = 1,
-                                           endlevel = 4,
-                                           expandmode = "All",
-                                           template = "BaseMenuWithDropdown.xslt"
-                                       });
+                                                @RenderNavigation(new
+                                                {
+                                                   id = "topnavigation",
+                                                   cssclass = "menu dw-mod dwnavigation",
+                                                   startLevel = 1,
+                                                   endlevel = 4,
+                                                   expandmode = "All",
+                                                   template = "BaseMenuWithDropdown.xslt"
+                                                });
                                             }
                                             else
                                             {
                                             @RenderNavigation(new
-                                       {
-                                           id = "topnavigation",
-                                           cssclass = "menu dw-mod dwnavigation",
-                                           startLevel = 1,
-                                           endlevel = 3,
-                                           promotionImage = megamenuPromotionImage,
-                                           promotionLink = Model.Area.Item.GetString("NavigationMegamenuPromotionLink"),
-                                           template = "BaseMegaMenu.xslt"
-                                       });
+                                               {
+                                                   id = "topnavigation",
+                                                   cssclass = "menu dw-mod dwnavigation",
+                                                   startLevel = 1,
+                                                   endlevel = 3,
+                                                   promotionImage = megamenuPromotionImage,
+                                                   promotionLink = Model.Area.Item.GetString("NavigationMegamenuPromotionLink"),
+                                                   template = "BaseMegaMenu.xslt"
+                                               });
                                             }
                                         }
                                        <a class = "nav-open-account" href = "@login">@Translate("Login", "Login")</a>
@@ -500,53 +528,16 @@ using (SqlConnection connection = new SqlConnection(connectionString))
                         </div>
                     </div>
                 </nav>
-            }
-    @* Impersonation bar *@
-            @*@if (Model.CurrentUser.ID > 0 && Model.SecondaryUsers.Count > 0)
-            {
-                <div class="u-color-warning--bg">
-                    <div class="center-container top-container__center-container dw-mod">
-                        $1$Impersonation#1#
-                        <div class="grid">
-                            <div class="grid--align-self-center grid__col-x">
-                                @if (Model.CurrentSecondaryUser != null && Model.CurrentSecondaryUser.ID > 0)
-                                {
-                                    string stopImpersonateTranslation = Translate("Stop impersonation");
-                                    <div class="grid-cell">
-                                        <div class="u-pull--left u-bold u-margin-top">
-                                            <i class="fa fa-user-secret"></i>
-                                           @Pageview.User.UserName <text>&nbsp;</text>@Translate("is impersonated by")<text>&nbsp;</text> @Model.CurrentSecondaryUser.Name
-                                        </div>
-                                        <form method="post" class="u-pull--right u-no-margin">
-                                            <input type="submit" class="btn btn--secondary dw-mod u-no-margin" name="DwExtranetRemoveSecondaryUser" value="@stopImpersonateTranslation">
-                                        </form>
-                                    </div>
-                                }
-                                else
-                                {
-                                    string viewListTranslation = Translate("Click here to access the management area");
-                                    <div class="grid-cell u-bold">
-                                        <i class="fa fa-user-secret"></i>
-                                        <a href="/Default.aspx?ID=@ImpersonationPageId" title="@viewListTranslation" class="u-color-font-black">@viewListTranslation</a>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }         *@
+            } 
         </header>
 
         <!-- Render the content -->
     <div id="page" class="page @pagePos">   
-     <section class="content-container dw-mod" id="content">
-                @ContentPlaceholder()
-            </section>
-        </div>
-		<div class="grid__col-md-2 grid__col-xs-12">
+        <section class="content-container dw-mod" id="content">
+            @ContentPlaceholder()
+        </section>
+    </div>
 
-                  @RenderSocialShare()
-        </div>
     </main>
 
     <!-- Footer section -->
@@ -626,8 +617,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
 		</div>       
         </div>
     
-</div>
-           <div class="center-container dw-mod">
+<div class="center-container dw-mod">
         <div class="grid">        
             <div class="grid__col-md-12 grid__col-xs-12 grid--align-center copyright"><div class="grid__cell">
                 @if (!String.IsNullOrEmpty(footerColumnOneContent))
@@ -646,14 +636,13 @@ using (SqlConnection connection = new SqlConnection(connectionString))
   @*<script src="/Files/Templates/Designs/BetIBC/js/DynamoConfig.js"></script>*@
     @*<script src="/Files/Templates/Designs/BetIBC/js/Dynamo.js"></script>*@
     <script src="/Files/Templates/Designs/BetIBC/js/jquery.min.js?v=3.5.0" defer></script>
-    <script src="/Files/Templates/Designs/BetIBC/js/RememberState.js"></script>
-    <script src="/Files/Templates/Designs/BetIBC/js/Scroll.js"></script>
-    <script src="/Files/Templates/Designs/BetIBC/js/Wireframe.js"></script>
- 
+    <script src="/Files/Templates/Designs/BetIBC/js/RememberState.js" defer></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/Scroll.js" defer></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/Wireframe.js" defer></script>
     <script src="/Files/Templates/Designs/BetIBC/js/lightbox-plus-jquery.js" defer></script>
     <script src="/Files/Templates/Designs/BetIBC/js/lodash.min.js" defer></script>
-<script src="/Files/Templates/Designs/BetIBC/js/jquery-ui.min.js" defer></script>
-   	 <script src="/Files/Templates/Designs/BetIBC/js/jquery.mask.js" defer></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/jquery-ui.min.js" defer></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/jquery.mask.js" defer></script>
     <script src="/Files/Templates/Designs/BetIBC/js/slick.min.js" type="text/javascript" defer></script>
 	<script src="/Files/Templates/Designs/BetIBC/js/transition.min.js" defer></script>
 	<script src="/Files/Templates/Designs/BetIBC/js/collapse.js" defer></script>
@@ -670,28 +659,8 @@ using (SqlConnection connection = new SqlConnection(connectionString))
 <script src="/Files/Templates/Designs/BetIBC/js/allJs.min.js" defer></script>
 *@
 @*@RenderSnippet("BootstrapJs")*@
-@RenderSnippet("OpenAccountFormScripts")
-  <script type="application/ld+json">
-  {
-      "@@context": "https://schema.org",
-      "@@type": "WebSite",
-      "url": "https://bet-ibc.com"
-      
-  }
-  </script>
-  <script type="application/ld+json">
-  { "@@context" : "https://schema.org",
-    "@@type" : "Organization",
-    "url" : "https://bet-ibc.com",
-    "contactPoint" : [
-      { "@@type" : "ContactPoint",
-        "telephone" : "+1-401-555-1212",
-        "contactType" : "customer service"
-      } ] 
-}
-  </script>
-  
-	</body>
+        @RenderSnippet("OpenAccountFormScripts")
+    </body>
 </html>
 @helper RenderSocialShare() {
 @*
@@ -722,8 +691,8 @@ using (SqlConnection connection = new SqlConnection(connectionString))
     <meta name="robots" content="index, follow">
 if (!Model.MetaTags.Contains("og:image")) {
         Pageview.Meta.AddTag("og:image", string.Format("{0}://{1}{2}", Dynamicweb.Context.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Host, Model.PropertyItem.GetFile("OpenGraphImage")));
-        <meta name="image" property="og:image" content='@string.Format("{0}://{1}{2}", Dynamicweb.Context.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Host, Model.PropertyItem.GetFile("OpenGraphImage"))'>
-        <meta name="image:alt" property="og:image:alt"  content="@Model.Title">
+    <meta name="image" property="og:image" content='@string.Format("{0}://{1}{2}", Dynamicweb.Context.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Host, Model.PropertyItem.GetFile("OpenGraphImage"))'>
+    <meta name="image:alt" property="og:image:alt"  content="@Model.Title">
     }
     @Model.MetaTags
 }
