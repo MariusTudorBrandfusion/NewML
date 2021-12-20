@@ -3,6 +3,13 @@
 @MasterPageFile("MasterNoEcom.cshtml")
 @{
 var currentPageId1 = Model.ID;
+    var siteLogo = Model.Area.Item.GetFile("LogoImageWhite").Path;
+    var image = Model.Item.GetFile("image").Path;
+    var urlScheme = Dynamicweb.Context.Current.Request.Url.Scheme;
+    var ulrHost = HttpContext.Current.Request.Url.Host;
+    var fullPathImage = urlScheme + "://" + ulrHost + image;
+    var articleText = Model.Item.GetString("Summary");
+    var author = Model.Item.GetString("Author");
 
 }
 <div class="u-color-light-gray--bg breadcrumbs_container">
@@ -30,11 +37,10 @@ var currentPageId1 = Model.ID;
     <h1 class="article__header__news">@Model.Item.GetString("Title")</h1>
 
    @* <div class="responsive-image responsive-image--16-9">
-        <img src="/Admin/Public/GetImage.ashx?width=1280&amp;height=723&amp;crop=5&amp;Compression=75&amp;DoNotUpscale=1&amp;image=@Model.Item.GetFile(" image").path"="" />
+        <img src="/Admin/Public/GetImage.ashx?width=1280&amp;height=723&amp;crop=5&amp;Compression=75&amp;DoNotUpscale=1&amp;image=@Model.Item.GetFile("image").path"="" />
     </div>*@
   <div class="article__content__news__container">
     @Model.Item.GetString("Text")
-@*<!--@Global:Area.ID-->*@
 
   </div>
 </article>
@@ -55,4 +61,30 @@ var currentPageId1 = Model.ID;
   </div>*@
   
   
-</div>
+</div>    
+@SnippetStart("SchemaOrg")
+<script type="application/ld+json">
+{
+   "@@context": "https://schema.org",
+   "@@type": "NewsArticle",
+   "url": "@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(Model.ID)",
+   "publisher":{
+      "@@type":"Organization",
+      "name":"Bet-ibc",
+      "logo":"@siteLogo"
+   },
+   "author":{
+      "@@type": "Person",
+      "name": "@author",
+      "sameAs" :""
+      },
+   "headline": "@Model.Name",
+   "mainEntityOfPage": "@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(Model.TopPage.ID)",
+   "articleBody": "@HttpUtility.JavaScriptStringEncode(articleText)",
+   "image":[
+      "@fullPathImage"      
+   ],
+   "datePublished":"@Model.CreatedDate"
+}
+</script>
+@SnippetEnd("SchemaOrg")

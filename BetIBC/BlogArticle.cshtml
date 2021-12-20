@@ -1,6 +1,14 @@
 ﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
 @MasterPageFile("MasterNoEcom.cshtml")
- 
+@{
+    var siteLogo = Model.Area.Item.GetFile("LogoImageWhite").Path;
+    var image = Model.Item.GetFile("image").Path;
+    var urlScheme = Dynamicweb.Context.Current.Request.Url.Scheme;
+    var ulrHost = HttpContext.Current.Request.Url.Host;
+    var fullPathImage = urlScheme + "://" + ulrHost + image;
+    var articleText = Model.Item.GetString("Summary");
+    var author = Model.Item.GetString("Author");
+ }
 
 <div class="u-color-light-gray--bg breadcrumbs_container">
 	<div class="center-container">
@@ -65,4 +73,30 @@
     
     
     </div>
-</div>   
+</div>  
+@SnippetStart("SchemaOrg")
+<script type="application/ld+json">
+{
+   "@@context": "https://schema.org",
+   "@@type": "NewsArticle",
+   "url": "@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(Model.ID)",
+   "publisher":{
+      "@@type":"Organization",
+      "name":"Bet-ibc",
+      "logo":"@siteLogo"
+   },
+   "author":{
+      "@@type": "Person",
+      "name": "@author",
+      "sameAs" :""
+      },
+   "headline": "@Model.Name",
+   "mainEntityOfPage": "@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(Model.TopPage.ID)",
+   "articleBody": "@HttpUtility.JavaScriptStringEncode(articleText)",
+   "image":[
+      "@fullPathImage"      
+   ],
+   "datePublished":"@Model.CreatedDate"
+}
+</script>
+@SnippetEnd("SchemaOrg") 

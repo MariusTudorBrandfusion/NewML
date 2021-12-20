@@ -7,29 +7,30 @@
 <div class="grid tips-list"> 
  
 @{
-  
+  var siteLogo = Model.Area.Item.GetFile("LogoImageWhite").Path;
+  var image = Model.Item.GetFile("Bookmaker").Path;
+  var urlScheme = Dynamicweb.Context.Current.Request.Url.Scheme;
+  var ulrHost = HttpContext.Current.Request.Url.Host;
+  var fullPathImage = urlScheme + "://" + ulrHost + image;
+  var articleText = Model.Item.GetString("Summary");
+  var author = Model.Item.GetString("Author");
 	string  predictionTitle = Model.Item.GetString("Prediction_Title"),
           description = Model.Item.GetString("Description"),
           prediction = Model.Item.GetString("Prediction"),
           stake = Model.Item.GetString("Stake").Replace("/10", "").ToString(),
-        
-          league = Model.Item.GetString("League"),
+	        league = Model.Item.GetString("League"),
           predictionStatus = Model.Item.GetString("Prediction_Status").ToLower(),
-  		  tournament = Model.Item.GetString("Tournament"),
+  		    tournament = Model.Item.GetString("Tournament"),
           category = Model.Item.GetString("Category"),
           won = Model.Item.GetString("Prediction_Status"),
           finalScore = Model.Item.GetString("Match_Final_Score"),
           bettingPrediction = Model.Item.GetString("BettingPrediction");
-         var odds = Model.Item.GetString("Odds").Contains(",") ? Model.Item.GetString("Odds").Replace(",", ".") : Model.Item.GetString("Odds");
+  var odds = Model.Item.GetString("Odds").Contains(",") ? Model.Item.GetString("Odds").Replace(",", ".") : Model.Item.GetString("Odds");
   var resultScreenshot =Model.Item.GetValue("Result_Screenshot") != null ? ((IList<Dynamicweb.Frontend.FileViewModel>) Model.Item.GetValue("Result_Screenshot")).FirstOrDefault() : null;
   var VIPScreenshot = Model.Item.GetValue("VIP_IBC_Screenshot") != null ? ((IList<Dynamicweb.Frontend.FileViewModel>) Model.Item.GetValue("VIP_IBC_Screenshot")).FirstOrDefault() : null;
-
   var tipsterID = Model.Item.GetString("Tipster_ID");
-
   var selectedTipsterReplace = tipsterID.Replace(" ", "");
-  
   var selectedTipsterID = GetPageIdByNavigationTag(selectedTipsterReplace);
-
   string bookmakerName = Model.Item.GetString("Bookmaker_Name");   
   var bookmaker = Model.Item.GetValue("Bookmaker") != null ? ((IList<Dynamicweb.Frontend.FileViewModel>) Model.Item.GetValue("Bookmaker")).FirstOrDefault() : null;
   string bookmakerURL = Model.Item.GetString("BookmakerUrl");
@@ -44,6 +45,7 @@
 
   var startGmt =  Model.Item.GetDateTime("Start_GMT");
   string startGmtItem = startGmt == DateTime.MinValue ? "" : startGmt.ToString("dd-MMM-yyyy - H:mm");
+  var startGmtIso = startGmt.ToString("yyyy-MM-ddTHH:mm:ssZ");
  
   var dateAdded =  Model.Item.GetDateTime("Date_Added");
   string dateAddedItem = dateAdded == DateTime.MinValue ? "" : dateAdded.ToString("dd-MMMM-yyyy - H:mm");
@@ -105,12 +107,12 @@
         <div class="grid__col-md-3 grid__col-xs-12">
         @if(tournament != "N/A") {
           if(tournament != ""){
-          <p><strong>@Translate("Tournament", "Tournament"):</strong> @tournament</p>
+          <p class="tournament-name"><strong>@Translate("Tournament", "Tournament"):</strong> @tournament</p>
           }
         }
           @if (bookmaker != null)
           {
-            <p><strong>@Translate("Bookmaker", "Bookmaker"):</strong> <a href="@bookmakerURL"><img loading = 'lazy' src="@bookmaker" alt="" class="bookmaker-logo"/></a></p>
+            <p class="bookmaker-logo-small"><strong>@Translate("Bookmaker", "Bookmaker"):</strong> <a href="@bookmakerURL"><img src="/Admin/Public/GetImage.ashx?width=80&amp;height=35&amp;crop=5&amp;Quality=99&amp;DoNotUpscale=1&amp;Format=webP&image=@bookmaker" alt="" class="bookmaker-logo"/></a></p>
           }
                      
         @if(!string.IsNullOrEmpty(stake)) {
@@ -179,7 +181,7 @@
         </div>
         
         <div class="grid__col-md-12 grid__col-xs-12 col-info-tips-event">
-          <img loading = 'lazy' src="@resultScreenshot">
+          <img src="@resultScreenshot">
         </div>
      
       </div>
@@ -222,13 +224,17 @@
 <p class = "center"><strong>@Translate("Follow this bet and open an account at", "Follow this bet and open an account at") <a id = "bookmaker-name-prediction" href = "" >Bookmaker Name</a> @Translate("now", "now")</strong></p>
 }
         
-     
-          <a id = "bookmaker-name-prediction-button" href="@bookmakerURL" class="btn btn--primary btn--line-height dw-mod">@Translate("SIGN UP at", "SIGN UP at")    
-          @if(bookmakerName != ""){ 
-          @bookmakerName 
-          }else{
-          <span>Bookmaker Name</span>
-          }</a>
+                               <p class="center">
+                                 <a id = "bookmaker-name-prediction-button" href="@bookmakerURL" class="btn btn--primary btn--line-height dw-mod">@Translate("Sign up at ", "Sign up at ") 
+                                    @if(bookmakerName != ""){ 
+                                      <span> @bookmakerName</span> 
+                                    }else{
+                                      <span> Bookmaker Name</span>
+                                    }
+                                 </a>
+                               </p>
+         
+       
         </div>
       </div>
       @* <small class="article__subheader">@Translate("Written by") @item.GetString("Author") @Translate("on") @item.GetDate("Date").ToShortDateString()</small> *@ 
@@ -236,4 +242,44 @@
   </div>
   <div class = "tips-separator"></div>
 </div>
-</div>
+</div> 
+@SnippetStart("SchemaOrg")
+<script type="application/ld+json">
+{
+   "@@context": "https://schema.org",
+   "@@type": "NewsArticle",
+   "url": "@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(Model.ID)",
+   "publisher":{
+      "@@type":"Organization",
+      "name":"Bet-ibc",
+      "logo":"@siteLogo"
+   },
+   "author":{
+      "@@type": "Person",
+      "name": "@selectedTipsterReplace",
+      "sameAs" :"@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(selectedTipsterID)"
+      },
+   "headline": "@predictionTitle",
+   "mainEntityOfPage": "@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(Model.ID)",
+   "articleBody": "@HttpUtility.JavaScriptStringEncode(articleText)",
+   "image":[
+      "@fullPathImage"      
+   ],
+   "datePublished":"@Model.CreatedDate"
+}
+</script>  
+<script type="application/ld+json">
+{
+  "@@context": "https://schema.org",
+  "@@type": "SportsEvent",
+   "sport" : "@category",
+  "name": "@tournament",
+  "subEvent": {
+    "@@type": "SportsEvent",
+    "name": "@predictionTitle",
+    "startDate" : "@startGmtIso"
+   
+  }
+}
+</script>
+@SnippetEnd("SchemaOrg")
