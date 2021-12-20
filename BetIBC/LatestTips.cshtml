@@ -3,7 +3,32 @@
 @{
 var youCanBetPage ="/Default.aspx?ID=" + GetPageIdByNavigationTag("YouCanBetPage").ToString();
 var latestTipsPage = "/Default.aspx?ID=" + GetPageIdByNavigationTag("LatestTips").ToString();
+
+    int topPageId = Model.TopPage.ID;
+    int headerMenuPageID = GetPageIdByNavigationTag("header-menu");
+    bool isUnderHeaderMenu = topPageId == headerMenuPageID ? true : false;
+    var breadcrumbsStartNodeID = isUnderHeaderMenu ? 2 : 1;
 }
+<div class="u-color-light-gray--bg breadcrumbs_container">
+	<div class="center-container">
+       <div class="grid">
+           <div class="grid__col-md-5 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+              <h3 class="page-title">@Model.Name</h3>
+           </div></div>
+           <div class="grid__col-md-7 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+              <div class="u-pull--right">
+                @RenderNavigation(new
+                {
+                    id = "breadcrumb",
+                    template = "breadcrumb.xslt", 
+                    SitemapMode = true,
+                    StartLevel = breadcrumbsStartNodeID
+                })
+               </div>
+           </div></div>
+       </div>
+	</div>
+</div>
 <div class="grid">
        <div class="grid__col-auto grid__col--bleed">
         <div class="grid">

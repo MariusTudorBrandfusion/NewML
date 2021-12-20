@@ -1,21 +1,12 @@
 ﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
 @MasterPageFile("MasterNoEcom.cshtml")
 @{
-var showBreadCrumb = false;
-var leftMenu = false;
-try
-{
-  showBreadCrumb = Model.PropertyItem.GetBoolean("ShowBreadcrumb");
-  leftMenu = Model.PropertyItem.GetBoolean("LeftMenu");
-}catch(Exception ex)
-{
-
+    int topPageId = Model.TopPage.ID;
+    int headerMenuPageID = GetPageIdByNavigationTag("header-menu");
+    bool isUnderHeaderMenu = topPageId == headerMenuPageID ? true : false;
+    var breadcrumbsStartNodeID = isUnderHeaderMenu ? 2 : 1;
 }
-
-}
-@if (showBreadCrumb) {
- 
-<div class="u-color-light-gray--bg">
+<div class="u-color-light-gray--bg breadcrumbs_container">
 	<div class="center-container">
        <div class="grid">
            <div class="grid__col-md-5 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
@@ -26,7 +17,9 @@ try
                 @RenderNavigation(new
                 {
                     id = "breadcrumb",
-                    template = "breadcrumb.xslt"
+                    template = "breadcrumb.xslt", 
+                    SitemapMode = true,
+                    StartLevel = breadcrumbsStartNodeID
                 })
                </div>
            </div></div>
@@ -34,19 +27,8 @@ try
 	</div>
 </div>
 
-}
 <div class="grid">
-@if(leftMenu){
-        <nav class="grid__col-md-3 grid__col-sm-12 grid__col-xs-12">
-           @RenderNavigation(new
-           {
-               id = "leftnav",
-               cssclass = "menu dwnavigation",
-               expandmode = "All",
-               template = "LeftNavigation.xslt"
-           })
-        </nav>
-   }
+
     <div class="grid__col-auto grid__col--bleed">
         <div class="grid">
             @Model.Placeholder("dwcontent", "content", "default:true;sort:1")

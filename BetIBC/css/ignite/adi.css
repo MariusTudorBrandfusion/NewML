@@ -4170,6 +4170,15 @@ h5{
     margin-bottom: 30px;
 
 }
+.main-navigation .logo img{
+    height: 60px;
+}
+.page{
+    margin-top: 130px !important;
+}
+.footer .collection span{
+    display: none;
+}
 @media(max-width: 1280px){
     .odds-convertor-calculator .col-5{
         width: 40%;

@@ -49,25 +49,26 @@
     int sportsCounter = 0;
     
 }
-
-
-    <div class="grid__col-12 u-color-gray--bg">
-      <div class="center-container">
-     
-        <div class="u-pull--left">
-             <div class="u-pull--right bookmaker-breadcrums">
-            @RenderNavigation(new
-            {
-                id = "breadcrumb",
-                template = "breadcrumb.xslt",
-                StartLevel = 2,
-                EndLevel = 3,
-            })
-        </div>
-        </div>
-      </div>
-    </div>
-
+<div class="u-color-light-gray--bg breadcrumbs_container">
+	<div class="center-container">
+       <div class="grid">
+           <div class="grid__col-md-5 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+              <h3 class="page-title">@Model.Name</h3>
+           </div></div>
+           <div class="grid__col-md-7 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+              <div class="u-pull--right">
+                @RenderNavigation(new
+                {
+                    id = "breadcrumb",
+                    template = "breadcrumb.xslt", 
+                    SitemapMode = true,
+                    StartLevel = 2
+                })
+               </div>
+           </div></div>
+       </div>
+	</div>
+</div>
 
 <div class="bookmaker">
         <!-- Bookmaker Header 
