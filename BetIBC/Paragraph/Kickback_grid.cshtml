@@ -4,10 +4,11 @@
      var loop = GetLoop("Item.Columns");
      var backgroundColor = GetString("Item.Background_Color");
      var color = GetString("Item.Color");
+    var customClass = GetString("Item.Custom_Class");
       var width = GetString("Item.Paragraph_Width");
 }
 
-<div class = "columns-wrapper kickback-section" style="background-color:@backgroundColor">
+<div class = "columns-wrapper kickback-section @customClass" style="background-color:@backgroundColor">
 <div class = "column-header">
 <div class = "container" style="color:@color">
 <h2>@rowTitle</h2>
@@ -17,16 +18,30 @@
 </div>
 </div>
 <div class = "grid-two-columns" >
-<div class = "container">
-@foreach(var column in loop){
-  
-    var columnsImage = column.GetString("Item.Columns.Image");
-    var columnText = column.GetString("Item.Columns.Title.Value");
-    <div class = "column">
-    <img loading="lazy"  src = "/Admin/Public/GetImage.ashx?Image=@columnsImage&Crop=5&DoNotUpscale=1&width=1000&height=1000&Quality=99&Format=png" alt="kickback-image">
-   
-</div>
-}
-</div>
+    <div class="container">
+      
+        @foreach (var column in loop)
+        {
+
+            var columnsImage = column.GetString("Item.Columns.Image");
+            var columnTitle = column.GetString("Item.Columns.Title.Value");
+            var columnText = column.GetString("Item.Columns.Text.Value");
+            var columnSubTitle = column.GetString("Item.Columns.Subtitle.Value");
+            <div class="column">
+                <div class="column-wrapper">
+                    <h1>@columnTitle</h1>
+                    @if (customClass != "six-columns-section")
+                    {
+                        <p>@Translate("once a turnover of", "once a turnover of")</p>
+                    }
+                
+                    <h2>@columnSubTitle</h2>
+                    @columnText
+                </div>
+                <img loading="lazy" src="/Admin/Public/GetImage.ashx?Image=@columnsImage&Crop=5&DoNotUpscale=1&width=1000&height=1000&Quality=99&Format=png" alt="kickback-image">
+
+            </div>
+        }
+    </div>
 </div>
 </div>

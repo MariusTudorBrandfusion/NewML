@@ -588,10 +588,10 @@ using (SqlConnection connection = new SqlConnection(connectionString))
          
                 <div class="u-pull--right grid__col-md-6 colection-images">  
                   <div>
-                       <img loading="lazy" src="/Files/Images/BetIBC/CuracaoEgaming-Logo.png" alt="E-Gambling Curacao dynamic seal" style="margin: 0 auto;" />
-                    <img loading="lazy" src="/Files/Images/BetIBC/xgamblewear.jpg" alt="xgamblewear" />
-                    <img loading="lazy" src="/Files/Images/BetIBC/x18-48x48.png" alt="x18" />
-                    <img loading="lazy" src="/Files/Images/BetIBC/xno-american-flag-48x48.png" alt="xno-american" />
+                       <img loading="lazy" src="/Admin/Public/GetImage.ashx?Image=/Files/Images/BetIBC/CuracaoEgaming-Logo.png&Crop=5&DoNotUpscale=1&width=50&height=50&Quality=99&Format=webP" alt="E-Gambling Curacao dynamic seal" style="margin: 0 auto;" />
+                    <img loading="lazy" src="/Admin/Public/GetImage.ashx?Image=/Files/Images/BetIBC/xgamblewear.jpg&Crop=5&DoNotUpscale=1&width=95&height=25&Quality=99&Format=webP" alt="xgamblewear" />
+                    <img loading="lazy" src="/Admin/Public/GetImage.ashx?Image=/Files/Images/BetIBC/x18-48x48.png&Crop=5&DoNotUpscale=1&width=50&height=50&Quality=99&Format=webP" alt="x18" />
+                    <img loading="lazy" src="/Admin/Public/GetImage.ashx?Image=/Files/Images/BetIBC/xno-american-flag-48x48.png&Crop=5&DoNotUpscale=1&width=50&height=50&Quality=99&Format=webP" alt="xno-american" />
                   </div>
                 </div>
               </div>
@@ -659,28 +659,8 @@ using (SqlConnection connection = new SqlConnection(connectionString))
 <script src="/Files/Templates/Designs/BetIBC/js/allJs.min.js" defer></script>
 *@
 @*@RenderSnippet("BootstrapJs")*@
-@RenderSnippet("OpenAccountFormScripts")
-  <script type="application/ld+json">
-  {
-      "@@context": "https://schema.org",
-      "@@type": "WebSite",
-      "url": "https://bet-ibc.com"
-      
-  }
-  </script>
-  <script type="application/ld+json">
-  { "@@context" : "https://schema.org",
-    "@@type" : "Organization",
-    "url" : "https://bet-ibc.com",
-    "contactPoint" : [
-      { "@@type" : "ContactPoint",
-        "telephone" : "+1-401-555-1212",
-        "contactType" : "customer service"
-      } ] 
-}
-  </script>
-  
-	</body>
+        @RenderSnippet("OpenAccountFormScripts")
+    </body>
 </html>
 @helper RenderSocialShare() {
 @*

@@ -29,7 +29,7 @@
     {
         containerClasses += " center-container--with-background-image";
         gridClasses += " center-container--with-background-image";
-        fullBackgroundImage = "style='background-image:url(/Admin/Public/GetImage.ashx?width=2500&amp;height=1100&amp;crop=1&amp;Compression=90&amp;image=" + Model.Item.GetFile("BackgroundImage").Path + ");'";
+        fullBackgroundImage = "style='background-image:url(/Admin/Public/GetImage.ashx?Quality=99&Format=webP&width=2500&amp;height=1100&amp;crop=1&amp;Compression=90&amp;image=" + Model.Item.GetFile("BackgroundImage").Path + ");'";
     } else if (string.IsNullOrEmpty(Model.Item.GetList("BackgroundColor").SelectedValue)) {
         backgroundColor = "u-color-light--bg";
     }
