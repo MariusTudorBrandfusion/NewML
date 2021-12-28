@@ -144,6 +144,9 @@ font-size:13px;
     margin-bottom: -5px;
     margin-right: 10px;
 }
+.open-to-bet .status-column .status-tip-mobile,.open-to-bet  .col-status .status-tip-mobile{
+    background-color: #F9DC5C; 
+}
 .col-status .status-tip-mobile.event-open{
     background-color: #F9DC5C;
 }
@@ -1223,12 +1226,16 @@ color:#0fbb7d;
     padding-right: 23px;
 }
 .bookmaker_box_list .btn{
-    font-size: 10px;
-    padding-left:0;
-    padding-right:0;
+
     width: 48%;
 
-    margin-right: 2%;
+    height: 40px;
+    display: inline-block;
+    line-height: 38px;
+    color: #fff;
+    background-color: #0FBB7D;
+    border-radius: 10px;
+    border: 2px solid #0FBB7D;
 }
 .bookmaker .ajaxTabsContainer{
     margin-bottom: 0;
@@ -1240,7 +1247,7 @@ color:#0fbb7d;
     display: none;
 }
 .odds-convertor-calculator .center-container{
-    background:#0053cc;
+    background:#0FBB7D;
 }
 .odds-convertor-calculator h2{
     color:#fff;
@@ -1259,7 +1266,7 @@ color:#0fbb7d;
     height: 270px;
 }
 .odds-convertor-calculator select.odds_format_select, #first_odds_calculator_block > div > input[type=text], #second_odds_calculator_block input[type=text]{
-    border:1px solid #0053cc;
+    border:1px solid #0FBB7D;
     margin-bottom: 20px;
     width: 100%;
 }
@@ -1334,7 +1341,7 @@ span.odds_example, #second_odds_calculator_block label{
     margin-bottom: 0;
 }
 .odds-convertor-calculator .paragraph-container{
-    padding-bottom: 2px;
+    padding-bottom: 2em;
 }
 .paragraph-container {
     padding-top: 1em;
@@ -2128,7 +2135,7 @@ margin: 0 auto;
   display:none;
   }
 .slider-main-homepage{
-    width: 1280px;
+    width: 1225px;
     margin: 0 auto;
 }
 #slider .paragraph-container{
@@ -2159,6 +2166,32 @@ min-height:800px !important;
     background-size: cover;
     background-repeat: no-repeat;
 }
+.column-with-subcolumns .grid .grid__col-md-6.right{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 100px;
+}
+.column-with-subcolumns .subcolumns .subcolumn:nth-child(odd),.column-with-subcolumns .subcolumns .subcolumn:nth-child(odd) h2{
+    text-align: right;
+    padding-right: 40px;
+}
+.column-with-subcolumns .subcolumns .subcolumn:nth-child(even),.column-with-subcolumns .subcolumns .subcolumn:nth-child(even) h2{
+    padding-left: 60px;
+}
+.column-with-subcolumns .subcolumns{
+    padding-top: 60px;
+}
+.column-with-subcolumns .subcolumns .subcolumn h2{
+    font-weight: 400;
+}
+.column-with-subcolumns .subcolumns .subcolumn h1{
+    font-size: 46px;
+    color: #0FBB7D !important;
+    font-weight: 700;
+    margin-bottom: 0;
+    margin-top: 20px;
+}
 .columns-section .grid .grid__col-md-6.right{
     margin-left: auto;
 }
@@ -2180,7 +2213,7 @@ text-align:left;
     width: 200px;
     text-align: center;
     font-weight: 700;
-    margin-bottom: 200px;
+    margin-bottom: 60px;
 }
 .columns-section .grid .button-columns.button-Primary{
     padding: 15px;
@@ -2285,6 +2318,7 @@ height:60px;
  background-color:transparent;
   height:20px;
   line-height:20px;
+    box-shadow: none;
 }
 .latest-tips-list-homepage tbody tr td{
 border:0;
@@ -2303,7 +2337,10 @@ border:0;
       padding-left: 25px;
       width: 165px;
 }
-
+.latest-tips-list-homepage table tr{
+    box-shadow: 0 3px 10px 0 rgba(0,0,0,0.19);
+    
+}
 .latest-tips-list-homepage table tr td:last-child {
     border-bottom-right-radius: 10px;
       border-top-right-radius: 10px;
@@ -2397,10 +2434,10 @@ color:#0D0A0B;
 .testimonials{
 max-width:100%;
   position:relative;
-margin-top: 75px;
+margin-top: 0;
 }
 .testimonials-slider-wrapper{
-  margin-top: 70px;
+  margin-top: 0;
 }
 .testimonials::before{
 content: "";
@@ -2857,6 +2894,7 @@ margin: 0 -15px;
     font-size: 13px;
     border: 0;
     color: #0FBB7D;
+    background-color: #fff;
 }
 .center-text-bookmaker .bookmaker_box_list .btn.btn--primary{
       font-size: 16px;
@@ -2875,16 +2913,17 @@ width:48%;
     color: #0FBB7D;
     border: 2px solid #0FBB7D;
     border-radius: 9px;
-  width:48%;
+    background-color: #fff;
+  width:45%;
+    margin-left: 3%;
 }
-.center-text-bookmaker .bookmaker_box_list .btn.btn--secondary{
 
-}
 .center-text-bookmaker .bookmaker_box_list .btns{
     min-height: 110px;
   border-top: 1px solid #CCD1E2;
     padding-top: 15px;
       text-align: center;
+ 
 }
 .article-box .article__image{
     background-size: cover !important;
@@ -2995,7 +3034,7 @@ color: #0FBB7D;
 #news-pagination{
 margin-top: 60px;
 }
-.blog-description{
+.blog-description .paragraph-container{
     padding-top: 100px;
     padding-bottom: 100px;
 }
@@ -3551,9 +3590,74 @@ display:grid;
 margin: 0 auto;
   position:relative;
   z-index:2;
+    width: 350px;
 }
 .kickback-section .grid-two-columns{
 position:relative;
+}
+.kickback-section .column{
+    position: relative;
+}
+.kickback-section.six-columns-section .column{
+    position: initial;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+grid-gap: 40px;
+}
+.kickback-section.six-columns-section .container .column:nth-child(1) .column-wrapper,.kickback-section.six-columns-section .container .column:nth-child(3) .column-wrapper,.kickback-section.six-columns-section .container .column:nth-child(5) .column-wrapper{
+    grid-column-start: 1;
+    grid-column-end:3;
+    text-align: right;
+}
+.kickback-section.six-columns-section .container .column:nth-child(1) img, .kickback-section.six-columns-section .container .column:nth-child(3) img, .kickback-section.six-columns-section .container .column:nth-child(5) img{
+    grid-column-start: 3;
+    grid-column-end:4;
+    margin-top: 30px;
+}
+
+.kickback-section.six-columns-section .container .column:nth-child(2) .column-wrapper, .kickback-section.six-columns-section .container .column:nth-child(4) .column-wrapper, .kickback-section.six-columns-section .container .column:nth-child(6) .column-wrapper{
+    grid-column-start: 2;
+    grid-column-end:4;
+    text-align: left;
+    
+}
+.kickback-section.six-columns-section .container .column:nth-child(2) img, .kickback-section.six-columns-section .container .column:nth-child(4) img, .kickback-section.six-columns-section .container .column:nth-child(6) img{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row: 1;
+    margin-top: 30px;
+}
+.kickback-section.six-columns-section .column .column-wrapper{
+    position: initial;
+    color: #000;
+}
+
+.kickback-section.six-columns-section .column .column-wrapper h1{
+    color: #000 !important;
+    font-size: 32px;
+}
+
+.kickback-section .column .column-wrapper{
+    position: absolute;
+    z-index: 5;
+    color: #fff;
+}
+.kickback-section .column .column-wrapper h1{
+    color: #fff !important;
+    font-weight: 700;
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+.kickback-section .column .column-wrapper h2{
+    color: #fff !important;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.kickback-section .column .column-wrapper p{
+    margin-bottom: 10px;
+}
+.kickback-section.six-columns-section .column .column-wrapper p{
+    font-size: 12px;
 }
 .kickback-section .grid-two-columns:after{
     content: '';
@@ -3564,6 +3668,28 @@ position:relative;
     right: 0;
     z-index: 0;
     background-color: #19C587;
+}
+.kickback-section.six-columns-section .grid-two-columns:after{
+    content:none;
+}
+.kickback-section.kickback-section-green .grid-two-columns .container{
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.kickback-section.kickback-section-green .column .column-wrapper h1{
+    margin-top: 70px;
+color: #f9f9f9;
+}
+.kickback-section.kickback-section-green .column .column-wrapper p:nth-child(2){
+    display: none;
+}
+.kickback-section.kickback-section-green .column .column-wrapper p{
+    width: 50%;
+    margin: 0 auto;
+    font-weight: 600;
+}
+.kickback-section.kickback-section-green .grid-two-columns:after{
+    background-color: #FFFFFF;
+    top: 49%;
 }
 .columns-wrapper .column-header .container div{
    margin:0 auto;
@@ -3932,6 +4058,7 @@ font-size: 16px;
 .bookmaker-four-columns-carousel img{
  height:60px;
   margin:0 auto;
+    
 }
 .bookmaker-four-columns-carousel #bookmaker-slider h3{
 font-size: 12px !important; 
@@ -3939,6 +4066,7 @@ font-size: 12px !important;
 }
 .bookmaker-four-columns-carousel{
   padding-bottom:70px;
+    background-size:cover ;
 }
 .bookmaker-four-columns-carousel #bookmaker-slider .slick-next,.bookmaker-four-columns-carousel #bookmaker-slider .slick-prev{
     top: 45%;
@@ -4021,6 +4149,8 @@ margin-top: 100px;
 }
 .title-bubble-section{
 width:100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 .title-bubble-section.title-bubble-right img{
 height: 200px;
@@ -4034,6 +4164,9 @@ height: 200px;
 .title-bubble-section.title-bubble-left img{
 display:inline-block;
   float:left;
+}
+.news-list-home-wrapper{
+    padding-bottom: 40px;
 }
 .title-bubble-wrapper{
 display:block;
@@ -4100,6 +4233,129 @@ display:inline-block;
 }
 .footer .collection span{
     display: none;
+}
+.mobile-tools-mobile .menu-mobile__link--level-2{
+    
+    padding-left: 1em;
+}
+.mobile-tools-mobile .menu-mobile__submenu .menu-mobile__link.dw-mod{
+
+    padding-left: 2em;
+}
+.mobile-nav-trigger:checked~.site{
+    left: 0 !important;
+}
+.mobile-menu-margin .mobile-nav-trigger-button{
+    border-bottom: none;
+    margin-top: 10px !important;
+}
+.mobile-nav-trigger-button.active:before{
+    content:"\f00d";
+    
+}
+h1{
+    color: #000 !important;
+
+}
+h2{
+    color: #000 !important;
+
+}
+h3{
+    color: #000 !important;
+
+}
+h4{
+    color: #000 !important;
+
+}
+h5{
+    color: #000 !important;
+}
+
+#ds-wrapper{
+
+    background:#0fbb7d;
+}
+#ds-calculator{
+
+    background:#0fbb7d !important;
+}
+#ds-calculator form{
+
+    background:#0fbb7d !important;
+}
+#ds-calculator form table{
+
+    background:#0fbb7d !important;
+}
+.multiple-paragraphs-container .payment-options{
+
+    margin-bottom: 0;
+
+}
+.center-container .tools-articles-list  .article-box:nth-child(1){
+    width: 100%;
+}
+.center-container .tools-articles-list  .article-box:nth-child(2){
+    width: 100%; 
+}
+.tools-articles-list .grid__col-md-4{
+    width: 100%; 
+}
+.tools-articles-list{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.center-container .tools-articles-list .article-box:nth-child(1) .article__image, .center-container .tools-articles-list .article-box:nth-child(2) .article__image{
+    position: initial;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-height: auto;
+    border-radius: 9px 9px 0 0;
+    background-size: cover !important;
+    
+}
+.center-container .tools-articles-list .article-box:nth-child(1) a .article_details, .center-container .tools-articles-list .article-box:nth-child(2) a .article_details{
+    background: #fff;
+}
+.center-container .tools-articles-list .article-box:nth-child(1) a .article_details .article__header, .center-container .tools-articles-list .article-box:nth-child(2) a .article_details .article__header{
+    color: #0FBB7D;
+    font-size: 21px;
+    font-weight: 700;
+    
+}
+.center-container .tools-articles-list .article-arrow{
+  display: none;  
+}
+.center-container .tools-articles-list .article-box:nth-child(1) a .article_details .article__summary, .center-container .tools-articles-list .article-box:nth-child(2) a .article_details .article__summary{
+  
+    width: 100%;
+    color: #0D0A0B;
+    min-height: 80px;
+    font-size: 16px;
+
+}
+.center-container .tools-articles-list  .article-box:nth-child(1) a, .center-container .tools-articles-list  .article-box:nth-child(2) a{
+    position: relative;
+    min-height: 450px;
+    background: #fff;
+    height: 100%;
+    padding-top: 0;
+    border-radius: 9px;
+    box-shadow: 0 3px 10px 0 rgb(0 0 0 / 12%);
+}
+.center-container .tools-articles-list  .article-box:nth-child(1) a .article_details, .center-container .tools-articles-list  .article-box:nth-child(2) a .article_details{
+    position: initial;
+}
+#footernavigation > li:nth-child(4){
+    display: none;
+    
+}
+#bottom-navigation .menu-dropdown__link, #bottom-navigation-two .menu-dropdown__link{
+    color: #0D0A0B;
 }
 @media(max-width: 1280px){
     .odds-convertor-calculator .col-5{
@@ -4646,8 +4902,11 @@ float:left;
   margin:0;
   }
   .blog-list{
-      padding-top: 40px;
+      padding-top: 0;
   }
+    .blog-list h1{
+        font-size: 32px;
+    }
   .center-container .article-box:nth-child(1){
   width:100%;
   }
@@ -4668,6 +4927,7 @@ float:left;
   }
   .latest-tips-list-homepage tbody .latest-tips-table-header{
   display:none;
+      
   }
   .latest-tips-list-homepage tbody tr{
   height:auto;
@@ -5175,15 +5435,153 @@ grid-template-columns: 100%;
         margin-bottom: 10px;
         padding-left: 10px;
     }
-    .tools-navigation-container .language-text{
-        
-        display: none;
-    }
+
     .tools-navigation-container{
         position: relative;
     }
     .page{
         margin-top: 0px !important;
+    }
+    .tools-navigation-container #second-navigation{
+        display: none;
+    }
+    .tools-navigation-container .language-tools{
+        margin: 0;
+    }
+    #slider .paragraph-container{
+        min-height: 400px !important;
+        padding-top: 50px !important;
+    }
+    #slider .grid__cell, #slider .grid__cell-footer{
+        padding: 0 1em;
+    }
+    .icons-list .grid__cell img{
+        max-width: 80%;
+    }
+    .title-bubble-section h1{
+        font-size: 32px;  
+    }
+    .title-bubble-section.title-bubble-right img{
+        margin: 0 auto;
+        float: initial;
+        display: block;
+    }
+    .testimonials .testimonial-slide{
+
+        padding: 10px;
+        margin: 0 10px;
+    }
+    .bubble-column{
+        margin-top: 30px;
+        
+    }
+    .testimonials{
+        padding-top: 5px;
+    }
+    .breadcrumb{
+        display: none;
+    }
+    .page-title{
+        margin-left: 10px !important;
+    }
+    .top-banner p{
+        padding-top: 0;
+    }
+    .blog-description{
+        display: none;
+    }
+    .kickback-section .grid-two-columns .container{
+        grid-template-columns: 1fr;
+        margin-top: -100px;
+    }
+    .kickback-section.six-columns-section .grid-two-columns .container{
+        
+        grid-gap: 100px;
+    }
+    .kickback-section .column-header p{
+        margin-bottom: 20px;
+    }
+
+    .kickback-section .column{
+        bottom: -100px;
+    }
+    .kickback-section-text .column-header{
+        margin-bottom: 140px;
+        margin-top: 120px;
+        
+    }
+    .bookmaker-slider .slick-slide img{
+        margin: 0 auto;
+    }
+    .column-with-subcolumns .grid .grid__col-md-6.right{
+        grid-template-columns: 1fr;
+        grid-gap: 0;
+    }
+    .column-with-subcolumns .subcolumns{
+        grid-row:2;
+    }
+    .column-with-subcolumns .subcolumns .subcolumn:nth-child(odd), .column-with-subcolumns .subcolumns .subcolumn:nth-child(odd) h2{
+        padding-right: 0;
+    }
+    .column-with-subcolumns .subcolumns .subcolumn:nth-child(even), .column-with-subcolumns .subcolumns .subcolumn:nth-child(even) h2{
+        padding-left: 0;
+    }
+    .kickback-section.six-columns-section .grid-two-columns .container{
+        grid-gap: 0;
+        margin-top: 0;
+    }
+    .kickback-section.six-columns-section .column{
+        grid-gap: 20px;
+        grid-template-columns: 1fr;
+    }
+    .kickback-section.six-columns-section .container .column:nth-child(1) .column-wrapper, .kickback-section.six-columns-section .container .column:nth-child(3) .column-wrapper, .kickback-section.six-columns-section .container .column:nth-child(5) .column-wrapper{
+        grid-column-start: 1;
+        grid-column-end: 1;
+        text-align: center;
+    }
+    .kickback-section.six-columns-section .container .column:nth-child(1) img, .kickback-section.six-columns-section .container .column:nth-child(3) img, .kickback-section.six-columns-section .container .column:nth-child(5) img{
+        grid-column-start: 1;
+        grid-column-end: 1;
+     
+        grid-row: 1;
+        margin: 0 auto;
+        width: 80%;
+    }
+    .kickback-section.six-columns-section .container .column:nth-child(2) .column-wrapper, .kickback-section.six-columns-section .container .column:nth-child(4) .column-wrapper, .kickback-section.six-columns-section .container .column:nth-child(6) .column-wrapper{
+        text-align: center;
+        grid-column-start: 1;
+        grid-column-end: 1;
+    }
+    .kickback-section.six-columns-section .container .column:nth-child(2) img, .kickback-section.six-columns-section .container .column:nth-child(4) img, .kickback-section.six-columns-section .container .column:nth-child(6) img{
+        grid-column-start: 1;
+        grid-column-end: 1;
+
+        grid-row: 1;
+        margin: 0 auto;
+        width: 80%;
+        
+    }
+    .kickback-section.kickback-section-green .grid-two-columns .container{
+        grid-template-columns: 1fr;
+        grid-gap: 40px;
+        margin-top: 0;
+        
+    }
+    .kickback-section.kickback-section-green  .column{
+        bottom: 0;
+    }
+    .kickback-section.kickback-section-green .grid-two-columns:after{
+        display: none;
+    }
+    .kickback-section.kickback-section-green .column .column-wrapper p{
+        font-size: 14px;  
+    }
+    .kickback-section.kickback-section-green .column .column-wrapper h1{
+        margin-top: 49px;
+        font-size: 40px;
+    }
+    .kickback-section.kickback-section-green{
+        padding-bottom: 30px;
     }
 }
 
@@ -5995,4 +6393,11 @@ input[type="submit"] {
 }
 #bookmaker-name-prediction-button   {
     width:30%!important;
+}
+#pagination-latest-tips .current-page {
+    border-color: #0b8c5d!important;
+}
+#bottom-navigation-two li {
+    height: 45px!important;
+    
 }

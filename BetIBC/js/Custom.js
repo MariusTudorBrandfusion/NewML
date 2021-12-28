@@ -1181,7 +1181,7 @@ $(document).ready(function () {
                                 output += "<span class='tipster-status'><i class='fa fa-circle ' aria-hidden=\"true\"><span class='tipster-status-text'>" + translateInactive + "</span></i></span>";
                             }
                             output += "<span class = 'nationality-icon flag flag-icon-" + newCurrentTipsters[i][0].nationality + "'></span>";
-                            output += "<div class = 'tipster-profile-image'><img src ='/Admin/Public/GetImage.ashx?width=88&height=88&crop=1&Quality=99&Format=webP&image=" + newCurrentTipsters[i][0].tipsterImage + "' alt='tipster-image' width='88px' height='88px'></div>";
+                            output += "<div class = 'tipster-profile-image'><img src ='/Admin/Public/GetImage.ashx?width=176&height=176&crop=5&Quality=99&Format=webP&image=" + newCurrentTipsters[i][0].tipsterImage + "' alt='tipster-image' width='88px' height='88px'></div>";
                             output += "<div class = 'tipster-profile-name'> <p>" + newCurrentTipsters[i][0].tipster + "</p> </div>";
 
                             output += "<div class = 'grid'>";
@@ -3663,6 +3663,16 @@ $(document).ready(function () {
     $(".menu__item--horizontal a:contains('Admin Area')").addClass("showNotifications");
     $(".showNotifications").append("<span class='admin-notifications'></span>")
     $(".showNotifications").append("<span class='admin-notifications-message'></span>")
+    $( ".mobile-nav-trigger-button" ).click(function() {
+        if($(this).hasClass('active')){
+
+            $(this).removeClass("active")
+        }else{
+            $(this).addClass("active")
+        }
+      
+    });
+    
 });
 
 
@@ -3865,3 +3875,23 @@ $( document ).ready(function() {
  
   
 });
+jQuery.event.special.touchstart = {
+    setup: function( _, ns, handle ) {
+        this.addEventListener("touchstart", handle, { passive: !ns.includes("noPreventDefault") });
+    }
+};
+jQuery.event.special.touchmove = {
+    setup: function( _, ns, handle ) {
+        this.addEventListener("touchmove", handle, { passive: !ns.includes("noPreventDefault") });
+    }
+};
+jQuery.event.special.wheel = {
+    setup: function( _, ns, handle ){
+        this.addEventListener("wheel", handle, { passive: true });
+    }
+};
+jQuery.event.special.mousewheel = {
+    setup: function( _, ns, handle ){
+        this.addEventListener("mousewheel", handle, { passive: true });
+    }
+};

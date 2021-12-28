@@ -1,0 +1,71 @@
+﻿@{
+var tipsList = GetLoop("ItemPublisher:Items.List");
+DateTime dateOpenToBet = DateTime.Now.AddHours(-24);
+var allTips = GetPageIdByNavigationTag("LatestTips");
+var youCanBetPage ="/Default.aspx?ID=" + GetPageIdByNavigationTag("YouCanBetPage").ToString();
+var latestTipsPage = "/Default.aspx?ID=" + GetPageIdByNavigationTag("LatestTips").ToString();
+  var currentPage = System.Web.HttpContext.Current.Request["page"];
+}
+
+<section class = "latest-tips-list-homepage"> 
+<div class = "latest-tips-list-homepage-wrapper">
+    <div class = "filter-latest-tips">
+      
+        <a href = "@latestTipsPage">@Translate("AllTips","All Tips")</a>
+        <a href ="@youCanBetPage">@Translate("YouCanBet","You can bet")</a>
+  </div>
+<table style="width:100%">
+  <tr class = "latest-tips-table-header">
+    <th>@Translate("Date & Time", "Date & Time")</th>
+    <th>@Translate("League", "League")</th>
+ <th>@Translate("Match", "Match")</th>
+ <th>@Translate("Stake", "Stake")</th>
+ <th>@Translate("Odd", "Odd")</th>
+ <th>@Translate("Betting Tip", "Betting Tip")</th>
+ <th>@Translate("Bookmaker", "Bookmaker")</th>
+     <th>@Translate("Status", "Status")</th>
+  </tr>
+@foreach(var tip in tipsList){
+var startGMT = DateTimeOffset.Parse(tip.GetString("ItemPublisher:Item.Start_GMT")).UtcDateTime;
+var league = tip.GetString("ItemPublisher:Item.League");
+var match = tip.GetString("ItemPublisher:Item.Prediction_Title");
+var stake = tip.GetString("ItemPublisher:Item.Stake");
+var odd = tip.GetString("ItemPublisher:Item.Odds");
+var bettingTip = tip.GetString("ItemPublisher:Item.BettingPrediction");
+var bookmaker = tip.GetString("ItemPublisher:Item.Bookmaker.Name");
+int statusBet  = DateTime.Compare(startGMT, dateOpenToBet);
+var status = statusBet > 0 ? "Open to bet" : "Started";
+var statusClass= statusBet > 0 ? "open-to-bet" : "started";
+
+ if (statusBet > 0)
+ {
+   <tr class="@statusClass">
+     <td class="start-gmt-column"><span class="mobile-label">@Translate("Start GMT", "Start GMT"): </span>@startGMT</td>
+     <td class="league-column"><span class="mobile-label">@Translate("League", "League"): </span>@league</td>
+     <td class="match-column"><span class="mobile-label">@Translate("Match", "Match"): </span>@match</td>
+     <td class="stake-column"><span class="mobile-label">@Translate("Stake", "Stake"): </span>@stake</td>
+     <td class="odd-column"><span class="mobile-label">@Translate("Odd", "Odd"):</span> @odd</td>
+     <td class="bettingTip-column"><span class="mobile-label">@Translate("Betting Tip", "Betting Tip"):</span> @bettingTip</td>
+     <td class="bookmaker-column"><span class="mobile-label">@Translate("Bookmaker", "Bookmaker"):</span> @bookmaker</td>
+     <td class="status-column"><span class="status-tip-mobile"></span><span class="mobile-label">@Translate("Status", "Status"): </span>@status</td>
+   </tr>
+ }
+ 
+}
+</table>
+ </div>     
+  @*<div id="pagination-latest-tips">
+  @foreach (var page in GetLoop("ItemPublisher:Items.Paging.Pages5"))
+  {
+    
+    var pageNumber = page.GetString("ItemPublisher:Items.Paging.Pages5.Page.Number");
+    var activeClass = pageNumber == currentPage || currentPage == null ? "current-page" : "";
+    var pageNumberUrl = page.GetString("ItemPublisher:Items.Paging.Pages5.Page.Url");
+  
+      <div class="page-number">
+        <a class="paginationUrl @activeClass" href="@pageNumberUrl">@pageNumber</a>  
+      </div>      
+  
+    }
+  </div>*@
+</section>       

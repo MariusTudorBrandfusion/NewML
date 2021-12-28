@@ -132,83 +132,38 @@ using (SqlConnection connection = new SqlConnection(connectionString))
     <meta charset="utf-8" />
     <title>@Model.Name</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>     
-  <link rel="preconnect" href ="http://fonts.gstatic.com"  crossorigin>
+    <link rel="preconnect" href ="http://fonts.gstatic.com"  crossorigin>
   <!-- Favicon -->
     <link href="@favicon" rel="icon" type="image/png">
 
   <!-- Font awesome -->                 
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></noscript>
-  
-
+    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/font-awesome.min.css?display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/font-awesome.min.css?display=swap"></noscript>
   <!-- Base (Default, wireframe) styles -->  
-
-  <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/base/base.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/base/base.min.css"></noscript>
- 
+    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/base/base.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/base/base.min.css"></noscript>
   <!-- Rapido Css from Website Settings --> 
-  <link rel="preload" href="@autoCssLink" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="@autoCssLink"></noscript>
-  
-
-  <!-- Ignite Css (Custom site specific styles) --> 
-  @*
-  <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/ignite.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/ignite.min.css"></noscript>
-*@
-    @RenderSnippet("BootstrapCss")   
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick.min.css"></noscript>  
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick-theme.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.0/slick-theme.min.css"></noscript> 
-  
-    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/pagination.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/pagination.css"></noscript>  
-
-
+    <link rel="preload" href="@autoCssLink" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="@autoCssLink"></noscript>
+    @RenderSnippet("BootstrapCss")
+    @RenderSnippet("PredictionCSS")
+    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/slick.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/slick.min.css"></noscript>  
     <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/lightbox.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/lightbox.css"></noscript>  
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css"></noscript> 
-    @*<link rel="preload" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css"></noscript> *@ 
-
-  
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/lightbox.css"></noscript> 
     <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/flag-icon.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/flag-icon.min.css"></noscript> 
-
-    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/jquery.datetimepicker.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/jquery.datetimepicker.css"></noscript> 
-
- <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/main.css"></noscript> 
-
-    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/adi.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/adi.css"></noscript>
-
-
-    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/bootstrap-datetimepicker.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/bootstrap-datetimepicker.min.css"></noscript>
-
+    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/main.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/main.min.css"></noscript> 
+    <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/custom.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/custom.min.css"></noscript>
     <link rel="preload" href="/Files/Templates/Designs/BetIBC/css/ignite/responsive.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/ignite/responsive.css"></noscript>
-
-  @* bundle css *@
- @*<link rel="preload" href="/Files/Templates/Designs/BetIBC/css/dist/bundle.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/Files/Templates/Designs/BetIBC/css/dist/bundle.css"></noscript>*@
- <!-- Google fonts -->   
-  <link rel="preload" href="//fonts.googleapis.com/css?family=@navigationFont:100,200,300,400,500,600,700,800,900" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="//fonts.googleapis.com/css?family=@navigationFont:100,200,300,400,500,600,700,800,900&display=swap"></noscript>
-  <link rel="preload" href="//fonts.googleapis.com/css?family=@mobileNavigationFont:100,200,300,400,500,600,700,800,900" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="//fonts.googleapis.com/css?family=@mobileNavigationFont:100,200,300,400,500,600,700,800,900&display=swap"></noscript> 
-  <link rel="preload" href="//fonts.googleapis.com/css?family=@headerFont:100,200,300,400,500,600,700,800,900" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="//fonts.googleapis.com/css?family=@headerFont:100,200,300,400,500,600,700,800,900&display=swap"></noscript>
-  <link rel="preload" href="//fonts.googleapis.com/css?family=@subHeaderFont:100,200,300,400,500,600,700,800,900" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="//fonts.googleapis.com/css?family=@subHeaderFont:100,200,300,400,500,600,700,800,900&display=swap"></noscript>
-  <link rel="preload" href="//fonts.googleapis.com/css?family=@contentFont:100,200,300,400,500,600,700,800,900" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="//fonts.googleapis.com/css?family=@contentFont:100,200,300,400,500,600,700,800,900&display=swap"></noscript>  
-    <script type="application/ld+json">
+   <!-- Google fonts -->  
+    <link rel="preload" href="//fonts.googleapis.com/css2?family=Roboto&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="//fonts.googleapis.com/css2?family=Roboto&display=swap"></noscript> 
+    <!--Schema.Org -->
+  <script type="application/ld+json">
     {
         "@@context": "https://schema.org",
         "@@type": "WebSite",
@@ -229,8 +184,8 @@ using (SqlConnection connection = new SqlConnection(connectionString))
   @RenderSnippet("SchemaOrg")
 </head>
 
-<body  data-user-new-predictions = "@newPredictionsFeed"  data-articles-feeds="@articlesFeedsjson" data-tipsters-feed="@TipstersFeedJSON" data-tipsters-details="@TipsterDetailsJSON" data-tipster-feed-by-language="@tipsterFeedByLanguage&PageNum=1" data-predictions-count="@countPredictionsFeed" data-tipster-sort-by-pages = "@TipsterDetailsWithPageJSON">
-<div class="overlay-master active"><img src="/Admin/Public/GetImage.ashx?Image=/Files/Images/BetIBC/loader.gif&Crop=5&DoNotUpscale=1&width=200&height=200&Quality=99&Format=webP" alt="xno-american" /></div>
+<body  data-user-new-predictions = "@newPredictionsFeed"  data-articles-feeds="@articlesFeedsjson" data-tipsters-feed="@TipstersFeedJSON" data-tipsters-details="@TipsterDetailsJSON" data-tipster-feed-by-language="@tipsterFeedByLanguage&PageNum=1" data-predictions-count="@countPredictionsFeed" data-tipster-sort-by-pages = "@TipsterDetailsWithPageJSON" data-bookmakers-feed = "@bookmakersFeed">
+<div class="overlay-master active"><img src="/Admin/Public/GetImage.ashx?Image=/Files/Images/BetIBC/loader.gif&Crop=5&DoNotUpscale=1&width=400&height=400&Quality=99&Format=webP" alt="xno-american" /></div>
 
     @if (Pageview.Device.ToString() == "Mobile")
     {
@@ -248,6 +203,16 @@ using (SqlConnection connection = new SqlConnection(connectionString))
                expandmode = "all",
                template = "BaseMenuForMobile.xslt"
             })
+          @RenderNavigation(new
+          {
+                  id = "mobilenavigation",
+                  cssclass = "menu menu-mobile dwnavigation mobile-tools-mobile",
+                  startLevel = 1, 
+                  endlevel = 10, 
+                  parenttag = "header-menu",
+                  expandmode = "all",
+                  template = "BaseMenuForMobile.xslt"
+                                              })
         </nav>
     }
     <main class="site dw-mod">
@@ -527,9 +492,7 @@ using (SqlConnection connection = new SqlConnection(connectionString))
             @ContentPlaceholder()
         </section>
     </div>
-    <div class="grid__col-md-2 grid__col-xs-12">
-        @RenderSocialShare()
-    </div>
+
     </main>
 
     <!-- Footer section -->
@@ -580,10 +543,10 @@ using (SqlConnection connection = new SqlConnection(connectionString))
          
                 <div class="u-pull--right grid__col-md-6 colection-images">  
                   <div>
-                       <img loading="lazy" src="/Files/Images/BetIBC/CuracaoEgaming-Logo.png" alt="E-Gambling Curacao dynamic seal" style="margin: 0 auto;" />
-                    <img loading="lazy" src="/Files/Images/BetIBC/xgamblewear.jpg" alt="xgamblewear" />
-                    <img loading="lazy" src="/Files/Images/BetIBC/x18-48x48.png" alt="x18" />
-                    <img loading="lazy" src="/Files/Images/BetIBC/xno-american-flag-48x48.png" alt="xno-american" />
+                       <img loading="lazy" src="/Admin/Public/GetImage.ashx?Image=/Files/Images/BetIBC/CuracaoEgaming-Logo.png&Crop=5&DoNotUpscale=1&width=50&height=50&Quality=99&Format=webP" alt="E-Gambling Curacao dynamic seal" style="margin: 0 auto;" />
+                    <img loading="lazy" src="/Admin/Public/GetImage.ashx?Image=/Files/Images/BetIBC/xgamblewear.jpg&Crop=5&DoNotUpscale=1&width=95&height=25&Quality=99&Format=webP" alt="xgamblewear" />
+                    <img loading="lazy" src="/Admin/Public/GetImage.ashx?Image=/Files/Images/BetIBC/x18-48x48.png&Crop=5&DoNotUpscale=1&width=50&height=50&Quality=99&Format=webP" alt="x18" />
+                    <img loading="lazy" src="/Admin/Public/GetImage.ashx?Image=/Files/Images/BetIBC/xno-american-flag-48x48.png&Crop=5&DoNotUpscale=1&width=50&height=50&Quality=99&Format=webP" alt="xno-american" />
                   </div>
                 </div>
               </div>
@@ -625,27 +588,25 @@ using (SqlConnection connection = new SqlConnection(connectionString))
     </div>
 </footer>
     <!-- Javascript -->
-  @*<script src="/Files/Templates/Designs/BetIBC/js/DynamoConfig.js"></script>*@
-    @*<script src="/Files/Templates/Designs/BetIBC/js/Dynamo.js"></script>*@
     <script src="/Files/Templates/Designs/BetIBC/js/jquery.min.js?v=3.5.0" defer></script>
-    <script src="/Files/Templates/Designs/BetIBC/js/RememberState.js" defer></script>
-    <script src="/Files/Templates/Designs/BetIBC/js/Scroll.js" defer></script>
-    <script src="/Files/Templates/Designs/BetIBC/js/Wireframe.js" defer></script>
-    <script src="/Files/Templates/Designs/BetIBC/js/lightbox-plus-jquery.js" defer></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/RememberState.min.js" defer></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/Scroll.min.js" defer></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/Wireframe.min.js" defer></script>
+<script src="/Files/Templates/Designs/BetIBC/js/lightbox-plus-jquery.min.js" defer></script>
     <script src="/Files/Templates/Designs/BetIBC/js/lodash.min.js" defer></script>
-    <script src="/Files/Templates/Designs/BetIBC/js/jquery-ui.min.js" defer></script>
+    @*<script src="/Files/Templates/Designs/BetIBC/js/jquery-ui.min.js" defer></script> *@
     <script src="/Files/Templates/Designs/BetIBC/js/jquery.mask.js" defer></script>
     <script src="/Files/Templates/Designs/BetIBC/js/slick.min.js" type="text/javascript" defer></script>
-	<script src="/Files/Templates/Designs/BetIBC/js/transition.min.js" defer></script>
+	@*<script src="/Files/Templates/Designs/BetIBC/js/transition.min.js" defer></script>*@
 	<script src="/Files/Templates/Designs/BetIBC/js/collapse.js" defer></script>
-	<script src="/Files/Templates/Designs/BetIBC/js/moment.js" defer></script>
+	@RenderSnippet("TipsterPageJs")
 	<script src="/Files/Templates/Designs/BetIBC/js/bootstrap.min.js" defer></script>
 	<script src="/Files/Templates/Designs/BetIBC/js/select2.min.js" defer></script>
-	<script src="/Files/Templates/Designs/BetIBC/js/jquery.datetimepicker.full.js" defer></script>
-	<script src="/Files/Templates/Designs/BetIBC/js/pagination.js" defer></script>
-	<script src="/Files/Templates/Designs/BetIBC/js/latinize.js" defer></script>
-    <script src="/Files/Templates/Designs/BetIBC/js/Main.js" defer></script>
-    <script src="/Files/Templates/Designs/BetIBC/js/Custom.js" defer></script> 
+	<script src="/Files/Templates/Designs/BetIBC/js/jquery.datetimepicker.full.min.js" defer></script>
+	@*<script src="/Files/Templates/Designs/BetIBC/js/pagination.js" defer></script>*@
+	<script src="/Files/Templates/Designs/BetIBC/js/latinize.min.js" defer></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/Main.min.js" defer></script>
+    <script src="/Files/Templates/Designs/BetIBC/js/Custom.min.js" defer></script> 
 
 @*
 <script src="/Files/Templates/Designs/BetIBC/js/allJs.min.js" defer></script>
@@ -687,5 +648,7 @@ if (!Model.MetaTags.Contains("og:image")) {
     <meta name="image:alt" property="og:image:alt"  content="@Model.Title">
     }
     @Model.MetaTags
+    <link rel="manifest" href="/Files/Templates/Designs/BetIBC/manifest.json"> 
+    <link rel="apple-touch-icon" href="/Files/Images/BetIBC/icon_1.png">
+    <meta name="theme-color" content="#0FBB7D">  
 }
-

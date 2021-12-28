@@ -29,7 +29,7 @@
     {
         containerClasses += " center-container--with-background-image";
         gridClasses += " center-container--with-background-image";
-        fullBackgroundImage = "style='background-image:url(/Admin/Public/GetImage.ashx?image=" + Model.Item.GetFile("BackgroundImage").Path + "&width=1900&height=1100&crop=0&Quality=99&Compression=99&Format=webP)'";
+        fullBackgroundImage = "style='background-image:url(/Admin/Public/GetImage.ashx?image=" + Model.Item.GetFile("BackgroundImage").Path + "&width=1900&height=8800&crop=7&Quality=99&Format=webP)'";
     } else if (string.IsNullOrEmpty(Model.Item.GetList("BackgroundColor").SelectedValue)) {
         backgroundColor = "u-color-light--bg";
     }
@@ -58,7 +58,7 @@
                 if (imageStyle == "background" && paragraph.GetFile("Image") != null)
                 {
                     columnCssClasses += " grid__col--bg";
-                    backgroundImage = "style='background-image:url(/Admin/Public/GetImage.ashx?Image=" + paragraph.GetFile("Image").Path + "&Crop=5&DoNotUpscale=1&width=1800&height=800&crop=5&Quality=99&Format=webP);'";
+                    backgroundImage = "style='background-image:url(/Admin/Public/GetImage.ashx?Image=" + paragraph.GetFile("Image").Path + "&Crop=6&DoNotUpscale=1&width=1900&height=800&Quality=99&Format=webP);'";
                 }
                    
                 <div class="@columnCssClasses paragraph-container" @backgroundImage>

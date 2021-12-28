@@ -1,6 +1,5 @@
 /*!
- * jQuery JavaScript Library v3.2.1
- * https://jquery.com/
+ * * https://jquery.com/
  *
  * Includes Sizzle.js
  * https://sizzlejs.com/
@@ -88,7 +87,7 @@ var support = {};
 
 
 var
-	version = "3.2.1",
+	version = "3.5.0",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {

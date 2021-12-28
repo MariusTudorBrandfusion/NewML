@@ -2,12 +2,18 @@
 var tipsList = GetLoop("ItemPublisher:Items.List");
 DateTime dateOpenToBet = DateTime.Now.AddHours(-24);
 var allTips = GetPageIdByNavigationTag("LatestTips");
+var youCanBetPage ="/Default.aspx?ID=" + GetPageIdByNavigationTag("YouCanBetPage").ToString();
+var latestTipsPage = "/Default.aspx?ID=" + GetPageIdByNavigationTag("LatestTips").ToString();
+  var currentPage = System.Web.HttpContext.Current.Request["page"] == null ? "1" : System.Web.HttpContext.Current.Request["page"];
 }
 
 <section class = "latest-tips-list-homepage"> 
 <div class = "latest-tips-list-homepage-wrapper">
-
-<h1> @Translate("Latest Tips", "Latest Tips")</h1>
+    <div class = "filter-latest-tips">
+      
+        <a href = "@latestTipsPage">@Translate("AllTips","All Tips")</a>
+        <a href ="@youCanBetPage">@Translate("YouCanBet","You can bet")</a>
+  </div>
 <table style="width:100%">
   <tr class = "latest-tips-table-header">
     <th>@Translate("Date & Time", "Date & Time")</th>
@@ -44,8 +50,22 @@ var statusClass= statusBet > 0 ? "open-to-bet" : "started";
   </tr>
 }
 </table>
-  <div class = "cta-allTips-button">
+  @*<div class = "cta-allTips-button">
     <a href = "Default.aspx?ID=@allTips"><i class="fa fa-arrow-right"></i>@Translate("Latest Tips", "Latest Tips")</a>
+  </div>*@
+</div>     
+  <div id="pagination-latest-tips">
+  @foreach (var page in GetLoop("ItemPublisher:Items.Paging.Pages5"))
+  {
+    
+    var pageNumber = page.GetString("ItemPublisher:Items.Paging.Pages5.Page.Number");
+    var activeClass = pageNumber == currentPage ? "current-page" : "";
+    var pageNumberUrl = page.GetString("ItemPublisher:Items.Paging.Pages5.Page.Url");
+  
+      <div class="page-number">
+        <a class="paginationUrl @activeClass" href="@pageNumberUrl">@pageNumber</a>  
+      </div>      
+  
+    }
   </div>
-</div>
-</section>
+</section>       

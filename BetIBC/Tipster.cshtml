@@ -27,7 +27,7 @@
 
 
 @if (Model.PropertyItem.GetBoolean("ShowBreadcrumb")) {
-<div class="u-color-light-gray--bg breadcrumbs-wrapper">
+<div class="u-color-light-gray--bg breadcrumbs-wrapper" style="padding-top:15px!important">
 	<div class="center-container">
        <div class="grid">
            <div class="grid__col-md-5 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
@@ -218,7 +218,7 @@
        
                                   } 
      <div class = "grid__col-md-12">
-       <a href = '@Model.Item.GetString("Advertising_Image_Link")'><img loading = 'lazy' src = '@Model.Item.GetString("Advertising_Image")'><a/>
+       <a href = '@Model.Item.GetString("Advertising_Image_Link")'><img src = '@Model.Item.GetString("Advertising_Image")'><a/>
      </div>
          
        </div>
@@ -246,4 +246,7 @@
        </div>
   </div>
   </div>
-</div>
+</div>  
+@SnippetStart("TipsterJs") 
+
+@SnippetEnd("TipsterJs")
