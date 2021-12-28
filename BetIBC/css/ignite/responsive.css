@@ -84,9 +84,14 @@
     line-height:24px;
     text-align:center;
     margin: 0 auto;
-    padding: 30px 0;
-    width: 50%;
+   padding-bottom: 30px;
+    width: 70%;
   }
+    .top-banner h1{
+        font-size: 25px;
+        text-align: center;
+        padding-top: 30px;
+    }
   .top-banner {
     background-size:cover;
     min-height:initial;

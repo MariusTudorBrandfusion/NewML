@@ -58,7 +58,7 @@
                 if (imageStyle == "background" && paragraph.GetFile("Image") != null)
                 {
                     columnCssClasses += " grid__col--bg";
-                    backgroundImage = "style='background-image:url(/Admin/Public/GetImage.ashx?width=1800&amp;height=800&amp;crop=1&amp;Compression=90&amp;image=" + paragraph.GetFile("Image").Path + ");'";
+                    backgroundImage = "style='background-image:url(/Admin/Public/GetImage.ashx?Image=" + paragraph.GetFile("Image").Path + "&Crop=5&DoNotUpscale=1&width=200&height=600&Quality=99&Format=webP);'";
                 }
 
                 <div class="@columnCssClasses paragraph-container " @backgroundImage>
