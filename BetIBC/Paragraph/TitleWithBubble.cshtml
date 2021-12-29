@@ -11,22 +11,21 @@
   <div class = "container">
     <div class = "grid">
       <div class = "grid__col-md-6">
-  <h1>@title</h1>
-@if(isRight != "True"){
-    <div class = "title-bubble-wrapper">
-    <img src = "/Admin/Public/GetImage.ashx?Image=@image&Crop=5&DoNotUpscale=1&width=300&height=300&Quality=99&Format=png" alt="Bubble Image">
-             <div class = "title-bubble-message">@Text</div>
+        <h1>@title</h1>
+        @if(isRight != "True"){
+            <div class = "title-bubble-wrapper">
+              <img loading="lazy" src = "/Admin/Public/GetImage.ashx?Image=@image&Crop=5&DoNotUpscale=1&width=300&height=300&Quality=99&Format=png" alt="Bubble Image">
+              <div class = "title-bubble-message">@Text</div>
+            </div>
+        }
+      </div>
+      @if(isRight == "True"){
+                 <div class = "grid__col-md-6 title-bubble-wrapper">
+          <img loading="lazy" src = "/Admin/Public/GetImage.ashx?Image=@image&Crop=5&DoNotUpscale=1&width=300&height=300&Quality=99&Format=png" alt="Bubble Image">
+                   <div class = "title-bubble-message">@Text</div>
 
-               </div>
-}
-         </div>
-@if(isRight == "True"){
-           <div class = "grid__col-md-6 title-bubble-wrapper">
-    <img src = "/Admin/Public/GetImage.ashx?Image=@image&Crop=5&DoNotUpscale=1&width=300&height=300&Quality=99&Format=png" alt="Bubble Image">
-             <div class = "title-bubble-message">@Text</div>
-
-               </div>
-}
+                     </div>
+      }
   </div>
       </div>
 </div>
