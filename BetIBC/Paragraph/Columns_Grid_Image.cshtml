@@ -10,39 +10,81 @@
      var customClass = GetString("Item.Custom_Class");
      var color = GetString("Item.Color");
    
-}
-<div class = "column-wrapper @customClass" style="background-color:@backgroundColor; background-image:url('/Admin/Public/GetImage.ashx?width=1920&crop=5&Quality=99&Format=webP&image=@backgroundImage')">
-<div class = "column-header">
-<div class = "container">
-  <div class = "column-header-wrapper" style= "width:@rowContentWidth; color:@color !important">
-<h2 style= "color:@color !important">@rowTitle</h2>
-@rowDescription
-  </div>
-</div>
-</div>
-<div class = "grid-@columns-columns @count">
-<div class = "container">
-@foreach(var column in loop){
+}        
+
+@if (backgroundImage != "")
+{
+     <div class = "column-wrapper lazy @customClass" style="background-color:@backgroundColor; background-image:url('/Admin/Public/GetImage.ashx?width=1920&crop=5&Quality=99&Format=webP&image=@backgroundImage')">
+          <div class = "column-header">
+               <div class = "container">
+                    <div class = "column-header-wrapper" style= "width:@rowContentWidth; color:@color !important">
+                         <h2 style= "color:@color !important">@rowTitle</h2>
+                         @rowDescription
+                    </div>
+               </div>
+          </div>
+          <div class = "grid-@columns-columns @count">
+               <div class = "container">
+                    @foreach(var column in loop){
   
-    var columnsImage = column.GetString("Item.Columns.Image");
-    var columnTitle = column.GetString("Item.Columns.Title.Value");
-    var columnText = column.GetString("Item.Columns.Text.Value");
-  var video = column.GetString("Item.Columns.Video_Youtube");
+                         var columnsImage = column.GetString("Item.Columns.Image");
+                         var columnTitle = column.GetString("Item.Columns.Title.Value");
+                         var columnText = column.GetString("Item.Columns.Text.Value");
+                         var video = column.GetString("Item.Columns.Video_Youtube");
  
-    <div class = "column">
-@if(columnsImage != ""){
-<img loading="lazy" src = "/Admin/Public/GetImage.ashx?Image=@columnsImage&Crop=5&DoNotUpscale=1&width=200&height=200&Quality=99&Format=webP" alt="Column Image">
-}
+                         <div class = "column">
+                              @if(columnsImage != ""){
+                                   <img loading="lazy" src = "/Admin/Public/GetImage.ashx?Image=@columnsImage&Crop=5&DoNotUpscale=1&width=200&height=200&Quality=99&Format=webP" alt="Column Image">
+                              }
     
-      @video
-      @if(columnTitle != ""){
-       <h3 style= "color:@color !important">@columnTitle</h3>
-      }
-      @if(columnText != ""){
-       @columnText
-      }
-</div>
+                              @video
+                              @if(columnTitle != ""){
+                                   <h3 style= "color:@color !important">@columnTitle</h3>
+                              }
+                              @if(columnText != ""){
+                                   @columnText
+                              }
+                         </div>
+                    }
+               </div>
+          </div>
+     </div>
 }
-</div>
-</div>
-</div>
+else
+{
+     <div class = "column-wrapper lazy @customClass" style="background-color:@backgroundColor;">
+          <div class = "column-header">
+               <div class = "container">
+                    <div class = "column-header-wrapper" style= "width:@rowContentWidth; color:@color !important">
+                         <h2 style= "color:@color !important">@rowTitle</h2>
+                         @rowDescription
+                    </div>
+               </div>
+          </div>
+          <div class = "grid-@columns-columns @count">
+               <div class = "container">
+                    @foreach(var column in loop){
+  
+                         var columnsImage = column.GetString("Item.Columns.Image");
+                         var columnTitle = column.GetString("Item.Columns.Title.Value");
+                         var columnText = column.GetString("Item.Columns.Text.Value");
+                         var video = column.GetString("Item.Columns.Video_Youtube");
+ 
+                         <div class = "column">
+                              @if(columnsImage != ""){
+                                   <img loading="lazy" src = "/Admin/Public/GetImage.ashx?Image=@columnsImage&Crop=5&DoNotUpscale=1&width=200&height=200&Quality=99&Format=webP" alt="Column Image">
+                              }
+    
+                              @video
+                              @if(columnTitle != ""){
+                                   <h3 style= "color:@color !important">@columnTitle</h3>
+                              }
+                              @if(columnText != ""){
+                                   @columnText
+                              }
+                         </div>
+                    }
+               </div>
+          </div>
+     </div>
+}
