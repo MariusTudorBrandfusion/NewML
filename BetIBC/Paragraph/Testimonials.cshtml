@@ -1,33 +1,21 @@
-﻿
-@{
+﻿@{
  var sectionTitle = GetString("Item.ParagraphName");
 var sectionImage = GetString("Item.Image");
 var testimonials = GetLoop("Item.Testimonials");
-
+var sectionText = GetString("Item.Text");
 }
 <section class = "testimonials">
-
-  <div class = "container">
-    <div class = "grid">
-      <div class = "grid__col-md-6">
-  <h1>@sectionTitle</h1>
-         </div>
-           <div class = "grid__col-md-6">
-    <img src = "@sectionImage">
-               </div>
-  </div>
-      </div>
-    <div class = "testimonials-slider-wrapper">
+<div class = "testimonials-slider-wrapper">
 @foreach(var testimonal in testimonials){
   var image = testimonal.GetString("Item.Testimonials.Image");
   var text = testimonal.GetString("Item.Testimonials.Text");
 
     <div class = "testimonial-slide">
-      <img src = "@image">
+      <img loading="lazy" src = "/Admin/Public/GetImage.ashx?Image=@image&Crop=5&DoNotUpscale=1&width=1800&height=800&Quality=99&Format=webP" alt="Testimonial Image">
       @text
     </div>
 
 
 }
-        </div>
+     
 </section>
