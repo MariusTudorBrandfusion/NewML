@@ -3,7 +3,7 @@
 @{
     var IP = System.Web.HttpContext.Current.Request.UserHostAddress;
     string pageNameToDisplay = GetGlobalValue("Global:Page.Name");
-    var referralUrl = HttpContext.Current.Request.UrlReferrer.ToString();
+    var referralUrl = HttpContext.Current.Request.UrlReferrer != null ? HttpContext.Current.Request.UrlReferrer.ToString() : "no refferal";
 }   
 <div class="paragraph-container__grid--bleed sign-up-form">
     <div class="grid grid--justify-center">
@@ -30,8 +30,9 @@
                 </div>
                 @textInput("Bookmaker",  "Bookmaker" , "true", "hidden" , string.Empty, @pageNameToDisplay )  
                 @textInput("IP",  "IP" , "true", "hidden" , string.Empty, @IP ) 
-                @textInput("Createyournewaccount", "Createyournewaccount",string.Empty,  "submit",  "btn btn--primary dw-mod", "Create your new account" )
                 @textInput("referralUrl", "referralUrl","true" ,"hidden", string.Empty, @referralUrl  )  
+                @textInput("Createyournewaccount", "Createyournewaccount",string.Empty,  "submit",  "btn btn--primary dw-mod", "Create your new account" )
+
                 
             </div>
             @GetValue("Form.FormEnd")
