@@ -1,5 +1,7 @@
-﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>
-
+﻿@inherits Dynamicweb.Rendering.ViewModelTemplate<Dynamicweb.Frontend.PageViewModel>       
+@using Dynamicweb.Security.UserManagement
+@using System.Reflection;         
+@using System.Collections;
 @MasterPageFile("MasterNoEcom.cshtml")
 @{
 var currentPageId1 = Model.ID;
@@ -9,40 +11,56 @@ var currentPageId1 = Model.ID;
     var ulrHost = HttpContext.Current.Request.Url.Host;
     var fullPathImage = urlScheme + "://" + ulrHost + image;
     var articleText = Model.Item.GetString("Summary");
-    var author = Model.Item.GetString("Author");
-
+    var autorList = Model.Item.GetValue("Author")  as IEnumerable;
+    //var testele = test.GetType().GetProperties();
+    var userProfileName = "";
+    var userName = "";
 }
+@foreach (var user in autorList)
+{
+   var userProfileFirstName = user.GetType().GetProperty("FirstName").GetValue(user,null) as string;
+   var userProfileLastName = user.GetType().GetProperty("LastName").GetValue(user,null) as string;
+    userName = user.GetType().GetProperty("LastName").GetValue(user,null) as string;
+    userProfileName = userProfileFirstName + " " + userProfileLastName;
+}          
+
 <div class="u-color-light-gray--bg breadcrumbs_container">
     <div class="center-container">
         <div class="grid">
-            <div class="grid__col-md-5 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
-                <h3 class="page-title">@Model.Name</h3>
-            </div></div>
-            <div class="grid__col-md-7 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
-                <div class="u-pull--right">
-                    @RenderNavigation(new
-                    {
-                        id = "breadcrumb",
-                        template = "breadcrumb.xslt", 
-                        SitemapMode = true,
-                        StartLevel = 1
-                    })
+            <div class="grid__col-md-5 grid__col-sm-12 grid__col-xs-12">
+                <div class="grid__cell">
+                    <h3 class="page-title">@Model.Name</h3> 
+                     
                 </div>
-            </div></div>
-        </div>
+            </div>
+            <div class="grid__col-md-7 grid__col-sm-12 grid__col-xs-12"><div class="grid__cell">
+                    <div class="u-pull--right">
+                        @RenderNavigation(new
+                        {
+                            id = "breadcrumb",
+                            template = "breadcrumb.xslt", 
+                            SitemapMode = true,
+                            StartLevel = 1
+                        })
+                    </div>
+                </div>
+            </div>
+         </div>
     </div>
 </div>
 <div class="center-container">
 <article class="grid__col-md-12 text-center">
-    <h1 class="article__header__news">@Model.Item.GetString("Title")</h1>
-
-   @* <div class="responsive-image responsive-image--16-9">
+    <h1 class="article__header__news">@Model.Item.GetString("Title")</h1> 
+    @* <div class="responsive-image responsive-image--16-9">
         <img src="/Admin/Public/GetImage.ashx?width=1280&amp;height=723&amp;crop=5&amp;Compression=75&amp;DoNotUpscale=1&amp;image=@Model.Item.GetFile("image").path"="" />
     </div>*@
-  <div class="article__content__news__container">
-    @Model.Item.GetString("Text")
+    <div class="article__content__news__container">
+        <div class="text-left">
+            <p>@Translate("by") <a href="#">@userProfileName</a></p>
+        </div>
+        @Model.Item.GetString("Text")
 
-  </div>
+    </div>
 </article>
   
   
@@ -75,8 +93,8 @@ var currentPageId1 = Model.ID;
    },
    "author":{
       "@@type": "Person",
-      "name": "@author",
-      "sameAs" :""
+      "name": "Marius",
+      "sameAs" :"@userProfileName"
       },
    "headline": "@Model.Name",
    "mainEntityOfPage": "@Dynamicweb.Frontend.SearchEngineFriendlyURLs.GetFriendlyUrl(Model.TopPage.ID)",
